@@ -133,6 +133,11 @@ echo $this->Html->css(
 		<?php endforeach; ?>
 	</div>
 
+	<?php //echo $this->element('NetCommons.paginator', array('url' => array(
+	//	'plugin'=> 'blogs',
+	//	'controller' => 'blog_entries',
+	//	'action' => $this->action,
+	//	$frameId))) ?>
 	<div>
 		<ul class="pagination">
 			<?php echo $this->Paginator->numbers(
