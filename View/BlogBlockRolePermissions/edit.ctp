@@ -10,16 +10,6 @@
  */
 ?>
 
-<?php
-echo $this->Html->script('/bloges/js/bloges.js',
-	array(
-		'plugin' => false,
-		'once' => true,
-		'inline' => false
-	)
-);
-?>
-
 <div class="modal-body">
 	<?php echo $this->element('NetCommons.setting_tabs', $settingTabs); ?>
 
@@ -31,7 +21,6 @@ echo $this->Html->script('/bloges/js/bloges.js',
 				'action' => 'edit' . '/' . $frameId . '/' . $blockId,
 				'callback' => 'Blogs.BlockRolePermissions/edit_form',
 				'cancelUrl' => '/blogs/blog_blocks/index/' . $frameId,
-				'options' => array('ng-controller' => 'Blogs'),
 			)); ?>
 	</div>
 </div>
