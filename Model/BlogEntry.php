@@ -148,8 +148,6 @@ class BlogEntry extends BlogsAppModel {
 		return $new;
 	}
 /**
- * ε(　　　　 v ﾟωﾟ)　＜ 考え方が違った。editable以上なら下書きも見られる
- * ε(　　　　 v ﾟωﾟ)　＜ 同一key 複数idへの対応
  * UserIdと権限から参照可能なEntryを取得するCondition配列を返す
  *
  * @param int $blockId ブロックId
@@ -210,7 +208,6 @@ class BlogEntry extends BlogsAppModel {
 		// 年月でグループ化してカウント→取得できなかった年月をゼロセット
 		$this->virtualFields['year_month'] = 0; // バーチャルフィールドを追加
 		$this->virtualFields['count'] = 0; // バーチャルフィールドを追加
-		//$this->recursive = 0;
 		$result = $this->find(
 			'all',
 			array(
@@ -220,7 +217,6 @@ class BlogEntry extends BlogsAppModel {
 				),
 				'conditions' => $conditions,
 				'group' => array('BlogEntry__year_month'), //GROUP BY YEAR(record_date), MONTH(record_date)
-				'recursive' => 0,
 			)
 		);
 		$ret = array();
@@ -230,7 +226,6 @@ class BlogEntry extends BlogsAppModel {
 			array(
 				'conditions' => $conditions,
 				'order' => 'published_datetime ASC',
-				'recursive' => 0,
 			)
 		);
 		// 一番古い記事の年月から現在までを先にゼロ埋め
@@ -265,8 +260,6 @@ class BlogEntry extends BlogsAppModel {
 	public function saveEntry($blockId, $data) {
 		$this->begin();
 		try {
-			$this->recursive = -1;
-
 			$this->loadModels(array('Comment' => 'Comments.Comment'));
 			$this->create(); // 常に新規登録
 			// 先にvalidate 失敗したらfalse返す
