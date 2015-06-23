@@ -42,8 +42,7 @@ echo $this->Html->css(
 	<?php echo $this->element('entry_meta_info'); ?>
 
 	<div>
-		<?php echo $this->element('BlogEntries/edit_link'); ?>
-
+		<?php echo $this->element('BlogEntries/edit_link', array('status' => $blogEntry['BlogEntry']['status'])); ?>
 	</div>
 
 
