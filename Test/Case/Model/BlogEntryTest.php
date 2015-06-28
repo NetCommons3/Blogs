@@ -85,7 +85,7 @@ class BlogEntryTest extends CakeTestCase {
 		$data['BlogEntry']['title'] = 'title';
 		$data['BlogEntry']['body1'] = 'body1';
 		$data['BlogEntry']['key'] = '';
-		$data['BlogEntry']['status'] = 1;
+		$data['BlogEntry']['status'] = 2;
 		$data['BlogEntry']['origin_id'] = 0;
 		$data['BlogEntry']['language_id'] = 1;
 		$data['BlogEntry']['published_datetime'] = '2015-01-01 00:00:00';
@@ -213,44 +213,6 @@ class BlogEntryTest extends CakeTestCase {
 		$counts = $this->BlogEntry->getYearMonthCount($blockId, $userId, $permissions, $currentDateTime);
 		$this->assertEquals(1, count($counts));
 		$this->assertEquals(0, $counts['2015-06']);
-	}
-
-/**
- * test beforeSave with id
- *
- * @return void
- */
-	public function testBeforeSaveWithId() {
-		$options = array();
-
-		// IDがセットされてたらupdate なのでupdateAllされないはず
-		$model = $this->getMockForModel('Blogs.BlogEntry', array('updateAll'));
-		$model->expects($this->never())
-			->method('updateAll');
-			//->will($this->returnValue(true));
-		$this->BlogEntry->data['BlogEntry']['id'] = 1;
-		$resultTrue = $this->BlogEntry->beforeSave($options);
-		$this->assertTrue($resultTrue);
-	}
-
-/**
- * test beforeSave published
- *
- * @return void
- */
-	public function testBeforeSave4Published() {
-		$options = array();
-
-		$this->BlogEntry->data['BlogEntry']['status'] = NetCommonsBlockComponent::STATUS_PUBLISHED;
-		$this->BlogEntry->data['BlogEntry']['origin_id'] = 3;
-		$this->BlogEntry->data['BlogEntry']['language_id'] = 1;
-
-		$resultTrue = $this->BlogEntry->beforeSave($options);
-		$this->assertTrue($resultTrue);
-
-		$id3Data = $this->BlogEntry->findById(3);
-		$this->assertEquals(0, $id3Data['BlogEntry']['is_latest']);
-		$this->assertEquals(0, $id3Data['BlogEntry']['is_active']);
 	}
 
 /**

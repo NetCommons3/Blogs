@@ -31,6 +31,7 @@ class BlogEntry extends BlogsAppModel {
 		'NetCommons.Trackable',
 		'Tags.Tag',
 		'NetCommons.OriginalKey',
+		'NetCommons.Publishable',
 		'Likes.Like'
 	);
 
@@ -296,58 +297,6 @@ class BlogEntry extends BlogsAppModel {
 			CakeLog::error($e);
 			throw $e;
 		}
-	}
-
-/**
- * beforeSave ステータスが公開になったらis_activeをつけなおす
- *
- * @param array $options beforeSave options
- * @return bool
- */
-	public function beforeSave($options = array()) {
-		//  beforeSave はupdateAllでも呼び出される。
-		if (isset($this->data[$this->name]['id']) && ($this->data[$this->name]['id'] > 0)) {
-			// updateのときは何もしない
-			return true;
-		}
-		if ($this->data[$this->name]['status'] === NetCommonsBlockComponent::STATUS_PUBLISHED) {
-			// statusが公開ならis_activeを付け替える
-			//  is_activeをセットする
-			$this->data[$this->name]['is_active'] = 1;
-			if ($this->data[$this->name]['origin_id'] > 0) {
-				// 今のis_activeを外す（同じorigin_id, 同じlanguage_id）
-				$isActiveConditions = array(
-					$this->name . '.origin_id' => $this->data[$this->name]['origin_id'],
-					$this->name . '.language_id' => $this->data[$this->name]['language_id'],
-					$this->name . '.is_active' => 1,
-				);
-				$this->updateAll(
-					array(
-						$this->name . '.is_active' => 0
-					),
-					$isActiveConditions
-				);
-			}
-		}
-		if ($this->data[$this->name]['origin_id'] > 0) {
-			//  今のis_latestを外す
-			$isLatestConditions = array(
-				$this->name . '.origin_id' => $this->data[$this->name]['origin_id'],
-				$this->name . '.language_id' => $this->data[$this->name]['language_id'],
-				$this->name . '.is_latest' => 1,
-			);
-			$this->updateAll(
-				array(
-					$this->name . '.is_latest' => 0
-				),
-				$isLatestConditions
-			);
-		}
-		// 新規レコードを登録するときは必ずis_latest =1
-		if (empty($this->data[$this->name]['id'])) {
-			$this->data[$this->name]['is_latest'] = 1;
-		}
-		return true;
 	}
 
 /**
