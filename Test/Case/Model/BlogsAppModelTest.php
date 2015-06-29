@@ -123,7 +123,7 @@ class BlogsAppModelTest extends BlogsAppModelTestBase {
 		$data = $this->BlogEntry->getNew();
 		$data['BlogEntry']['title'] = 'title';
 		$data['BlogEntry']['body1'] = 'body1';
-		$data['BlogEntry']['status'] = 1;
+		$data['BlogEntry']['status'] = 2;
 		$data['BlogEntry']['origin_id'] = 1;
 		$data['BlogEntry']['language_id'] = 1;
 		$data['BlogEntry']['block_id'] = 1;
