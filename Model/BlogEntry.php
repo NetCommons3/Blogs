@@ -220,6 +220,10 @@ class BlogEntry extends BlogsAppModel {
 				'group' => array('BlogEntry__year_month'), //GROUP BY YEAR(record_date), MONTH(record_date)
 			)
 		);
+		// 使ったバーチャルFieldを削除
+		unset($this->virtualFields['year_month']);
+		unset($this->virtualFields['count']);
+
 		$ret = array();
 		// $retをゼロ埋め
 		//　一番古い記事を取得
@@ -229,6 +233,7 @@ class BlogEntry extends BlogsAppModel {
 				'order' => 'published_datetime ASC',
 			)
 		);
+
 		// 一番古い記事の年月から現在までを先にゼロ埋め
 		if (isset($oldestEntry['BlogEntry'])) {
 			$currentYearMonthDay = date('Y-m-01', strtotime($oldestEntry['BlogEntry']['published_datetime']));
