@@ -116,6 +116,7 @@ class BlogsEntriesEditControllerTest extends BlogsAppControllerTest {
  * @return void
  */
 	public function testPublishedIsNotViewDeleteButtonForEditor() {
+		// 公開権限なしなら公開済みコンテンツは削除NG
 		RolesControllerTest::login($this, Role::ROLE_KEY_EDITOR);
 
 		$view = $this->testAction(
@@ -126,6 +127,20 @@ class BlogsEntriesEditControllerTest extends BlogsAppControllerTest {
 			)
 		);
 		$this->assertTextNotContains('glyphicon-trash', $view, print_r($view, true));
+
+		AuthGeneralControllerTest::logout($this);
+
+		// 公開権限あれば公開済みでも削除ボタンが表示される
+		RolesControllerTest::login($this, Role::ROLE_KEY_SYSTEM_ADMINISTRATOR);
+
+		$view = $this->testAction(
+			'/blogs/blog_entries_edit/edit/1/origin_id:3',
+			array(
+				'method' => 'get',
+				'return' => 'view',
+			)
+		);
+		$this->assertTextContains('glyphicon-trash', $view, print_r($view, true));
 
 		AuthGeneralControllerTest::logout($this);
 	}
