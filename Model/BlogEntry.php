@@ -238,13 +238,13 @@ class BlogEntry extends BlogsAppModel {
 		if (isset($oldestEntry['BlogEntry'])) {
 			$currentYearMonthDay = date('Y-m-01', strtotime($oldestEntry['BlogEntry']['published_datetime']));
 		} else {
-			$currentYearMonthDay = date('Y-m-01');
+			// 記事がなかったら今月だけ
+			$currentYearMonthDay = date('Y-m-01', strtotime($currentDateTime));
 		}
 		while ($currentYearMonthDay <= $currentDateTime) {
 			$ret[substr($currentYearMonthDay, 0, 7)] = 0;
 			$currentYearMonthDay = date('Y-m-01', strtotime($currentYearMonthDay . ' +1 month'));
 		}
-
 		// 記事がある年月は記事数を上書きしておく
 		foreach ($result as $yearMonth) {
 			$ret[$yearMonth['BlogEntry']['year_month']] = $yearMonth['BlogEntry']['count'];
@@ -315,6 +315,21 @@ class BlogEntry extends BlogsAppModel {
 		// 記事削除
 		$conditions = array('origin_id' => $originId);
 		return $this->deleteAll($conditions, true, true);
+	}
+
+/**
+ * 過去に一度も公開されてないか
+ *
+ * @param array $blogEntry チェック対象記事
+ * @return bool true:公開されてない false: 公開されたことあり
+ */
+	public function yetPublish($blogEntry) {
+		$conditions = array(
+			'BlogEntry.origin_id' => $blogEntry['BlogEntry']['origin_id'],
+			'BlogEntry.is_active' => 1
+		);
+		$count = $this->find('count', array('conditions' => $conditions));
+		return ($count == 0);
 	}
 
 /**

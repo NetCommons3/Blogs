@@ -182,7 +182,7 @@ if ($this->request->data) {
 			</div>
 
 			<?php echo $this->Form->end() ?>
-			<?php if ($isEdit) : ?>
+			<?php if ($isEdit && $isDeletable) : ?>
 				<div  class="panel-footer" style="text-align: right;">
 					<?php echo $this->Form->create('BlogEntry',
 						array(

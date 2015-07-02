@@ -151,6 +151,7 @@ class BlogEntriesEditController extends BlogsAppController {
 		}
 
 		$this->set('blogEntry', $blogEntry);
+		$this->set('isDeletable', $this->_hasDeletePermission($blogEntry));
 
 		$comments = $this->Comment->getComments(
 			array(
@@ -180,7 +181,7 @@ class BlogEntriesEditController extends BlogsAppController {
 		$blogEntry = $this->BlogEntry->findByOriginIdAndIsLatest($originId, 1);
 
 		// 権限チェック
-		if ($this->_hasEditPermission($blogEntry) === false) {
+		if ($this->_hasDeletePermission($blogEntry) === false) {
 			throw new ForbiddenException(__d('net_commons', 'Permission denied'));
 		}
 
@@ -193,7 +194,7 @@ class BlogEntriesEditController extends BlogsAppController {
 /**
  * 編集・削除の権限チェック
  *
- * @param BlogEntry $blogEntry 権限チェック対象記事
+ * @param array $blogEntry 権限チェック対象記事
  * @return bool
  */
 	protected function _hasEditPermission($blogEntry) {
@@ -211,4 +212,25 @@ class BlogEntriesEditController extends BlogsAppController {
 		return true;
 	}
 
+/**
+ * 削除権限チェック
+ *
+ * @param array $blogEntry 権限チェック対象記事
+ * @return bool
+ */
+	protected function _hasDeletePermission($blogEntry) {
+		// 編集できるかチェック
+		if ($this->_hasEditPermission($blogEntry)) {
+			// 公開権限あれば削除OK
+			if ($this->viewVars['contentPublishable']) {
+				return true;
+			}
+			// 公開権限無しなら一度も公開されてなければ削除OK
+			if ($this->BlogEntry->yetPublish($blogEntry)) {
+				return true;
+			}
+		}
+		// 上記以外削除NG
+		return false;
+	}
 }

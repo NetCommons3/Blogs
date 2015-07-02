@@ -216,6 +216,21 @@ class BlogEntryTest extends CakeTestCase {
 	}
 
 /**
+ * 一度も公開になってないかを返すテスト
+ *
+ * @return void
+ */
+	public function testYetPublish() {
+		$yetPublishEntry = $this->BlogEntry->findById(5);
+		$resultTrue = $this->BlogEntry->yetPublish($yetPublishEntry);
+		$this->assertTrue($resultTrue);
+
+		$PublishedEntry = $this->BlogEntry->findById(2);
+		$resultFalse = $this->BlogEntry->yetPublish($PublishedEntry);
+		$this->assertFalse($resultFalse);
+	}
+
+/**
  * test saveEntry
  *
  * @return void

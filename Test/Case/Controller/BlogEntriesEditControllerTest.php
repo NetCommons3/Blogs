@@ -88,6 +88,49 @@ class BlogsEntriesEditControllerTest extends BlogsAppControllerTest {
 	}
 
 /**
+ * 一度も公開されてないコンテンツは作成権限でも削除可能（削除ボタン表示）
+ *
+ * @return void
+ */
+	public function testYetPublishedIsViewDeleteButtonForEditor() {
+		RolesControllerTest::login($this, Role::ROLE_KEY_EDITOR);
+
+		$view = $this->testAction(
+			'/blogs/blog_entries_edit/edit/1/origin_id:4',
+			array(
+				'method' => 'get',
+				'return' => 'view',
+			)
+		);
+		$this->assertTextContains('glyphicon-trash', $view, print_r($view, true));
+
+		AuthGeneralControllerTest::logout($this);
+	}
+
+/**
+ * 一度でも公開されたコンテンツの削除には公開権限が必用
+ *
+ * 公開権限ありで削除ボタン表示
+ * 公開権限無しなら削除ボタン非表示
+ *
+ * @return void
+ */
+	public function testPublishedIsNotViewDeleteButtonForEditor() {
+		RolesControllerTest::login($this, Role::ROLE_KEY_EDITOR);
+
+		$view = $this->testAction(
+			'/blogs/blog_entries_edit/edit/1/origin_id:3',
+			array(
+				'method' => 'get',
+				'return' => 'view',
+			)
+		);
+		$this->assertTextNotContains('glyphicon-trash', $view, print_r($view, true));
+
+		AuthGeneralControllerTest::logout($this);
+	}
+
+/**
  * testDelete
  *
  * @return void
