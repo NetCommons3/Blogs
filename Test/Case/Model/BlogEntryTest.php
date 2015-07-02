@@ -30,6 +30,7 @@ class BlogEntryTest extends CakeTestCase {
 		//'plugin.tags.tag',
 		//'plugin.tags.tags_content',
 		'plugin.users.user', // Trackableビヘイビアでテーブルが必用
+		'plugin.comments.comment',
 	);
 
 /**
@@ -228,6 +229,42 @@ class BlogEntryTest extends CakeTestCase {
 		$PublishedEntry = $this->BlogEntry->findById(2);
 		$resultFalse = $this->BlogEntry->yetPublish($PublishedEntry);
 		$this->assertFalse($resultFalse);
+	}
+
+/**
+ * コンテンツ削除時にコメントも削除が実行されるテスト
+ *
+ * @return void
+ */
+	public function testCommentDelete() {
+		// origin_id=1 のテストデータのkeyはkey1なのでComment->deleteByContentKye('key1')がコールされるかテスト
+		$mock = $this->getMockForModel('Comments.Comment', ['deleteByContentKey']);
+		$mock->expects($this->once())
+			->method('deleteByContentKey')
+			->with(
+				$this->equalTo('key1')
+			);
+
+		$this->BlogEntry->deleteEntryByOriginId(1);
+	}
+
+/**
+ * 削除失敗時に例外がなげられるテスト
+ *
+ * @return void
+ */
+	public function testDeleteFail() {
+		$BlogEntryMock = $this->getMockForModel('Blogs.BlogEntry', ['deleteAll']);
+		$BlogEntryMock->expects($this->once())
+			->method('deleteAll')
+			->will($this->returnValue(false));
+
+		// 例外のテスト
+		$this->setExpectedException('InternalErrorException');
+		$BlogEntryMock->Behaviors->unload('Tag');
+		$BlogEntryMock->Behaviors->unload('Trackable');
+		$BlogEntryMock->Behaviors->unload('Like');
+		$BlogEntryMock->deleteEntryByOriginId(1);
 	}
 
 /**

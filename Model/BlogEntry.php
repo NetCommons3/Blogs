@@ -308,13 +308,34 @@ class BlogEntry extends BlogsAppModel {
  * 記事削除
  *
  * @param int $originId オリジンID
+ * @throws InternalErrorException
  * @return bool
  */
 	public function deleteEntryByOriginId($originId) {
 		// ε(　　　　 v ﾟωﾟ)　＜タグリンク削除
-		// 記事削除
-		$conditions = array('origin_id' => $originId);
-		return $this->deleteAll($conditions, true, true);
+		$this->begin();
+		try{
+			//コメントの削除
+			$deleteEntry = $this->findByOriginId($originId);
+			$this->loadModels([
+				'Comment' => 'Comments.Comment',
+			]);
+			$this->Comment->deleteByContentKey($deleteEntry['BlogEntry']['key']);
+
+			// 記事削除
+			$conditions = array('origin_id' => $originId);
+			if ($result = $this->deleteAll($conditions, true, true)) {
+				$this->commit();
+				return $result;
+			} else {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
+		} catch (Exception $e) {
+			$this->rollback();
+			//エラー出力
+			CakeLog::error($e);
+			throw $e;
+		}
 	}
 
 /**

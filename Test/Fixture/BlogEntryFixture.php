@@ -156,7 +156,7 @@ class BlogEntryFixture extends CakeTestFixture {
 			array(
 				'id' => 1,
 				'category_id' => 2,
-				'key' => 'Lorem ipsum dolor sit amet',
+				'key' => 'key1',
 				'origin_id' => 1,
 				'status' => NetCommonsBlockComponent::STATUS_PUBLISHED,
 				'title' => '公開済み記事',
@@ -176,7 +176,7 @@ class BlogEntryFixture extends CakeTestFixture {
 			array(
 				'id' => 2,
 				'category_id' => 2,
-				'key' => 'Lorem ipsum dolor sit amet',
+				'key' => 'key1',
 				'origin_id' => 1,
 				'status' => NetCommonsBlockComponent::STATUS_PUBLISHED,
 				'title' => '2015年2月23日公開予定の記事',
@@ -196,7 +196,7 @@ class BlogEntryFixture extends CakeTestFixture {
 			array(
 				'id' => 3,
 				'category_id' => 2,
-				'key' => 'Lorem ipsum dolor sit amet',
+				'key' => 'key3',
 				'origin_id' => 3,
 				'status' => NetCommonsBlockComponent::STATUS_PUBLISHED,
 				'title' => 'コントローラテストに使う',
@@ -216,7 +216,7 @@ class BlogEntryFixture extends CakeTestFixture {
 			array(
 				'id' => 4,
 				'category_id' => 2,
-				'key' => 'Lorem ipsum dolor sit amet',
+				'key' => 'key4',
 				'origin_id' => 4,
 				'status' => NetCommonsBlockComponent::STATUS_IN_DRAFT,
 				'title' => 'コントローラテストに使う。一度も公開されてない記事',
@@ -236,7 +236,7 @@ class BlogEntryFixture extends CakeTestFixture {
 			array(
 				'id' => 5,
 				'category_id' => 2,
-				'key' => 'Lorem ipsum dolor sit amet',
+				'key' => 'key4',
 				'origin_id' => 4,
 				'status' => NetCommonsBlockComponent::STATUS_IN_DRAFT,
 				'title' => 'コントローラテストに使う。一度も公開されてない記事',
