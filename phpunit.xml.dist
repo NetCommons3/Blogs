@@ -47,6 +47,7 @@
             <directory suffix=".php">lib/Cake</directory>
             <directory suffix=".php">vendors</directory>
             <directory suffix="Test.php">app/Plugin</directory>
+            <directory suffix=".php">app/Plugin/Blogs/Test</directory>
         </blacklist>
     </filter>
     <logging>
