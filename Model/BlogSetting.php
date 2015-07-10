@@ -95,11 +95,13 @@ class BlogSetting extends BlogsAppModel {
 
 		try {
 			if (! $this->validateBlogSetting($data)) {
+				$dataSource->rollback();
 				return false;
 			}
 			foreach ($data[$this->BlockRolePermission->alias] as $value) {
 				if (! $this->BlockRolePermission->validateBlockRolePermissions($value)) {
 					$this->validationErrors = Hash::merge($this->validationErrors, $this->BlockRolePermission->validationErrors);
+					$dataSource->rollback();
 					return false;
 				}
 			}

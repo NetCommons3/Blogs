@@ -122,6 +122,7 @@ class BlogFrameSetting extends BlogsAppModel {
 		try {
 			//バリデーション
 			if (!$this->validateBlogFrameSetting($data)) {
+				$dataSource->rollback();
 				return false;
 			}
 

@@ -63,6 +63,7 @@ class BlogsAppModelTest extends BlogsAppModelTestBase {
  */
 	public function tearDown() {
 		unset($this->BlogAppModel);
+		unset($this->BlogEntry);
 
 		parent::tearDown();
 	}
@@ -93,6 +94,7 @@ class BlogsAppModelTest extends BlogsAppModelTestBase {
 		$this->BlogEntry->rollback();
 
 		$savedDataNotFound = $this->BlogEntry->findById($result['BlogEntry']['id']);
+debug($savedDataNotFound);
 		$this->assertEmpty($savedDataNotFound);
 
 		$this->BlogEntry->begin();
