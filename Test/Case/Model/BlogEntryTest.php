@@ -291,7 +291,6 @@ class BlogEntryTest extends CakeTestCase {
 
 		$result = $this->BlogEntry->saveEntry(6, $data);
 		$this->assertTrue(isset($result['BlogEntry']['id']));
-
 	}
 
 	//
