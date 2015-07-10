@@ -273,6 +273,25 @@ class BlogEntryTest extends CakeTestCase {
  * @return void
  */
 	public function testSaveEntry() {
+		$CommentMock = $this->getMockForModel('Comments.Comment', ['validateByStatus']);
+		$CommentMock->expects($this->once())
+			->method('validateByStatus')
+			->will($this->returnValue(true));
+
+		$data = $this->BlogEntry->getNew();
+		$data['BlogEntry']['category_id'] = null; // category_idがnullでも保存できることを確認
+		$data['BlogEntry']['title'] = 'testSaveEntry';
+		$data['BlogEntry']['body1'] = 'body1';
+		$data['BlogEntry']['key'] = '';
+		$data['BlogEntry']['status'] = 3;
+		$data['BlogEntry']['origin_id'] = 0;
+		$data['BlogEntry']['language_id'] = 1;
+		$data['BlogEntry']['published_datetime'] = '2015-01-01 00:00:00';
+		$data['BlogEntry']['block_id'] = 5;
+
+		$result = $this->BlogEntry->saveEntry(6, $data);
+		$this->assertTrue(isset($result['BlogEntry']['id']));
+
 	}
 
 	//
