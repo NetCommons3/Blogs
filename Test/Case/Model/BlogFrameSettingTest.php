@@ -11,6 +11,8 @@ App::uses('BlogFrameSetting', 'Blogs.Model');
 
 /**
  * Summary for BlogFrameSetting Test Case
+ *
+ * @property BlogFrameSetting $BlogFrameSetting
  */
 class BlogFrameSettingTest extends CakeTestCase {
 
@@ -20,7 +22,8 @@ class BlogFrameSettingTest extends CakeTestCase {
  * @var array
  */
 	public $fixtures = array(
-		'plugin.blogs.blog_frame_setting'
+		'plugin.blogs.blog_frame_setting',
+		'plugin.users.user', // Trackableビヘイビアでテーブルが必用
 	);
 
 /**
@@ -31,6 +34,8 @@ class BlogFrameSettingTest extends CakeTestCase {
 	public function setUp() {
 		parent::setUp();
 		$this->BlogFrameSetting = ClassRegistry::init('Blogs.BlogFrameSetting');
+		// モデルからビヘイビアをはずす:
+		$this->BlogFrameSetting->Behaviors->unload('Trackable');
 	}
 
 /**
@@ -45,11 +50,67 @@ class BlogFrameSettingTest extends CakeTestCase {
 	}
 
 /**
- * Dummy test
+ * test getSettingByFrameKey
  *
  * @return void
  */
-	public function testTest() {
+	public function testGetSettingByFrameKey() {
+		$frameSetting = $this->BlogFrameSetting->getSettingByFrameKey('frame_1');
+		$this->assertEquals('frame_1', $frameSetting['frame_key']);
 	}
 
+/**
+ * test getSettingByFrameKey データがなければ作成される
+ *
+ * @return void
+ */
+	public function testGetSettingByFrameKeyNotFound() {
+		$frameSetting = $this->BlogFrameSetting->getSettingByFrameKey('frame_key_not_found');
+		$this->assertEquals('frame_key_not_found', $frameSetting['frame_key']);
+		$this->assertTrue($frameSetting['id'] > 0);
+	}
+
+/**
+ * test saveBlogFrameSetting
+ *
+ * @return void
+ */
+	public function testSaveBlogFrameSetting() {
+		$data = $this->BlogFrameSetting->getNew();
+		// バリデート失敗
+		$resultFalse = $this->BlogFrameSetting->saveBlogFrameSetting($data);
+		$this->assertFalse($resultFalse);
+
+		// 保存成功
+		$data['BlogFrameSetting']['frame_key'] = 'frame_key';
+		$resultTrue = $this->BlogFrameSetting->saveBlogFrameSetting($data);
+		$this->assertTrue($resultTrue);
+	}
+
+/**
+ * test saveBlogFrameSetting save失敗で例外投げられるテスト
+ *
+ * @return void
+ */
+	public function testSaveBlogFrameSettingSaveFailed() {
+		$data = $this->BlogFrameSetting->getNew();
+		$BlogFrameSettingMock = $this->getMockForModel('Blogs.BlogFrameSetting', ['save']);
+		$BlogFrameSettingMock->expects($this->once())
+			->method('save')
+			->will($this->returnValue(false));
+		// save fail
+		$data['BlogFrameSetting']['frame_key'] = 'frame_key';
+		$this->setExpectedException('InternalErrorException');
+		$BlogFrameSettingMock->saveBlogFrameSetting($data);
+	}
+
+/**
+ * test getDisplayNumberOptions
+ *
+ * @return void
+ */
+	public function testGetDisplayNumberOptions() {
+		$array = $this->BlogFrameSetting->getDisplayNumberOptions();
+		$this->assertInternalType('array', $array);
+	}
 }
