@@ -27,6 +27,35 @@ class BlogSetting extends BlogsAppModel {
 	public $validate = array();
 
 /**
+ * Called during validation operations, before validation. Please note that custom
+ * validation rules can be defined in $validate.
+ *
+ * @param array $options Options passed from Model::save().
+ * @return bool True if validate operation should continue, false to abort
+ * @link http://book.cakephp.org/2.0/en/models/callback-methods.html#beforevalidate
+ * @see Model::save()
+ */
+	public function beforeValidate($options = array()) {
+		$this->validate = Hash::merge($this->validate, array(
+			'blog_key' => array(
+				'notEmpty' => array(
+					'rule' => array('notEmpty'),
+					'message' => __d('net_commons', 'Invalid request.'),
+					'required' => true,
+				)
+			),
+			//'posts_per_page' => array(
+			//	'number' => array(
+			//		'rule' => array('notEmpty'),
+			//		'message' => __d('net_commons', 'Invalid request.'),
+			//		'required' => true,
+			//	)
+			//),
+		));
+		return parent::beforeValidate($options);
+	}
+
+/**
  * Get blog setting data
  *
  * @param string $blogKey blog.key

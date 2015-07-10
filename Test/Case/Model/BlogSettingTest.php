@@ -11,6 +11,8 @@ App::uses('BlogSetting', 'Blogs.Model');
 
 /**
  * Summary for BlogSetting Test Case
+ *
+ * @property BlogSetting $BlogSetting
  */
 class BlogSettingTest extends CakeTestCase {
 
@@ -21,6 +23,8 @@ class BlogSettingTest extends CakeTestCase {
  */
 	public $fixtures = array(
 		'plugin.blogs.blog_setting',
+		'plugin.blocks.block_role_permission',
+		'plugin.users.user',
 	);
 
 /**
@@ -50,6 +54,9 @@ class BlogSettingTest extends CakeTestCase {
  * @return void
  */
 	public function testGetBlogSetting() {
+		$blogKey = 'blog1';
+		$blogSetting = $this->BlogSetting->getBlogSetting($blogKey);
+		$this->assertEquals(1, $blogSetting['BlogSetting']['id']);
 	}
 
 /**
@@ -58,6 +65,62 @@ class BlogSettingTest extends CakeTestCase {
  * @return void
  */
 	public function testSaveBlogSetting() {
+		$data = $this->BlogSetting->getNew();
+		$data['BlogSetting']['blog_key'] = 'new_blog_key';
+		$data['BlockRolePermission'] = array();
+		$resultTrue = $this->BlogSetting->saveBlogSetting($data);
+		$this->assertTrue($resultTrue);
+
+		// validate fail
+		$data = $this->BlogSetting->getNew();
+		$resultFalse = $this->BlogSetting->saveBlogSetting($data);
+		$this->assertFalse($resultFalse);
+
+		// save fail
+		$BlogSettingMock = $this->getMockForModel('Blogs.BlogSetting', ['save']);
+		$BlogSettingMock->expects($this->once())
+			->method('save')
+			->will($this->returnValue(false));
+		$data = $this->BlogSetting->getNew();
+		$data['BlogSetting']['blog_key'] = 'new_blog_key';
+		$data['BlockRolePermission'] = array();
+
+		$this->setExpectedException('InternalErrorException');
+		$BlogSettingMock->saveBlogSetting($data);
+	}
+
+/**
+ * test saveBlogSetting BlockRolePermission保存失敗系テスト
+ *
+ * @return void
+ */
+	public function testSaveBlogSettingWithBlockRolePermissionFail() {
+		// blockRolePermission validate fail
+		$Mock = $this->getMockForModel('Blocks.BlockRolePermission', ['validateBlockRolePermissions']);
+		$Mock->expects($this->once())
+			->method('validateBlockRolePermissions')
+			->will($this->returnValue(false));
+
+		$data = $this->BlogSetting->getNew();
+		$data['BlogSetting']['blog_key'] = 'new_blog_key';
+		$data['BlockRolePermission'] = array('dummy');
+		$resultFalse = $this->BlogSetting->saveBlogSetting($data);
+		$this->assertFalse($resultFalse);
+
+		$Mock = $this->getMockForModel('Blocks.BlockRolePermission', ['validateBlockRolePermissions', 'saveMany']);
+		$Mock->expects($this->once())
+			->method('validateBlockRolePermissions')
+			->will($this->returnValue(true));
+		$Mock->expects($this->once())
+			->method('saveMany')
+			->will($this->returnValue(false));
+
+		$data = $this->BlogSetting->getNew();
+		$data['BlogSetting']['blog_key'] = 'new_blog_key';
+		$data['BlockRolePermission'] = array('dummy');
+
+		$this->setExpectedException('InternalErrorException');
+		$this->BlogSetting->saveBlogSetting($data);
 	}
 
 /**
@@ -66,6 +129,13 @@ class BlogSettingTest extends CakeTestCase {
  * @return void
  */
 	public function testValidateBlogSetting() {
-	}
+		$data = $this->BlogSetting->getNew();
+		$data['BlogSetting']['blog_key'] = 'new_blog_key';
+		$resultTrue = $this->BlogSetting->validateBlogSetting($data);
+		$this->assertTrue($resultTrue);
 
+		$data = $this->BlogSetting->getNew();
+		$resultFalse = $this->BlogSetting->validateBlogSetting($data);
+		$this->assertFalse($resultFalse);
+	}
 }
