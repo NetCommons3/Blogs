@@ -16,7 +16,7 @@ App::uses('TestingWrapper', 'Blogs.Test');
 /**
  * Summary for BlogEntry Test Case
  */
-class BlogEntryTest extends CakeTestCase {
+class BlogEntryFindTest extends CakeTestCase {
 
 /**
  * Fixtures
@@ -56,44 +56,6 @@ class BlogEntryTest extends CakeTestCase {
 		unset($this->BlogEntry);
 
 		parent::tearDown();
-	}
-
-/**
- * 記事削除テスト
- *
- * @return void
- */
-	public function testDeleteEntryByOriginId() {
-		$count2 = $this->BlogEntry->find('count', array('conditions' => array('origin_id' => 1)));
-
-		$this->assertEqual($count2, 2);
-
-		$deleted = $this->BlogEntry->deleteEntryByOriginId(1);
-		$this->assertTrue($deleted);
-
-		$count0 = $this->BlogEntry->find('count', array('conditions' => array('origin_id' => 1)));
-		$this->assertEqual($count0, 0);
-	}
-
-/**
- * カテゴリ無しで保存するテスト
- *
- * @return void
- */
-	public function testSaveNoCategory() {
-		$data = $this->BlogEntry->getNew();
-		$data['BlogEntry']['category_id'] = null; // category_idがnullでも保存できることを確認
-		$data['BlogEntry']['title'] = 'title';
-		$data['BlogEntry']['body1'] = 'body1';
-		$data['BlogEntry']['key'] = '';
-		$data['BlogEntry']['status'] = 2;
-		$data['BlogEntry']['origin_id'] = 0;
-		$data['BlogEntry']['language_id'] = 1;
-		$data['BlogEntry']['published_datetime'] = '2015-01-01 00:00:00';
-		$data['BlogEntry']['block_id'] = 5;
-
-		$savedData = $this->BlogEntry->save($data);
-		$this->assertTrue(isset($savedData['BlogEntry']['id']));
 	}
 
 /**
@@ -231,70 +193,6 @@ class BlogEntryTest extends CakeTestCase {
 		$this->assertFalse($resultFalse);
 	}
 
-/**
- * コンテンツ削除時にコメントも削除が実行されるテスト
- *
- * @return void
- */
-	public function testCommentDelete() {
-		// origin_id=1 のテストデータのkeyはkey1なのでComment->deleteByContentKye('key1')がコールされるかテスト
-		$mock = $this->getMockForModel('Comments.Comment', ['deleteByContentKey']);
-		$mock->expects($this->once())
-			->method('deleteByContentKey')
-			->with(
-				$this->equalTo('key1')
-			);
-
-		$this->BlogEntry->deleteEntryByOriginId(1);
-	}
-
-/**
- * 削除失敗時に例外がなげられるテスト
- *
- * @return void
- */
-	public function testDeleteFail() {
-		$BlogEntryMock = $this->getMockForModel('Blogs.BlogEntry', ['deleteAll']);
-		$BlogEntryMock->expects($this->once())
-			->method('deleteAll')
-			->will($this->returnValue(false));
-
-		// 例外のテスト
-		$this->setExpectedException('InternalErrorException');
-		$BlogEntryMock->Behaviors->unload('Tag');
-		$BlogEntryMock->Behaviors->unload('Trackable');
-		$BlogEntryMock->Behaviors->unload('Like');
-		$BlogEntryMock->deleteEntryByOriginId(1);
-	}
-
-/**
- * test saveEntry
- *
- * @return void
- */
-	public function testSaveEntry() {
-		$CommentMock = $this->getMockForModel('Comments.Comment', ['validateByStatus']);
-		$CommentMock->expects($this->once())
-			->method('validateByStatus')
-			->will($this->returnValue(true));
-
-		$data = $this->BlogEntry->getNew();
-		$data['BlogEntry']['category_id'] = null; // category_idがnullでも保存できることを確認
-		$data['BlogEntry']['title'] = 'testSaveEntry';
-		$data['BlogEntry']['body1'] = 'body1';
-		$data['BlogEntry']['key'] = '';
-		$data['BlogEntry']['status'] = 3;
-		$data['BlogEntry']['origin_id'] = 0;
-		$data['BlogEntry']['language_id'] = 1;
-		$data['BlogEntry']['published_datetime'] = '2015-01-01 00:00:00';
-		$data['BlogEntry']['block_id'] = 5;
-
-		$result = $this->BlogEntry->saveEntry(6, $data);
-		$this->assertTrue(isset($result['BlogEntry']['id']));
-	}
-
-	//
-	//
 	//public function testExecuteConditions() {
 	//	$userId = 1;
 	//	$blockId = 2;
