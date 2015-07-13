@@ -127,6 +127,13 @@ class BlogEntryFixture extends CakeTestFixture {
 			'default' => null,
 			'comment' => 'block_id '
 		),
+		'blog_key' => array(
+			'type' => 'string',
+			'null' => false,
+			'default' => null,
+			'collate' => 'utf8_general_ci',
+			'charset' => 'utf8'
+		),
 		'language_id' => array(
 			'type' => 'integer',
 			'null' => false,
@@ -170,6 +177,7 @@ class BlogEntryFixture extends CakeTestFixture {
 				'modified_user' => 1,
 				'modified' => '2015-02-23 05:58:13',
 				'block_id' => 5,
+				'blog_key' => 'blog1',
 				'is_latest' => 1,
 				'is_active' => 0,
 			),
@@ -190,6 +198,7 @@ class BlogEntryFixture extends CakeTestFixture {
 				'modified_user' => 2,
 				'modified' => '2015-02-23 05:58:13',
 				'block_id' => 5,
+				'blog_key' => 'blog1',
 				'is_latest' => 1,
 				'is_active' => 1,
 			),
@@ -210,6 +219,7 @@ class BlogEntryFixture extends CakeTestFixture {
 				'modified_user' => 2,
 				'modified' => '2015-02-23 05:58:13',
 				'block_id' => 5,
+				'blog_key' => 'blog1',
 				'is_latest' => 1,
 				'is_active' => 1,
 			),
@@ -230,6 +240,7 @@ class BlogEntryFixture extends CakeTestFixture {
 				'modified_user' => 2,
 				'modified' => '2015-02-23 05:58:13',
 				'block_id' => 5,
+				'blog_key' => 'blog1',
 				'is_latest' => 0,
 				'is_active' => 0,
 			),
@@ -250,6 +261,7 @@ class BlogEntryFixture extends CakeTestFixture {
 				'modified_user' => 2,
 				'modified' => '2015-02-23 05:58:13',
 				'block_id' => 5,
+				'blog_key' => 'blog1',
 				'is_latest' => 1,
 				'is_active' => 0,
 			),

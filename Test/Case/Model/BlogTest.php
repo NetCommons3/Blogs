@@ -24,8 +24,12 @@ class BlogTest extends BlogsAppModelTestBase {
  */
 	public $fixtures = array(
 		'plugin.blogs.blog',
+		'plugin.blogs.blog_entry',
 		'plugin.blogs.blog_setting',
 		'plugin.blocks.block',
+		'plugin.blocks.block_role_permission',
+		'plugin.rooms.room',
+		'plugin.rooms.roles_room',
 		'plugin.categories.category',
 		'plugin.categories.categoryOrder',
 		'plugin.frames.frame',
@@ -197,14 +201,6 @@ class BlogTest extends BlogsAppModelTestBase {
 		// BlogSetting->saveで例外
 		$this->setExpectedException('InternalErrorException');
 		$this->Blog->saveBlog($data);
-	}
-
-/**
- * testDeleteBlog method
- *
- * @return void
- */
-	public function testDeleteBlog() {
 	}
 
 }
