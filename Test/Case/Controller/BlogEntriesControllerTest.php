@@ -23,16 +23,16 @@ class BlogEntriesControllerTest extends BlogsAppControllerTest {
 	public function setUp() {
 		parent::setUp();
 		Configure::write('Config.language', 'ja');
-		//$this->generate(
-		//	'Blogs.BlogEntries',
-		//	[
-		//		'components' => [
-		//			'Auth' => ['user'],
-		//			'Session',
-		//			'Security',
-		//		]
-		//	]
-		//);
+		$this->blogEntriesMock = $this->generate(
+			'Blogs.BlogEntries',
+			[
+				'components' => [
+					'Auth' => ['user'],
+					'Session',
+					'Security',
+				]
+			]
+		);
 	}
 
 /**
@@ -41,8 +41,8 @@ class BlogEntriesControllerTest extends BlogsAppControllerTest {
  * @return void
  */
 	public function tearDown() {
-		//Configure::write('Config.language', null);
-		//CakeSession::write('Auth.User', null);
+		Configure::write('Config.language', null);
+		CakeSession::write('Auth.User', null);
 		parent::tearDown();
 	}
 
@@ -116,7 +116,7 @@ class BlogEntriesControllerTest extends BlogsAppControllerTest {
  * @return void
  */
 	public function testView() {
-		$this->testAction(
+		$result = $this->testAction(
 			'/blogs/blog_entries/view/1/origin_id:1',
 			array(
 				'method' => 'get',
@@ -132,7 +132,38 @@ class BlogEntriesControllerTest extends BlogsAppControllerTest {
  * @return void
  */
 	public function testNoBlock() {
+		$result = $this->testAction(
+			'/blogs/blog_entries/index/201',
+			array(
+				'method' => 'get',
+				'return' => 'view',
+			)
+		);
+		$this->assertEquals('', $result);
 	}
+
+	// contentReadable falseならActionがコールされる前にガードされるので個別にテスト不要 NetCommonsRoomRoleComponentでやってると思われる
+	//public function testViewNotReadable() {
+	//	// visitorの閲覧権限を無しにする
+	//	$RoomRolePermission = ClassRegistry::inist('Rooms.RoomRolePermission');
+	//	$contentReadable = $RoomRolePermission->findByRolesRoomIdAndPermission(5, 'content_readable');
+	//	$contentReadable['RoomRolePermission']['value'] = 0;
+	//	$RoomRolePermission->save($contentReadable);
+	//
+	//	RolesControllerTest::login($this, Role::ROLE_KEY_VISITOR);
+	//
+	//	$this->setExpectedException('NotFoundException');
+	//
+	//	$result = $this->testAction(
+	//		'/blogs/blog_entries/view/1/origin_id:1',
+	//		array(
+	//			'method' => 'get',
+	//			//'return' => 'view',
+	//		)
+	//	);
+	//	//$this->assertInternalType('array', $this->vars['blogEntry']);
+	//	AuthGeneralControllerTest::logout($this);
+	//}
 
 /**
  * カテゴリの記事一覧
