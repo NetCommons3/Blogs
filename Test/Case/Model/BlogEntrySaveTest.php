@@ -91,6 +91,7 @@ class BlogEntrySaveTest extends CakeTestCase {
 		$data['BlogEntry']['language_id'] = 1;
 		$data['BlogEntry']['published_datetime'] = '2015-01-01 00:00:00';
 		$data['BlogEntry']['block_id'] = 5;
+		$data['BlogEntry']['blog_key'] = 'blog1';
 
 		$savedData = $this->BlogEntry->save($data);
 		$this->assertTrue(isset($savedData['BlogEntry']['id']));
@@ -153,6 +154,7 @@ class BlogEntrySaveTest extends CakeTestCase {
 		$data['BlogEntry']['language_id'] = 1;
 		$data['BlogEntry']['published_datetime'] = '2015-01-01 00:00:00';
 		$data['BlogEntry']['block_id'] = 5;
+		$data['BlogEntry']['blog_key'] = 'blog1';
 
 		$result = $this->BlogEntry->saveEntry(6, $data);
 		$this->assertTrue(isset($result['BlogEntry']['id']));
@@ -227,6 +229,7 @@ class BlogEntrySaveTest extends CakeTestCase {
 		$data['BlogEntry']['language_id'] = 1;
 		$data['BlogEntry']['published_datetime'] = '2015-01-01 00:00:00';
 		$data['BlogEntry']['block_id'] = 5;
+		$data['BlogEntry']['blog_key'] = 'blog1';
 
 		$result = $this->BlogEntry->saveEntry(6, $data);
 		$this->assertFalse($result);
@@ -257,6 +260,7 @@ class BlogEntrySaveTest extends CakeTestCase {
 		$data['BlogEntry']['language_id'] = 1;
 		$data['BlogEntry']['published_datetime'] = '2015-01-01 00:00:00';
 		$data['BlogEntry']['block_id'] = 5;
+		$data['BlogEntry']['blog_key'] = 'blog1';
 
 		// 例外のテスト
 		$this->setExpectedException('InternalErrorException');
