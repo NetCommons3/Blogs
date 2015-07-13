@@ -128,6 +128,7 @@ class BlogsAppModelTest extends BlogsAppModelTestBase {
 		$data['BlogEntry']['origin_id'] = 1;
 		$data['BlogEntry']['language_id'] = 1;
 		$data['BlogEntry']['block_id'] = 1;
+		$data['BlogEntry']['blog_key'] = 'blog1';
 		$result = $this->BlogEntry->save($data);
 		return $result;
 	}
