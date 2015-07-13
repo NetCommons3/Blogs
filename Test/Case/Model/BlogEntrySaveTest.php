@@ -82,7 +82,7 @@ class BlogEntrySaveTest extends CakeTestCase {
  */
 	public function testSaveNoCategory() {
 		$data = $this->BlogEntry->getNew();
-		$data['BlogEntry']['category_id'] = null; // category_idがnullでも保存できることを確認
+		$data['BlogEntry']['category_id'] = 0;
 		$data['BlogEntry']['title'] = 'title';
 		$data['BlogEntry']['body1'] = 'body1';
 		$data['BlogEntry']['key'] = '';
@@ -145,7 +145,7 @@ class BlogEntrySaveTest extends CakeTestCase {
 			->will($this->returnValue(true));
 
 		$data = $this->BlogEntry->getNew();
-		$data['BlogEntry']['category_id'] = null; // category_idがnullでも保存できることを確認
+		$data['BlogEntry']['category_id'] = 0;
 		$data['BlogEntry']['title'] = 'testSaveEntry';
 		$data['BlogEntry']['body1'] = 'body1';
 		$data['BlogEntry']['key'] = '';
@@ -167,7 +167,7 @@ class BlogEntrySaveTest extends CakeTestCase {
  */
 	public function testSaveEntryInvalid() {
 		$data = $this->BlogEntry->getNew();
-		$data['BlogEntry']['category_id'] = null; // category_idがnullでも保存できることを確認
+		$data['BlogEntry']['category_id'] = 0;
 		$data['BlogEntry']['title'] = ''; // invalid
 		$data['BlogEntry']['body1'] = 'body1';
 		$data['BlogEntry']['key'] = '';
@@ -193,8 +193,8 @@ class BlogEntrySaveTest extends CakeTestCase {
 			->will($this->returnValue(false));
 
 		$data = $this->BlogEntry->getNew();
-		$data['BlogEntry']['category_id'] = null; // category_idがnullでも保存できることを確認
-		$data['BlogEntry']['title'] = 'Title'; // invalid
+		$data['BlogEntry']['category_id'] = 0;
+		$data['BlogEntry']['title'] = 'Title';
 		$data['BlogEntry']['body1'] = 'body1';
 		$data['BlogEntry']['key'] = '';
 		$data['BlogEntry']['status'] = 3;
@@ -220,7 +220,7 @@ class BlogEntrySaveTest extends CakeTestCase {
 			->will($this->returnValue(false));
 
 		$data = $this->BlogEntry->getNew();
-		$data['BlogEntry']['category_id'] = null; // category_idがnullでも保存できることを確認
+		$data['BlogEntry']['category_id'] = 0;
 		$data['BlogEntry']['title'] = 'testSaveEntry';
 		$data['BlogEntry']['body1'] = 'body1';
 		$data['BlogEntry']['key'] = '';
@@ -251,7 +251,7 @@ class BlogEntrySaveTest extends CakeTestCase {
 		$CommentMock->data = true; // saveEntry でthis->Comment->dataの有無チェックがあるので。
 
 		$data = $this->BlogEntry->getNew();
-		$data['BlogEntry']['category_id'] = null; // category_idがnullでも保存できることを確認
+		$data['BlogEntry']['category_id'] = 0;
 		$data['BlogEntry']['title'] = 'testSaveEntry';
 		$data['BlogEntry']['body1'] = 'body1';
 		$data['BlogEntry']['key'] = '';
