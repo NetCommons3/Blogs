@@ -15,7 +15,7 @@ App::uses('BlogsAppModelTestBase', 'Blogs.Test/Case/Model');
  *
  * @property Blog $Blog
  */
-class BlogTest extends BlogsAppModelTestBase {
+class BlogDeleteTest extends BlogsAppModelTestBase {
 
 /**
  * Fixtures
