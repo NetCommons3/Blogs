@@ -92,7 +92,7 @@ class BlogFrameSettingTest extends CakeTestCase {
  *
  * @return void
  */
-	public function _testSaveBlogFrameSettingSaveFailed() {
+	public function testSaveBlogFrameSettingSaveFailed() {
 		$data = $this->BlogFrameSetting->getNew();
 		$BlogFrameSettingMock = $this->getMockForModel('Blogs.BlogFrameSetting', ['save']);
 		$BlogFrameSettingMock->expects($this->once())
@@ -109,7 +109,7 @@ class BlogFrameSettingTest extends CakeTestCase {
  *
  * @return void
  */
-	public function _testGetDisplayNumberOptions() {
+	public function testGetDisplayNumberOptions() {
 		$array = $this->BlogFrameSetting->getDisplayNumberOptions();
 		$this->assertInternalType('array', $array);
 	}
