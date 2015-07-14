@@ -10,7 +10,7 @@ App::uses('FrameFixture', 'Frames.Test/Fixture');
 /**
  * Class Frame4BlogFixture
  */
-class Frame4BlogFixture extends FrameFixture {
+class Frame4blogsFixture extends FrameFixture {
 
 /**
  * モデル名

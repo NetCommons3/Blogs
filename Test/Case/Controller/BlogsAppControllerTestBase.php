@@ -42,7 +42,7 @@ class BlogsAppControllerTestBase extends YAControllerTestCase {
 		'plugin.boxes.box',
 		'plugin.comments.comment',
 		//'plugin.frames.frame',
-		'plugin.blogs.frame4blog',
+		'plugin.blogs.frame4blogs',
 		'plugin.boxes.boxes_page',
 		'plugin.containers.container',
 		'plugin.containers.containers_page',
