@@ -246,7 +246,7 @@ class BlogEntriesController extends BlogsAppController {
 			}
 
 		} else {
-			// 表示できない記事へのアクセスなら403
+			// 表示できない記事へのアクセスなら404
 			throw new NotFoundException(__('Invalid blog entry'));
 		}
 	}
