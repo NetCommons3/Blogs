@@ -1,176 +1,28 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: ryuji
- * Date: 15/05/18
- * Time: 9:56
+ * All Test
  */
-
-App::uses('BlogEntriesEditController', 'Blogs.Controller');
-App::uses('BlogsAppControllerTest', 'Blogs.Test/Case/Controller');
+/**
+ * BlogEntriesEdit All Test Suite
+ *
+ * @author Ryuji AMANO <ryuji@ryus.co.jp>
+ * @package NetCommons\Blogs\Test\Case
+ * @codeCoverageIgnore
+ */
+class BlogEntriesEditControllerTest extends CakeTestSuite {
 
 /**
- * BlogsController Test Case
+ * All test suite
  *
- * @author   Ryuji AMANO <ryuji@ryus.co.jp>
- * @package NetCommons\Blogs\Test\Case\Controller
+ * @return CakeTestSuite
  */
-class BlogsEntriesEditControllerTest extends BlogsAppControllerTest {
+	public static function suite() {
+		$contoller = preg_replace('/^([\w]+)ControllerTest$/', '$1', __CLASS__);
 
-/**
- * setUp method
- *
- * @return void
- */
-	public function setUp() {
-		parent::setUp();
-		$this->generate(
-			'Blogs.BlogEntriesEdit',
-			[
-				'components' => [
-					'Auth' => ['user'],
-					'Session',
-					'Security',
-				]
-			]
-		);
+		$suite = new CakeTestSuite(sprintf('All %s Controller tests', $contoller));
+		$path = __DIR__ . DS . $contoller;
+		$suite->addTestDirectoryRecursive($path);
+
+		return $suite;
 	}
-
-/**
- * tearDown method
- *
- * @return void
- */
-	public function tearDown() {
-		Configure::write('Config.language', null);
-		CakeSession::write('Auth.User', null);
-		parent::tearDown();
-	}
-
-/**
- * コンテンツ新規登録フォームではゴミ箱アイコン非表示をテスト
- *
- * @return void
- */
-	public function testAddFormNoDeleteButton() {
-		RolesControllerTest::login($this);
-
-		$view = $this->testAction(
-			'/blogs/blog_entries_edit/add/1',
-			array(
-				'method' => 'get',
-				'return' => 'view',
-			)
-		);
-		$this->assertTextNotContains('glyphicon-trash', $view, print_r($view, true));
-
-		AuthGeneralControllerTest::logout($this);
-	}
-
-/**
- * コンテンツ編集フォームではゴミ箱アイコンが表示されるテスト
- *
- * @return void
- */
-	public function testEditFormWithDeleteButton() {
-		RolesControllerTest::login($this);
-
-		$view = $this->testAction(
-			'/blogs/blog_entries_edit/edit/1/origin_id:3',
-			array(
-				'method' => 'get',
-				'return' => 'view',
-			)
-		);
-		$this->assertTextContains('glyphicon-trash', $view, print_r($view, true));
-
-		AuthGeneralControllerTest::logout($this);
-	}
-
-/**
- * 一度も公開されてないコンテンツは作成権限でも削除可能（削除ボタン表示）
- *
- * @return void
- */
-	public function testYetPublishedIsViewDeleteButtonForEditor() {
-		RolesControllerTest::login($this, Role::ROLE_KEY_EDITOR);
-
-		$view = $this->testAction(
-			'/blogs/blog_entries_edit/edit/1/origin_id:4',
-			array(
-				'method' => 'get',
-				'return' => 'view',
-			)
-		);
-		$this->assertTextContains('glyphicon-trash', $view, print_r($view, true));
-
-		AuthGeneralControllerTest::logout($this);
-	}
-
-/**
- * 一度でも公開されたコンテンツの削除には公開権限が必用
- *
- * 公開権限ありで削除ボタン表示
- * 公開権限無しなら削除ボタン非表示
- *
- * @return void
- */
-	public function testPublishedIsNotViewDeleteButtonForEditor() {
-		// 公開権限なしなら公開済みコンテンツは削除NG
-		RolesControllerTest::login($this, Role::ROLE_KEY_EDITOR);
-
-		$view = $this->testAction(
-			'/blogs/blog_entries_edit/edit/1/origin_id:3',
-			array(
-				'method' => 'get',
-				'return' => 'view',
-			)
-		);
-		$this->assertTextNotContains('glyphicon-trash', $view, print_r($view, true));
-
-		AuthGeneralControllerTest::logout($this);
-
-		// 公開権限あれば公開済みでも削除ボタンが表示される
-		RolesControllerTest::login($this, Role::ROLE_KEY_SYSTEM_ADMINISTRATOR);
-
-		$view = $this->testAction(
-			'/blogs/blog_entries_edit/edit/1/origin_id:3',
-			array(
-				'method' => 'get',
-				'return' => 'view',
-			)
-		);
-		$this->assertTextContains('glyphicon-trash', $view, print_r($view, true));
-
-		AuthGeneralControllerTest::logout($this);
-	}
-
-/**
- * testDelete
- *
- * @return void
- */
-	public function testDelete() {
-		RolesControllerTest::login($this);
-
-		$this->testAction(
-			'/blogs/blog_entries_edit/delete/1',
-			array(
-				'method' => 'post',
-				'return' => 'view',
-				'data' => array(
-					'BlogEntry' => array('origin_id' => 3)
-				)
-			)
-		);
-		$this->assertRegExp('#/blogs/blog_entries/index#', $this->headers['Location']);
-
-		$BlogEntry = ClassRegistry::init('Blogs.BlogEntry');
-		$countZero = $BlogEntry->find('count', array('conditions' => array('origin_id' => 3)));
-		$this->assertEqual($countZero, 0);
-
-		AuthGeneralControllerTest::logout($this);
-	}
-
 }
-

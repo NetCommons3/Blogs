@@ -8,12 +8,12 @@
  */
 
 App::uses('BlogEntriesController', 'Blogs.Controller');
-App::uses('BlogsAppControllerTest', 'Blogs.Test/Case/Controller');
+App::uses('BlogsAppControllerTestBase', 'Blogs.Test/Case/Controller');
 
 /**
  * Summary for BlogEntriesController Test Case
  */
-class BlogEntriesControllerTest extends BlogsAppControllerTest {
+class BlogEntriesControllerTest extends BlogsAppControllerTestBase {
 
 /**
  * setUp method

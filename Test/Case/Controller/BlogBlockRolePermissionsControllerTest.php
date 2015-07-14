@@ -7,7 +7,7 @@
  */
 
 App::uses('BlogBlockRolePermissionsController', 'Blogs.Controller');
-App::uses('BlogsAppControllerTest', 'Blogs.Test/Case/Controller');
+App::uses('BlogsAppControllerTestBase', 'Blogs.Test/Case/Controller');
 
 /**
  * BlogsController Test Case
@@ -15,7 +15,7 @@ App::uses('BlogsAppControllerTest', 'Blogs.Test/Case/Controller');
  * @author   Ryuji AMANO <ryuji@ryus.co.jp>
  * @package NetCommons\Blogs\Test\Case\Controller
  */
-class BlogBlockRolePermissionsControllerTest extends BlogsAppControllerTest {
+class BlogBlockRolePermissionsControllerTest extends BlogsAppControllerTestBase {
 
 /**
  * setUp method

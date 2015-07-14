@@ -22,7 +22,7 @@ App::uses('YAControllerTestCase', 'NetCommons.TestSuite');
  * Summary for BlogsController Test Case
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class BlogsAppControllerTest extends YAControllerTestCase {
+class BlogsAppControllerTestBase extends YAControllerTestCase {
 
 /**
  * Fixtures
@@ -76,12 +76,4 @@ class BlogsAppControllerTest extends YAControllerTestCase {
 		Configure::write('Config.language', 'ja');
 	}
 
-/**
- * testIndex
- *
- * @return void
- */
-	public function testIndex() {
-		//$this->testAction('/blogs/blogs/index');
-	}
 }
