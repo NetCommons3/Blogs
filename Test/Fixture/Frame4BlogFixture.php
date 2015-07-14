@@ -7,9 +7,18 @@
  */
 App::uses('FrameFixture', 'Frames.Test/Fixture');
 
+/**
+ * Class Frame4BlogFixture
+ */
 class Frame4BlogFixture extends FrameFixture {
 
+/**
+ * モデル名
+ *
+ * @var string name
+ */
 	public $name = 'Frame';
+
 /**
  * Records
  *
