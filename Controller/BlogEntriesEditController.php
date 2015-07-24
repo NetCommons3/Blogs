@@ -42,6 +42,7 @@ class BlogEntriesEditController extends BlogsAppController {
 			),
 		),
 		'Categories.Categories',
+		'Blogs.BlogEntryPermission',
 	);
 
 /**
@@ -176,7 +177,7 @@ class BlogEntriesEditController extends BlogsAppController {
 	public function delete() {
 		$originId = $this->request->data['BlogEntry']['origin_id'];
 
-		$this->request->onlyAllow('post', 'delete');
+		$this->request->allowMethod('post', 'delete');
 
 		$blogEntry = $this->BlogEntry->findByOriginIdAndIsLatest($originId, 1);
 
@@ -198,18 +199,7 @@ class BlogEntriesEditController extends BlogsAppController {
  * @return bool
  */
 	protected function _hasEditPermission($blogEntry) {
-		if ($this->viewVars['contentEditable']) {
-			// 編集権限あり　＝＞OK
-		} elseif ($this->viewVars['contentCreatable']) {
-			// 作成権限あり→自分の記事ならOK
-			if ($blogEntry['BlogEntry']['created_user'] !== $this->Auth->user('id')) {
-				return false;
-			}
-		} else {
-			// 権限無し
-			return false;
-		}
-		return true;
+		return $this->BlogEntryPermission->canEdit($blogEntry);
 	}
 
 /**
@@ -219,18 +209,6 @@ class BlogEntriesEditController extends BlogsAppController {
  * @return bool
  */
 	protected function _hasDeletePermission($blogEntry) {
-		// 編集できるかチェック
-		if ($this->_hasEditPermission($blogEntry)) {
-			// 公開権限あれば削除OK
-			if ($this->viewVars['contentPublishable']) {
-				return true;
-			}
-			// 公開権限無しなら一度も公開されてなければ削除OK
-			if ($this->BlogEntry->yetPublish($blogEntry)) {
-				return true;
-			}
-		}
-		// 上記以外削除NG
-		return false;
+		return $this->BlogEntryPermission->canDelete($blogEntry);
 	}
 }

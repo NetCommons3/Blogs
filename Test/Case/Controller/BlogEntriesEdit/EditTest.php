@@ -81,7 +81,30 @@ class BlogsEntriesEdit_EditTest extends BlogsAppControllerTestBase {
 			->method('user')
 			->will($this->returnValue(4));
 
-		// 編集権限無しで他のユーザのコンテンツはedit負荷
+		// 編集権限無しで他のユーザのコンテンツはedit NG
+		$this->setExpectedException('ForbiddenException');
+		$this->testAction(
+			'/blogs/blog_entries_edit/edit/1/origin_id:1',
+			array(
+				'method' => 'get',
+			)
+		);
+		AuthGeneralControllerTest::logout($this);
+	}
+
+/**
+ * test edit action. 権限がないとき
+ *
+ * @return void
+ */
+	public function testEditNoEditPermission4Visitor() {
+		RolesControllerTest::login($this, Role::ROLE_KEY_VISITOR);
+		// origin_id:1作成ユーザと異なるuser idを返させる
+		$this->blogEntriesEditMock->Auth->expects($this->any())
+			->method('user')
+			->will($this->returnValue(4));
+
+		// 編集権限無しで他のユーザのコンテンツはedit NG
 		$this->setExpectedException('ForbiddenException');
 		$this->testAction(
 			'/blogs/blog_entries_edit/edit/1/origin_id:1',
