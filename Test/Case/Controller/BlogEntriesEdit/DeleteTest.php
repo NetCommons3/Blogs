@@ -34,7 +34,8 @@ class Controller_BlogsEntriesEdit_DeleteTest extends BlogsAppControllerTestBase 
 					'Auth' => ['user'],
 					'Session',
 					'Security',
-					'NetCommons.NetCommonsWorkflow'
+					'NetCommons.NetCommonsWorkflow',
+					'Blogs.BlogEntryPermission' => ['canDelete'],
 				]
 			]
 		);
@@ -73,10 +74,65 @@ class Controller_BlogsEntriesEdit_DeleteTest extends BlogsAppControllerTestBase 
 
 		$BlogEntry = ClassRegistry::init('Blogs.BlogEntry');
 		$countZero = $BlogEntry->find('count', array('conditions' => array('origin_id' => 3)));
-		$this->assertEqual($countZero, 0);
+		$this->assertEquals(0, $countZero);
 
 		AuthGeneralControllerTest::logout($this);
 	}
 
+/**
+ * test delete. No permission
+ *
+ * @return void
+ */
+	public function testDeleteNoPermission() {
+		RolesControllerTest::login($this);
+
+		$this->blogEntriesEditMock->BlogEntryPermission->expects($this->any())
+			->method('canDelete')
+			->will($this->returnValue(false));
+
+		$this->setExpectedException('ForbiddenException');
+
+		$this->testAction(
+			'/blogs/blog_entries_edit/delete/1',
+			array(
+				'method' => 'post',
+				'return' => 'view',
+				'data' => array(
+					'BlogEntry' => array('origin_id' => 3)
+				)
+			)
+		);
+
+		AuthGeneralControllerTest::logout($this);
+	}
+
+/**
+ * test delete. DeleteFail
+ *
+ * @return void
+ */
+	public function testDeleteDeleteFail() {
+		RolesControllerTest::login($this);
+
+		$BlogEntryMock = $this->getMockForModel('Blogs.BlogEntry', ['deleteEntryByOriginId']);
+		$BlogEntryMock->expects($this->any())
+			->method('deleteEntryByOriginId')
+			->will($this->returnValue(false));
+		$this->setExpectedException('InternalErrorException');
+
+		$this->testAction(
+			'/blogs/blog_entries_edit/delete/1',
+			array(
+				'method' => 'post',
+				'return' => 'view',
+				'data' => array(
+					'BlogEntry' => array('origin_id' => 3)
+				)
+			)
+		);
+
+		AuthGeneralControllerTest::logout($this);
+	}
 }
 
