@@ -23,11 +23,17 @@ class BlogBlockRolePermissionsControllerTest extends BlogsAppControllerTestBase 
  * @return void
  */
 	public function setUp() {
+		//$this->loadFixtures(
+		//	'Rooms.RoomRole'
+		//);
 		parent::setUp();
 		Configure::write('Config.language', 'ja');
-		$this->generate(
+		$this->_controllerMock = $this->generate(
 			'Blogs.BlogBlockRolePermissions',
 			[
+				'methods' => [
+					'throwBadRequest',
+				],
 				'components' => [
 					'Auth' => ['user'],
 					'Session',
@@ -49,12 +55,52 @@ class BlogBlockRolePermissionsControllerTest extends BlogsAppControllerTestBase 
 	}
 
 /**
- * testIndex
+ * test edit
  *
  * @return void
  */
-	public function testIndex() {
+	public function testEdit() {
 		RolesControllerTest::login($this);
+
+		$this->testAction(
+			'/blogs/blog_block_role_permissions/edit/1/5',
+			array(
+				'method' => 'get',
+			)
+		);
+
+		AuthGeneralControllerTest::logout($this);
+	}
+
+/**
+ * test edit invalid block id
+ *
+ * @return void
+ */
+	public function testEditInvalidBlockId() {
+		RolesControllerTest::login($this);
+
+		$this->_controllerMock->expects($this->once())
+			->method('throwBadRequest');
+
+		$resultFalse = $this->testAction(
+			'/blogs/blog_block_role_permissions/edit/1/0',
+			array(
+				'method' => 'get',
+			)
+		);
+		$this->assertFalse($resultFalse);
+
+		$this->_controllerMock->expects($this->once())
+			->method('throwBadRequest');
+
+		$resultFalse = $this->testAction(
+			'/blogs/blog_block_role_permissions/edit/1/999',
+			array(
+				'method' => 'get',
+			)
+		);
+		$this->assertFalse($resultFalse);
 
 		AuthGeneralControllerTest::logout($this);
 	}

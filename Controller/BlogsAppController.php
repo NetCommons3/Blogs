@@ -204,15 +204,16 @@ class BlogsAppController extends AppController {
 		$blogSetting = $this->camelizeKeyRecursive($blogSetting);
 		$this->set($blogSetting);
 
-		if (in_array('blogFrameSetting', $contains, true)) {
-			if (! $blogFrameSetting = $this->BlogFrameSetting->getBlogFrameSetting($this->viewVars['frameKey'])) {
-				$blogFrameSetting = $this->BlogFrameSetting->create(array(
-					'frame_key' => $this->viewVars['frameKey']
-				));
-			}
-			$blogFrameSetting = $this->camelizeKeyRecursive($blogFrameSetting);
-			$this->set($blogFrameSetting);
-		}
+		// Blogでは_loadFrameSettingでやってる。
+		//if (in_array('blogFrameSetting', $contains, true)) {
+		//	if (! $blogFrameSetting = $this->BlogFrameSetting->getBlogFrameSetting($this->viewVars['frameKey'])) {
+		//		$blogFrameSetting = $this->BlogFrameSetting->create(array(
+		//			'frame_key' => $this->viewVars['frameKey']
+		//		));
+		//	}
+		//	$blogFrameSetting = $this->camelizeKeyRecursive($blogFrameSetting);
+		//	$this->set($blogFrameSetting);
+		//}
 
 		$this->set('userId', (int)$this->Auth->user('id'));
 
