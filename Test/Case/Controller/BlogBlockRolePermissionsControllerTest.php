@@ -38,6 +38,7 @@ class BlogBlockRolePermissionsControllerTest extends BlogsAppControllerTestBase 
 					'Auth' => ['user'],
 					'Session',
 					'Security',
+					'NetCommonsBlock' => ['validateBlockId'],
 				]
 			]
 		);
@@ -62,6 +63,10 @@ class BlogBlockRolePermissionsControllerTest extends BlogsAppControllerTestBase 
 	public function testEdit() {
 		RolesControllerTest::login($this);
 
+		$this->controller->NetCommonsBlock->expects($this->once())
+			->method('validateBlockId')
+			->will($this->returnValue(true));
+
 		$this->testAction(
 			'/blogs/blog_block_role_permissions/edit/1/5',
 			array(
@@ -80,18 +85,11 @@ class BlogBlockRolePermissionsControllerTest extends BlogsAppControllerTestBase 
 	public function testEditInvalidBlockId() {
 		RolesControllerTest::login($this);
 
-		$this->_controllerMock->expects($this->once())
-			->method('throwBadRequest');
+		$this->controller->NetCommonsBlock->expects($this->once())
+			->method('validateBlockId')
+			->will($this->returnValue(false));
 
-		$resultFalse = $this->testAction(
-			'/blogs/blog_block_role_permissions/edit/1/0',
-			array(
-				'method' => 'get',
-			)
-		);
-		$this->assertFalse($resultFalse);
-
-		$this->_controllerMock->expects($this->once())
+		$this->controller->expects($this->once())
 			->method('throwBadRequest');
 
 		$resultFalse = $this->testAction(
@@ -105,5 +103,89 @@ class BlogBlockRolePermissionsControllerTest extends BlogsAppControllerTestBase 
 		AuthGeneralControllerTest::logout($this);
 	}
 
+/**
+ * test edit. block not found
+ *
+ * @return void
+ */
+	public function testEditBlockNotFound() {
+		RolesControllerTest::login($this);
+
+		$BlockMock = $this->getMockForModel('Blocks.Block', ['find']);
+		$BlockMock->expects($this->once())
+			->method('find')
+			->will($this->returnValue(false));
+
+		$this->controller->NetCommonsBlock->expects($this->once())
+			->method('validateBlockId')
+			->will($this->returnValue(true));
+
+		$this->controller->expects($this->once())
+			->method('throwBadRequest');
+
+		$resultFalse = $this->testAction(
+			'/blogs/blog_block_role_permissions/edit/1/5',
+			array(
+				'method' => 'get',
+			)
+		);
+		$this->assertFalse($resultFalse);
+
+		AuthGeneralControllerTest::logout($this);
+	}
+
+/**
+ * test edit. Post
+ *
+ * @return void
+ */
+	public function testEditPostSuccess() {
+		RolesControllerTest::login($this);
+
+		$this->controller->NetCommonsBlock->expects($this->once())
+			->method('validateBlockId')
+			->will($this->returnValue(true));
+
+		$data = [];
+		$data['BlogSetting']['blog_key'] = 'new_blog_key';
+		$data['BlockRolePermission'] = array();
+
+		$this->testAction(
+			'/blogs/blog_block_role_permissions/edit/1/5',
+			array(
+				'method' => 'post',
+				'data' => $data,
+			)
+		);
+
+		AuthGeneralControllerTest::logout($this);
+	}
+
+/**
+ * test edit. Post validateFail
+ *
+ * @return void
+ */
+	public function testEditPostValidateFail() {
+		RolesControllerTest::login($this);
+
+		$this->controller->NetCommonsBlock->expects($this->once())
+			->method('validateBlockId')
+			->will($this->returnValue(true));
+
+		$data = [];
+		//$data['BlogSetting']['blog_key'] = 'new_blog_key';
+		//$data['BlockRolePermission'] = array();
+
+		$this->testAction(
+			'/blogs/blog_block_role_permissions/edit/1/5',
+			array(
+				'method' => 'post',
+				'data' => $data,
+			)
+		);
+
+		AuthGeneralControllerTest::logout($this);
+	}
 }
 
