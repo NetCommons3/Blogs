@@ -56,8 +56,39 @@ class BlogBlocksControllerTest extends BlogsAppControllerTestBase {
 	public function testIndex() {
 		RolesControllerTest::login($this);
 
+		$this->testAction(
+			'/blogs/blog_blocks/index/1',
+			array(
+				'method' => 'get',
+			)
+		);
+		$this->assertInternalType('array', $this->vars['blogs']);
+
 		AuthGeneralControllerTest::logout($this);
 	}
 
+/**
+ * testIndex. No blogs
+ *
+ * @return void
+ */
+	public function testIndexNoBlogs() {
+		RolesControllerTest::login($this);
+
+		// blogレコードを削除しておく
+		$Blog = ClassRegistry::init('Blogs.Blog');
+		$Blog->deleteAll(array(1 => 1), false, false);
+
+		$view = $this->testAction(
+			'/blogs/blog_blocks/index/1',
+			array(
+				'method' => 'get',
+				'return' => 'view'
+			)
+		);
+		$this->assertTextContains(__d('net_commons', 'Not found.'), $view);
+
+		AuthGeneralControllerTest::logout($this);
+	}
 }
 

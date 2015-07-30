@@ -88,39 +88,28 @@ class BlogBlocksController extends BlogsAppController {
  * @throws Exception
  */
 	public function index() {
-		try {
-			$this->Paginator->settings = array(
-				'Blog' => array(
-					'order' => array('Block.id' => 'desc'),
-					'conditions' => array(
-						'Block.language_id' => $this->viewVars['languageId'],
-						'Block.room_id' => $this->viewVars['roomId'],
-						'Block.plugin_key ' => $this->params['plugin'],
-					),
-					//'limit' => 1
-				)
-			);
-			$blogs = $this->Paginator->paginate('Blog');
-			if (! $blogs) {
-				$this->view = 'BlogBlocks/not_found';
-				return;
-			}
-
-			$results = array(
-				'blogs' => $blogs
-			);
-			$results = $this->camelizeKeyRecursive($results);
-			$this->set($results);
-
-		} catch (Exception $ex) {
-			if ($this->params['named']) {
-				$this->params['named'] = array();
-				$this->redirect('/blogs/blog_blocks/index/' . $this->viewVars['frameId']);
-			} else {
-				CakeLog::error($ex);
-				throw $ex;
-			}
+		$this->Paginator->settings = array(
+			'Blog' => array(
+				'order' => array('Block.id' => 'desc'),
+				'conditions' => array(
+					'Block.language_id' => $this->viewVars['languageId'],
+					'Block.room_id' => $this->viewVars['roomId'],
+					'Block.plugin_key ' => $this->params['plugin'],
+				),
+				//'limit' => 1
+			)
+		);
+		$blogs = $this->Paginator->paginate('Blog');
+		if (! $blogs) {
+			$this->view = 'BlogBlocks/not_found';
+			return;
 		}
+
+		$results = array(
+			'blogs' => $blogs
+		);
+		$results = $this->camelizeKeyRecursive($results);
+		$this->set($results);
 	}
 
 /**
