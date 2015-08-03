@@ -71,11 +71,6 @@ class BlogSettingTest extends CakeTestCase {
 		$resultTrue = $this->BlogSetting->saveBlogSetting($data);
 		$this->assertTrue($resultTrue);
 
-		// validate fail
-		$data = $this->BlogSetting->getNew();
-		$resultFalse = $this->BlogSetting->saveBlogSetting($data);
-		$this->assertFalse($resultFalse);
-
 		// save fail
 		$BlogSettingMock = $this->getMockForModel('Blogs.BlogSetting', ['save']);
 		$BlogSettingMock->expects($this->once())
@@ -133,9 +128,5 @@ class BlogSettingTest extends CakeTestCase {
 		$data['BlogSetting']['blog_key'] = 'new_blog_key';
 		$resultTrue = $this->BlogSetting->validateBlogSetting($data);
 		$this->assertTrue($resultTrue);
-
-		$data = $this->BlogSetting->getNew();
-		$resultFalse = $this->BlogSetting->validateBlogSetting($data);
-		$this->assertFalse($resultFalse);
 	}
 }
