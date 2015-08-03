@@ -137,7 +137,6 @@ class BlogBlocksController extends BlogsAppController {
 
 		if ($this->request->isPost()) {
 			$data = $this->__parseRequestData();
-
 			$this->Blog->saveBlog($data);
 			if ($this->handleValidationError($this->Blog->validationErrors)) {
 				if (! $this->request->is('ajax')) {

@@ -90,5 +90,92 @@ class BlogBlocksControllerTest extends BlogsAppControllerTestBase {
 
 		AuthGeneralControllerTest::logout($this);
 	}
+
+/**
+ * test add action.
+ *
+ * @return void
+ */
+	public function testAdd() {
+		RolesControllerTest::login($this);
+
+		$view = $this->testAction(
+			'/blogs/blog_blocks/add/1',
+			array(
+				'method' => 'get',
+				'return' => 'view'
+			)
+		);
+
+		$this->assertRegExp('/<form/', $view);
+
+		AuthGeneralControllerTest::logout($this);
+	}
+
+/**
+ * test add action. Post
+ *
+ * @return void
+ */
+	public function testAddPostValidateFail() {
+		RolesControllerTest::login($this);
+
+		$data = array();
+		$data = [
+			'Blog' => [
+				'key' => '',
+				'name' => '',
+			]
+		];
+		$view = $this->testAction(
+			'/blogs/blog_blocks/add/1',
+			array(
+				'method' => 'post',
+				'return' => 'view',
+				'data' => $data,
+			)
+		);
+
+		$this->assertTextContains(sprintf(__d('net_commons', 'Please input %s.'), __d('blogs', 'Blog Name')), $view);
+		//debug($view);
+		//$this->assertRegExp('#/blogs/blog_blocks/index/#', $this->headers['Location']);
+
+		AuthGeneralControllerTest::logout($this);
+	}
+
+/**
+ * test add action. Post success
+ *
+ * @return void
+ */
+	public function testAddPostSuccess() {
+		RolesControllerTest::login($this);
+
+		$data = array();
+		$data = [
+			'Blog' => [
+				'key' => '',
+				'name' => 'blog name',
+				'block_id' => 5,
+			],
+			'Frame' => [
+				'id' => 1
+			]
+		];
+		$view = $this->testAction(
+			'/blogs/blog_blocks/add/1',
+			array(
+				'method' => 'post',
+				'return' => 'view',
+				'data' => $data,
+			)
+		);
+
+		//$this->assertTextContains(sprintf(__d('net_commons', 'Please input %s.'), __d('blogs', 'Blog Name')), $view);
+		//debug($view);
+		$this->assertRegExp('#/blogs/blog_blocks/index/#', $this->headers['Location']);
+
+		AuthGeneralControllerTest::logout($this);
+	}
 }
 
