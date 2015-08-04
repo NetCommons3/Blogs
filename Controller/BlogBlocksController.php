@@ -164,9 +164,8 @@ class BlogBlocksController extends BlogsAppController {
 		}
 		$this->set('blockId', (int)$this->params['pass'][1]);
 
-		if (! $this->initBlog(['blogSetting'])) {
-			return;
-		}
+		$this->initBlog(['blogSetting']);
+
 		$this->Categories->initCategories();
 
 		if ($this->request->isPost()) {
@@ -198,9 +197,7 @@ class BlogBlocksController extends BlogsAppController {
 		}
 		$this->set('blockId', (int)$this->params['pass'][1]);
 
-		if (! $this->initBlog()) {
-			return;
-		}
+		$this->initBlog();
 
 		if ($this->request->isDelete()) {
 			if ($this->Blog->deleteBlog($this->data)) {
