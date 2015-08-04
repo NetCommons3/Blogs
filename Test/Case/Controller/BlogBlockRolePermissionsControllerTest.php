@@ -175,7 +175,7 @@ class BlogBlockRolePermissionsControllerTest extends BlogsAppControllerTestBase 
 
 		$data = [];
 		//$data['BlogSetting']['blog_key'] = 'new_blog_key';
-		//$data['BlockRolePermission'] = array();
+		$data['BlockRolePermission'] = array();
 
 		$this->testAction(
 			'/blogs/blog_block_role_permissions/edit/1/5',
