@@ -169,6 +169,7 @@ class Blog extends BlogsAppModel {
 		try {
 			//バリデーション
 			if (! $this->validateBlog($data, ['blogSetting', 'block', 'category'])) {
+				$dataSource->rollback();
 				return false;
 			}
 
