@@ -108,7 +108,6 @@ class BlogTest extends BlogsAppModelTestBase {
 			->method('validateBlogSetting')
 			->will($this->returnValue(false));
 
-
 		$BlockMock = $this->getMockForModel('Blocks.Block', ['validateBlock']);
 		$BlockMock->expects($this->once())
 			->method('validateBlock')

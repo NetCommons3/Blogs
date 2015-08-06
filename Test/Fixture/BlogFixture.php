@@ -52,6 +52,18 @@ class BlogFixture extends CakeTestFixture {
 			'modified_user' => 1,
 			'modified' => '2015-05-18 01:36:42'
 		),
+		array(
+			'id' => 202,
+			'block_id' => 202,
+			'name' => 'ブログ202',
+			'key' => 'blog202',
+			'is_auto_translated' => 1,
+			'translation_engine' => 'Lorem ipsum dolor sit amet',
+			'created_user' => 1,
+			'created' => '2015-05-18 01:36:42',
+			'modified_user' => 1,
+			'modified' => '2015-05-18 01:36:42'
+		),
 		//array(
 		//	'id' => 2,
 		//	'block_id' => 2,
