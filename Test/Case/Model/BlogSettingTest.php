@@ -71,6 +71,18 @@ class BlogSettingTest extends CakeTestCase {
 		$resultTrue = $this->BlogSetting->saveBlogSetting($data);
 		$this->assertTrue($resultTrue);
 
+		// validate fail
+		$BlogSettingMock = $this->getMockForModel('Blogs.BlogSetting', ['validateBlogSetting']);
+		$BlogSettingMock->expects($this->once())
+			->method('validateBlogSetting')
+			->will($this->returnValue(false));
+		$data = $this->BlogSetting->getNew();
+		$data['BlogSetting']['blog_key'] = 'new_blog_key';
+		$data['BlockRolePermission'] = array();
+
+		$resultFalse = $BlogSettingMock->saveBlogSetting($data);
+		$this->assertFalse($resultFalse);
+
 		// save fail
 		$BlogSettingMock = $this->getMockForModel('Blogs.BlogSetting', ['save']);
 		$BlogSettingMock->expects($this->once())

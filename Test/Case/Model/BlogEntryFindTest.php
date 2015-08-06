@@ -130,9 +130,13 @@ class BlogEntryFindTest extends CakeTestCase {
 				'OR' => array(
 					array(
 						'BlogEntry.is_active' => 1,
-						'BlogEntry.published_datetime <=' => $currentDateTime
+						'BlogEntry.published_datetime <=' => $currentDateTime,
+						'BlogEntry.created_user !=' => $userId,
 					),
-					'BlogEntry.created_user' => $userId
+					array(
+						'BlogEntry.created_user' => $userId,
+						'BlogEntry.is_latest' => 1,
+					)
 				)
 			)
 		);
