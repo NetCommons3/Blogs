@@ -172,8 +172,12 @@ class BlogEntry extends BlogsAppModel {
 		if ($permissions['contentCreatable']) {
 			// 作成権限
 			$conditions['OR'] = array(
-				$this->_getPublishedConditions($currentDateTime),
-				'BlogEntry.created_user' => $userId, // 自分のコンテンツはステータス関係なく閲覧可能
+				array_merge(
+					$this->_getPublishedConditions($currentDateTime),
+					array('BlogEntry.created_user !=' => $userId)
+				),
+				array('BlogEntry.created_user' => $userId,
+						'BlogEntry.is_latest' => 1)
 			);
 			return $conditions;
 		}
