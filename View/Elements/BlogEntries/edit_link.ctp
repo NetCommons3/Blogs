@@ -13,13 +13,8 @@
 //もしくは　編集権限があり、公開されていなければ、編集／削除できる
 //もしくは 作成権限があり、自分の書いた記事で、公開されていなければ、編集／削除できる
 ?>
-
-<?php if ($contentPublishable ||
-		($contentEditable &&
-			$status !== NetCommonsBlockComponent::STATUS_PUBLISHED) ||
-		($contentCreatable &&
-			$status !== NetCommonsBlockComponent::STATUS_PUBLISHED &&
-				$blogEntry['BlogEntry']['created_user'] === $userId)): ?>
+<?php if ($contentPublishable || $contentEditable  ||
+		($contentCreatable && ($blogEntry['BlogEntry']['created_user'] == $userId))): ?>
 
 	<div class="nc-blog-edit-link">
 		<a href="<?php echo $this->Html->url('/blogs/blog_entries_edit/edit/' . $frameId . '/origin_id:' . $blogEntry['BlogEntry']['origin_id']); ?>"

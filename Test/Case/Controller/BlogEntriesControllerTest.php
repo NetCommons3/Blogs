@@ -121,10 +121,50 @@ class BlogEntriesControllerTest extends BlogsAppControllerTestBase {
 			'/blogs/blog_entries/view/1/origin_id:1',
 			array(
 				'method' => 'get',
-				//'return' => 'view',
+				'return' => 'view',
 			)
 		);
 		$this->assertInternalType('array', $this->vars['blogEntry']);
+	}
+
+/**
+ * test view.編集リンクの表示テスト
+ *
+ * @param string $role ロール
+ * @param bool $viewEditLink 編集リンクが表示されるか
+ * @dataProvider editLinkDataProvider
+ * @return void
+ */
+	public function testEditLink($role, $viewEditLink) {
+		RolesControllerTest::login($this, $role);
+		$view = $this->testAction(
+			'/blogs/blog_entries/view/1/origin_id:6',
+			array(
+				'method' => 'get',
+				'return' => 'view',
+			)
+		);
+		if ($viewEditLink) {
+			$this->assertTextContains('nc-blog-edit-link', $view);
+		} else {
+			$this->assertTextNotContains('nc-blog-edit-link', $view);
+		}
+		AuthGeneralControllerTest::logout($this);
+	}
+
+/**
+ * testEditLink用dataProvider
+ *
+ * @return array
+ */
+	public function editLinkDataProvider() {
+		$data = [
+			['chief_editor', true],
+			['editor', true],
+			['general_user', true],
+			['visitor', false],
+		];
+		return $data;
 	}
 
 /**

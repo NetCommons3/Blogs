@@ -23,11 +23,7 @@ echo $this->Html->script(
 );
 ?>
 <?php
-if ($this->request->data) {
-	$dataJson = json_encode($this->request->data);
-} else {
-	$dataJson = json_encode($blogEntry);
-}
+$dataJson = json_encode($this->request->data);
 ?>
 <div class="blogEntries form" ng-controller="Blogs" ng-init="init(<?php echo h($dataJson) ?>)">
 	<article>
