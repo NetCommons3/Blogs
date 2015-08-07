@@ -13,7 +13,7 @@ App::uses('BlogsAppControllerTestBase', 'Blogs.Test/Case/Controller');
 /**
  * Summary for BlogEntriesController Test Case
  */
-class BlogEntriesControllerTest extends BlogsAppControllerTestBase {
+class Controller_BlogEntries_ViewTest extends BlogsAppControllerTestBase {
 
 /**
  * setUp method
@@ -47,87 +47,6 @@ class BlogEntriesControllerTest extends BlogsAppControllerTestBase {
 	}
 
 /**
- * testIndex
- *
- * @return void
- */
-	public function testIndex() {
-		$this->testAction(
-			'/blogs/blog_entries/index/1',
-			array(
-				'method' => 'get',
-				//'return' => 'view',
-			)
-		);
-		$this->assertInternalType('array', $this->vars['blogEntries']);
-	}
-
-/**
- * ブログ名が一覧に表示されるか
- *
- * @return void
- */
-	public function testIndexTitle() {
-		$return = $this->testAction(
-			'/blogs/blog_entries/index/1',
-			array(
-				'method' => 'get',
-				'return' => 'view',
-			)
-		);
-		$this->assertRegExp('/<h1.*>ブログ名<\/h1>/', $return);
-	}
-
-/**
- * testTag
- *
- * @return void
- */
-	public function testTag() {
-		$this->testAction(
-			'/blogs/blog_entries/tag/1/id:1',
-			array(
-				'method' => 'get',
-
-				//'return' => 'view',
-			)
-		);
-		$this->assertInternalType('array', $this->vars['blogEntries']);
-	}
-
-/**
- * testYearMonth
- *
- * @return void
- */
-	public function testYearMonth() {
-		$this->testAction(
-			'/blogs/blog_entries/year_month/1/year_month:2014-02',
-			array(
-				'method' => 'get',
-				//'return' => 'view',
-			)
-		);
-		$this->assertInternalType('array', $this->vars['blogEntries']);
-	}
-
-/**
- * testView
- *
- * @return void
- */
-	public function testView() {
-		$this->testAction(
-			'/blogs/blog_entries/view/1/origin_id:1',
-			array(
-				'method' => 'get',
-				'return' => 'view',
-			)
-		);
-		$this->assertInternalType('array', $this->vars['blogEntry']);
-	}
-
-/**
  * test view.編集リンクの表示テスト
  *
  * @param string $role ロール
@@ -144,6 +63,7 @@ class BlogEntriesControllerTest extends BlogsAppControllerTestBase {
 				'return' => 'view',
 			)
 		);
+		$this->assertInternalType('array', $this->vars['blogEntry']);
 		if ($viewEditLink) {
 			$this->assertTextContains('nc-blog-edit-link', $view);
 		} else {
@@ -168,22 +88,6 @@ class BlogEntriesControllerTest extends BlogsAppControllerTestBase {
 	}
 
 /**
- * フレームがあってブロックがないときのテスト
- *
- * @return void
- */
-	public function testNoBlock() {
-		$result = $this->testAction(
-			'/blogs/blog_entries/index/201',
-			array(
-				'method' => 'get',
-				'return' => 'view',
-			)
-		);
-		$this->assertEquals('', $result);
-	}
-
-/**
  * test view action まだ公開されてない記事はNotFoundException
  *
  * @return void
@@ -198,6 +102,22 @@ class BlogEntriesControllerTest extends BlogsAppControllerTestBase {
 				//'return' => 'view',
 			)
 		);
+	}
+
+/**
+ * test view . タグの表示
+ *
+ * @return void
+ */
+	public function testViewWithTag() {
+		$view = $this->testAction(
+			'/blogs/blog_entries/view/1/origin_id:1',
+			array(
+				'method' => 'get',
+				'return' => 'view',
+			)
+		);
+		$this->assertTextContains('Tag1', $view);
 	}
 
 /**
@@ -230,21 +150,5 @@ class BlogEntriesControllerTest extends BlogsAppControllerTestBase {
 				//'return' => 'view',
 			)
 		);
-	}
-
-/**
- * カテゴリの記事一覧
- *
- * @return void
- */
-	public function testCategory() {
-		$return = $this->testAction(
-			'/blogs/blog_entries/index/1/category_id:1',
-			array(
-				'method' => 'get',
-				'return' => 'view',
-			)
-		);
-		$this->assertRegExp('/<h1.*>カテゴリ:category_1<\/h1>/', $return);
 	}
 }
