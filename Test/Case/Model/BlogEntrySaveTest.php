@@ -205,7 +205,7 @@ class BlogEntrySaveTest extends CakeTestCase {
 
 		// 例外のテスト
 		$this->setExpectedException('InternalErrorException');
-		$BlogEntryMock->saveEntry(6, $data);
+		$BlogEntryMock->saveEntry(6, 6, $data);
 	}
 
 /**
