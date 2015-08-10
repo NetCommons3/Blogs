@@ -134,7 +134,7 @@ class BlogEntriesEditController extends BlogsAppController {
 
 			unset($data['BlogEntry']['id']); // 常に新規保存
 
-			if ($this->BlogEntry->saveEntry($this->viewVars['blockId'], $data)) {
+			if ($this->BlogEntry->saveEntry($this->viewVars['blockId'], $this->viewVars['frameId'], $data)) {
 				return $this->redirect(
 					array('controller' => 'blog_entries', 'action' => 'view', $this->viewVars['frameId'], 'origin_id' => $data['BlogEntry']['origin_id'])
 				);
