@@ -77,7 +77,7 @@ class BlogEntriesEditController extends BlogsAppController {
 			// set language_id
 			$this->request->data['BlogEntry']['language_id'] = $this->viewVars['languageId'];
 
-			if (($result = $this->BlogEntry->saveEntry($this->viewVars['blockId'], $this->request->data))) {
+			if (($result = $this->BlogEntry->saveEntry($this->viewVars['blockId'], $this->viewVars['frameId'], $this->request->data))) {
 				return $this->redirect(
 					array('controller' => 'blog_entries', 'action' => 'view', $this->viewVars['frameId'], 'origin_id' => $result['BlogEntry']['origin_id'])
 				);

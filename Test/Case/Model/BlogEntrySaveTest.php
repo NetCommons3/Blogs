@@ -156,7 +156,7 @@ class BlogEntrySaveTest extends CakeTestCase {
 		$data['BlogEntry']['block_id'] = 5;
 		$data['BlogEntry']['blog_key'] = 'blog1';
 
-		$result = $this->BlogEntry->saveEntry(6, $data);
+		$result = $this->BlogEntry->saveEntry(6, 6, $data);
 		$this->assertTrue(isset($result['BlogEntry']['id']));
 	}
 
@@ -177,7 +177,7 @@ class BlogEntrySaveTest extends CakeTestCase {
 		$data['BlogEntry']['published_datetime'] = '2015-01-01 00:00:00';
 		$data['BlogEntry']['block_id'] = 5;
 
-		$result = $this->BlogEntry->saveEntry(6, $data);
+		$result = $this->BlogEntry->saveEntry(6, 6, $data);
 		$this->assertFalse($result);
 	}
 
@@ -231,7 +231,7 @@ class BlogEntrySaveTest extends CakeTestCase {
 		$data['BlogEntry']['block_id'] = 5;
 		$data['BlogEntry']['blog_key'] = 'blog1';
 
-		$result = $this->BlogEntry->saveEntry(6, $data);
+		$result = $this->BlogEntry->saveEntry(6, 6, $data);
 		$this->assertFalse($result);
 	}
 
@@ -264,6 +264,6 @@ class BlogEntrySaveTest extends CakeTestCase {
 
 		// 例外のテスト
 		$this->setExpectedException('InternalErrorException');
-		$this->BlogEntry->saveEntry(6, $data);
+		$this->BlogEntry->saveEntry(6, 6, $data);
 	}
 }

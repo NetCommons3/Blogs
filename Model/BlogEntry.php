@@ -263,14 +263,18 @@ class BlogEntry extends BlogsAppModel {
  * 記事の保存。タグも保存する
  *
  * @param int $blockId ブロックID
+ * @param int $frameId frame ID
  * @param array $data 登録データ
  * @return bool
  * @throws InternalErrorException
  */
-	public function saveEntry($blockId, $data) {
+	public function saveEntry($blockId, $frameId, $data) {
 		$this->begin();
 		try {
-			$this->loadModels(array('Comment' => 'Comments.Comment'));
+			$this->loadModels(array(
+				'Comment' => 'Comments.Comment',
+				/* 'Topic' => 'Topics.Topic', */
+			));
 			$this->create(); // 常に新規登録
 			// 先にvalidate 失敗したらfalse返す
 			$this->set($data);
@@ -296,6 +300,31 @@ class BlogEntry extends BlogsAppModel {
 					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 				}
 			}
+
+			/* $plugin = strtolower($this->plugin); */
+			/* if (!$this->Topic->validateTopic([ */
+			/* 	'block_id' => $savedData[$this->alias]['block_id'], */
+			/* 	'status' => $savedData[$this->alias]['status'], */
+			/* 	'is_active' => $savedData[$this->alias]['is_active'], */
+			/* 	'is_latest' => $savedData[$this->alias]['is_latest'], */
+			/* 	'is_auto_translated' => '0', */
+			/* 	'is_first_auto_translation' => '0', */
+			/* 	'translation_engine' => '', */
+			/* 	/\* 'is_auto_translated' => $savedData[$this->alias]['is_auto_translated'], *\/ */
+			/* 	/\* 'is_first_auto_translation' => $savedData[$this->alias]['is_first_auto_translation'], *\/ */
+			/* 	/\* 'translation_engine' => $savedData[$this->alias]['translation_engine'], *\/ */
+			/* 	'title' => Search::prepareTitle($savedData[$this->alias]['title']), */
+			/* 	'contents' => Search::prepareContents([$savedData[$this->alias]['body1'], $savedData[$this->alias]['body2']]), */
+			/* 	'plugin_key' => $plugin, */
+			/* 	'path' => '/' . $plugin . '/' . $plugin . '/view/' . $frameId . '/origin_id:' . $savedData[$this->alias]['origin_id'], */
+			/* 	'from' => date('Y-m-d H:i:s'), */
+			/* ])) { */
+			/* 	$this->validationErrors = Hash::merge($this->validationErrors, $this->Topic->validationErrors); */
+			/* 	return false; */
+			/* } */
+			/* if (! $this->Topic->save(null, false)) { */
+			/* 	throw new InternalErrorException(__d('net_commons', 'Internal Server Error')); */
+			/* } */
 
 			$this->commit();
 			return $savedData;
