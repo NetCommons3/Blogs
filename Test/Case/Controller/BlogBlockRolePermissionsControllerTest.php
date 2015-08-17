@@ -120,7 +120,7 @@ class BlogBlockRolePermissionsControllerTest extends BlogsAppControllerTestBase 
 			->method('validateBlockId')
 			->will($this->returnValue(true));
 
-		$this->controller->expects($this->once())
+		$this->controller->expects($this->any())
 			->method('throwBadRequest');
 
 		$resultFalse = $this->testAction(

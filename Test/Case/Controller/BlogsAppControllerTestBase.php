@@ -25,6 +25,13 @@ App::uses('YAControllerTestCase', 'NetCommons.TestSuite');
 class BlogsAppControllerTestBase extends YAControllerTestCase {
 
 /**
+ * Fixture merge
+ *
+ * @var array
+ */
+	protected $_isFixtureMerged = false;
+
+/**
  * Fixtures
  *
  * @var array
@@ -50,7 +57,7 @@ class BlogsAppControllerTestBase extends YAControllerTestCase {
 		'plugin.m17n.language',
 		'plugin.m17n.languages_page',
 		'plugin.pages.page',
-		'plugin.pages.space',
+		'plugin.rooms.space',
 		'plugin.roles.role',
 		'plugin.roles.default_role_permission',
 		'plugin.rooms.roles_rooms_user',
@@ -58,9 +65,8 @@ class BlogsAppControllerTestBase extends YAControllerTestCase {
 		'plugin.rooms.room',
 		'plugin.rooms.room_role',
 		'plugin.rooms.room_role_permission',
-		'plugin.rooms.plugins_room',
+		'plugin.plugin_manager.plugins_room',
 		'plugin.users.user',
-		'plugin.users.user_attributes_user',
 		'plugin.blogs.plugin',
 		'plugin.categories.category',
 		'plugin.categories.category_order',
