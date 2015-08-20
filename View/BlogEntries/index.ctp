@@ -133,19 +133,5 @@ echo $this->Html->css(
 		<?php endforeach; ?>
 	</div>
 
-	<div>
-		<ul class="pagination">
-			<?php echo $this->Paginator->numbers(
-				array(
-					'tag' => 'li',
-					'currentTag' => 'a',
-					'currentClass' => 'active',
-					'separator' => '',
-					'first' => false,
-					'last' => false,
-					'modulus' => '4',
-				)
-			); ?>
-		</ul>
-	</div>
+	<?php echo $this->element('NetCommons.paginator') ?>
 </div>
