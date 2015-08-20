@@ -31,6 +31,7 @@ class BlogEntry extends BlogsAppModel {
 		'NetCommons.Trackable',
 		'Tags.Tag',
 		'NetCommons.OriginalKey',
+		'NetCommons.Publishable',
 		'Likes.Like'
 	);
 
@@ -171,8 +172,12 @@ class BlogEntry extends BlogsAppModel {
 		if ($permissions['contentCreatable']) {
 			// 作成権限
 			$conditions['OR'] = array(
-				$this->_getPublishedConditions($currentDateTime),
-				'BlogEntry.created_user' => $userId, // 自分のコンテンツはステータス関係なく閲覧可能
+				array_merge(
+					$this->_getPublishedConditions($currentDateTime),
+					array('BlogEntry.created_user !=' => $userId)
+				),
+				array('BlogEntry.created_user' => $userId,
+						'BlogEntry.is_latest' => 1)
 			);
 			return $conditions;
 		}
@@ -219,6 +224,10 @@ class BlogEntry extends BlogsAppModel {
 				'group' => array('BlogEntry__year_month'), //GROUP BY YEAR(record_date), MONTH(record_date)
 			)
 		);
+		// 使ったバーチャルFieldを削除
+		unset($this->virtualFields['year_month']);
+		unset($this->virtualFields['count']);
+
 		$ret = array();
 		// $retをゼロ埋め
 		//　一番古い記事を取得
@@ -228,17 +237,18 @@ class BlogEntry extends BlogsAppModel {
 				'order' => 'published_datetime ASC',
 			)
 		);
+
 		// 一番古い記事の年月から現在までを先にゼロ埋め
 		if (isset($oldestEntry['BlogEntry'])) {
 			$currentYearMonthDay = date('Y-m-01', strtotime($oldestEntry['BlogEntry']['published_datetime']));
 		} else {
-			$currentYearMonthDay = date('Y-m-01');
+			// 記事がなかったら今月だけ
+			$currentYearMonthDay = date('Y-m-01', strtotime($currentDateTime));
 		}
 		while ($currentYearMonthDay <= $currentDateTime) {
 			$ret[substr($currentYearMonthDay, 0, 7)] = 0;
 			$currentYearMonthDay = date('Y-m-01', strtotime($currentYearMonthDay . ' +1 month'));
 		}
-
 		// 記事がある年月は記事数を上書きしておく
 		foreach ($result as $yearMonth) {
 			$ret[$yearMonth['BlogEntry']['year_month']] = $yearMonth['BlogEntry']['count'];
@@ -253,14 +263,18 @@ class BlogEntry extends BlogsAppModel {
  * 記事の保存。タグも保存する
  *
  * @param int $blockId ブロックID
+ * @param int $frameId frame ID
  * @param array $data 登録データ
  * @return bool
  * @throws InternalErrorException
  */
-	public function saveEntry($blockId, $data) {
+	public function saveEntry($blockId, $frameId, $data) {
 		$this->begin();
 		try {
-			$this->loadModels(array('Comment' => 'Comments.Comment'));
+			$this->loadModels(array(
+				'Comment' => 'Comments.Comment',
+				/* 'Topic' => 'Topics.Topic', */
+			));
 			$this->create(); // 常に新規登録
 			// 先にvalidate 失敗したらfalse返す
 			$this->set($data);
@@ -287,6 +301,31 @@ class BlogEntry extends BlogsAppModel {
 				}
 			}
 
+			/* $plugin = strtolower($this->plugin); */
+			/* if (!$this->Topic->validateTopic([ */
+			/* 	'block_id' => $savedData[$this->alias]['block_id'], */
+			/* 	'status' => $savedData[$this->alias]['status'], */
+			/* 	'is_active' => $savedData[$this->alias]['is_active'], */
+			/* 	'is_latest' => $savedData[$this->alias]['is_latest'], */
+			/* 	'is_auto_translated' => '0', */
+			/* 	'is_first_auto_translation' => '0', */
+			/* 	'translation_engine' => '', */
+			/* 	/\* 'is_auto_translated' => $savedData[$this->alias]['is_auto_translated'], *\/ */
+			/* 	/\* 'is_first_auto_translation' => $savedData[$this->alias]['is_first_auto_translation'], *\/ */
+			/* 	/\* 'translation_engine' => $savedData[$this->alias]['translation_engine'], *\/ */
+			/* 	'title' => Search::prepareTitle($savedData[$this->alias]['title']), */
+			/* 	'contents' => Search::prepareContents([$savedData[$this->alias]['body1'], $savedData[$this->alias]['body2']]), */
+			/* 	'plugin_key' => $plugin, */
+			/* 	'path' => '/' . $plugin . '/' . $plugin . '/view/' . $frameId . '/origin_id:' . $savedData[$this->alias]['origin_id'], */
+			/* 	'from' => date('Y-m-d H:i:s'), */
+			/* ])) { */
+			/* 	$this->validationErrors = Hash::merge($this->validationErrors, $this->Topic->validationErrors); */
+			/* 	return false; */
+			/* } */
+			/* if (! $this->Topic->save(null, false)) { */
+			/* 	throw new InternalErrorException(__d('net_commons', 'Internal Server Error')); */
+			/* } */
+
 			$this->commit();
 			return $savedData;
 
@@ -299,68 +338,52 @@ class BlogEntry extends BlogsAppModel {
 	}
 
 /**
- * beforeSave ステータスが公開になったらis_activeをつけなおす
- *
- * @param array $options beforeSave options
- * @return bool
- */
-	public function beforeSave($options = array()) {
-		//  beforeSave はupdateAllでも呼び出される。
-		if (isset($this->data[$this->name]['id']) && ($this->data[$this->name]['id'] > 0)) {
-			// updateのときは何もしない
-			return true;
-		}
-		if ($this->data[$this->name]['status'] === NetCommonsBlockComponent::STATUS_PUBLISHED) {
-			// statusが公開ならis_activeを付け替える
-			//  is_activeをセットする
-			$this->data[$this->name]['is_active'] = 1;
-			if ($this->data[$this->name]['origin_id'] > 0) {
-				// 今のis_activeを外す（同じorigin_id, 同じlanguage_id）
-				$isActiveConditions = array(
-					$this->name . '.origin_id' => $this->data[$this->name]['origin_id'],
-					$this->name . '.language_id' => $this->data[$this->name]['language_id'],
-					$this->name . '.is_active' => 1,
-				);
-				$this->updateAll(
-					array(
-						$this->name . '.is_active' => 0
-					),
-					$isActiveConditions
-				);
-			}
-		}
-		if ($this->data[$this->name]['origin_id'] > 0) {
-			//  今のis_latestを外す
-			$isLatestConditions = array(
-				$this->name . '.origin_id' => $this->data[$this->name]['origin_id'],
-				$this->name . '.language_id' => $this->data[$this->name]['language_id'],
-				$this->name . '.is_latest' => 1,
-			);
-			$this->updateAll(
-				array(
-					$this->name . '.is_latest' => 0
-				),
-				$isLatestConditions
-			);
-		}
-		// 新規レコードを登録するときは必ずis_latest =1
-		if (empty($this->data[$this->name]['id'])) {
-			$this->data[$this->name]['is_latest'] = 1;
-		}
-		return true;
-	}
-
-/**
  * 記事削除
  *
  * @param int $originId オリジンID
+ * @throws InternalErrorException
  * @return bool
  */
 	public function deleteEntryByOriginId($originId) {
 		// ε(　　　　 v ﾟωﾟ)　＜タグリンク削除
-		// 記事削除
-		$conditions = array('origin_id' => $originId);
-		return $this->deleteAll($conditions, true, true);
+		$this->begin();
+		try{
+			//コメントの削除
+			$deleteEntry = $this->findByOriginId($originId);
+			$this->loadModels([
+				'Comment' => 'Comments.Comment',
+			]);
+			$this->Comment->deleteByContentKey($deleteEntry['BlogEntry']['key']);
+
+			// 記事削除
+			$conditions = array('origin_id' => $originId);
+			if ($result = $this->deleteAll($conditions, true, true)) {
+				$this->commit();
+				return $result;
+			} else {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
+		} catch (Exception $e) {
+			$this->rollback();
+			//エラー出力
+			CakeLog::error($e);
+			throw $e;
+		}
+	}
+
+/**
+ * 過去に一度も公開されてないか
+ *
+ * @param array $blogEntry チェック対象記事
+ * @return bool true:公開されてない false: 公開されたことあり
+ */
+	public function yetPublish($blogEntry) {
+		$conditions = array(
+			'BlogEntry.origin_id' => $blogEntry['BlogEntry']['origin_id'],
+			'BlogEntry.is_active' => 1
+		);
+		$count = $this->find('count', array('conditions' => $conditions));
+		return ($count == 0);
 	}
 
 /**

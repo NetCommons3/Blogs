@@ -42,8 +42,7 @@ echo $this->Html->css(
 	<?php echo $this->element('entry_meta_info'); ?>
 
 	<div>
-		<?php echo $this->element('BlogEntries/edit_link'); ?>
-
+		<?php echo $this->element('BlogEntries/edit_link', array('status' => $blogEntry['BlogEntry']['status'])); ?>
 	</div>
 
 
@@ -74,9 +73,12 @@ echo $this->Html->css(
 		<div class="row">
 			<div class="col-xs-12">
 				<?php echo $this->element('ContentComments.index', array(
-					'formName' => 'Blog',
+					'pluginKey' => $this->request->params['plugin'],
+					'contentKey' => $blogEntry['BlogEntry']['key'],
+					'isCommentApproved' => $blogSetting['useCommentApproval'],
 					'useComment' => $blogSetting['useComment'],
 					'contentCommentCnt' => $blogEntry['ContentCommentCnt']['cnt'],
+					'redirectUrl' => '/blogs/blog_entries/view/' . $frameId . '/origin_id:' . $blogEntry['BlogEntry']['origin_id'],
 				)); ?>
 			</div>
 		</div>

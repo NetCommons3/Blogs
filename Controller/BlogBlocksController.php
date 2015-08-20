@@ -88,39 +88,28 @@ class BlogBlocksController extends BlogsAppController {
  * @throws Exception
  */
 	public function index() {
-		try {
-			$this->Paginator->settings = array(
-				'Blog' => array(
-					'order' => array('Block.id' => 'desc'),
-					'conditions' => array(
-						'Block.language_id' => $this->viewVars['languageId'],
-						'Block.room_id' => $this->viewVars['roomId'],
-						'Block.plugin_key ' => $this->params['plugin'],
-					),
-					//'limit' => 1
-				)
-			);
-			$blogs = $this->Paginator->paginate('Blog');
-			if (! $blogs) {
-				$this->view = 'BlogBlocks/not_found';
-				return;
-			}
-
-			$results = array(
-				'blogs' => $blogs
-			);
-			$results = $this->camelizeKeyRecursive($results);
-			$this->set($results);
-
-		} catch (Exception $ex) {
-			if ($this->params['named']) {
-				$this->params['named'] = array();
-				$this->redirect('/blogs/blog_blocks/index/' . $this->viewVars['frameId']);
-			} else {
-				CakeLog::error($ex);
-				throw $ex;
-			}
+		$this->Paginator->settings = array(
+			'Blog' => array(
+				'order' => array('Block.id' => 'desc'),
+				'conditions' => array(
+					'Block.language_id' => $this->viewVars['languageId'],
+					'Block.room_id' => $this->viewVars['roomId'],
+					'Block.plugin_key ' => $this->params['plugin'],
+				),
+				//'limit' => 1
+			)
+		);
+		$blogs = $this->Paginator->paginate('Blog');
+		if (! $blogs) {
+			$this->view = 'BlogBlocks/not_found';
+			return;
 		}
+
+		$results = array(
+			'blogs' => $blogs
+		);
+		$results = $this->camelizeKeyRecursive($results);
+		$this->set($results);
 	}
 
 /**
@@ -148,7 +137,6 @@ class BlogBlocksController extends BlogsAppController {
 
 		if ($this->request->isPost()) {
 			$data = $this->__parseRequestData();
-
 			$this->Blog->saveBlog($data);
 			if ($this->handleValidationError($this->Blog->validationErrors)) {
 				if (! $this->request->is('ajax')) {
@@ -176,9 +164,8 @@ class BlogBlocksController extends BlogsAppController {
 		}
 		$this->set('blockId', (int)$this->params['pass'][1]);
 
-		if (! $this->initBlog(['blogSetting'])) {
-			return;
-		}
+		$this->initBlog(['blogSetting']);
+
 		$this->Categories->initCategories();
 
 		if ($this->request->isPost()) {
@@ -210,9 +197,7 @@ class BlogBlocksController extends BlogsAppController {
 		}
 		$this->set('blockId', (int)$this->params['pass'][1]);
 
-		if (! $this->initBlog()) {
-			return;
-		}
+		$this->initBlog();
 
 		if ($this->request->isDelete()) {
 			if ($this->Blog->deleteBlog($this->data)) {

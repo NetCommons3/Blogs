@@ -47,7 +47,7 @@ class Blog extends BlogsAppModel {
  */
 	public $belongsTo = array(
 		'Block' => array(
-			'className' => 'Block',
+			'className' => 'Blocks.Block',
 			'foreignKey' => 'block_id',
 			'conditions' => '',
 			'fields' => '',
@@ -169,6 +169,7 @@ class Blog extends BlogsAppModel {
 		try {
 			//バリデーション
 			if (! $this->validateBlog($data, ['blogSetting', 'block', 'category'])) {
+				$dataSource->rollback();
 				return false;
 			}
 

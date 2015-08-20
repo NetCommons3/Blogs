@@ -1,68 +1,21 @@
 <?php
 /**
- * BlogsController Test Case
+ * Created by PhpStorm.
+ * User: ryuji
+ * Date: 15/05/18
+ * Time: 9:56
+ */
+
+App::uses('BlogBlockRolePermissionsController', 'Blogs.Controller');
+App::uses('BlogsAppControllerTestBase', 'Blogs.Test/Case/Controller');
+
+/**
+ * BlogsAppController Test Case
  *
  * @author   Ryuji AMANO <ryuji@ryus.co.jp>
- * @link     http://www.netcommons.org NetCommons Project
- * @license  http://www.netcommons.org/license.txt NetCommons License
+ * @package NetCommons\Blogs\Test\Case\Controller
  */
-
-App::uses('BlogsController', 'Blogs.Controller');
-
-App::uses('NetCommonsFrameComponent', 'NetCommons.Controller/Component');
-App::uses('NetCommonsBlockComponent', 'NetCommons.Controller/Component');
-App::uses('NetCommonsRoomRoleComponent', 'NetCommons.Controller/Component');
-App::uses('YAControllerTestCase', 'NetCommons.TestSuite');
-App::uses('RolesControllerTest', 'Roles.Test/Case/Controller');
-App::uses('AuthGeneralControllerTest', 'AuthGeneral.Test/Case/Controller');
-
-App::uses('YAControllerTestCase', 'NetCommons.TestSuite');
-
-/**
- * Summary for BlogsController Test Case
- * @SuppressWarnings(PHPMD.LongVariable)
- */
-class BlogsAppControllerTest extends YAControllerTestCase {
-
-/**
- * Fixtures
- *
- * @var array
- */
-	public $fixtures = array(
-		'plugin.blogs.blog_entry',
-		'plugin.blogs.blog',
-		'plugin.blogs.blog_setting',
-		'plugin.blogs.blog_frame_setting',
-		'plugin.blogs.tag',
-		'plugin.blogs.tags_content',
-		'plugin.net_commons.site_setting',
-		'plugin.blocks.block',
-		'plugin.blocks.block_role_permission',
-		'plugin.boxes.box',
-		'plugin.comments.comment',
-		'plugin.frames.frame',
-		'plugin.boxes.boxes_page',
-		'plugin.containers.container',
-		'plugin.containers.containers_page',
-		'plugin.m17n.language',
-		'plugin.m17n.languages_page',
-		'plugin.pages.page',
-		'plugin.pages.space',
-		'plugin.roles.default_role_permission',
-		'plugin.rooms.roles_rooms_user',
-		'plugin.rooms.roles_room',
-		'plugin.rooms.room',
-		'plugin.rooms.room_role_permission',
-		'plugin.rooms.plugins_room',
-		'plugin.users.user',
-		'plugin.users.user_attributes_user',
-		'plugin.blogs.plugin',
-		'plugin.categories.category',
-		'plugin.categories.category_order',
-		'plugin.likes.like',
-		'plugin.content_comments.content_comment',
-	);
+class BlogsAppControllerTest extends BlogsAppControllerTestBase {
 
 /**
  * setUp method
@@ -71,16 +24,136 @@ class BlogsAppControllerTest extends YAControllerTestCase {
  */
 	public function setUp() {
 		parent::setUp();
-		YACakeTestCase::loadTestPlugin($this, 'NetCommons', 'TestPlugin');
 		Configure::write('Config.language', 'ja');
+		$this->generate(
+			'Blogs.BlogsApp',
+			[
+				'methods' => [
+					'throwBadRequest',
+				],
+				'components' => [
+					'Auth' => ['user'],
+					'Session',
+					'Security',
+				]
+			]
+		);
 	}
 
 /**
- * testIndex
+ * tearDown method
  *
  * @return void
  */
-	public function testIndex() {
-		//$this->testAction('/blogs/blogs/index');
+	public function tearDown() {
+		Configure::write('Config.language', null);
+		CakeSession::write('Auth.User', null);
+		parent::tearDown();
 	}
+
+/**
+ * test initTabs
+ *
+ * @return void
+ */
+	public function testInitTabs() {
+		$mainActiveTab = 'block_index';
+		$blockActiveTab = 'block_settings';
+		$this->controller->viewVars['frameId'] = 1;
+		$this->controller->viewVars['blockId'] = 5;
+		$this->controller->initTabs($mainActiveTab, $blockActiveTab);
+
+		$this->assertInternalType('array', $this->controller->viewVars['settingTabs']);
+		$this->assertInternalType('array', $this->controller->viewVars['blockSettingTabs']);
+	}
+
+/**
+ * test index
+ *
+ * @return void
+ */
+	public function testInitBlogSuccess() {
+		RolesControllerTest::login($this);
+
+		$this->controller->viewVars['blockId'] = 5;
+		$this->controller->viewVars['frameId'] = 1;
+		$this->controller->viewVars['roomId'] = 1;
+		$resultTrue = $this->controller->initBlog();
+
+		$this->assertTrue($resultTrue);
+
+		//$this->testAction(
+		//	'/blogs/blog_entries/index/1',
+		//	array(
+		//		'method' => 'get',
+		//	)
+		//);
+		//$this->assertInternalType('array', $this->vars['blog']);
+
+		AuthGeneralControllerTest::logout($this);
+	}
+
+/**
+ * test initBlog faild
+ *
+ * @return void
+ */
+	public function testInitBlogGetBlogFail() {
+		RolesControllerTest::login($this);
+
+		$BlogMock = $this->getMockForModel('Blogs.Blog', ['getBlog']);
+		$BlogMock->expects($this->once())
+			->method('getBlog')
+			->will($this->returnValue(false));
+
+		$this->controller->expects($this->once())
+			->method('throwBadRequest');
+
+		$this->controller->viewVars['blockId'] = 5;
+		$this->controller->viewVars['frameId'] = 1;
+		$this->controller->viewVars['roomId'] = 1;
+		$resultFalse = $this->controller->initBlog();
+
+		$this->assertFalse($resultFalse);
+		AuthGeneralControllerTest::logout($this);
+	}
+
+/**
+ * test init blog. get blogSetting faild
+ *
+ * @return void
+ */
+	public function testInitBlogGetBlogSettingFail() {
+		RolesControllerTest::login($this);
+
+		$BlogSettingMock = $this->getMockForModel('Blogs.BlogSetting', ['getBlogSetting']);
+		$BlogSettingMock->expects($this->once())
+			->method('getBlogSetting')
+			->will($this->returnValue(false));
+
+		$this->controller->viewVars['blockId'] = 5;
+		$this->controller->viewVars['frameId'] = 1;
+		$this->controller->viewVars['roomId'] = 1;
+		$resultTrue = $this->controller->initBlog();
+		$this->assertTrue($resultTrue);
+
+		$this->assertNull($this->controller->viewVars['blogSetting']['id']);
+		AuthGeneralControllerTest::logout($this);
+	}
+
+	//public function testInitBlogWithFrameSetting() {
+	//	RolesControllerTest::login($this);
+	//
+	//	$this->controller->viewVars['blockId'] = 5;
+	//	$this->controller->viewVars['frameId'] = 1;
+	//	$this->controller->viewVars['roomId'] = 1;
+	//	$this->controller->viewVars['frameKey'] = 'frame_1';
+	//	$resultTrue = $this->controller->initBlog(['blogFrameSetting']);
+	//	$this->assertTrue($resultTrue);
+	//
+	//	$this->assertNull($this->controller->viewVars['blogSetting']['id']);
+	//	AuthGeneralControllerTest::logout($this);
+	//}
+
 }
+

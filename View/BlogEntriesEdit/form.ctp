@@ -23,11 +23,7 @@ echo $this->Html->script(
 );
 ?>
 <?php
-if ($this->request->data) {
-	$dataJson = json_encode($this->request->data);
-} else {
-	$dataJson = json_encode($blogEntry);
-}
+$dataJson = json_encode($this->request->data);
 ?>
 <div class="blogEntries form" ng-controller="Blogs" ng-init="init(<?php echo h($dataJson) ?>)">
 	<article>
@@ -182,7 +178,7 @@ if ($this->request->data) {
 			</div>
 
 			<?php echo $this->Form->end() ?>
-			<?php if ($isEdit) : ?>
+			<?php if ($isEdit && $isDeletable) : ?>
 				<div  class="panel-footer" style="text-align: right;">
 					<?php echo $this->Form->create('BlogEntry',
 						array(

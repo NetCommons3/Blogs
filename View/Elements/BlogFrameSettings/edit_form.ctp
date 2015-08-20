@@ -14,10 +14,13 @@
 	'value' => $frameId,
 	)); ?>
 
-<?php echo $this->Form->hidden('BlogFrameSetting.id', array(
-	'value' => (int)$blogFrameSetting['id'],
-	)); ?>
-
+<?php
+if (isset($blogFrameSetting['id'])) {
+	echo $this->Form->hidden('BlogFrameSetting.id', array(
+		'value' => (int)$blogFrameSetting['id'],
+	));
+}
+?>
 <?php echo $this->Form->hidden('BlogFrameSetting.frame_key', array(
 	'value' => $frameKey,
 	)); ?>

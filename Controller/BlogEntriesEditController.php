@@ -42,6 +42,7 @@ class BlogEntriesEditController extends BlogsAppController {
 			),
 		),
 		'Categories.Categories',
+		'Blogs.BlogEntryPermission',
 	);
 
 /**
@@ -76,7 +77,7 @@ class BlogEntriesEditController extends BlogsAppController {
 			// set language_id
 			$this->request->data['BlogEntry']['language_id'] = $this->viewVars['languageId'];
 
-			if (($result = $this->BlogEntry->saveEntry($this->viewVars['blockId'], $this->request->data))) {
+			if (($result = $this->BlogEntry->saveEntry($this->viewVars['blockId'], $this->viewVars['frameId'], $this->request->data))) {
 				return $this->redirect(
 					array('controller' => 'blog_entries', 'action' => 'view', $this->viewVars['frameId'], 'origin_id' => $result['BlogEntry']['origin_id'])
 				);
@@ -133,7 +134,7 @@ class BlogEntriesEditController extends BlogsAppController {
 
 			unset($data['BlogEntry']['id']); // 常に新規保存
 
-			if ($this->BlogEntry->saveEntry($this->viewVars['blockId'], $data)) {
+			if ($this->BlogEntry->saveEntry($this->viewVars['blockId'], $this->viewVars['frameId'], $data)) {
 				return $this->redirect(
 					array('controller' => 'blog_entries', 'action' => 'view', $this->viewVars['frameId'], 'origin_id' => $data['BlogEntry']['origin_id'])
 				);
@@ -151,6 +152,7 @@ class BlogEntriesEditController extends BlogsAppController {
 		}
 
 		$this->set('blogEntry', $blogEntry);
+		$this->set('isDeletable', $this->_hasDeletePermission($blogEntry));
 
 		$comments = $this->Comment->getComments(
 			array(
@@ -175,12 +177,12 @@ class BlogEntriesEditController extends BlogsAppController {
 	public function delete() {
 		$originId = $this->request->data['BlogEntry']['origin_id'];
 
-		$this->request->onlyAllow('post', 'delete');
+		$this->request->allowMethod('post', 'delete');
 
 		$blogEntry = $this->BlogEntry->findByOriginIdAndIsLatest($originId, 1);
 
 		// 権限チェック
-		if ($this->_hasEditPermission($blogEntry) === false) {
+		if ($this->_hasDeletePermission($blogEntry) === false) {
 			throw new ForbiddenException(__d('net_commons', 'Permission denied'));
 		}
 
@@ -193,22 +195,20 @@ class BlogEntriesEditController extends BlogsAppController {
 /**
  * 編集・削除の権限チェック
  *
- * @param BlogEntry $blogEntry 権限チェック対象記事
+ * @param array $blogEntry 権限チェック対象記事
  * @return bool
  */
 	protected function _hasEditPermission($blogEntry) {
-		if ($this->viewVars['contentEditable']) {
-			// 編集権限あり　＝＞OK
-		} elseif ($this->viewVars['contentCreatable']) {
-			// 作成権限あり→自分の記事ならOK
-			if ($blogEntry['BlogEntry']['created_user'] !== $this->Auth->user('id')) {
-				return false;
-			}
-		} else {
-			// 権限無し
-			return false;
-		}
-		return true;
+		return $this->BlogEntryPermission->canEdit($blogEntry);
 	}
 
+/**
+ * 削除権限チェック
+ *
+ * @param array $blogEntry 権限チェック対象記事
+ * @return bool
+ */
+	protected function _hasDeletePermission($blogEntry) {
+		return $this->BlogEntryPermission->canDelete($blogEntry);
+	}
 }

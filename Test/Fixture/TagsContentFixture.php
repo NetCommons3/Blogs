@@ -48,6 +48,16 @@ class TagsContentFixture extends CakeTestFixture {
 			'modified_user' => 1,
 			'modified' => '2015-05-12 06:32:38'
 		),
+		array(
+			'id' => 2,
+			'model' => 'BlogEntry',
+			'content_id' => 2,
+			'tag_id' => 1,
+			'created_user' => 1,
+			'created' => '2015-05-12 06:32:38',
+			'modified_user' => 1,
+			'modified' => '2015-05-12 06:32:38'
+		),
 	);
 
 }

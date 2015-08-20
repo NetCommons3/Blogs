@@ -46,7 +46,7 @@
 					</thead>
 					<tbody>
 						<?php foreach ($blogs as $blog) : ?>
-							<tr<?php echo ($blockId === $blog['block']['id'] ? ' class="active"' : ''); ?>>
+							<tr<?php echo ((int)$blockId === (int)$blog['block']['id'] ? ' class="active"' : ''); ?>>
 								<td>
 									<?php echo $this->Form->input('Frame.block_id',
 										array(

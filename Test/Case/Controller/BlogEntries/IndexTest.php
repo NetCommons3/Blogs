@@ -8,12 +8,12 @@
  */
 
 App::uses('BlogEntriesController', 'Blogs.Controller');
-App::uses('BlogsAppControllerTest', 'Blogs.Test/Case/Controller');
+App::uses('BlogsAppControllerTestBase', 'Blogs.Test/Case/Controller');
 
 /**
  * Summary for BlogEntriesController Test Case
  */
-class BlogEntriesControllerTest extends BlogsAppControllerTest {
+class Controller_BlogEntries_IndexTest extends BlogsAppControllerTestBase {
 
 /**
  * setUp method
@@ -23,16 +23,16 @@ class BlogEntriesControllerTest extends BlogsAppControllerTest {
 	public function setUp() {
 		parent::setUp();
 		Configure::write('Config.language', 'ja');
-		//$this->generate(
-		//	'Blogs.BlogEntries',
-		//	[
-		//		'components' => [
-		//			'Auth' => ['user'],
-		//			'Session',
-		//			'Security',
-		//		]
-		//	]
-		//);
+		$this->blogEntriesMock = $this->generate(
+			'Blogs.BlogEntries',
+			[
+				'components' => [
+					'Auth' => ['user'],
+					'Session',
+					'Security',
+				]
+			]
+		);
 	}
 
 /**
@@ -41,8 +41,8 @@ class BlogEntriesControllerTest extends BlogsAppControllerTest {
  * @return void
  */
 	public function tearDown() {
-		//Configure::write('Config.language', null);
-		//CakeSession::write('Auth.User', null);
+		Configure::write('Config.language', null);
+		CakeSession::write('Auth.User', null);
 		parent::tearDown();
 	}
 
@@ -52,30 +52,16 @@ class BlogEntriesControllerTest extends BlogsAppControllerTest {
  * @return void
  */
 	public function testIndex() {
-		$this->testAction(
-			'/blogs/blog_entries/index/1',
-			array(
-				'method' => 'get',
-				//'return' => 'view',
-			)
-		);
-		$this->assertInternalType('array', $this->vars['blogEntries']);
-	}
-
-/**
- * ブログ名が一覧に表示されるか
- *
- * @return void
- */
-	public function testIndexTitle() {
-		$return = $this->testAction(
+		$view = $this->testAction(
 			'/blogs/blog_entries/index/1',
 			array(
 				'method' => 'get',
 				'return' => 'view',
 			)
 		);
-		$this->assertRegExp('/<h1.*>ブログ名<\/h1>/', $return);
+		$this->assertInternalType('array', $this->vars['blogEntries']);
+		// ブログ名が表示される
+		$this->assertRegExp('/<h1.*>ブログ名<\/h1>/', $view);
 	}
 
 /**
@@ -111,27 +97,19 @@ class BlogEntriesControllerTest extends BlogsAppControllerTest {
 	}
 
 /**
- * testView
- *
- * @return void
- */
-	public function testView() {
-		$this->testAction(
-			'/blogs/blog_entries/view/1/origin_id:1',
-			array(
-				'method' => 'get',
-				//'return' => 'view',
-			)
-		);
-		$this->assertInternalType('array', $this->vars['blogEntry']);
-	}
-
-/**
  * フレームがあってブロックがないときのテスト
  *
  * @return void
  */
 	public function testNoBlock() {
+		$result = $this->testAction(
+			'/blogs/blog_entries/index/201',
+			array(
+				'method' => 'get',
+				'return' => 'view',
+			)
+		);
+		$this->assertEquals('', $result);
 	}
 
 /**

@@ -161,34 +161,30 @@ class BlogEntriesController extends BlogsAppController {
 
 		$this->_setYearMonthOptions();
 
-		if ($this->viewVars['contentReadable']) {
-			$conditions = $this->BlogEntry->getConditions(
-				$this->viewVars['blockId'],
-				$this->Auth->user('id'),
-				$this->viewVars,
-				$this->_getCurrentDateTime()
-			);
-			if ($extraConditions) {
-				$conditions = Hash::merge($conditions, $extraConditions);
-			}
-
-			$this->Paginator->settings = array_merge(
-				$this->Paginator->settings,
-				array(
-					'conditions' => $conditions,
-					'limit' => $this->_frameSetting['posts_per_page'],
-					'order' => 'published_datetime DESC',
-					'fields' => '*, ContentCommentCnt.cnt',
-				)
-			);
-			$this->BlogEntry->recursive = 0;
-			$this->BlogEntry->Behaviors->load('ContentComments.ContentComment');
-			$this->set('blogEntries', $this->Paginator->paginate());
-			$this->BlogEntry->Behaviors->unload('ContentComments.ContentComment');
-
-		} else {
-			// 何も見せない
+		$conditions = $this->BlogEntry->getConditions(
+			$this->viewVars['blockId'],
+			$this->Auth->user('id'),
+			$this->viewVars,
+			$this->_getCurrentDateTime()
+		);
+		if ($extraConditions) {
+			$conditions = Hash::merge($conditions, $extraConditions);
 		}
+
+		$this->Paginator->settings = array_merge(
+			$this->Paginator->settings,
+			array(
+				'conditions' => $conditions,
+				'limit' => $this->_frameSetting['posts_per_page'],
+				'order' => 'published_datetime DESC',
+				'fields' => '*, ContentCommentCnt.cnt',
+			)
+		);
+		$this->BlogEntry->recursive = 0;
+		$this->BlogEntry->Behaviors->load('ContentComments.ContentComment');
+		$this->set('blogEntries', $this->Paginator->paginate());
+		$this->BlogEntry->Behaviors->unload('ContentComments.ContentComment');
+
 		$this->render('index');
 	}
 
@@ -202,20 +198,16 @@ class BlogEntriesController extends BlogsAppController {
 		$this->_prepare();
 
 		$originId = $this->request->params['named']['origin_id'];
-		if ($this->viewVars['contentReadable']) {
-			$conditions = $this->BlogEntry->getConditions(
-				$this->viewVars['blockId'],
-				$this->Auth->user('id'),
-				$this->viewVars,
-				$this->_getCurrentDateTime()
-			);
 
-			$conditions['BlogEntry.origin_id'] = $originId;
+		$conditions = $this->BlogEntry->getConditions(
+			$this->viewVars['blockId'],
+			$this->Auth->user('id'),
+			$this->viewVars,
+			$this->_getCurrentDateTime()
+		);
 
-		} else {
-			// 何も見せない
-			throw new NotFoundException(__('Invalid blog entry'));
-		}
+		$conditions['BlogEntry.origin_id'] = $originId;
+
 		$options = array(
 			'conditions' => $conditions,
 			'recursive' => 0,
@@ -254,7 +246,7 @@ class BlogEntriesController extends BlogsAppController {
 			}
 
 		} else {
-			// 表示できない記事へのアクセスなら403
+			// 表示できない記事へのアクセスなら404
 			throw new NotFoundException(__('Invalid blog entry'));
 		}
 	}

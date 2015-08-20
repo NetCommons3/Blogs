@@ -16,7 +16,7 @@ App::uses('TestingWrapper', 'Blogs.Test');
 /**
  * Summary for BlogEntry Test Case
  */
-class BlogEntryTest extends CakeTestCase {
+class BlogEntryFindTest extends CakeTestCase {
 
 /**
  * Fixtures
@@ -30,6 +30,7 @@ class BlogEntryTest extends CakeTestCase {
 		//'plugin.tags.tag',
 		//'plugin.tags.tags_content',
 		'plugin.users.user', // Trackableビヘイビアでテーブルが必用
+		'plugin.comments.comment',
 	);
 
 /**
@@ -55,44 +56,6 @@ class BlogEntryTest extends CakeTestCase {
 		unset($this->BlogEntry);
 
 		parent::tearDown();
-	}
-
-/**
- * 記事削除テスト
- *
- * @return void
- */
-	public function testDeleteEntryByOriginId() {
-		$count2 = $this->BlogEntry->find('count', array('conditions' => array('origin_id' => 1)));
-
-		$this->assertEqual($count2, 2);
-
-		$deleted = $this->BlogEntry->deleteEntryByOriginId(1);
-		$this->assertTrue($deleted);
-
-		$count0 = $this->BlogEntry->find('count', array('conditions' => array('origin_id' => 1)));
-		$this->assertEqual($count0, 0);
-	}
-
-/**
- * カテゴリ無しで保存するテスト
- *
- * @return void
- */
-	public function testSaveNoCategory() {
-		$data = $this->BlogEntry->getNew();
-		$data['BlogEntry']['category_id'] = null; // category_idがnullでも保存できることを確認
-		$data['BlogEntry']['title'] = 'title';
-		$data['BlogEntry']['body1'] = 'body1';
-		$data['BlogEntry']['key'] = '';
-		$data['BlogEntry']['status'] = 1;
-		$data['BlogEntry']['origin_id'] = 0;
-		$data['BlogEntry']['language_id'] = 1;
-		$data['BlogEntry']['published_datetime'] = '2015-01-01 00:00:00';
-		$data['BlogEntry']['block_id'] = 5;
-
-		$savedData = $this->BlogEntry->save($data);
-		$this->assertTrue(isset($savedData['BlogEntry']['id']));
 	}
 
 /**
@@ -167,9 +130,13 @@ class BlogEntryTest extends CakeTestCase {
 				'OR' => array(
 					array(
 						'BlogEntry.is_active' => 1,
-						'BlogEntry.published_datetime <=' => $currentDateTime
+						'BlogEntry.published_datetime <=' => $currentDateTime,
+						'BlogEntry.created_user !=' => $userId,
 					),
-					'BlogEntry.created_user' => $userId
+					array(
+						'BlogEntry.created_user' => $userId,
+						'BlogEntry.is_latest' => 1,
+					)
 				)
 			)
 		);
@@ -216,53 +183,20 @@ class BlogEntryTest extends CakeTestCase {
 	}
 
 /**
- * test beforeSave with id
+ * 一度も公開になってないかを返すテスト
  *
  * @return void
  */
-	public function testBeforeSaveWithId() {
-		$options = array();
-
-		// IDがセットされてたらupdate なのでupdateAllされないはず
-		$model = $this->getMockForModel('Blogs.BlogEntry', array('updateAll'));
-		$model->expects($this->never())
-			->method('updateAll');
-			//->will($this->returnValue(true));
-		$this->BlogEntry->data['BlogEntry']['id'] = 1;
-		$resultTrue = $this->BlogEntry->beforeSave($options);
-		$this->assertTrue($resultTrue);
-	}
-
-/**
- * test beforeSave published
- *
- * @return void
- */
-	public function testBeforeSave4Published() {
-		$options = array();
-
-		$this->BlogEntry->data['BlogEntry']['status'] = NetCommonsBlockComponent::STATUS_PUBLISHED;
-		$this->BlogEntry->data['BlogEntry']['origin_id'] = 3;
-		$this->BlogEntry->data['BlogEntry']['language_id'] = 1;
-
-		$resultTrue = $this->BlogEntry->beforeSave($options);
+	public function testYetPublish() {
+		$yetPublishEntry = $this->BlogEntry->findById(5);
+		$resultTrue = $this->BlogEntry->yetPublish($yetPublishEntry);
 		$this->assertTrue($resultTrue);
 
-		$id3Data = $this->BlogEntry->findById(3);
-		$this->assertEquals(0, $id3Data['BlogEntry']['is_latest']);
-		$this->assertEquals(0, $id3Data['BlogEntry']['is_active']);
+		$PublishedEntry = $this->BlogEntry->findById(2);
+		$resultFalse = $this->BlogEntry->yetPublish($PublishedEntry);
+		$this->assertFalse($resultFalse);
 	}
 
-/**
- * test saveEntry
- *
- * @return void
- */
-	public function testSaveEntry() {
-	}
-
-	//
-	//
 	//public function testExecuteConditions() {
 	//	$userId = 1;
 	//	$blockId = 2;

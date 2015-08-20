@@ -16,34 +16,6 @@ App::uses('BlogsAppModel', 'Blogs.Model');
 class BlogFrameSetting extends BlogsAppModel {
 
 /**
- * Validation rules
- *
- * @var array
- */
-	public $validate = array(
-		'frame_key' => array(
-			'notEmpty' => array(
-				'rule' => array('notEmpty'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'display_number' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-	);
-
-/**
  * フレームキーからフレーム設定を返す
  *
  * @param string $frameKey フレームキー
@@ -122,6 +94,7 @@ class BlogFrameSetting extends BlogsAppModel {
 		try {
 			//バリデーション
 			if (!$this->validateBlogFrameSetting($data)) {
+				$dataSource->rollback();
 				return false;
 			}
 

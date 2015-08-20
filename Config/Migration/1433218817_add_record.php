@@ -3,10 +3,12 @@
  * add record
  */
 
+App::uses('NetCommonsMigration', 'NetCommons.Config/Migration');
+
 /**
  * Class AddRecord
  */
-class AddRecord extends CakeMigration {
+class AddRecord extends NetCommonsMigration {
 
 /**
  * Migration description
@@ -34,8 +36,19 @@ class AddRecord extends CakeMigration {
  */
 	public $records = array(
 		'Plugin' => array(
+			//日本語
 			array(
-				'language_id' => 2,
+				'language_id' => '2',
+				'key' => 'blogs',
+				'namespace' => 'netcommons/blogs',
+				'name' => 'BLOG',
+				'type' => 1,
+				'default_action' => 'blog_entries/index',
+				'default_setting_action' => 'blog_blocks/index',
+			),
+			//英語
+			array(
+				'language_id' => '1',
 				'key' => 'blogs',
 				'namespace' => 'netcommons/blogs',
 				'name' => 'BLOG',
@@ -51,10 +64,12 @@ class AddRecord extends CakeMigration {
 			),
 		),
 		'PluginsRoom' => array(
-			array(
-				'room_id' => '1',
-				'plugin_key' => 'blogs'
-			),
+			//パブリックスペース
+			array('room_id' => '1', 'plugin_key' => 'blogs', ),
+			//プライベートスペース
+			array('room_id' => '2', 'plugin_key' => 'blogs', ),
+			//グループスペース
+			array('room_id' => '3', 'plugin_key' => 'blogs', ),
 		),
 	);
 
@@ -80,25 +95,6 @@ class AddRecord extends CakeMigration {
 		}
 		foreach ($this->records as $model => $records) {
 			if (!$this->updateRecords($model, $records)) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-/**
- * Update model records
- *
- * @param string $model model name to update
- * @param string $records records to be stored
- * @param string $scope ?
- * @return bool Should process continue
- */
-	public function updateRecords($model, $records, $scope = null) {
-		$Model = $this->generateModel($model);
-		foreach ($records as $record) {
-			$Model->create();
-			if (!$Model->save($record, false)) {
 				return false;
 			}
 		}
