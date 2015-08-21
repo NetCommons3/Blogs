@@ -12,6 +12,7 @@ NetCommonsApp.controller('Blogs.BlockSetting', function($scope) {
       unlikeElement[0].disabled = false;
     } else {
       unlikeElement[0].disabled = true;
+      unlikeElement[0].checked = false;
     }
   };
 });
