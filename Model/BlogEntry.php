@@ -65,8 +65,8 @@ class BlogEntry extends BlogsAppModel {
 	protected function _getValidateSpecification() {
 		$validate = array(
 			'title' => array(
-				'title' => [
-					'rule' => array('notEmpty'),
+				'notBlank' => [
+					'rule' => array('notBlank'),
 					'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('blogs', 'Title')),
 					//'allowEmpty' => false,
 					'required' => true,
@@ -75,8 +75,8 @@ class BlogEntry extends BlogsAppModel {
 				],
 			),
 			'body1' => array(
-				'body1' => [
-					'rule' => array('notEmpty'),
+				'notBlank' => [
+					'rule' => array('notBlank'),
 					'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('blogs', 'Body1')),
 					//'allowEmpty' => false,
 					'required' => true,
@@ -85,8 +85,8 @@ class BlogEntry extends BlogsAppModel {
 				],
 			),
 			'published_datetime' => array(
-				'published_datetime' => [
-					'rule' => array('notEmpty'),
+				'notBlank' => [
+					'rule' => array('notBlank'),
 					'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('blogs', 'Published datetime')),
 					//'allowEmpty' => false,
 					'required' => true,
@@ -105,8 +105,8 @@ class BlogEntry extends BlogsAppModel {
 				),
 			),
 			//'key' => array(
-			//	'notEmpty' => array(
-			//		'rule' => array('notEmpty'),
+			//	'notBlank' => array(
+			//		'rule' => array('notBlank'),
 			//		//'message' => 'Your custom message here',
 			//		//'allowEmpty' => false,
 			//		//'required' => false,

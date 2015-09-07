@@ -90,6 +90,7 @@ class BlogsAppModelTest extends BlogsAppModelTestBase {
 		$result = $this->_saveOneData();
 
 		$savedData = $this->BlogEntry->findById($result['BlogEntry']['id']);
+debug($savedData);
 		$this->assertEquals('title', $savedData['BlogEntry']['title']);
 		$this->BlogEntry->rollback();
 
@@ -123,7 +124,7 @@ class BlogsAppModelTest extends BlogsAppModelTestBase {
 	protected function _saveOneData() {
 		$data = $this->BlogEntry->getNew();
 		$data['BlogEntry']['title'] = 'title';
-		$data['BlogEntry']['body1'] = 'body1';
+		$data['BlogEntry']['body1'] = 'body1text';
 		$data['BlogEntry']['status'] = 2;
 		$data['BlogEntry']['origin_id'] = 1;
 		$data['BlogEntry']['language_id'] = 1;
