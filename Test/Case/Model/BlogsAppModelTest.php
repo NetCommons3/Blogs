@@ -90,7 +90,6 @@ class BlogsAppModelTest extends BlogsAppModelTestBase {
 		$result = $this->_saveOneData();
 
 		$savedData = $this->BlogEntry->findById($result['BlogEntry']['id']);
-debug($savedData);
 		$this->assertEquals('title', $savedData['BlogEntry']['title']);
 		$this->BlogEntry->rollback();
 

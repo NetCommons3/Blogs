@@ -27,14 +27,9 @@ class BlogFrameSetting extends BlogsAppModel {
 			return $setting['BlogFrameSetting'];
 		} else {
 			// 設定データがまだないときはつくる
-			$this->create();
-			$data = array(
-				'BlogFrameSetting' => array(
-					'frame_key' => $frameKey
-				)
-			);
-			$this->save($data);
-			$setting = $this->findByFrameKey($frameKey);
+			$data = $this->getNew();
+			$data['BlogFrameSetting']['frame_key'] = $frameKey;
+			$setting = $this->saveBlogFrameSetting($data);
 			return $setting['BlogFrameSetting'];
 		}
 	}
@@ -58,7 +53,7 @@ class BlogFrameSetting extends BlogsAppModel {
 				)
 			),
 			'posts_per_page' => array(
-				'number' => array(
+				'notBlank' => array(
 					'rule' => array('notBlank'),
 					'message' => __d('net_commons', 'Invalid request.'),
 					'required' => true,
@@ -84,7 +79,7 @@ class BlogFrameSetting extends BlogsAppModel {
  */
 	public function saveBlogFrameSetting($data) {
 		$this->loadModels([
-			'BlogFrameSetting' => 'Bloges.BlogFrameSetting',
+			'BlogFrameSetting' => 'Blogs.BlogFrameSetting',
 		]);
 
 		//トランザクションBegin
@@ -99,10 +94,9 @@ class BlogFrameSetting extends BlogsAppModel {
 			}
 
 			//登録処理
-			if (! $this->save(null, false)) {
+			if (!($resultData = $this->save(null, false))) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
-
 			//トランザクションCommit
 			$dataSource->commit();
 
@@ -113,7 +107,7 @@ class BlogFrameSetting extends BlogsAppModel {
 			throw $ex;
 		}
 
-		return true;
+		return $resultData;
 	}
 
 /**

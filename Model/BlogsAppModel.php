@@ -76,7 +76,6 @@ class BlogsAppModel extends AppModel {
 			$this->_getValidateSpecification()
 		);
 		return parent::beforeValidate($options);
-
 	}
 
 /**

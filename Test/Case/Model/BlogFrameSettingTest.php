@@ -83,8 +83,8 @@ class BlogFrameSettingTest extends CakeTestCase {
 
 		// 保存成功
 		$data['BlogFrameSetting']['frame_key'] = 'frame_key';
-		$resultTrue = $this->BlogFrameSetting->saveBlogFrameSetting($data);
-		$this->assertTrue($resultTrue);
+		$savedData = $this->BlogFrameSetting->saveBlogFrameSetting($data);
+		$this->assertTrue(($savedData['BlogFrameSetting']['id'] > 0));
 	}
 
 /**
