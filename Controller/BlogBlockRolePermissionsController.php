@@ -3,7 +3,7 @@
  * BlockRolePermissions Controller
  *
  * @author Noriko Arai <arai@nii.ac.jp>
- * @author Kotaro Hokada <kotaro.hokada@gmail.com>
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @link http://www.netcommons.org NetCommons Project
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
@@ -14,120 +14,90 @@ App::uses('BlogsAppController', 'Blogs.Controller');
 /**
  * BlockRolePermissions Controller
  *
- * @author Kotaro Hokada <kotaro.hokada@gmail.com>
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Blogs\Controller
  */
 class BlogBlockRolePermissionsController extends BlogsAppController {
 
-/**
- * layout
- *
- * @var array
- */
+	/**
+	 * layout
+	 *
+	 * @var array
+	 */
 	public $layout = 'NetCommons.setting';
 
-/**
- * use models
- *
- * @var array
- */
+	/**
+	 * use models
+	 *
+	 * @var array
+	 */
 	public $uses = array(
-		'Roles.Role',
-		'Roles.DefaultRolePermission',
 		'Blogs.Blog',
-		'Blogs.BlogSetting',
-		'Blocks.Block',
-		'Blocks.BlockRolePermission',
-		'Rooms.RolesRoom',
 	);
 
-/**
- * use components
- *
- * @var array
- */
+	/**
+	 * use components
+	 *
+	 * @var array
+	 */
 	public $components = array(
-		'NetCommons.NetCommonsBlock',
-		'NetCommons.NetCommonsRoomRole' => array(
-			//コンテンツの権限設定
-			'allowedActions' => array(
-				'blockPermissionEditable' => array('edit')
+		'Blocks.BlockTabs' => array(
+			'mainTabs' => array(
+				'block_index' => array('url' => array('controller' => 'blog_blocks')),
+				'frame_settings' => array('url' => array('controller' => 'blog_frame_settings')),
+			),
+			'blockTabs' => array(
+				'block_settings' => array('url' => array('controller' => 'blog_blocks')),
+				'role_permissions' => array('url' => array('controller' => 'blog_block_role_permissions')),
+			),
+		),
+		'NetCommons.Permission' => array(
+			//アクセスの権限
+			'allow' => array(
+				'edit' => 'block_permission_editable',
 			),
 		),
 	);
 
-/**
- * use helpers
- *
- * @var array
- */
+	/**
+	 * use helpers
+	 *
+	 * @var array
+	 */
 	public $helpers = array(
-		'NetCommons.Token'
+		'Blocks.BlockRolePermissionForm'
 	);
 
-/**
- * beforeFilter
- *
- * @return void
- */
-	public function beforeFilter() {
-		parent::beforeFilter();
-
-		$results = $this->camelizeKeyRecursive($this->NetCommonsFrame->data);
-		$this->set($results);
-
-		//タブの設定
-		$this->initTabs('block_index', 'role_permissions');
-	}
-
-/**
- * edit
- *
- * @return void
- */
+	/**
+	 * edit
+	 *
+	 * @return void
+	 */
 	public function edit() {
-		if (! $this->NetCommonsBlock->validateBlockId()) {
-			$this->throwBadRequest();
+		CurrentFrame::setBlock($this->request->params['pass'][1]);
+
+		if (! $blog = $this->Blog->getBlog()) {
+			$this->setAction('throwBadRequest');
 			return false;
 		}
-		$this->set('blockId', (int)$this->params['pass'][1]);
 
-		$this->initBlog();
-
-		if (! $block = $this->Block->find('first', array(
-			'recursive' => -1,
-			'conditions' => array(
-				'Block.id' => $this->viewVars['blockId'],
-			),
-		))) {
-			$this->throwBadRequest();
-			return false;
-		};
-		$this->set('blockId', $block['Block']['id']);
-		$this->set('blockKey', $block['Block']['key']);
-
-		$permissions = $this->NetCommonsBlock->getBlockRolePermissions(
-			$this->viewVars['blockKey'],
-			['content_creatable', 'content_publishable', 'content_comment_creatable', 'content_comment_publishable']
+		$permissions = $this->Workflow->getBlockRolePermissions(
+			array('content_creatable', 'content_publishable', 'content_comment_creatable', 'content_comment_publishable')
 		);
+		$this->set('roles', $permissions['Roles']);
 
 		if ($this->request->isPost()) {
-			$data = $this->data;
-			$this->BlogSetting->saveBlogSetting($data);
-			if ($this->handleValidationError($this->BlogSetting->validationErrors)) {
-
-				if (! $this->request->is('ajax')) {
-					$this->redirect('/blogs/blog_blocks/index/' . $this->viewVars['frameId']);
-				}
+			if ($this->BlogSetting->saveBlogSetting($this->request->data)) {
+				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
 				return;
 			}
-		}
+			$this->NetCommons->handleValidationError($this->BlogSetting->validationErrors);
 
-		$results = array(
-			'blockRolePermissions' => $permissions['BlockRolePermissions'],
-			'roles' => $permissions['Roles'],
-		);
-		$results = $this->camelizeKeyRecursive($results);
-		$this->set($results);
+		} else {
+			$this->request->data['BlogSetting'] = $blog['BlogSetting'];
+			$this->request->data['Block'] = $blog['Block'];
+			$this->request->data['BlockRolePermission'] = $permissions['BlockRolePermissions'];
+			$this->request->data['Frame'] = Current::read('Frame');
+		}
 	}
 }

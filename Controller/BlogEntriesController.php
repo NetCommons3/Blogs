@@ -44,7 +44,7 @@ class BlogEntriesController extends BlogsAppController {
 	public function beforeFilter() {
 		// ゲストアクセスOKのアクションを設定
 		$this->Auth->allow('index', 'view', 'category', 'tag', 'year_month');
-		$this->Categories->initCategories();
+		//$this->Categories->initCategories();
 		parent::beforeFilter();
 	}
 
@@ -55,12 +55,20 @@ class BlogEntriesController extends BlogsAppController {
  */
 	public $components = array(
 		'Paginator',
-		'NetCommons.NetCommonsWorkflow',
-		'NetCommons.NetCommonsRoomRole' => array(
-			//コンテンツの権限設定
-			'allowedActions' => array(
-				'contentEditable' => array('edit', 'add'),
-				'contentCreatable' => array('edit', 'add'),
+		//'NetCommons.NetCommonsWorkflow',
+		//'NetCommons.NetCommonsRoomRole' => array(
+		//	//コンテンツの権限設定
+		//	'allowedActions' => array(
+		//		'contentEditable' => array('edit', 'add'),
+		//		'contentCreatable' => array('edit', 'add'),
+		//	),
+		//),
+		'NetCommons.Permission' => array(
+			//アクセスの権限
+			'allow' => array(
+					//'add,edit,delete' => 'content_creatable',
+					//'reply' => 'content_comment_creatable',
+					//'approve' => 'content_comment_publishable',
 			),
 		),
 		'Categories.Categories',
@@ -82,7 +90,10 @@ class BlogEntriesController extends BlogsAppController {
  * @return void
  */
 	public function index() {
-		if (! $this->viewVars['blockId']) {
+		debug('あとでこの2行を消す');
+		$this->autoRender = false;
+		return;
+		if (! Current::read('Block.id')) {
 			$this->autoRender = false;
 			return;
 		}
@@ -162,7 +173,7 @@ class BlogEntriesController extends BlogsAppController {
 		$this->_setYearMonthOptions();
 
 		$conditions = $this->BlogEntry->getConditions(
-			$this->viewVars['blockId'],
+			Current::read('Block.id'),
 			$this->Auth->user('id'),
 			$this->viewVars,
 			$this->_getCurrentDateTime()
@@ -200,7 +211,7 @@ class BlogEntriesController extends BlogsAppController {
 		$originId = $this->request->params['named']['origin_id'];
 
 		$conditions = $this->BlogEntry->getConditions(
-			$this->viewVars['blockId'],
+			Current::read('Block.id'),
 			$this->Auth->user('id'),
 			$this->viewVars,
 			$this->_getCurrentDateTime()
@@ -259,7 +270,7 @@ class BlogEntriesController extends BlogsAppController {
 	protected function _setYearMonthOptions() {
 		// 年月と記事数
 		$yearMonthCount = $this->BlogEntry->getYearMonthCount(
-			$this->viewVars['blockId'],
+			Current::read('Block.id'),
 			$this->Auth->user('id'),
 			$this->viewVars,
 			$this->_getCurrentDateTime()

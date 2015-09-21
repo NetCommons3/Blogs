@@ -73,13 +73,13 @@ class BlogEntriesEditController extends BlogsAppController {
 			$this->request->data['BlogEntry']['status'] = $status;
 
 			// set block_id
-			$this->request->data['BlogEntry']['block_id'] = $this->viewVars['blockId'];
+			$this->request->data['BlogEntry']['block_id'] = Current::read('Block.id');
 			// set language_id
 			$this->request->data['BlogEntry']['language_id'] = $this->viewVars['languageId'];
 
-			if (($result = $this->BlogEntry->saveEntry($this->viewVars['blockId'], $this->viewVars['frameId'], $this->request->data))) {
+			if (($result = $this->BlogEntry->saveEntry(Current::read('Block.id'), Current::read('Frame.id'), $this->request->data))) {
 				return $this->redirect(
-					array('controller' => 'blog_entries', 'action' => 'view', $this->viewVars['frameId'], 'origin_id' => $result['BlogEntry']['origin_id'])
+					array('controller' => 'blog_entries', 'action' => 'view', Current::read('Frame.id'), 'origin_id' => $result['BlogEntry']['origin_id'])
 				);
 			}
 
@@ -126,7 +126,7 @@ class BlogEntriesEditController extends BlogsAppController {
 			$this->request->data['BlogEntry']['status'] = $status;
 
 			// set block_id
-			$this->request->data['BlogEntry']['block_id'] = $this->viewVars['blockId'];
+			$this->request->data['BlogEntry']['block_id'] = Current::read('Block.id');
 			// set language_id
 			$this->request->data['BlogEntry']['language_id'] = $this->viewVars['languageId'];
 
@@ -134,9 +134,9 @@ class BlogEntriesEditController extends BlogsAppController {
 
 			unset($data['BlogEntry']['id']); // 常に新規保存
 
-			if ($this->BlogEntry->saveEntry($this->viewVars['blockId'], $this->viewVars['frameId'], $data)) {
+			if ($this->BlogEntry->saveEntry(Current::read('Block.id'), Current::read('Frame.id'), $data)) {
 				return $this->redirect(
-					array('controller' => 'blog_entries', 'action' => 'view', $this->viewVars['frameId'], 'origin_id' => $data['BlogEntry']['origin_id'])
+					array('controller' => 'blog_entries', 'action' => 'view', Current::read('Frame.id'), 'origin_id' => $data['BlogEntry']['origin_id'])
 				);
 			}
 
@@ -189,7 +189,7 @@ class BlogEntriesEditController extends BlogsAppController {
 		if ($this->BlogEntry->deleteEntryByOriginId($originId) === false) {
 			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 		}
-		return $this->redirect(array('controller' => 'blog_entries', 'action' => 'index', $this->viewVars['frameId']));
+		return $this->redirect(array('controller' => 'blog_entries', 'action' => 'index', Current::read('Frame.id')));
 	}
 
 /**

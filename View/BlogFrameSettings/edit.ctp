@@ -1,35 +1,23 @@
 <?php
 /**
- * blogs frame settings
+ * Blog frame setting template
  *
  * @author Noriko Arai <arai@nii.ac.jp>
- * @author Ryo Ozawa <ozawa.ryo@withone.co.jp>
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @link http://www.netcommons.org NetCommons Project
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
  */
 ?>
 
-<div class="modal-body">
-	<?php echo $this->element('NetCommons.setting_tabs', array(
-			'tabs' => array(
-				'block_index' => array('url' => '/blogs/blog_blocks/index/' . $frameId),
-				'frame_settings' => array('url' => '/blogs/blog_frame_settings/edit/' . $frameId),
-			),
-			'active' => 'frame_settings'
-		)); ?>
+<article class="block-setting-body">
+	<?php echo $this->Block->mainTabs(BlockTabsComponent::MAIN_TAB_FRAME_SETTING); ?>
 
 	<div class="tab-content">
-		<?php echo $this->Form->create('BlogFrameSetting', array(
-				'name' => 'form',
-				'novalidate' => true,
-			)); ?>
-
 		<?php echo $this->element('Blocks.edit_form', array(
-				'controller' => 'BlogFrameSettings',
-				'action' => 'edit' . '/' . $frameId,
-				'callback' => 'Blogs.BlogFrameSettings/edit_form',
-				'cancelUrl' => $this->Html->url(isset($current['page']) ? '/' . $current['page']['permalink'] : null)
-			)); ?>
+			'model' => 'BlogFrameSetting',
+			'callback' => 'Blogs.BlogFrameSettings/edit_form',
+			'cancelUrl' => NetCommonsUrl::backToPageUrl(),
+		)); ?>
 	</div>
-</div>
+</article>
