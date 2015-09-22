@@ -43,7 +43,6 @@ echo $this->Html->css(
 
 	<div class="clearfix blogs_navigation_header">
 		<div class="pull-left">
-			<?php $categories = Hash::combine($categories, '{n}.category.id', '{n}.category.name'); ?>
 			<div class="dropdown">
 				<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
 					<?php echo $filterDropDownLabel ?>
@@ -52,9 +51,16 @@ echo $this->Html->css(
 				<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
 					<li role="presentation"><a role="menuitem" tabindex="-1" href="/blogs/blog_entries/index/<?php echo Current::read('Frame.id')?>"><?php echo __d('blogs', 'All Entries') ?></a></li>
 					<li role="presentation" class="dropdown-header"><?php echo __d('blogs', 'Category') ?></li>
-					<?php foreach($categories as $categoryId => $label): ?>
-						<li role="presentation"><a role="menuitem" tabindex="-1" href="/blogs/blog_entries/index/<?php echo Current::read('Frame.id')?>/category_id:<?php echo $categoryId?>"><?php echo $label ?></a></li>
-					<?php endforeach ?>
+
+					<?php echo $this->Category->dropDownToggle(array(
+						'empty' => false,
+						'displayMenu' => false,
+						'url' => array('action' => 'index', Current::read('Frame.id')),
+					)); ?>
+
+					<?php //foreach($categories as $categoryId => $label): ?>
+					<!--	<li role="presentation"><a role="menuitem" tabindex="-1" href="/blogs/blog_entries/index/--><?php //echo Current::read('Frame.id')?><!--/category_id:--><?php //echo $categoryId?><!--">--><?php //echo $label ?><!--</a></li>-->
+					<?php //endforeach ?>
 
 					<li role="presentation" class="divider"></li>
 
