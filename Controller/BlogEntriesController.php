@@ -34,6 +34,7 @@ class BlogEntriesController extends BlogsAppController {
 	public $helpers = array(
 		'NetCommons.Token',
 		'NetCommons.BackToPage',
+		'Workflow.Workflow',
 	);
 
 /**
@@ -195,12 +196,11 @@ class BlogEntriesController extends BlogsAppController {
 		if ($extraConditions) {
 			$conditions = Hash::merge($conditions, $extraConditions);
 		}
-
 		$this->Paginator->settings = array_merge(
 			$this->Paginator->settings,
 			array(
 				'conditions' => $conditions,
-				'limit' => $this->_frameSetting['posts_per_page'],
+				'limit' => $this->_frameSetting['BlogFrameSetting']['articles_per_page'],
 				'order' => 'published_datetime DESC',
 				'fields' => '*, ContentCommentCnt.cnt',
 			)

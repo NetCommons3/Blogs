@@ -3,7 +3,7 @@
 		<?php if ($blogSetting['useSns']) : ?>
 
 			<!--Facebook-->
-			<div class="fb-like pull-left" data-href="<?php echo FULL_BASE_URL ?>/blogs/blog_entries/view/<?php echo $frameId ?>/origin_id:<?php echo $blogEntry['BlogEntry']['origin_id'] ?>" data-layout="button_count" data-action="like"
+			<div class="fb-like pull-left" data-href="<?php echo FULL_BASE_URL ?>/blogs/blog_entries/view/<?php echo Current::read('Frame.id') ?>/origin_id:<?php echo $blogEntry['BlogEntry']['origin_id'] ?>" data-layout="button_count" data-action="like"
 				 data-show-faces="false" data-share="false"></div>
 
 			<!--Twitter-->

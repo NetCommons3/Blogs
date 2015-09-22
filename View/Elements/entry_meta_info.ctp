@@ -15,7 +15,7 @@
 			array(
 				'controller' => 'blog_entries',
 				'action' => 'index',
-				$frameId,
+				Current::read('Frame.id'),
 				'category_id' => $blogEntry['BlogEntry']['category_id']
 			)
 		); ?>

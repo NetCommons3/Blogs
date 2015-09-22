@@ -62,7 +62,7 @@ echo $this->Html->css(
 		<?php foreach ($blogEntry['Tag'] as $blogTag): ?>
 			<?php echo $this->Html->link(
 				$blogTag['name'],
-				array('controller' => 'blog_entries', 'action' => 'tag', $frameId, 'id' => $blogTag['id'])
+				array('controller' => 'blog_entries', 'action' => 'tag', Current::read('Frame.id'), 'id' => $blogTag['id'])
 			); ?>&nbsp;
 		<?php endforeach; ?>
 	</div>
@@ -78,7 +78,7 @@ echo $this->Html->css(
 					'isCommentApproved' => $blogSetting['useCommentApproval'],
 					'useComment' => $blogSetting['useComment'],
 					'contentCommentCnt' => $blogEntry['ContentCommentCnt']['cnt'],
-					'redirectUrl' => '/blogs/blog_entries/view/' . $frameId . '/origin_id:' . $blogEntry['BlogEntry']['origin_id'],
+					'redirectUrl' => '/blogs/blog_entries/view/' . Current::read('Frame.id') . '/origin_id:' . $blogEntry['BlogEntry']['origin_id'],
 				)); ?>
 			</div>
 		</div>

@@ -34,9 +34,9 @@
 				<!--<th class="text-right">-->
 				<!--	--><?php //echo $this->Paginator->sort('Blog.blog_article_count', __d('blogs', 'Article count')); ?>
 				<!--</th>-->
-				<!--<th class="text-right">-->
-				<!--	--><?php //echo $this->Paginator->sort('Blog.blog_article_modified', __d('blogs', 'Article modified')); ?>
-				<!--</th>-->
+				<th>
+					<?php echo $this->Paginator->sort('Block.modified', __d('net_commons', 'Updated date')); ?>
+				</th>
 			</tr>
 			</thead>
 			<tbody>
@@ -51,8 +51,9 @@
 					<!--<td class="text-right">-->
 					<!--	--><?php //echo h($blog['Blog']['blog_article_count']); ?>
 					<!--</td>-->
-					<!--<td class="text-right">-->
-					<!--	--><?php //echo $this->Date->dateFormat($blog['Blog']['blog_article_modified']); ?>
+					<td>
+						<?php echo $this->Date->dateFormat($blog['Block']['modified']); ?>
+					</td>
 					<!--</td>-->
 				</tr>
 			<?php endforeach; ?>

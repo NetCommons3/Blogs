@@ -38,7 +38,7 @@ echo $this->Html->css(
 );
 ?>
 
-<div class="blogEntries index nc-content-list" ng-controller="Blogs.Entries" ng-init="init(<?php echo $frameId ?>)">
+<div class="blogEntries index nc-content-list" ng-controller="Blogs.Entries" ng-init="init(<?php echo Current::read('Frame.id') ?>)">
 	<h1 class="blogs_blogTitle"><?php echo $listTitle ?></h1>
 
 	<div class="clearfix blogs_navigation_header">
@@ -50,10 +50,10 @@ echo $this->Html->css(
 					<span class="caret"></span>
 				</button>
 				<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-					<li role="presentation"><a role="menuitem" tabindex="-1" href="/blogs/blog_entries/index/<?php echo $frameId?>"><?php echo __d('blogs', 'All Entries') ?></a></li>
+					<li role="presentation"><a role="menuitem" tabindex="-1" href="/blogs/blog_entries/index/<?php echo Current::read('Frame.id')?>"><?php echo __d('blogs', 'All Entries') ?></a></li>
 					<li role="presentation" class="dropdown-header"><?php echo __d('blogs', 'Category') ?></li>
 					<?php foreach($categories as $categoryId => $label): ?>
-						<li role="presentation"><a role="menuitem" tabindex="-1" href="/blogs/blog_entries/index/<?php echo $frameId?>/category_id:<?php echo $categoryId?>"><?php echo $label ?></a></li>
+						<li role="presentation"><a role="menuitem" tabindex="-1" href="/blogs/blog_entries/index/<?php echo Current::read('Frame.id')?>/category_id:<?php echo $categoryId?>"><?php echo $label ?></a></li>
 					<?php endforeach ?>
 
 					<li role="presentation" class="divider"></li>
@@ -61,25 +61,16 @@ echo $this->Html->css(
 					<li role="presentation" class="dropdown-header"><?php echo __d('blogs', 'Archive')?></li>
 					<?php foreach($yearMonthOptions as $yearMonth => $label): ?>
 
-						<li role="presentation"><a role="menuitem" tabindex="-1" href="/blogs/blog_entries/year_month/<?php echo $frameId?>/year_month:<?php echo $yearMonth?>"><?php echo $label ?></a></li>
+						<li role="presentation"><a role="menuitem" tabindex="-1" href="/blogs/blog_entries/year_month/<?php echo Current::read('Frame.id')?>/year_month:<?php echo $yearMonth?>"><?php echo $label ?></a></li>
 					<?php endforeach ?>
 				</ul>
 			</div>
 		</div>
 
-		<?php if ($contentCreatable): ?>
-			<div class="pull-right">
+		<div class="pull-right">
+			<?php echo $this->Button->addLink('', array('controller' => 'blog_entries_edit', 'action'=> 'add', Current::read('Frame.id')), array('tooltip' => __d('blogs', 'Add entry'))); ?>
+		</div>
 
-				<a href="/blogs/blog_entries_edit/add/<?php echo $frameId ?>">
-					<button class="btn btn-success"
-							tooltip="<?php echo __d('blogs', 'Add entry'); ?>">
-						<span class="glyphicon glyphicon-plus"></span>
-					</button>
-				<span class="hidden">
-					<?php echo __d('blogs', 'Add entry'); ?>
-				</span></a>
-			</div>
-		<?php endif; ?>
 
 	</div>
 
@@ -88,12 +79,15 @@ echo $this->Html->css(
 		<?php foreach ($blogEntries as $blogEntry): ?>
 
 			<div class="blogs_entry" ng-controller="Blogs.Entries.Entry">
-				<div class="blogs_entry_status">
-					<?php echo $this->element(
-						'NetCommons.status_label',
-						array('status' => $blogEntry['BlogEntry']['status'])
-					); ?>
 
+
+				<div class="blogs_entry_status">
+					<?php echo $this->Workflow->label($blogEntry['BlogEntry']['status']); ?>
+				<!--	--><?php //echo $this->element(
+				//		'NetCommons.status_label',
+				//		array('status' => $blogEntry['BlogEntry']['status'])
+				//	); ?>
+				<!---->
 				</div>
 
 				<article>
@@ -103,7 +97,7 @@ echo $this->Html->css(
 							array(
 								'controller' => 'blog_entries',
 								'action' => 'view',
-								$frameId,
+								Current::read('Frame.id'),
 								'origin_id' => $blogEntry['BlogEntry']['origin_id']
 							)
 						); ?>

@@ -47,7 +47,7 @@ $dataJson = json_encode($this->request->data);
 			<?php echo $this->Form->input('origin_id', array('type' => 'hidden')); ?>
 			<?php echo $this->Form->input('key', array('type' => 'hidden')); ?>
 			<!--		--><?php //echo $this->Form->hidden('Frame.id', array(
-			//			'value' => $frameId,
+			//			'value' => Current::read('Frame.id'),
 			//		)); ?>
 
 			<div class="panel-body">
@@ -183,7 +183,7 @@ $dataJson = json_encode($this->request->data);
 					<?php echo $this->Form->create('BlogEntry',
 						array(
 							'type' => 'delete',
-							'url' => array('controller' => 'blog_entries_edit', 'action' => 'delete', $frameId))
+							'url' => array('controller' => 'blog_entries_edit', 'action' => 'delete', Current::read('Frame.id')))
 					) ?>
 					<?php echo $this->Form->input('origin_id', array('type' => 'hidden')); ?>
 

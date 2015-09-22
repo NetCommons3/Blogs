@@ -6,6 +6,8 @@ App::uses('AppController', 'Controller');
 
 /**
  * Class BlogsAppController
+ *
+ * @property BlogFrameSetting $BlogFrameSetting
  */
 class BlogsAppController extends AppController {
 
@@ -95,10 +97,9 @@ class BlogsAppController extends AppController {
  *
  * @return void
  */
-	// TODO あるとフレーム設定更新時にエラーになる
-	//protected function _loadFrameSetting() {
-	//	$this->_frameSetting = $this->BlogFrameSetting->getSettingByFrameKey($this->viewVars['frameKey']);
-	//}
+	protected function _loadFrameSetting() {
+		$this->_frameSetting = $this->BlogFrameSetting->getBlogFrameSetting(true);
+	}
 
 /**
  * 設定等の呼び出し
@@ -108,9 +109,9 @@ class BlogsAppController extends AppController {
 	protected function _prepare() {
 		$this->_setupBlogTitle();
 		$this->initBlog(['blogSetting']);
-		// TODO あるとフレーム設定更新時にエラーになる
-		//$this->_loadFrameSetting();
+		$this->_loadFrameSetting();
 	}
+
 
 /**
  * namedパラメータ取得

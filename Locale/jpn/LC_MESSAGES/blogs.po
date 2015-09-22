@@ -37,7 +37,7 @@ msgstr "カテゴリ"
 msgid "BlogEntry"
 msgstr "記事"
 
-msgid "Blog Name"
+msgid "Blog name"
 msgstr "ブログ名"
 
 msgid "%d-%d Blog Entry List"
@@ -79,7 +79,7 @@ msgstr "%s 件"
 msgid "%s article"
 msgstr "%s 件"
 
-msgid "Use content comment"
+msgid "Use comment"
 msgstr "コメントを付けられる"
 
 msgid "Use sns"
