@@ -31,8 +31,9 @@ class BlogEntry extends BlogsAppModel {
 		'NetCommons.Trackable',
 		'Tags.Tag',
 		'NetCommons.OriginalKey',
-		'NetCommons.Publishable',
-		'Likes.Like'
+		//'NetCommons.Publishable',
+		'Workflow.Workflow',
+		'Likes.Like',
 	);
 
 /**
@@ -158,18 +159,21 @@ class BlogEntry extends BlogsAppModel {
  * @return array condition
  */
 	public function getConditions($blockId, $userId, $permissions, $currentDateTime) {
+
 		// デフォルト絞り込み条件
 		$conditions = array(
 			'BlogEntry.block_id' => $blockId
 		);
 
-		if ($permissions['contentEditable']) {
+		if ($permissions['content_editable']) {
+		//if ($this->canEditW/orkflowContent()) {
 			// 編集権限
 			$conditions['BlogEntry.is_latest'] = 1;
 			return $conditions;
 		}
 
-		if ($permissions['contentCreatable']) {
+		if ($permissions['content_creatable']) {
+		//if ($this->canCreateWorkflowContent()) {
 			// 作成権限
 			$conditions['OR'] = array(
 				array_merge(
@@ -182,8 +186,9 @@ class BlogEntry extends BlogsAppModel {
 			return $conditions;
 		}
 
-		if ($permissions['contentReadable']) {
-			// 公開中コンテンツだけ
+		if ($permissions['content_readable']) {
+		//if ($this->canReadWorkflowContent()) {
+			 //公開中コンテンツだけ
 			$conditions = array_merge(
 				$conditions,
 				$this->_getPublishedConditions($currentDateTime));

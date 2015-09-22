@@ -90,9 +90,6 @@ class BlogEntriesController extends BlogsAppController {
  * @return void
  */
 	public function index() {
-		debug('あとでこの2行を消す');
-		$this->autoRender = false;
-		return;
 		if (! Current::read('Block.id')) {
 			$this->autoRender = false;
 			return;
@@ -159,6 +156,21 @@ class BlogEntriesController extends BlogsAppController {
 		$this->_list($conditions);
 	}
 
+
+	protected function _getPermission(){
+		$permissionNames = array(
+			'content_readable',
+			'content_creatable',
+			'content_editable',
+			'content_publishable',
+		);
+		$permission = array();
+		foreach ($permissionNames as $key) {
+			$permission[$key] = Current::permission($key);
+		}
+		return $permission;
+	}
+
 /**
  * 一覧
  *
@@ -172,10 +184,12 @@ class BlogEntriesController extends BlogsAppController {
 
 		$this->_setYearMonthOptions();
 
+		$permission = $this->_getPermission();
+
 		$conditions = $this->BlogEntry->getConditions(
 			Current::read('Block.id'),
 			$this->Auth->user('id'),
-			$this->viewVars,
+			$permission,
 			$this->_getCurrentDateTime()
 		);
 		if ($extraConditions) {
@@ -272,7 +286,7 @@ class BlogEntriesController extends BlogsAppController {
 		$yearMonthCount = $this->BlogEntry->getYearMonthCount(
 			Current::read('Block.id'),
 			$this->Auth->user('id'),
-			$this->viewVars,
+			$this->_getPermission(),
 			$this->_getCurrentDateTime()
 		);
 		foreach ($yearMonthCount as $yearMonth => $count) {
