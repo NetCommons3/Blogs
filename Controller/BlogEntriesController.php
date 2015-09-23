@@ -33,8 +33,9 @@ class BlogEntriesController extends BlogsAppController {
  */
 	public $helpers = array(
 		'NetCommons.Token',
-		'NetCommons.BackToPage',
+		'NetCommons.BackTo',
 		'Workflow.Workflow',
+		'Likes.Like',
 	);
 
 /**
@@ -227,7 +228,7 @@ class BlogEntriesController extends BlogsAppController {
 		$conditions = $this->BlogEntry->getConditions(
 			Current::read('Block.id'),
 			$this->Auth->user('id'),
-			$this->viewVars,
+			$this->_getPermission(),
 			$this->_getCurrentDateTime()
 		);
 
@@ -262,7 +263,8 @@ class BlogEntriesController extends BlogsAppController {
 
 				// コンテンツコメントの取得
 				$contentComments = $this->ContentComment->getContentComments(array(
-					'block_key' => $this->viewVars['blockKey'],
+					//'block_key' => $this->viewVars['blockKey'],
+					'block_key' => Current::read('Block.key'),
 					'plugin_key' => 'blogs',
 					'content_key' => $blogEntry['BlogEntry']['key'],
 				));

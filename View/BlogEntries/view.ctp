@@ -28,12 +28,9 @@ echo $this->Html->css(
 	)
 );
 ?>
-<?php echo $this->BackTopage->backToPageButton(__d('blogs', 'Move list')) ?>
+<?php echo $this->BackTo->pageButton(__d('blogs', 'Move list'), array('icon' => 'list')) ?>
 <div class="blogs_entry_status">
-	<?php echo $this->element(
-		'NetCommons.status_label',
-		array('status' => $blogEntry['BlogEntry']['status'])
-	); ?>
+	<?php echo $this->Workflow->label($blogEntry['BlogEntry']['status']); ?>
 </div>
 
 <article>
@@ -75,8 +72,8 @@ echo $this->Html->css(
 				<?php echo $this->element('ContentComments.index', array(
 					'pluginKey' => $this->request->params['plugin'],
 					'contentKey' => $blogEntry['BlogEntry']['key'],
-					'isCommentApproved' => $blogSetting['useCommentApproval'],
-					'useComment' => $blogSetting['useComment'],
+					'isCommentApproved' => $blogSetting['use_comment_approval'],
+					'useComment' => $blogSetting['use_comment'],
 					'contentCommentCnt' => $blogEntry['ContentCommentCnt']['cnt'],
 					'redirectUrl' => '/blogs/blog_entries/view/' . Current::read('Frame.id') . '/origin_id:' . $blogEntry['BlogEntry']['origin_id'],
 				)); ?>

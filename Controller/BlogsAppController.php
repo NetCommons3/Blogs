@@ -204,8 +204,9 @@ class BlogsAppController extends AppController {
 			);
 		}
 		$this->_blogSetting = $blogSetting;
-		$blogSetting = $this->camelizeKeyRecursive($blogSetting);
-		$this->set($blogSetting);
+		//$blogSetting = $this->camelizeKeyRecursive($blogSetting);
+		$this->set('blogSetting', $blogSetting['BlogSetting']);
+		//$this->set($blogSetting);
 
 		// Blogでは_loadFrameSettingでやってる。
 		//if (in_array('blogFrameSetting', $contains, true)) {

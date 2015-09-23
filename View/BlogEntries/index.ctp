@@ -58,10 +58,6 @@ echo $this->Html->css(
 						'url' => array('action' => 'index', Current::read('Frame.id')),
 					)); ?>
 
-					<?php //foreach($categories as $categoryId => $label): ?>
-					<!--	<li role="presentation"><a role="menuitem" tabindex="-1" href="/blogs/blog_entries/index/--><?php //echo Current::read('Frame.id')?><!--/category_id:--><?php //echo $categoryId?><!--">--><?php //echo $label ?><!--</a></li>-->
-					<?php //endforeach ?>
-
 					<li role="presentation" class="divider"></li>
 
 					<li role="presentation" class="dropdown-header"><?php echo __d('blogs', 'Archive')?></li>
@@ -89,11 +85,6 @@ echo $this->Html->css(
 
 				<div class="blogs_entry_status">
 					<?php echo $this->Workflow->label($blogEntry['BlogEntry']['status']); ?>
-				<!--	--><?php //echo $this->element(
-				//		'NetCommons.status_label',
-				//		array('status' => $blogEntry['BlogEntry']['status'])
-				//	); ?>
-				<!---->
 				</div>
 
 				<article>

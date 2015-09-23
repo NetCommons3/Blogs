@@ -110,7 +110,8 @@ class BlogEntriesEditController extends BlogsAppController {
  */
 	public function edit() {
 		$this->set('isEdit', true);
-		$originId = $this->request->params['named']['origin_id'];
+		//$originId = $this->request->params['named']['origin_id'];
+		$originId = $this->params['pass'][1];
 
 		//  origin_idのis_latstを元に編集を開始
 		$blogEntry = $this->BlogEntry->findByOriginIdAndIsLatest($originId, 1);

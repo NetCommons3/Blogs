@@ -203,3 +203,6 @@ $dataJson = json_encode($this->request->data);
 	</article>
 
 </div>
+
+
+<?php echo $this->Workflow->buttons('BlogEntry.status'); ?>
