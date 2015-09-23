@@ -34,6 +34,7 @@ class BlogEntry extends BlogsAppModel {
 		//'NetCommons.Publishable',
 		'Workflow.Workflow',
 		'Likes.Like',
+		'Comments.Comment',
 	);
 
 /**

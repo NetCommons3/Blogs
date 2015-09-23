@@ -30,7 +30,7 @@ $dataJson = json_encode($this->request->data);
 		<h1>BLOG</h1>
 		<div class="panel panel-default">
 
-			<?php echo $this->Form->create(
+			<?php echo $this->NetCommonsForm->create(
 				'BlogEntry',
 				array(
 					'inputDefaults' => array(
@@ -42,11 +42,11 @@ $dataJson = json_encode($this->request->data);
 					'novalidate' => true
 				)
 			);
-			$this->Form->unlockField('Tag');
+			$this->NetCommonsForm->unlockField('Tag');
 			?>
-			<?php echo $this->Form->input('origin_id', array('type' => 'hidden')); ?>
-			<?php echo $this->Form->input('key', array('type' => 'hidden')); ?>
-			<!--		--><?php //echo $this->Form->hidden('Frame.id', array(
+			<?php echo $this->NetCommonsForm->input('origin_id', array('type' => 'hidden')); ?>
+			<?php echo $this->NetCommonsForm->input('key', array('type' => 'hidden')); ?>
+			<!--		--><?php //echo $this->NetCommonsForm->hidden('Frame.id', array(
 			//			'value' => Current::read('Frame.id'),
 			//		)); ?>
 
@@ -55,101 +55,40 @@ $dataJson = json_encode($this->request->data);
 				<fieldset>
 
 					<?php
-					echo $this->Form->input(
+					echo $this->NetCommonsForm->input(
 						'title',
 						array(
 							'label' => __d('blogs', 'Title'),
 							'required' => 'required',
-							'between' => '<strong class="text-danger h4">*</strong>',
 						)
 					);
 					?>
-					<?php echo $this->element(
-						'NetCommons.errors', [
-						'errors' => $this->validationErrors,
-						'model' => 'BlogEntry',
-						'field' => 'title',
-					]); ?>
-
-					<div class="form-group">
-						<label class="control-label">
-							<?php echo __d('blogs', 'Body1'); ?>
-						</label>
-						<?php echo $this->element('NetCommons.required'); ?>
-
-						<div class="nc-wysiwyg-alert">
-							<?php echo $this->Form->textarea(
-								'body1',
-								[
-									'class' => 'form-control',
-									'ui-tinymce' => 'tinymce.options',
-									'ng-model' => 'blogEntry.body1',
-									'rows' => 5,
-									'required' => 'required',
-								]
-							) ?>
-							<?php echo $this->element(
-								'NetCommons.errors', [
-								'errors' => $this->validationErrors,
-								'model' => 'BlogEntry',
-								'field' => 'body1',
-							]); ?>
-						</div>
-
-					</div>
+					<?php echo $this->NetCommonsForm->wysiwyg('Announcement.content', array(
+						'label' => __d('blogs', 'Body1'),
+						'required' => true,
+					));?>
 
 					<label><input type="checkbox" ng-model="writeBody2"/><?php echo __d('blogs', 'Write body2') ?>
 					</label>
 
 					<div class="form-group" ng-show="writeBody2">
-						<label class="control-label">
-							<?php echo __d('blogs', 'Body2'); ?>
-						</label>
-
-						<div class="nc-wysiwyg-alert">
-							<?php echo $this->Form->textarea(
-								'body2',
-								[
-									'class' => 'form-control',
-									'ui-tinymce' => 'tinymce.options',
-									'ng-model' => 'blogEntry.body2',
-									'rows' => 5,
-								]
-							) ?>
-						</div>
-
+					<?php echo $this->NetCommonsForm->wysiwyg('Announcement.content', array(
+						'label' => __d('blogs', 'Body2'),
+					));?>
 					</div>
 
+
 					<?php
-					echo $this->Form->input('published_datetime',
+					echo $this->NetCommonsForm->input('published_datetime',
 						array('type' => 'text',
 							'ng-model' => 'blogEntry.published_datetime',
 							'datetimepicker',
 							'required' => 'required',
-							'between' => '<strong class="text-danger h4">*</strong>',
 
 							'label' => __d('blogs', 'Published datetime')));
 
 					?>
-					<?php echo $this->element(
-						'NetCommons.errors', [
-						'errors' => $this->validationErrors,
-						'model' => 'BlogEntry',
-						'field' => 'published_datetime',
-					]); ?>
-
-					<?php $categories = Hash::combine($categories, '{n}.category.id', '{n}.category.name'); ?>
-					<?php echo $this->Form->input('category_id',
-						array(
-							'label' => __d('categories', 'Category'),
-							'type' => 'select',
-							'error' => false,
-							'class' => 'form-control',
-							'empty' => array(0 => __d('categories', 'Select Category')),
-							'options' => $categories,
-							'value' => (isset($blogEntry['category_id']) ? $blogEntry['category_id'] : '0')
-						)); ?>
-
+					<?php echo $this->Category->select('BlogEntry.category_id', array('empty' => true)); ?>
 
 					<?php echo $this->element(
 						'Tags.tag_form',
@@ -159,40 +98,34 @@ $dataJson = json_encode($this->request->data);
 						)
 					); ?>
 
-
 				</fieldset>
 
 				<hr/>
-
-				<?php echo $this->element('Comments.form', array('contentStatus' => $blogEntry['BlogEntry']['status'])); ?>
+				<?php echo $this->Workflow->inputComment('FaqQuestion.status'); ?>
+				<?php //echo $this->element('Comments.form', array('contentStatus' => $blogEntry['BlogEntry']['status'])); ?>
 
 			</div>
 
 			<div class="panel-footer" style="text-align: center">
-
-				<?php echo $this->element(
-					'NetCommons.workflow_buttons',
-					array('contentStatus' => $blogEntry['BlogEntry']['status'])
-				); ?>
-
+				<?php echo $this->Workflow->buttons('BlogEntry.status'); ?>
 			</div>
 
-			<?php echo $this->Form->end() ?>
+			<?php echo $this->NetCommonsForm->end() ?>
 			<?php if ($isEdit && $isDeletable) : ?>
 				<div  class="panel-footer" style="text-align: right;">
-					<?php echo $this->Form->create('BlogEntry',
+					<?php echo $this->NetCommonsForm->create('BlogEntry',
 						array(
 							'type' => 'delete',
 							'url' => array('controller' => 'blog_entries_edit', 'action' => 'delete', Current::read('Frame.id')))
 					) ?>
-					<?php echo $this->Form->input('origin_id', array('type' => 'hidden')); ?>
+					<?php echo $this->NetCommonsForm->input('origin_id', array('type' => 'hidden')); ?>
 
 					<span class="nc-tooltip" tooltip="<?php echo __d('net_commons', 'Delete'); ?>">
 						<button class="btn btn-danger" onClick="return confirm('<?php echo __d('net_commons', 'Deleting the %s. Are you sure to proceed?', __d('blogs', 'BlogEntry')) ?>')"><span class="glyphicon glyphicon-trash"> </span></button>
 
 
 					</span>
-					<?php echo $this->Form->end() ?>
+					<?php echo $this->NetCommonsForm->end() ?>
 				</div>
 			<?php endif ?>
 
@@ -205,4 +138,3 @@ $dataJson = json_encode($this->request->data);
 </div>
 
 
-<?php echo $this->Workflow->buttons('BlogEntry.status'); ?>
