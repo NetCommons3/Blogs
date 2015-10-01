@@ -15,6 +15,7 @@ App::uses('BlogsAppController', 'Blogs.Controller');
  * @property PaginatorComponent $Paginator
  * @property BlogEntry $BlogEntry
  * @property BlogCategory $BlogCategory
+ * @property NetCommonsComponent $NetCommons
  */
 class BlogEntriesEditController extends BlogsAppController {
 
@@ -90,7 +91,7 @@ class BlogEntriesEditController extends BlogsAppController {
 			$this->request->data['BlogEntry']['blog_key'] = ''; // https://github.com/NetCommons3/NetCommons3/issues/7 対策
 
 			// set status
-			$status = $this->NetCommonsWorkflow->parseStatus();
+			$status = $this->Workflow->parseStatus();
 			$this->request->data['BlogEntry']['status'] = $status;
 
 			// set block_id
@@ -110,13 +111,13 @@ class BlogEntriesEditController extends BlogsAppController {
 			$this->request->data['Tag'] = array();
 		}
 
-		$comments = $this->Comment->getComments(
-			array(
-				'plugin_key' => 'blogs',
-				'content_key' => isset($blogEntry['BlogEntry']['key']) ? $blogEntry['BlogEntry']['key'] : null,
-			)
-		);
-		$this->set('comments', $comments);
+		//$comments = $this->Comment->getComments(
+		//	array(
+		//		'plugin_key' => 'blogs',
+		//		'content_key' => isset($blogEntry['BlogEntry']['key']) ? $blogEntry['BlogEntry']['key'] : null,
+		//	)
+		//);
+		//$this->set('comments', $comments);
 
 		$this->render('form');
 	}
