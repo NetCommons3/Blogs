@@ -46,7 +46,7 @@ $dataJson = json_encode($this->request->data);
 			?>
 			<?php echo $this->NetCommonsForm->input('origin_id', array('type' => 'hidden')); ?>
 			<?php echo $this->NetCommonsForm->input('key', array('type' => 'hidden')); ?>
-			<!--		--><?php //echo $this->NetCommonsForm->hidden('Frame.id', array(
+			<!--		--><?php //echo $this->Form->hidden('Frame.id', array(
 			//			'value' => Current::read('Frame.id'),
 			//		)); ?>
 
@@ -63,7 +63,7 @@ $dataJson = json_encode($this->request->data);
 						)
 					);
 					?>
-					<?php echo $this->NetCommonsForm->wysiwyg('Announcement.content', array(
+					<?php echo $this->NetCommonsForm->wysiwyg('BlogEntry.body1', array(
 						'label' => __d('blogs', 'Body1'),
 						'required' => true,
 					));?>
@@ -72,7 +72,7 @@ $dataJson = json_encode($this->request->data);
 					</label>
 
 					<div class="form-group" ng-show="writeBody2">
-					<?php echo $this->NetCommonsForm->wysiwyg('Announcement.content', array(
+					<?php echo $this->NetCommonsForm->wysiwyg('BlogEntry.body2', array(
 						'label' => __d('blogs', 'Body2'),
 					));?>
 					</div>
@@ -101,8 +101,7 @@ $dataJson = json_encode($this->request->data);
 				</fieldset>
 
 				<hr/>
-				<?php echo $this->Workflow->inputComment('FaqQuestion.status'); ?>
-				<?php //echo $this->element('Comments.form', array('contentStatus' => $blogEntry['BlogEntry']['status'])); ?>
+				<?php echo $this->Workflow->inputComment('BlogEntry.status'); ?>
 
 			</div>
 

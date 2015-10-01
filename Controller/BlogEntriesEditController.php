@@ -47,6 +47,7 @@ class BlogEntriesEditController extends BlogsAppController {
 				'add,edit,delete' => 'content_creatable',
 			),
 		),
+		'Workflow.Workflow',
 
 		'Categories.Categories',
 		//'Blogs.BlogEntryPermission',
@@ -86,6 +87,8 @@ class BlogEntriesEditController extends BlogsAppController {
 
 		if ($this->request->is('post')) {
 			$this->BlogEntry->create();
+			$this->request->data['BlogEntry']['blog_key'] = ''; // https://github.com/NetCommons3/NetCommons3/issues/7 対策
+
 			// set status
 			$status = $this->NetCommonsWorkflow->parseStatus();
 			$this->request->data['BlogEntry']['status'] = $status;
@@ -94,14 +97,13 @@ class BlogEntriesEditController extends BlogsAppController {
 			$this->request->data['BlogEntry']['block_id'] = Current::read('Block.id');
 			// set language_id
 			$this->request->data['BlogEntry']['language_id'] = $this->viewVars['languageId'];
-
 			if (($result = $this->BlogEntry->saveEntry(Current::read('Block.id'), Current::read('Frame.id'), $this->request->data))) {
 				return $this->redirect(
 					array('controller' => 'blog_entries', 'action' => 'view', Current::read('Frame.id'), 'origin_id' => $result['BlogEntry']['origin_id'])
 				);
 			}
 
-			$this->handleValidationError($this->BlogEntry->validationErrors);
+			$this->NetCommons->handleValidationError($this->BlogEntry->validationErrors);
 
 		} else {
 			$this->request->data = $blogEntry;
@@ -139,9 +141,12 @@ class BlogEntriesEditController extends BlogsAppController {
 		}
 
 		if ($this->request->is(array('post', 'put'))) {
+
 			$this->BlogEntry->create();
+			$this->request->data['BlogEntry']['blog_key'] = ''; // https://github.com/NetCommons3/NetCommons3/issues/7 対策
+
 			// set status
-			$status = $this->NetCommonsWorkflow->parseStatus();
+			$status = $this->Workflow->parseStatus();
 			$this->request->data['BlogEntry']['status'] = $status;
 
 			// set block_id
@@ -159,7 +164,7 @@ class BlogEntriesEditController extends BlogsAppController {
 				);
 			}
 
-			$this->handleValidationError($this->BlogEntry->validationErrors);
+			$this->NetCommons->handleValidationError($this->BlogEntry->validationErrors);
 
 		} else {
 

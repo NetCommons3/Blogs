@@ -293,19 +293,19 @@ class BlogEntry extends BlogsAppModel {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
-			// validate comment
-			if (!$this->Comment->validateByStatus($savedData, array('caller' => $this->name))) {
-				$this->validationErrors = Hash::merge($this->validationErrors, $this->Comment->validationErrors);
-				$this->rollback();
-				return false;
-			}
-
-			//コメントの登録
-			if ($this->Comment->data) {
-				if (! $this->Comment->save(null, false)) {
-					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-				}
-			}
+			//// validate comment
+			//if (!$this->Comment->validateByStatus($savedData, array('caller' => $this->name))) {
+			//	$this->validationErrors = Hash::merge($this->validationErrors, $this->Comment->validationErrors);
+			//	$this->rollback();
+			//	return false;
+			//}
+			//
+			////コメントの登録
+			//if ($this->Comment->data) {
+			//	if (! $this->Comment->save(null, false)) {
+			//		throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			//	}
+			//}
 
 			/* $plugin = strtolower($this->plugin); */
 			/* if (!$this->Topic->validateTopic([ */
