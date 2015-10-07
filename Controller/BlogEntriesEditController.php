@@ -170,9 +170,6 @@ class BlogEntriesEditController extends BlogsAppController {
 		} else {
 
 			$this->request->data = $blogEntry;
-			//if ($this->_hasEditPermission($blogEntry) === false) {
-			//	throw new ForbiddenException(__d('net_commons', 'Permission denied'));
-			//}
 			if ($this->BlogEntry->canEditWorkflowContent($blogEntry) === false) {
 				throw new ForbiddenException(__d('net_commons', 'Permission denied'));
 			}
@@ -185,16 +182,6 @@ class BlogEntriesEditController extends BlogsAppController {
 		$comments = $this->BlogEntry->getCommentsByContentKey($blogEntry['BlogEntry']['key']);
 		$this->set('comments', $comments);
 
-		//$comments = $this->Comment->getComments(
-		//	array(
-		//		'plugin_key' => 'blogentries',
-		//		// ε(　　　　 v ﾟωﾟ)　＜ Commentプラグインでセーブするときにモデル名をstrtolowerして複数形になおして保存してるのでこんな名前。なんとかしたい
-		//		'content_key' => isset($blogEntry['BlogEntry']['key']) ? $blogEntry['BlogEntry']['key'] : null,
-		//	)
-		//);
-		//$comments = $this->camelizeKeyRecursive($comments);
-		//$this->set('comments', $comments);
-		//
 		$this->render('form');
 	}
 

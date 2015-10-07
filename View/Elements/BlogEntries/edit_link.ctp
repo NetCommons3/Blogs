@@ -28,15 +28,3 @@
 		); ?>
 	</div>
 <?php endif; ?>
-
-<?php //if ($contentPublishable || $contentEditable ||
-//		($contentCreatable && ($blogEntry['BlogEntry']['created_user'] == $userId))): ?>
-<!---->
-<!--	<div class="nc-blog-edit-link">-->
-<!--		<a href="--><?php //echo $this->Html->url('/blogs/blog_entries_edit/edit/' . Current::read('Frame.id') . '/origin_id:' . $blogEntry['BlogEntry']['origin_id']); ?><!--"-->
-<!--			class="btn btn-primary btn-xs" tooltip="--><?php //echo __d('blogs', 'Edit'); ?><!--">-->
-<!---->
-<!--			<span class="glyphicon glyphicon-edit"> </span>-->
-<!--		</a>-->
-<!--	</div>-->
-<?php //endif;
