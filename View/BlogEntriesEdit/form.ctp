@@ -130,7 +130,7 @@ $dataJson = json_encode($this->request->data);
 
 		</div>
 
-		<?php echo $this->element('Comments.index'); ?>
+		<?php echo $this->Workflow->comments(); ?>
 
 	</article>
 
