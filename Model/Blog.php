@@ -285,8 +285,7 @@ class Blog extends BlogsAppModel {
 		$this->loadModels([
 			'Blog' => 'Blogs.Blog',
 			'BlogSetting' => 'Blogs.BlogSetting',
-			//'BlogArticle' => 'Blogs.BlogArticle',
-			//'BlogArticleTree' => 'Blogs.BlogArticleTree',
+			'BlogEntry' => 'Blogs.BlogEntry',
 		]);
 
 		//トランザクションBegin
@@ -307,6 +306,10 @@ class Blog extends BlogsAppModel {
 			}
 
 			if (! $this->BlogSetting->deleteAll(array($this->BlogSetting->alias . '.blog_key' => $data['Blog']['key']), false, false)) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
+
+			if (! $this->BlogEntry->deleteAll(array($this->BlogEntry->alias . '.blog_key' => $data['Blog']['key']), false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
