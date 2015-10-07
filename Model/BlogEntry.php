@@ -50,13 +50,13 @@ class BlogEntry extends BlogsAppModel {
 			'fields' => '',
 			'order' => ''
 		),
-		'CategoryOrder' => array(
-			'className' => 'Categories.CategoryOrder',
-			'foreignKey' => false,
-			'conditions' => 'CategoryOrder.category_key=Category.key',
-			'fields' => '',
-			'order' => ''
-		)
+	//	'CategoryOrder' => array(
+	//		'className' => 'Categories.CategoryOrder',
+	//		'foreignKey' => false,
+	//		'conditions' => 'CategoryOrder.category_key=Category.key',
+	//		'fields' => '',
+	//		'order' => ''
+	//	)
 	);
 
 /**
@@ -356,10 +356,8 @@ class BlogEntry extends BlogsAppModel {
 		try{
 			//コメントの削除
 			$deleteEntry = $this->findByOriginId($originId);
-			$this->loadModels([
-				'Comment' => 'Comments.Comment',
-			]);
-			$this->Comment->deleteByContentKey($deleteEntry['BlogEntry']['key']);
+			//コメントの削除
+			$this->deleteCommentsByContentKey($deleteEntry['BlogEntry']['key']);
 
 			// 記事削除
 			$conditions = array('origin_id' => $originId);

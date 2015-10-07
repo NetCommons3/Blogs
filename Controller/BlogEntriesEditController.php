@@ -213,7 +213,7 @@ class BlogEntriesEditController extends BlogsAppController {
 		$blogEntry = $this->BlogEntry->findByOriginIdAndIsLatest($originId, 1);
 
 		// 権限チェック
-		if ($this->_hasDeletePermission($blogEntry) === false) {
+		if ($this->BlogEntry->canDeleteWorkflowContent($blogEntry) === false) {
 			throw new ForbiddenException(__d('net_commons', 'Permission denied'));
 		}
 
@@ -221,25 +221,5 @@ class BlogEntriesEditController extends BlogsAppController {
 			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 		}
 		return $this->redirect(array('controller' => 'blog_entries', 'action' => 'index', Current::read('Frame.id')));
-	}
-
-/**
- * 編集・削除の権限チェック
- *
- * @param array $blogEntry 権限チェック対象記事
- * @return bool
- */
-	protected function _hasEditPermission($blogEntry) {
-		return $this->BlogEntryPermission->canEdit($blogEntry);
-	}
-
-/**
- * 削除権限チェック
- *
- * @param array $blogEntry 権限チェック対象記事
- * @return bool
- */
-	protected function _hasDeletePermission($blogEntry) {
-		return $this->BlogEntryPermission->canDelete($blogEntry);
 	}
 }
