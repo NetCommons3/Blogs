@@ -28,7 +28,7 @@ echo $this->Html->css(
 	)
 );
 ?>
-<?php echo $this->BackTo->pageButton(__d('blogs', 'Move list'), array('icon' => 'list')) ?>
+<?php echo $this->BackTo->pageLinkButton(__d('blogs', 'Move list'), array('icon' => 'list')) ?>
 <div class="blogs_entry_status">
 	<?php echo $this->Workflow->label($blogEntry['BlogEntry']['status']); ?>
 </div>
