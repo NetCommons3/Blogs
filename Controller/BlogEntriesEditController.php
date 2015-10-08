@@ -71,6 +71,8 @@ class BlogEntriesEditController extends BlogsAppController {
  * @return void
  */
 	public function beforeFilter() {
+		App::uses('CakeTime', 'Utility');
+		$this->request->data['BlogEntry']['published_datetime'] = CakeTime::toServer($this->request->data['BlogEntry']['published_datetime'], $this->Auth->user('timezone'));
 		parent::beforeFilter();
 		//$this->Categories->initCategories();
 	}
