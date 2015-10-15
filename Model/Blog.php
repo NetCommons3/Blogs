@@ -45,7 +45,7 @@ class Blog extends BlogsAppModel {
 			'name' => 'Blog.name',
 			'loadModels' => array(
 				'Like' => 'Likes.Like',
-				'Comment' => 'Comments.Comment',
+				'WorkflowComment' => 'Workflow.WorkflowComment',
 				'Category' => 'Categories.Category',
 				'CategoryOrder' => 'Categories.CategoryOrder',
 			)

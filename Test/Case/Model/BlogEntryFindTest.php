@@ -30,7 +30,7 @@ class BlogEntryFindTest extends CakeTestCase {
 		//'plugin.tags.tag',
 		//'plugin.tags.tags_content',
 		'plugin.users.user', // Trackableビヘイビアでテーブルが必用
-		'plugin.comments.comment',
+		'plugin.workflow.workflow_comment',
 	);
 
 /**

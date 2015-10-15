@@ -25,7 +25,7 @@ class BlogEntriesEditController extends BlogsAppController {
 	public $uses = array(
 		'Blogs.BlogEntry',
 		'Categories.Category',
-		'Comments.Comment',
+		'Workflow.WorkflowComment',
 	);
 
 /**
@@ -65,14 +65,25 @@ class BlogEntriesEditController extends BlogsAppController {
 		//'Likes.Like',
 	);
 
-	/**
+/**
  * beforeFilter
  *
  * @return void
  */
 	public function beforeFilter() {
+		// ここをComponent化？
 		App::uses('CakeTime', 'Utility');
-		$this->request->data['BlogEntry']['published_datetime'] = CakeTime::toServer($this->request->data['BlogEntry']['published_datetime'], $this->Auth->user('timezone'));
+		$targetKeys = array('BlogEntry.published_datetime');
+		foreach ($targetKeys as $targetKey) {
+			list($modelName, $fieldName) = explode('.', $targetKey);//複数レコード同時更新だと使えないねぇ。
+			if (isset($this->request->data[$modelName][$fieldName])) {
+				$this->request->data[$modelName][$fieldName] = CakeTime::toServer(
+					$this->request->data[$modelName][$fieldName],
+					$this->Auth->user('timezone')
+				);
+			}
+		}
+		// ここまで
 		parent::beforeFilter();
 		//$this->Categories->initCategories();
 	}

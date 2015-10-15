@@ -34,7 +34,7 @@ class BlogEntry extends BlogsAppModel {
 		//'NetCommons.Publishable',
 		'Workflow.Workflow',
 		'Likes.Like',
-		'Comments.Comment',
+		'Workflow.WorkflowComment',
 	);
 
 /**
@@ -147,7 +147,7 @@ class BlogEntry extends BlogsAppModel {
  */
 	public function getNew() {
 		$new = parent::getNew();
-		$new['BlogEntry']['published_datetime'] = date('Y-m-d H:i:s');
+		$new['BlogEntry']['published_datetime'] = date('Y-m-d H:i:s'); // TODO Timezone変換　？ここは内部Timezoneでいいはず
 		return $new;
 	}
 /**
@@ -277,10 +277,6 @@ class BlogEntry extends BlogsAppModel {
 	public function saveEntry($blockId, $frameId, $data) {
 		$this->begin();
 		try {
-			$this->loadModels(array(
-				'Comment' => 'Comments.Comment',
-				/* 'Topic' => 'Topics.Topic', */
-			));
 			$this->create(); // 常に新規登録
 			// 先にvalidate 失敗したらfalse返す
 			$this->set($data);

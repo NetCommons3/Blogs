@@ -23,7 +23,7 @@ class BlogEntriesController extends BlogsAppController {
  */
 	public $uses = array(
 		'Blogs.BlogEntry',
-		'Comments.Comment',
+		'Workflow.WorkflowComment',
 		'Categories.Category',
 		'ContentComments.ContentComment',	// コンテンツコメント
 	);

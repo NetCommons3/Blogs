@@ -71,6 +71,7 @@ class BlogBlocksController extends BlogsAppController {
 	 */
 	public $helpers = array(
 		'Blocks.BlockForm',
+		//'Blocks.Block',
 		'Likes.Like',
 	);
 
