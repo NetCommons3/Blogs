@@ -70,7 +70,13 @@ echo $this->Html->css(
 		</div>
 
 		<div class="pull-right">
-			<?php echo $this->Button->addLink('', array('controller' => 'blog_entries_edit', 'action'=> 'add', Current::read('Frame.id')), array('tooltip' => __d('blogs', 'Add entry'))); ?>
+			<?php echo $this->Button->addLink('',
+				$this->NetCommonsHtml->url(array(
+					'controller' => 'blog_entries_edit',
+					'action' => 'add',
+					'frame_id' => Current::read('Frame.id')
+				)),
+				array('tooltip' => __d('blogs', 'Add entry'))); ?>
 		</div>
 
 
