@@ -11,6 +11,7 @@
  */
 
 App::uses('BlogsAppModel', 'Blogs.Model');
+App::uses('NetCommonsTime', 'NetCommons.Utility');
 
 /**
  * Summary for BlogEntry Model
@@ -147,7 +148,8 @@ class BlogEntry extends BlogsAppModel {
  */
 	public function getNew() {
 		$new = parent::getNew();
-		$new['BlogEntry']['published_datetime'] = date('Y-m-d H:i:s'); // TODO Timezone変換　？ここは内部Timezoneでいいはず
+		$netCommonsTime = new NetCommonsTime();
+		$new['BlogEntry']['published_datetime'] = $netCommonsTime->getNowDatetime();
 		return $new;
 	}
 /**
