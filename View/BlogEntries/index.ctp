@@ -74,7 +74,7 @@ echo $this->Html->css(
 				$this->NetCommonsHtml->url(array(
 					'controller' => 'blog_entries_edit',
 					'action' => 'add',
-					'frame_id' => Current::read('Frame.id')
+					//'frame_id' => Current::read('Frame.id')
 				)),
 				array('tooltip' => __d('blogs', 'Add entry'))); ?>
 		</div>
@@ -97,13 +97,16 @@ echo $this->Html->css(
 					<h2 class="blogs_entry_title">
 						<?php echo $this->Html->link(
 							$blogEntry['BlogEntry']['title'],
-							array(
-								'controller' => 'blog_entries',
-								'action' => 'view',
-								Current::read('Frame.id'),
-								'origin_id' => $blogEntry['BlogEntry']['origin_id']
+							$this->NetCommonsHtml->url(
+								array(
+									'controller' => 'blog_entries',
+									'action' => 'view',
+									//'frame_id' => Current::read('Frame.id'),
+									'origin_id' => $blogEntry['BlogEntry']['origin_id']
+								)
 							)
-						); ?>
+						);
+						?>
 					</h2>
 					<?php echo $this->element('entry_meta_info', array('blogEntry' => $blogEntry)); ?>
 

@@ -223,7 +223,8 @@ class BlogEntriesController extends BlogsAppController {
 	public function view() {
 		$this->_prepare();
 
-		$originId = $this->request->params['named']['origin_id'];
+		//$originId = $this->request->params['named']['origin_id'];
+		$originId = $this->params['pass'][1];
 
 		$conditions = $this->BlogEntry->getConditions(
 			Current::read('Block.id'),
