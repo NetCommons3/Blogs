@@ -52,6 +52,7 @@ class BlogEntriesEditController extends BlogsAppController {
 
 		'Categories.Categories',
 		//'Blogs.BlogEntryPermission',
+		'NetCommons.NetCommonsTime',
 	);
 
 	/**
@@ -72,21 +73,24 @@ class BlogEntriesEditController extends BlogsAppController {
  * @return void
  */
 	public function beforeFilter() {
-		// ここをComponent化？
-		App::uses('CakeTime', 'Utility');
-		$targetKeys = array('BlogEntry.published_datetime');
-		foreach ($targetKeys as $targetKey) {
-			list($modelName, $fieldName) = explode('.', $targetKey);//複数レコード同時更新だと使えないねぇ。
-			if (isset($this->request->data[$modelName][$fieldName])) {
-				$this->request->data[$modelName][$fieldName] = CakeTime::toServer(
-					$this->request->data[$modelName][$fieldName],
-					$this->Auth->user('timezone')
-				);
-			}
-		}
-		// ここまで
-		parent::beforeFilter();
-		//$this->Categories->initCategories();
+		parent::beforeFilter(); // NetCommonsAppController::beforeFilterでCurrent::initialize()されるので最初にparent::beforeFilter通す
+
+		// TODO ここをComponent化？
+
+		//App::uses('NetCommonsTime', 'NetCommons.Utility');
+		//$netCommonsTime = new NetCommonsTime();
+		//$targetKeys = array('BlogEntry.published_datetime');
+		//foreach ($targetKeys as $targetKey) {
+		//	list($modelName, $fieldName) = explode('.', $targetKey);//複数レコード同時更新だと使えないねぇ。
+		//	if (isset($this->request->data[$modelName][$fieldName])) {
+		//		$this->request->data[$modelName][$fieldName] = $netCommonsTime->toServerDatetime($this->request->data[$modelName][$fieldName]);
+		//	}
+		//}
+
+		//$targetKeys = array('published_datetime');
+		//App::uses('NetCommonsTime', 'NetCommons.Utility');
+		//$netCommonsTime = new NetCommonsTime();
+		//$this->request->data = $netCommonsTime->toServerDatetimeArray($this->request->data, $targetKeys);
 	}
 
 /**
@@ -113,9 +117,15 @@ class BlogEntriesEditController extends BlogsAppController {
 			// set language_id
 			$this->request->data['BlogEntry']['language_id'] = $this->viewVars['languageId'];
 			if (($result = $this->BlogEntry->saveEntry(Current::read('Block.id'), Current::read('Frame.id'), $this->request->data))) {
-				return $this->redirect(
-					array('controller' => 'blog_entries', 'action' => 'view', Current::read('Frame.id'), 'origin_id' => $result['BlogEntry']['origin_id'])
+				$url = NetCommonsUrl::actionUrl(
+					array(
+						'controller' => 'blog_entries',
+						'action' => 'view',
+						'block_id' => Current::read('Block.id'),
+						'frame_id' => Current::read('Frame.id'),
+						'origin_id' => $result['BlogEntry']['origin_id'])
 				);
+				return $this->redirect($url);
 			}
 
 			$this->NetCommons->handleValidationError($this->BlogEntry->validationErrors);
@@ -174,9 +184,17 @@ class BlogEntriesEditController extends BlogsAppController {
 			unset($data['BlogEntry']['id']); // 常に新規保存
 
 			if ($this->BlogEntry->saveEntry(Current::read('Block.id'), Current::read('Frame.id'), $data)) {
-				return $this->redirect(
-					array('controller' => 'blog_entries', 'action' => 'view', Current::read('Frame.id'), 'origin_id' => $data['BlogEntry']['origin_id'])
+				$url = NetCommonsUrl::actionUrl(
+					array(
+						'controller' => 'blog_entries',
+						'action' => 'view',
+						'frame_id' => Current::read('Frame.id'),
+						'block_id' => Current::read('Block.id'),
+						'origin_id' => $data['BlogEntry']['origin_id']
+					)
 				);
+
+				return $this->redirect($url);
 			}
 
 			$this->NetCommons->handleValidationError($this->BlogEntry->validationErrors);

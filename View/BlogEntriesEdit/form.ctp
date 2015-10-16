@@ -23,7 +23,9 @@ echo $this->Html->script(
 );
 ?>
 <?php
-$dataJson = json_encode($this->request->data);
+$dataJson = json_encode(
+	$this->NetCommonsTime->toUserDatetimeArray($this->request->data, array('published_datetime'))
+);
 ?>
 <div class="blogEntries form" ng-controller="Blogs" ng-init="init(<?php echo h($dataJson) ?>)">
 	<article>
@@ -80,13 +82,10 @@ $dataJson = json_encode($this->request->data);
 
 					<?php
 					echo $this->NetCommonsForm->input('published_datetime',
-						array('type' => 'text',
-							'ng-model' => 'blogEntry.published_datetime',
-							'datetimepicker',
+						array(
+							'type' => 'datetime',
 							'required' => 'required',
-
 							'label' => __d('blogs', 'Published datetime')));
-
 					?>
 					<?php echo $this->Category->select('BlogEntry.category_id', array('empty' => true)); ?>
 
