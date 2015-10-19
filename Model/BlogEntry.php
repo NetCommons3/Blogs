@@ -36,7 +36,8 @@ class BlogEntry extends BlogsAppModel {
 		'Workflow.Workflow',
 		'Likes.Like',
 		'Workflow.WorkflowComment',
-	);
+		//'Categories.Category',
+		);
 
 /**
  * belongsTo associations

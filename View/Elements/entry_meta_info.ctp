@@ -12,11 +12,13 @@
 		<?php echo $this->Html->link($blogEntry['TrackableCreator']['username'], array()); ?>&nbsp;
 		<?php echo __d('blogs', 'Category') ?>:<?php echo $this->Html->link(
 			$blogEntry['Category']['name'],
-			array(
-				'controller' => 'blog_entries',
-				'action' => 'index',
-				Current::read('Frame.id'),
-				'category_id' => $blogEntry['BlogEntry']['category_id']
+			$this->NetCommonsHtml->url(
+				array(
+					'controller' => 'blog_entries',
+					'action' => 'index',
+					'frame_id' => Current::read('Frame.id'),
+					'category_id' => $blogEntry['BlogEntry']['category_id']
+				)
 			)
 		); ?>
 	</div>

@@ -239,6 +239,8 @@ class BlogEntriesEditController extends BlogsAppController {
 		if ($this->BlogEntry->deleteEntryByOriginId($originId) === false) {
 			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 		}
-		return $this->redirect(array('controller' => 'blog_entries', 'action' => 'index', Current::read('Frame.id')));
+		return $this->redirect(
+			NetCommonsUrl::actionUrl(
+				array('controller' => 'blog_entries', 'action' => 'index', 'frame_id' => Current::read('Frame.id'), 'block_id' => Current::read('Block.id'))));
 	}
 }

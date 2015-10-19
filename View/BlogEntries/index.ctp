@@ -49,13 +49,18 @@ echo $this->Html->css(
 					<span class="caret"></span>
 				</button>
 				<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-					<li role="presentation"><a role="menuitem" tabindex="-1" href="/blogs/blog_entries/index/<?php echo Current::read('Frame.id')?>"><?php echo __d('blogs', 'All Entries') ?></a></li>
+					<li role="presentation"><a role="menuitem" tabindex="-1" href="<?php echo $this->NetCommonsHtml->url(
+							array(
+								'action' => 'index',
+								'frame_id' => Current::read('Frame.id'),
+							)
+						);?>"><?php echo __d('blogs', 'All Entries') ?></a></li>
 					<li role="presentation" class="dropdown-header"><?php echo __d('blogs', 'Category') ?></li>
 
 					<?php echo $this->Category->dropDownToggle(array(
 						'empty' => false,
 						'displayMenu' => false,
-						'url' => array('action' => 'index', Current::read('Frame.id')),
+						$this->NetCommonsHtml->url(array('action' => 'index')),
 					)); ?>
 
 					<li role="presentation" class="divider"></li>
@@ -63,7 +68,13 @@ echo $this->Html->css(
 					<li role="presentation" class="dropdown-header"><?php echo __d('blogs', 'Archive')?></li>
 					<?php foreach($yearMonthOptions as $yearMonth => $label): ?>
 
-						<li role="presentation"><a role="menuitem" tabindex="-1" href="/blogs/blog_entries/year_month/<?php echo Current::read('Frame.id')?>/year_month:<?php echo $yearMonth?>"><?php echo $label ?></a></li>
+						<li role="presentation"><a role="menuitem" tabindex="-1" href="<?php echo $this->NetCommonsHtml->url(
+								array(
+									'action' => 'year_month',
+									'frame_id' => Current::read('Frame.id'),
+									'year_month' => $yearMonth,
+								)
+							);?>"><?php echo $label ?></a></li>
 					<?php endforeach ?>
 				</ul>
 			</div>
