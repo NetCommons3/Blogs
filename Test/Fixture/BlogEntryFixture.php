@@ -7,8 +7,8 @@
  * @license  http://www.netcommons.org/license.txt NetCommons License
  */
 
-CakePlugin::load('NetCommons');
-App::uses('NetCommonsBlockComponent', 'NetCommons.Controller/Component');
+CakePlugin::load('Workflow');
+App::uses('WorkflowComponent', 'Workflow.Controller/Component');
 
 /**
  * Summary for BlogEntryFixture
@@ -165,7 +165,7 @@ class BlogEntryFixture extends CakeTestFixture {
 				'category_id' => 2,
 				'key' => 'key1',
 				'origin_id' => 1,
-				'status' => NetCommonsBlockComponent::STATUS_PUBLISHED,
+				'status' => WorkflowComponent::STATUS_PUBLISHED,
 				'title' => '公開済み記事',
 				'body1' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
 				'body2' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
@@ -186,7 +186,7 @@ class BlogEntryFixture extends CakeTestFixture {
 				'category_id' => 2,
 				'key' => 'key1',
 				'origin_id' => 1,
-				'status' => NetCommonsBlockComponent::STATUS_PUBLISHED,
+				'status' => WorkflowComponent::STATUS_PUBLISHED,
 				'title' => '2015年2月23日公開予定の記事',
 				'body1' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
 				'body2' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
@@ -207,7 +207,7 @@ class BlogEntryFixture extends CakeTestFixture {
 				'category_id' => 2,
 				'key' => 'key3',
 				'origin_id' => 3,
-				'status' => NetCommonsBlockComponent::STATUS_PUBLISHED,
+				'status' => WorkflowComponent::STATUS_PUBLISHED,
 				'title' => 'コントローラテストに使う',
 				'body1' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
 				'body2' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
@@ -228,7 +228,7 @@ class BlogEntryFixture extends CakeTestFixture {
 				'category_id' => 2,
 				'key' => 'key4',
 				'origin_id' => 4,
-				'status' => NetCommonsBlockComponent::STATUS_IN_DRAFT,
+				'status' => WorkflowComponent::STATUS_IN_DRAFT,
 				'title' => 'コントローラテストに使う。一度も公開されてない記事',
 				'body1' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
 				'body2' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
@@ -249,7 +249,7 @@ class BlogEntryFixture extends CakeTestFixture {
 				'category_id' => 2,
 				'key' => 'key4',
 				'origin_id' => 4,
-				'status' => NetCommonsBlockComponent::STATUS_IN_DRAFT,
+				'status' => WorkflowComponent::STATUS_IN_DRAFT,
 				'title' => 'コントローラテストに使う。一度も公開されてない記事',
 				'body1' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
 				'body2' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
@@ -270,7 +270,7 @@ class BlogEntryFixture extends CakeTestFixture {
 				'category_id' => 2,
 				'key' => 'key6',
 				'origin_id' => 6,
-				'status' => NetCommonsBlockComponent::STATUS_PUBLISHED,
+				'status' => WorkflowComponent::STATUS_PUBLISHED,
 				'title' => 'OriginId=6 id=6 created_user=4',
 				'body1' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
 				'body2' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
