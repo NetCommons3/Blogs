@@ -80,6 +80,7 @@ echo $this->Html->css(
 			</div>
 		</div>
 
+		<?php if (Current::permission('content_creatable')) : ?>
 		<div class="pull-right">
 			<?php echo $this->Button->addLink('',
 				$this->NetCommonsHtml->url(array(
@@ -89,7 +90,7 @@ echo $this->Html->css(
 				)),
 				array('tooltip' => __d('blogs', 'Add entry'))); ?>
 		</div>
-
+		<?php endif ?>
 
 	</div>
 
