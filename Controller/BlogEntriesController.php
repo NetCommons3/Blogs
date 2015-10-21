@@ -153,13 +153,17 @@ class BlogEntriesController extends BlogsAppController {
 		$last = date('Y-m-t', strtotime($first));
 
 		$conditions = array(
-			'BlogEntry.published_datetime BETWEEN ? AND ?' => array($first, $last)
+			'BlogEntry.publish_start BETWEEN ? AND ?' => array($first, $last)
 		);
 		$this->_list($conditions);
 	}
 
-
-	protected function _getPermission(){
+/**
+ * 権限の取得
+ *
+ * @return array
+ */
+	protected function _getPermission() {
 		$permissionNames = array(
 			'content_readable',
 			'content_creatable',
@@ -202,7 +206,7 @@ class BlogEntriesController extends BlogsAppController {
 			array(
 				'conditions' => $conditions,
 				'limit' => $this->_frameSetting['BlogFrameSetting']['articles_per_page'],
-				'order' => 'published_datetime DESC',
+				'order' => 'publish_start DESC',
 				'fields' => '*, ContentCommentCnt.cnt',
 			)
 		);

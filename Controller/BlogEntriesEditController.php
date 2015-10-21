@@ -34,14 +34,6 @@ class BlogEntriesEditController extends BlogsAppController {
  * @var array
  */
 	public $components = array(
-		//'NetCommons.NetCommonsWorkflow',
-		//'NetCommons.NetCommonsRoomRole' => array(
-		//	//コンテンツの権限設定
-		//	'allowedActions' => array(
-		//		'contentEditable' => array('edit', 'add', 'delete'),
-		//		'contentCreatable' => array('edit', 'add', 'delete'),
-		//	),
-		//),
 		'NetCommons.Permission' => array(
 			//アクセスの権限
 			'allow' => array(
@@ -55,9 +47,9 @@ class BlogEntriesEditController extends BlogsAppController {
 		'NetCommons.NetCommonsTime',
 	);
 
-	/**
-	 * @var array helpers
-	 */
+/**
+ * @var array helpers
+ */
 	public $helpers = array(
 		//'NetCommons.Token',
 		'NetCommons.BackTo',
@@ -66,32 +58,6 @@ class BlogEntriesEditController extends BlogsAppController {
 		'NetCommons.NetCommonsTime',
 		//'Likes.Like',
 	);
-
-/**
- * beforeFilter
- *
- * @return void
- */
-	public function beforeFilter() {
-		parent::beforeFilter(); // NetCommonsAppController::beforeFilterでCurrent::initialize()されるので最初にparent::beforeFilter通す
-
-		// TODO ここをComponent化？
-
-		//App::uses('NetCommonsTime', 'NetCommons.Utility');
-		//$netCommonsTime = new NetCommonsTime();
-		//$targetKeys = array('BlogEntry.published_datetime');
-		//foreach ($targetKeys as $targetKey) {
-		//	list($modelName, $fieldName) = explode('.', $targetKey);//複数レコード同時更新だと使えないねぇ。
-		//	if (isset($this->request->data[$modelName][$fieldName])) {
-		//		$this->request->data[$modelName][$fieldName] = $netCommonsTime->toServerDatetime($this->request->data[$modelName][$fieldName]);
-		//	}
-		//}
-
-		//$targetKeys = array('published_datetime');
-		//App::uses('NetCommonsTime', 'NetCommons.Utility');
-		//$netCommonsTime = new NetCommonsTime();
-		//$this->request->data = $netCommonsTime->toServerDatetimeArray($this->request->data, $targetKeys);
-	}
 
 /**
  * add method
@@ -134,14 +100,6 @@ class BlogEntriesEditController extends BlogsAppController {
 			$this->request->data = $blogEntry;
 			$this->request->data['Tag'] = array();
 		}
-
-		//$comments = $this->Comment->getComments(
-		//	array(
-		//		'plugin_key' => 'blogs',
-		//		'content_key' => isset($blogEntry['BlogEntry']['key']) ? $blogEntry['BlogEntry']['key'] : null,
-		//	)
-		//);
-		//$this->set('comments', $comments);
 
 		$this->render('form');
 	}

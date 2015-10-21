@@ -112,7 +112,6 @@ class BlogsAppController extends AppController {
 		$this->_loadFrameSetting();
 	}
 
-
 /**
  * namedパラメータ取得
  * 

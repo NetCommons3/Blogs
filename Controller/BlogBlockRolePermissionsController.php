@@ -19,27 +19,27 @@ App::uses('BlogsAppController', 'Blogs.Controller');
  */
 class BlogBlockRolePermissionsController extends BlogsAppController {
 
-	/**
-	 * layout
-	 *
-	 * @var array
-	 */
+/**
+ * layout
+ *
+ * @var array
+ */
 	public $layout = 'NetCommons.setting';
 
-	/**
-	 * use models
-	 *
-	 * @var array
-	 */
+/**
+ * use models
+ *
+ * @var array
+ */
 	public $uses = array(
 		'Blogs.Blog',
 	);
 
-	/**
-	 * use components
-	 *
-	 * @var array
-	 */
+/**
+ * use components
+ *
+ * @var array
+ */
 	public $components = array(
 		'Blocks.BlockTabs' => array(
 			'mainTabs' => array(
@@ -59,20 +59,20 @@ class BlogBlockRolePermissionsController extends BlogsAppController {
 		),
 	);
 
-	/**
-	 * use helpers
-	 *
-	 * @var array
-	 */
+/**
+ * use helpers
+ *
+ * @var array
+ */
 	public $helpers = array(
 		'Blocks.BlockRolePermissionForm'
 	);
 
-	/**
-	 * edit
-	 *
-	 * @return void
-	 */
+/**
+ * edit
+ *
+ * @return void
+ */
 	public function edit() {
 		CurrentFrame::setBlock($this->request->params['pass'][1]);
 

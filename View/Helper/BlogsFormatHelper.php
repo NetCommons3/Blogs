@@ -18,7 +18,7 @@ class BlogsFormatHelper extends AppHelper {
 	public $helpers = array('NetCommons.Date');
 
 /**
- * published_datetimeのフォーマット
+ * publish_startのフォーマット
  *
  * @param string $datetime datetime
  * @return bool|string

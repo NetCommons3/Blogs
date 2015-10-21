@@ -19,28 +19,28 @@ App::uses('BlogsAppController', 'Blogs.Controller');
  */
 class BlogBlocksController extends BlogsAppController {
 
-	/**
-	 * layout
-	 *
-	 * @var array
-	 */
+/**
+ * layout
+ *
+ * @var array
+ */
 	public $layout = 'NetCommons.setting';
 
-	/**
-	 * use models
-	 *
-	 * @var array
-	 */
+/**
+ * use models
+ *
+ * @var array
+ */
 	public $uses = array(
 		'Blogs.BlogFrameSetting',
 		'Blocks.Block',
 	);
 
-	/**
-	 * use components
-	 *
-	 * @var array
-	 */
+/**
+ * use components
+ *
+ * @var array
+ */
 	public $components = array(
 
 		'Blocks.BlockTabs' => array(
@@ -64,22 +64,22 @@ class BlogBlocksController extends BlogsAppController {
 
 	);
 
-	/**
-	 * use helpers
-	 *
-	 * @var array
-	 */
+/**
+ * use helpers
+ *
+ * @var array
+ */
 	public $helpers = array(
 		'Blocks.BlockForm',
 		//'Blocks.Block',
 		'Likes.Like',
 	);
 
-	/**
-	 * beforeFilter
-	 *
-	 * @return void
-	 */
+/**
+ * beforeFilter
+ *
+ * @return void
+ */
 	public function beforeFilter() {
 		parent::beforeFilter();
 
@@ -89,11 +89,11 @@ class BlogBlocksController extends BlogsAppController {
 		}
 	}
 
-	/**
-	 * index
-	 *
-	 * @return void
-	 */
+/**
+ * index
+ *
+ * @return void
+ */
 	public function index() {
 		$this->Paginator->settings = array(
 			'Blog' => array(
@@ -111,11 +111,11 @@ class BlogBlocksController extends BlogsAppController {
 		$this->request->data['Frame'] = Current::read('Frame');
 	}
 
-	/**
-	 * add
-	 *
-	 * @return void
-	 */
+/**
+ * add
+ *
+ * @return void
+ */
 	public function add() {
 		$this->view = 'edit';
 
@@ -134,11 +134,11 @@ class BlogBlocksController extends BlogsAppController {
 		}
 	}
 
-	/**
-	 * edit
-	 *
-	 * @return void
-	 */
+/**
+ * edit
+ *
+ * @return void
+ */
 	public function edit() {
 		if ($this->request->isPut()) {
 			//登録処理
@@ -160,11 +160,11 @@ class BlogBlocksController extends BlogsAppController {
 		}
 	}
 
-	/**
-	 * delete
-	 *
-	 * @return void
-	 */
+/**
+ * delete
+ *
+ * @return void
+ */
 	public function delete() {
 		if ($this->request->isDelete()) {
 			if ($this->Blog->deleteBlog($this->data)) {

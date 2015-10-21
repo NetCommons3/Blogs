@@ -19,27 +19,27 @@ App::uses('BlogsAppController', 'Blogs.Controller');
  */
 class BlogFrameSettingsController extends BlogsAppController {
 
-	/**
-	 * layout
-	 *
-	 * @var array
-	 */
+/**
+ * layout
+ *
+ * @var array
+ */
 	public $layout = 'Frames.setting';
 
-	/**
-	 * use models
-	 *
-	 * @var array
-	 */
+/**
+ * use models
+ *
+ * @var array
+ */
 	public $uses = array(
 		'Blogs.BlogFrameSetting',
 	);
 
-	/**
-	 * use components
-	 *
-	 * @var array
-	 */
+/**
+ * use components
+ *
+ * @var array
+ */
 	public $components = array(
 		'Blocks.BlockTabs' => array(
 			'mainTabs' => array(
@@ -59,20 +59,20 @@ class BlogFrameSettingsController extends BlogsAppController {
 		),
 	);
 
-	/**
-	 * use helpers
-	 *
-	 * @var array
-	 */
+/**
+ * use helpers
+ *
+ * @var array
+ */
 	public $helpers = array(
 		'NetCommons.DisplayNumber',
 	);
 
-	/**
-	 * edit
-	 *
-	 * @return void
-	 */
+/**
+ * edit
+ *
+ * @return void
+ */
 	public function edit() {
 		if ($this->request->isPut() || $this->request->isPost()) {
 			if ($this->BlogFrameSetting->saveBlogFrameSetting($this->data)) {

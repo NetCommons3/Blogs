@@ -21,28 +21,28 @@ App::uses('BlogsAppModel', 'Blogs.Model');
  */
 class BlogSetting extends BlogsAppModel {
 
-	/**
-	 * Validation rules
-	 *
-	 * @var array
-	 */
+/**
+ * Validation rules
+ *
+ * @var array
+ */
 	public $validate = array();
 
-	/**
-	 * use behaviors
-	 *
-	 * @var array
-	 */
+/**
+ * use behaviors
+ *
+ * @var array
+ */
 	public $actsAs = array(
 		'Blocks.BlockRolePermission',
 	);
 
-	/**
-	 * Get blog setting data
-	 *
-	 * @param string $blogKey blogs.key
-	 * @return array
-	 */
+/**
+ * Get blog setting data
+ *
+ * @param string $blogKey blogs.key
+ * @return array
+ */
 	public function getBlogSetting($blogKey) {
 		$conditions = array(
 			'blog_key' => $blogKey
@@ -57,13 +57,13 @@ class BlogSetting extends BlogsAppModel {
 		return $blogSetting;
 	}
 
-	/**
-	 * Save blog_setting
-	 *
-	 * @param array $data received post data
-	 * @return mixed On success Model::$data if its not empty or true, false on failure
-	 * @throws InternalErrorException
-	 */
+/**
+ * Save blog_setting
+ *
+ * @param array $data received post data
+ * @return mixed On success Model::$data if its not empty or true, false on failure
+ * @throws InternalErrorException
+ */
 	public function saveBlogSetting($data) {
 		$this->loadModels([
 			'BlogSetting' => 'Blogs.BlogSetting',

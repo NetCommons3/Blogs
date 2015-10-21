@@ -291,14 +291,14 @@ class Blog extends BlogsAppModel {
 		//トランザクションBegin
 		$this->begin();
 
-		$conditions = array(
-			$this->alias . '.key' => $data['Blog']['key']
-		);
-		$blogs = $this->find('list', array(
-			'recursive' => -1,
-			'conditions' => $conditions,
-		));
-		$blogIds = array_keys($blogs);
+		//$conditions = array(
+		//	$this->alias . '.key' => $data['Blog']['key']
+		//);
+		//$blogs = $this->find('list', array(
+		//	'recursive' => -1,
+		//	'conditions' => $conditions,
+		//));
+		//$blogIds = array_keys($blogs);
 
 		try {
 			if (! $this->deleteAll(array($this->alias . '.key' => $data['Blog']['key']), false, false)) {
@@ -312,14 +312,6 @@ class Blog extends BlogsAppModel {
 			if (! $this->BlogEntry->deleteAll(array($this->BlogEntry->alias . '.blog_key' => $data['Blog']['key']), false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
-
-			//if (! $this->BlogArticle->deleteAll(array($this->BlogArticle->alias . '.blog_id' => $blogIds), false, false)) {
-			//	throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			//}
-			//
-			//if (! $this->BlogArticleTree->deleteAll(array($this->BlogArticleTree->alias . '.blog_key' => $data['Blog']['key']), false, false)) {
-			//	throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			//}
 
 			//Blockデータ削除
 			$this->deleteBlock($data['Block']['key']);
