@@ -15,6 +15,7 @@ App::uses('BlogsAppController', 'Blogs.Controller');
  * @property PaginatorComponent $Paginator
  * @property BlogEntry $BlogEntry
  * @property BlogCategory $BlogCategory
+ * @property NetCommonsComponent $NetCommons
  */
 class BlogEntriesEditController extends BlogsAppController {
 
@@ -24,7 +25,7 @@ class BlogEntriesEditController extends BlogsAppController {
 	public $uses = array(
 		'Blogs.BlogEntry',
 		'Categories.Category',
-		'Comments.Comment',
+		'Workflow.WorkflowComment',
 	);
 
 /**
@@ -33,27 +34,30 @@ class BlogEntriesEditController extends BlogsAppController {
  * @var array
  */
 	public $components = array(
-		'NetCommons.NetCommonsWorkflow',
-		'NetCommons.NetCommonsRoomRole' => array(
-			//コンテンツの権限設定
-			'allowedActions' => array(
-				'contentEditable' => array('edit', 'add', 'delete'),
-				'contentCreatable' => array('edit', 'add', 'delete'),
+		'NetCommons.Permission' => array(
+			//アクセスの権限
+			'allow' => array(
+				'add,edit,delete' => 'content_creatable',
 			),
 		),
+		'Workflow.Workflow',
+
 		'Categories.Categories',
-		'Blogs.BlogEntryPermission',
+		//'Blogs.BlogEntryPermission',
+		'NetCommons.NetCommonsTime',
 	);
 
 /**
- * beforeFilter
- *
- * @return void
+ * @var array helpers
  */
-	public function beforeFilter() {
-		parent::beforeFilter();
-		$this->Categories->initCategories();
-	}
+	public $helpers = array(
+		//'NetCommons.Token',
+		'NetCommons.BackTo',
+		'NetCommons.NetCommonsForm',
+		'Workflow.Workflow',
+		'NetCommons.NetCommonsTime',
+		//'Likes.Like',
+	);
 
 /**
  * add method
@@ -68,35 +72,34 @@ class BlogEntriesEditController extends BlogsAppController {
 
 		if ($this->request->is('post')) {
 			$this->BlogEntry->create();
+			$this->request->data['BlogEntry']['blog_key'] = ''; // https://github.com/NetCommons3/NetCommons3/issues/7 対策
+
 			// set status
-			$status = $this->NetCommonsWorkflow->parseStatus();
+			$status = $this->Workflow->parseStatus();
 			$this->request->data['BlogEntry']['status'] = $status;
 
 			// set block_id
-			$this->request->data['BlogEntry']['block_id'] = $this->viewVars['blockId'];
+			$this->request->data['BlogEntry']['block_id'] = Current::read('Block.id');
 			// set language_id
 			$this->request->data['BlogEntry']['language_id'] = $this->viewVars['languageId'];
-
-			if (($result = $this->BlogEntry->saveEntry($this->viewVars['blockId'], $this->viewVars['frameId'], $this->request->data))) {
-				return $this->redirect(
-					array('controller' => 'blog_entries', 'action' => 'view', $this->viewVars['frameId'], 'origin_id' => $result['BlogEntry']['origin_id'])
+			if (($result = $this->BlogEntry->saveEntry(Current::read('Block.id'), Current::read('Frame.id'), $this->request->data))) {
+				$url = NetCommonsUrl::actionUrl(
+					array(
+						'controller' => 'blog_entries',
+						'action' => 'view',
+						'block_id' => Current::read('Block.id'),
+						'frame_id' => Current::read('Frame.id'),
+						'origin_id' => $result['BlogEntry']['origin_id'])
 				);
+				return $this->redirect($url);
 			}
 
-			$this->handleValidationError($this->BlogEntry->validationErrors);
+			$this->NetCommons->handleValidationError($this->BlogEntry->validationErrors);
 
 		} else {
 			$this->request->data = $blogEntry;
 			$this->request->data['Tag'] = array();
 		}
-
-		$comments = $this->Comment->getComments(
-			array(
-				'plugin_key' => 'blogs',
-				'content_key' => isset($blogEntry['BlogEntry']['key']) ? $blogEntry['BlogEntry']['key'] : null,
-			)
-		);
-		$this->set('comments', $comments);
 
 		$this->render('form');
 	}
@@ -110,7 +113,8 @@ class BlogEntriesEditController extends BlogsAppController {
  */
 	public function edit() {
 		$this->set('isEdit', true);
-		$originId = $this->request->params['named']['origin_id'];
+		//$originId = $this->request->params['named']['origin_id'];
+		$originId = $this->params['pass'][1];
 
 		//  origin_idのis_latstを元に編集を開始
 		$blogEntry = $this->BlogEntry->findByOriginIdAndIsLatest($originId, 1);
@@ -120,13 +124,16 @@ class BlogEntriesEditController extends BlogsAppController {
 		}
 
 		if ($this->request->is(array('post', 'put'))) {
+
 			$this->BlogEntry->create();
+			$this->request->data['BlogEntry']['blog_key'] = ''; // https://github.com/NetCommons3/NetCommons3/issues/7 対策
+
 			// set status
-			$status = $this->NetCommonsWorkflow->parseStatus();
+			$status = $this->Workflow->parseStatus();
 			$this->request->data['BlogEntry']['status'] = $status;
 
 			// set block_id
-			$this->request->data['BlogEntry']['block_id'] = $this->viewVars['blockId'];
+			$this->request->data['BlogEntry']['block_id'] = Current::read('Block.id');
 			// set language_id
 			$this->request->data['BlogEntry']['language_id'] = $this->viewVars['languageId'];
 
@@ -134,34 +141,35 @@ class BlogEntriesEditController extends BlogsAppController {
 
 			unset($data['BlogEntry']['id']); // 常に新規保存
 
-			if ($this->BlogEntry->saveEntry($this->viewVars['blockId'], $this->viewVars['frameId'], $data)) {
-				return $this->redirect(
-					array('controller' => 'blog_entries', 'action' => 'view', $this->viewVars['frameId'], 'origin_id' => $data['BlogEntry']['origin_id'])
+			if ($this->BlogEntry->saveEntry(Current::read('Block.id'), Current::read('Frame.id'), $data)) {
+				$url = NetCommonsUrl::actionUrl(
+					array(
+						'controller' => 'blog_entries',
+						'action' => 'view',
+						'frame_id' => Current::read('Frame.id'),
+						'block_id' => Current::read('Block.id'),
+						'origin_id' => $data['BlogEntry']['origin_id']
+					)
 				);
+
+				return $this->redirect($url);
 			}
 
-			$this->handleValidationError($this->BlogEntry->validationErrors);
+			$this->NetCommons->handleValidationError($this->BlogEntry->validationErrors);
 
 		} else {
 
 			$this->request->data = $blogEntry;
-			if ($this->_hasEditPermission($blogEntry) === false) {
+			if ($this->BlogEntry->canEditWorkflowContent($blogEntry) === false) {
 				throw new ForbiddenException(__d('net_commons', 'Permission denied'));
 			}
 
 		}
 
 		$this->set('blogEntry', $blogEntry);
-		$this->set('isDeletable', $this->_hasDeletePermission($blogEntry));
+		$this->set('isDeletable', $this->BlogEntry->canDeleteWorkflowContent($blogEntry));
 
-		$comments = $this->Comment->getComments(
-			array(
-				'plugin_key' => 'blogentries',
-				// ε(　　　　 v ﾟωﾟ)　＜ Commentプラグインでセーブするときにモデル名をstrtolowerして複数形になおして保存してるのでこんな名前。なんとかしたい
-				'content_key' => isset($blogEntry['BlogEntry']['key']) ? $blogEntry['BlogEntry']['key'] : null,
-			)
-		);
-		$comments = $this->camelizeKeyRecursive($comments);
+		$comments = $this->BlogEntry->getCommentsByContentKey($blogEntry['BlogEntry']['key']);
 		$this->set('comments', $comments);
 
 		$this->render('form');
@@ -182,33 +190,15 @@ class BlogEntriesEditController extends BlogsAppController {
 		$blogEntry = $this->BlogEntry->findByOriginIdAndIsLatest($originId, 1);
 
 		// 権限チェック
-		if ($this->_hasDeletePermission($blogEntry) === false) {
+		if ($this->BlogEntry->canDeleteWorkflowContent($blogEntry) === false) {
 			throw new ForbiddenException(__d('net_commons', 'Permission denied'));
 		}
 
 		if ($this->BlogEntry->deleteEntryByOriginId($originId) === false) {
 			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 		}
-		return $this->redirect(array('controller' => 'blog_entries', 'action' => 'index', $this->viewVars['frameId']));
-	}
-
-/**
- * 編集・削除の権限チェック
- *
- * @param array $blogEntry 権限チェック対象記事
- * @return bool
- */
-	protected function _hasEditPermission($blogEntry) {
-		return $this->BlogEntryPermission->canEdit($blogEntry);
-	}
-
-/**
- * 削除権限チェック
- *
- * @param array $blogEntry 権限チェック対象記事
- * @return bool
- */
-	protected function _hasDeletePermission($blogEntry) {
-		return $this->BlogEntryPermission->canDelete($blogEntry);
+		return $this->redirect(
+			NetCommonsUrl::actionUrl(
+				array('controller' => 'blog_entries', 'action' => 'index', 'frame_id' => Current::read('Frame.id'), 'block_id' => Current::read('Block.id'))));
 	}
 }

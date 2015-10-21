@@ -3,7 +3,7 @@
  * BlogFrameSettings Controller
  *
  * @author Noriko Arai <arai@nii.ac.jp>
- * @author Kotaro Hokada <kotaro.hokada@gmail.com>
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @link http://www.netcommons.org NetCommons Project
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
@@ -14,7 +14,7 @@ App::uses('BlogsAppController', 'Blogs.Controller');
 /**
  * BlogFrameSettings Controller
  *
- * @author Kotaro Hokada <kotaro.hokada@gmail.com>
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Blogs\Controller
  */
 class BlogFrameSettingsController extends BlogsAppController {
@@ -24,7 +24,7 @@ class BlogFrameSettingsController extends BlogsAppController {
  *
  * @var array
  */
-	public $layout = 'NetCommons.setting';
+	public $layout = 'Frames.setting';
 
 /**
  * use models
@@ -32,9 +32,7 @@ class BlogFrameSettingsController extends BlogsAppController {
  * @var array
  */
 	public $uses = array(
-		'Blogs.Blog',
 		'Blogs.BlogFrameSetting',
-		//'Blogs.BlogPost',
 	);
 
 /**
@@ -43,12 +41,20 @@ class BlogFrameSettingsController extends BlogsAppController {
  * @var array
  */
 	public $components = array(
-		'NetCommons.NetCommonsFrame',
-		'NetCommons.NetCommonsWorkflow',
-		'NetCommons.NetCommonsRoomRole' => array(
-			//コンテンツの権限設定
-			'allowedActions' => array(
-				'blockEditable' => array('edit'),
+		'Blocks.BlockTabs' => array(
+			'mainTabs' => array(
+				'block_index' => array('url' => array('controller' => 'blog_blocks')),
+				'frame_settings' => array('url' => array('controller' => 'blog_frame_settings')),
+			),
+			'blockTabs' => array(
+				'block_settings' => array('url' => array('controller' => 'blog_blocks')),
+				'role_permissions' => array('url' => array('controller' => 'blog_block_role_permissions')),
+			),
+		),
+		'NetCommons.Permission' => array(
+			//アクセスの権限
+			'allow' => array(
+				'edit' => 'page_editable',
 			),
 		),
 	);
@@ -59,20 +65,8 @@ class BlogFrameSettingsController extends BlogsAppController {
  * @var array
  */
 	public $helpers = array(
-		'NetCommons.Token'
+		'NetCommons.DisplayNumber',
 	);
-
-/**
- * beforeFilter
- *
- * @return void
- */
-	public function beforeFilter() {
-		parent::beforeFilter();
-
-		$results = $this->camelizeKeyRecursive($this->NetCommonsFrame->data);
-		$this->set($results);
-	}
 
 /**
  * edit
@@ -80,44 +74,16 @@ class BlogFrameSettingsController extends BlogsAppController {
  * @return void
  */
 	public function edit() {
-		$this->__initBlogFrameSetting();
-
-		if ($this->request->isPost()) {
-			$data = $this->data;
-			$this->BlogFrameSetting->saveBlogFrameSetting($data);
-
-			if ($this->handleValidationError($this->BlogFrameSetting->validationErrors)) {
-				if (! $this->request->is('ajax')) {
-					$this->redirect('/blogs/blog_blocks/index/' . $this->viewVars['frameId']);
-				}
+		if ($this->request->isPut() || $this->request->isPost()) {
+			if ($this->BlogFrameSetting->saveBlogFrameSetting($this->data)) {
+				$this->redirect(NetCommonsUrl::backToPageUrl());
 				return;
 			}
+			$this->NetCommons->handleValidationError($this->BlogFrameSetting->validationErrors);
 
-			$results = $this->camelizeKeyRecursive($data);
-			$this->set($results);
+		} else {
+			$this->request->data = $this->BlogFrameSetting->getBlogFrameSetting(true);
+			$this->request->data['Frame'] = Current::read('Frame');
 		}
 	}
-
-/**
- * initBlog
- *
- * @return void
- */
-	private function __initBlogFrameSetting() {
-		if (! $blogFrameSetting = $this->BlogFrameSetting->find('first', array(
-			'recursive' => -1,
-			'conditions' => array(
-				'frame_key' => $this->viewVars['frameKey']
-			)
-		))) {
-			$blogFrameSetting = $this->BlogFrameSetting->create(
-				array(
-					'frame_key' => $this->viewVars['frameKey']
-				)
-			);
-		}
-		$blogFrameSetting = $this->camelizeKeyRecursive($blogFrameSetting);
-		$this->set($blogFrameSetting);
-	}
-
 }

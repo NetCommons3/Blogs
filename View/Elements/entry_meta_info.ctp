@@ -4,7 +4,7 @@
 		<?php echo __d(
 			'blogs',
 			'posted : %s',
-			$this->BlogsFormat->publishedDatetime($blogEntry['BlogEntry']['published_datetime'])
+			$this->BlogsFormat->publishedDatetime($blogEntry['BlogEntry']['publish_start'])
 		); ?>&nbsp;
 
 		<!--	TODO 投稿者アバター-->
@@ -12,11 +12,13 @@
 		<?php echo $this->Html->link($blogEntry['TrackableCreator']['username'], array()); ?>&nbsp;
 		<?php echo __d('blogs', 'Category') ?>:<?php echo $this->Html->link(
 			$blogEntry['Category']['name'],
-			array(
-				'controller' => 'blog_entries',
-				'action' => 'index',
-				$frameId,
-				'category_id' => $blogEntry['BlogEntry']['category_id']
+			$this->NetCommonsHtml->url(
+				array(
+					'controller' => 'blog_entries',
+					'action' => 'index',
+					'frame_id' => Current::read('Frame.id'),
+					'category_id' => $blogEntry['BlogEntry']['category_id']
+				)
 			)
 		); ?>
 	</div>

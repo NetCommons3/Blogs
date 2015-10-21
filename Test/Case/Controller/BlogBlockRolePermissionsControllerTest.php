@@ -38,7 +38,7 @@ class BlogBlockRolePermissionsControllerTest extends BlogsAppControllerTestBase 
 					'Auth' => ['user'],
 					'Session',
 					'Security',
-					'NetCommonsBlock' => ['validateBlockId'],
+					//'NetCommonsBlock' => ['validateBlockId'],
 				]
 			]
 		);
@@ -63,9 +63,9 @@ class BlogBlockRolePermissionsControllerTest extends BlogsAppControllerTestBase 
 	public function testEdit() {
 		RolesControllerTest::login($this);
 
-		$this->controller->NetCommonsBlock->expects($this->once())
-			->method('validateBlockId')
-			->will($this->returnValue(true));
+		//$this->controller->NetCommonsBlock->expects($this->once())
+		//	->method('validateBlockId')
+		//	->will($this->returnValue(true));
 
 		$this->testAction(
 			'/blogs/blog_block_role_permissions/edit/1/5',
@@ -85,9 +85,9 @@ class BlogBlockRolePermissionsControllerTest extends BlogsAppControllerTestBase 
 	public function testEditInvalidBlockId() {
 		RolesControllerTest::login($this);
 
-		$this->controller->NetCommonsBlock->expects($this->once())
-			->method('validateBlockId')
-			->will($this->returnValue(false));
+		//$this->controller->NetCommonsBlock->expects($this->once())
+		//	->method('validateBlockId')
+		//	->will($this->returnValue(false));
 
 		$this->controller->expects($this->once())
 			->method('throwBadRequest');
@@ -116,9 +116,9 @@ class BlogBlockRolePermissionsControllerTest extends BlogsAppControllerTestBase 
 			->method('find')
 			->will($this->returnValue(false));
 
-		$this->controller->NetCommonsBlock->expects($this->once())
-			->method('validateBlockId')
-			->will($this->returnValue(true));
+		//$this->controller->NetCommonsBlock->expects($this->once())
+		//	->method('validateBlockId')
+		//	->will($this->returnValue(true));
 
 		$this->controller->expects($this->any())
 			->method('throwBadRequest');
@@ -142,9 +142,9 @@ class BlogBlockRolePermissionsControllerTest extends BlogsAppControllerTestBase 
 	public function testEditPostSuccess() {
 		RolesControllerTest::login($this);
 
-		$this->controller->NetCommonsBlock->expects($this->once())
-			->method('validateBlockId')
-			->will($this->returnValue(true));
+		//$this->controller->NetCommonsBlock->expects($this->once())
+		//	->method('validateBlockId')
+		//	->will($this->returnValue(true));
 
 		$data = [];
 		$data['BlogSetting']['blog_key'] = 'new_blog_key';
@@ -168,10 +168,10 @@ class BlogBlockRolePermissionsControllerTest extends BlogsAppControllerTestBase 
  */
 	public function testEditPostValidateFail() {
 		RolesControllerTest::login($this);
-
-		$this->controller->NetCommonsBlock->expects($this->once())
-			->method('validateBlockId')
-			->will($this->returnValue(true));
+		//
+		//$this->controller->NetCommonsBlock->expects($this->once())
+		//	->method('validateBlockId')
+		//	->will($this->returnValue(true));
 
 		$data = [];
 		//$data['BlogSetting']['blog_key'] = 'new_blog_key';

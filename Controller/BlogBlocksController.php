@@ -1,9 +1,9 @@
 <?php
 /**
- * BlocksController
+ * BlogBlocks Controller
  *
  * @author Noriko Arai <arai@nii.ac.jp>
- * @author Ryo Ozawa <ozawa.ryo@withone.co.jp>
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @link http://www.netcommons.org NetCommons Project
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
@@ -12,9 +12,9 @@
 App::uses('BlogsAppController', 'Blogs.Controller');
 
 /**
- * BlocksController
+ * BlogBlocks Controller
  *
- * @author   Ryuji AMANO <ryuji@ryus.co.jp>
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Blogs\Controller
  */
 class BlogBlocksController extends BlogsAppController {
@@ -32,11 +32,8 @@ class BlogBlocksController extends BlogsAppController {
  * @var array
  */
 	public $uses = array(
+		'Blogs.BlogFrameSetting',
 		'Blocks.Block',
-		'Frames.Frame',
-		'Blogs.Blog',
-		'Blogs.BlogSetting',
-		'Categories.Category',
 	);
 
 /**
@@ -45,15 +42,26 @@ class BlogBlocksController extends BlogsAppController {
  * @var array
  */
 	public $components = array(
-		'NetCommons.NetCommonsBlock',
-		'NetCommons.NetCommonsRoomRole' => array(
-			//コンテンツの権限設定
-			'allowedActions' => array(
-				'blockEditable' => array('index', 'add', 'edit', 'delete')
+
+		'Blocks.BlockTabs' => array(
+			'mainTabs' => array(
+				'block_index' => array('url' => array('controller' => 'blog_blocks')),
+				'frame_settings' => array('url' => array('controller' => 'blog_frame_settings')),
+			),
+			'blockTabs' => array(
+				'block_settings' => array('url' => array('controller' => 'blog_blocks')),
+				'role_permissions' => array('url' => array('controller' => 'blog_block_role_permissions')),
+			),
+		),
+		'NetCommons.Permission' => array(
+			//アクセスの権限
+			'allow' => array(
+				'index,add,edit,delete' => 'block_editable',
 			),
 		),
 		'Paginator',
-		'Categories.Categories',
+		'Categories.CategoryEdit',
+
 	);
 
 /**
@@ -62,7 +70,9 @@ class BlogBlocksController extends BlogsAppController {
  * @var array
  */
 	public $helpers = array(
-		'NetCommons.Date',
+		'Blocks.BlockForm',
+		//'Blocks.Block',
+		'Likes.Like',
 	);
 
 /**
@@ -72,44 +82,33 @@ class BlogBlocksController extends BlogsAppController {
  */
 	public function beforeFilter() {
 		parent::beforeFilter();
-		$this->Auth->deny('index');
 
-		$results = $this->camelizeKeyRecursive($this->NetCommonsFrame->data);
-		$this->set($results);
-
-		//タブの設定
-		$this->initTabs('block_index', 'block_settings');
+		//CategoryEditComponentの削除
+		if ($this->params['action'] === 'index') {
+			$this->Components->unload('Categories.CategoryEdit');
+		}
 	}
 
 /**
  * index
  *
  * @return void
- * @throws Exception
  */
 	public function index() {
 		$this->Paginator->settings = array(
 			'Blog' => array(
-				'order' => array('Block.id' => 'desc'),
-				'conditions' => array(
-					'Block.language_id' => $this->viewVars['languageId'],
-					'Block.room_id' => $this->viewVars['roomId'],
-					'Block.plugin_key ' => $this->params['plugin'],
-				),
-				//'limit' => 1
+				'order' => array('Blog.id' => 'desc'),
+				'conditions' => $this->Blog->getBlockConditions(),
 			)
 		);
+
 		$blogs = $this->Paginator->paginate('Blog');
 		if (! $blogs) {
-			$this->view = 'BlogBlocks/not_found';
+			$this->view = 'Blocks.Blocks/not_found';
 			return;
 		}
-
-		$results = array(
-			'blogs' => $blogs
-		);
-		$results = $this->camelizeKeyRecursive($results);
-		$this->set($results);
+		$this->set('blogs', $blogs);
+		$this->request->data['Frame'] = Current::read('Frame');
 	}
 
 /**
@@ -118,38 +117,21 @@ class BlogBlocksController extends BlogsAppController {
  * @return void
  */
 	public function add() {
-		$this->view = 'BlogBlocks/edit';
-
-		$this->set('blockId', null);
-		$blog = $this->Blog->create(
-			array(
-				'id' => null,
-				'key' => null,
-				'block_id' => null,
-				'name' => __d('blogs', 'New Blog %s', date('YmdHis')),
-			)
-		);
-		$block = $this->Block->create(
-			array('id' => null, 'key' => null)
-		);
-
-		$data = Hash::merge($blog, $block);
+		$this->view = 'edit';
 
 		if ($this->request->isPost()) {
-			$data = $this->__parseRequestData();
-			$this->Blog->saveBlog($data);
-			if ($this->handleValidationError($this->Blog->validationErrors)) {
-				if (! $this->request->is('ajax')) {
-					$this->redirect('/blogs/blog_blocks/index/' . $this->viewVars['frameId']);
-				}
-				return;
+			//登録処理
+			if ($this->Blog->saveBlog($this->data)) {
+				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
 			}
-			$data['Block']['id'] = null;
-			$data['Block']['key'] = null;
-		}
+			$this->NetCommons->handleValidationError($this->Blog->validationErrors);
 
-		$results = $this->camelizeKeyRecursive($data);
-		$this->set($results);
+		} else {
+			//表示処理(初期データセット)
+			$this->request->data = $this->Blog->createBlog();
+			$this->request->data = Hash::merge($this->request->data, $this->BlogFrameSetting->getBlogFrameSetting(true));
+			$this->request->data['Frame'] = Current::read('Frame');
+		}
 	}
 
 /**
@@ -158,30 +140,23 @@ class BlogBlocksController extends BlogsAppController {
  * @return void
  */
 	public function edit() {
-		if (! $this->NetCommonsBlock->validateBlockId()) {
-			$this->throwBadRequest();
-			return false;
-		}
-		$this->set('blockId', (int)$this->params['pass'][1]);
-
-		$this->initBlog(['blogSetting']);
-
-		$this->Categories->initCategories();
-
-		if ($this->request->isPost()) {
-			$data = $this->__parseRequestData();
-			$data['BlogSetting']['blog_key'] = $data['Blog']['key'];
-
-			$this->Blog->saveBlog($data);
-			if ($this->handleValidationError($this->Blog->validationErrors)) {
-				if (! $this->request->is('ajax')) {
-					$this->redirect('/blogs/blog_blocks/index/' . $this->viewVars['frameId']);
-				}
-				return;
+		if ($this->request->isPut()) {
+			//登録処理
+			if ($this->Blog->saveBlog($this->data)) {
+				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
 			}
+			$this->NetCommons->handleValidationError($this->Blog->validationErrors);
 
-			$results = $this->camelizeKeyRecursive($data);
-			$this->set($results);
+		} else {
+			//表示処理(初期データセット)
+			CurrentFrame::setBlock($this->request->params['pass'][1]);
+			if (! $blog = $this->Blog->getBlog()) {
+				$this->setAction('throwBadRequest');
+				return false;
+			}
+			$this->request->data = Hash::merge($this->request->data, $blog);
+			$this->request->data = Hash::merge($this->request->data, $this->BlogFrameSetting->getBlogFrameSetting(true));
+			$this->request->data['Frame'] = Current::read('Frame');
 		}
 	}
 
@@ -191,41 +166,12 @@ class BlogBlocksController extends BlogsAppController {
  * @return void
  */
 	public function delete() {
-		if (! $this->NetCommonsBlock->validateBlockId()) {
-			$this->throwBadRequest();
-			return false;
-		}
-		$this->set('blockId', (int)$this->params['pass'][1]);
-
-		$this->initBlog();
-
 		if ($this->request->isDelete()) {
 			if ($this->Blog->deleteBlog($this->data)) {
-				if (! $this->request->is('ajax')) {
-					$this->redirect('/blogs/blog_blocks/index/' . $this->viewVars['frameId']);
-				}
-				return;
+				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
 			}
 		}
 
-		$this->throwBadRequest();
+		$this->setAction('throwBadRequest');
 	}
-
-/**
- * Parse data from request
- *
- * @return array
- */
-	private function __parseRequestData() {
-		$data = $this->data;
-		//if ($data['Block']['public_type'] === Block::TYPE_LIMITED) {
-		//	//$data['Block']['from'] = implode('-', $data['Block']['from']);
-		//	//$data['Block']['to'] = implode('-', $data['Block']['to']);
-		//} else {
-		//	unset($data['Block']['from'], $data['Block']['to']);
-		//}
-
-		return $data;
-	}
-
 }

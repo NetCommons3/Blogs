@@ -23,7 +23,7 @@ class BlogEntriesController extends BlogsAppController {
  */
 	public $uses = array(
 		'Blogs.BlogEntry',
-		'Comments.Comment',
+		'Workflow.WorkflowComment',
 		'Categories.Category',
 		'ContentComments.ContentComment',	// コンテンツコメント
 	);
@@ -33,7 +33,9 @@ class BlogEntriesController extends BlogsAppController {
  */
 	public $helpers = array(
 		'NetCommons.Token',
-		'NetCommons.BackToPage',
+		'NetCommons.BackTo',
+		'Workflow.Workflow',
+		'Likes.Like',
 	);
 
 /**
@@ -44,7 +46,7 @@ class BlogEntriesController extends BlogsAppController {
 	public function beforeFilter() {
 		// ゲストアクセスOKのアクションを設定
 		$this->Auth->allow('index', 'view', 'category', 'tag', 'year_month');
-		$this->Categories->initCategories();
+		//$this->Categories->initCategories();
 		parent::beforeFilter();
 	}
 
@@ -55,12 +57,20 @@ class BlogEntriesController extends BlogsAppController {
  */
 	public $components = array(
 		'Paginator',
-		'NetCommons.NetCommonsWorkflow',
-		'NetCommons.NetCommonsRoomRole' => array(
-			//コンテンツの権限設定
-			'allowedActions' => array(
-				'contentEditable' => array('edit', 'add'),
-				'contentCreatable' => array('edit', 'add'),
+		//'NetCommons.NetCommonsWorkflow',
+		//'NetCommons.NetCommonsRoomRole' => array(
+		//	//コンテンツの権限設定
+		//	'allowedActions' => array(
+		//		'contentEditable' => array('edit', 'add'),
+		//		'contentCreatable' => array('edit', 'add'),
+		//	),
+		//),
+		'NetCommons.Permission' => array(
+			//アクセスの権限
+			'allow' => array(
+					//'add,edit,delete' => 'content_creatable',
+					//'reply' => 'content_comment_creatable',
+					//'approve' => 'content_comment_publishable',
 			),
 		),
 		'Categories.Categories',
@@ -82,7 +92,7 @@ class BlogEntriesController extends BlogsAppController {
  * @return void
  */
 	public function index() {
-		if (! $this->viewVars['blockId']) {
+		if (! Current::read('Block.id')) {
 			$this->autoRender = false;
 			return;
 		}
@@ -143,9 +153,28 @@ class BlogEntriesController extends BlogsAppController {
 		$last = date('Y-m-t', strtotime($first));
 
 		$conditions = array(
-			'BlogEntry.published_datetime BETWEEN ? AND ?' => array($first, $last)
+			'BlogEntry.publish_start BETWEEN ? AND ?' => array($first, $last)
 		);
 		$this->_list($conditions);
+	}
+
+/**
+ * 権限の取得
+ *
+ * @return array
+ */
+	protected function _getPermission() {
+		$permissionNames = array(
+			'content_readable',
+			'content_creatable',
+			'content_editable',
+			'content_publishable',
+		);
+		$permission = array();
+		foreach ($permissionNames as $key) {
+			$permission[$key] = Current::permission($key);
+		}
+		return $permission;
 	}
 
 /**
@@ -161,22 +190,23 @@ class BlogEntriesController extends BlogsAppController {
 
 		$this->_setYearMonthOptions();
 
+		$permission = $this->_getPermission();
+
 		$conditions = $this->BlogEntry->getConditions(
-			$this->viewVars['blockId'],
+			Current::read('Block.id'),
 			$this->Auth->user('id'),
-			$this->viewVars,
+			$permission,
 			$this->_getCurrentDateTime()
 		);
 		if ($extraConditions) {
 			$conditions = Hash::merge($conditions, $extraConditions);
 		}
-
 		$this->Paginator->settings = array_merge(
 			$this->Paginator->settings,
 			array(
 				'conditions' => $conditions,
-				'limit' => $this->_frameSetting['posts_per_page'],
-				'order' => 'published_datetime DESC',
+				'limit' => $this->_frameSetting['BlogFrameSetting']['articles_per_page'],
+				'order' => 'publish_start DESC',
 				'fields' => '*, ContentCommentCnt.cnt',
 			)
 		);
@@ -197,12 +227,13 @@ class BlogEntriesController extends BlogsAppController {
 	public function view() {
 		$this->_prepare();
 
-		$originId = $this->request->params['named']['origin_id'];
+		//$originId = $this->request->params['named']['origin_id'];
+		$originId = $this->params['pass'][1];
 
 		$conditions = $this->BlogEntry->getConditions(
-			$this->viewVars['blockId'],
+			Current::read('Block.id'),
 			$this->Auth->user('id'),
-			$this->viewVars,
+			$this->_getPermission(),
 			$this->_getCurrentDateTime()
 		);
 
@@ -237,7 +268,8 @@ class BlogEntriesController extends BlogsAppController {
 
 				// コンテンツコメントの取得
 				$contentComments = $this->ContentComment->getContentComments(array(
-					'block_key' => $this->viewVars['blockKey'],
+					//'block_key' => $this->viewVars['blockKey'],
+					'block_key' => Current::read('Block.key'),
 					'plugin_key' => 'blogs',
 					'content_key' => $blogEntry['BlogEntry']['key'],
 				));
@@ -259,9 +291,9 @@ class BlogEntriesController extends BlogsAppController {
 	protected function _setYearMonthOptions() {
 		// 年月と記事数
 		$yearMonthCount = $this->BlogEntry->getYearMonthCount(
-			$this->viewVars['blockId'],
+			Current::read('Block.id'),
 			$this->Auth->user('id'),
-			$this->viewVars,
+			$this->_getPermission(),
 			$this->_getCurrentDateTime()
 		);
 		foreach ($yearMonthCount as $yearMonth => $count) {

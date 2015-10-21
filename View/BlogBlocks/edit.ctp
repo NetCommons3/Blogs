@@ -1,45 +1,33 @@
 <?php
 /**
- * Block edit template
+ * BlogSettings edit template
  *
  * @author Noriko Arai <arai@nii.ac.jp>
- * @author Ryo Ozawa <ozawa.ryo@withone.co.jp>
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @link http://www.netcommons.org NetCommons Project
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
  */
 ?>
-<?php
-// Like
-echo $this->Html->script(
-	'/blogs/js/blogs_block_setting.js',
-	array(
-		'plugin' => false,
-		'once' => true,
-		'inline' => false
-	)
-);
-?>
 
-<div class="modal-body">
-	<?php echo $this->element('NetCommons.setting_tabs', $settingTabs); ?>
+<article class="block-setting-body">
+	<?php echo $this->BlockTabs->main(BlockTabsComponent::MAIN_TAB_BLOCK_INDEX); ?>
 
-	<div class="tab-content" ng-controller="Blogs.BlockSetting">
-		<?php echo $this->element('Blocks.setting_tabs', $blockSettingTabs); ?>
+	<div class="tab-content">
+		<?php echo $this->BlockTabs->block(BlockTabsComponent::BLOCK_TAB_SETTING); ?>
 
 		<?php echo $this->element('Blocks.edit_form', array(
-				'controller' => 'BlogBlocks',
-				'action' => h($this->request->params['action']) . '/' . $frameId . '/' . $blockId,
-				'callback' => 'Blogs.Blocks/edit_form',
-				'cancelUrl' => '/blogs/blog_blocks/index/' . $frameId
-			)); ?>
+			'model' => 'Blog',
+			'callback' => 'Blogs.BlogBlocks/edit_form',
+			'cancelUrl' => NetCommonsUrl::backToIndexUrl('default_setting_action'),
+		)); ?>
 
 		<?php if ($this->request->params['action'] === 'edit') : ?>
 			<?php echo $this->element('Blocks.delete_form', array(
-					'controller' => 'BlogBlocks',
-					'action' => 'delete/' . $frameId . '/' . $blockId,
-					'callback' => 'Blogs.Blocks/delete_form'
-				)); ?>
+				'model' => 'BlogBlock',
+				'action' => 'delete/' . Current::read('Frame.id') . '/' . Current::read('Block.id'),
+				'callback' => 'Blogs.BlogBlocks/delete_form'
+			)); ?>
 		<?php endif; ?>
 	</div>
-</div>
+</article>

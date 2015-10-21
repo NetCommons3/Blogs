@@ -10,7 +10,7 @@
 App::uses('BlogsController', 'Blogs.Controller');
 
 App::uses('NetCommonsFrameComponent', 'NetCommons.Controller/Component');
-App::uses('NetCommonsBlockComponent', 'NetCommons.Controller/Component');
+//App::uses('NetCommonsBlockComponent', 'NetCommons.Controller/Component');
 App::uses('NetCommonsRoomRoleComponent', 'NetCommons.Controller/Component');
 App::uses('YAControllerTestCase', 'NetCommons.TestSuite');
 App::uses('RolesControllerTest', 'Roles.Test/Case/Controller');
