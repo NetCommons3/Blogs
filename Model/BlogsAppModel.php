@@ -34,37 +34,6 @@ class BlogsAppModel extends AppModel {
 	}
 
 /**
- * transaction begin
- *
- * @return void
- */
-	public function begin() {
-		$this->setDataSource('master');
-		$dataSource = $this->getDataSource();
-		$dataSource->begin();
-	}
-
-/**
- * transaction commit
- *
- * @return void
- */
-	public function commit() {
-		$dataSource = $this->getDataSource();
-		$dataSource->commit();
-	}
-
-/**
- * transaction rollback
- *
- * @return void
- */
-	public function rollback() {
-		$dataSource = $this->getDataSource();
-		$dataSource->rollback();
-	}
-
-/**
  * バリデートメッセージ多言語化対応のためのラップ
  *
  * @param array $options options

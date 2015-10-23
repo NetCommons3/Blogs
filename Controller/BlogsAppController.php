@@ -6,6 +6,8 @@ App::uses('AppController', 'Controller');
 
 /**
  * Class BlogsAppController
+ *
+ * @property BlogFrameSetting $BlogFrameSetting
  */
 class BlogsAppController extends AppController {
 
@@ -30,8 +32,8 @@ class BlogsAppController extends AppController {
  * @var array
  */
 	public $components = array(
-		'NetCommons.NetCommonsBlock',
-		'NetCommons.NetCommonsFrame',
+		//'NetCommons.NetCommonsBlock',
+		//'NetCommons.NetCommonsFrame',
 		'Pages.PageLayout',
 		'Security',
 	);
@@ -86,7 +88,7 @@ class BlogsAppController extends AppController {
  */
 	protected function _setupBlogTitle() {
 		$this->loadModel('Blocks.Block');
-		$block = $this->Block->findById($this->viewVars['blockId']);
+		$block = $this->Block->findById(Current::read('Block.id'));
 		$this->_blogTitle = $block['Block']['name'];
 	}
 
@@ -96,7 +98,7 @@ class BlogsAppController extends AppController {
  * @return void
  */
 	protected function _loadFrameSetting() {
-		$this->_frameSetting = $this->BlogFrameSetting->getSettingByFrameKey($this->viewVars['frameKey']);
+		$this->_frameSetting = $this->BlogFrameSetting->getBlogFrameSetting(true);
 	}
 
 /**
@@ -138,7 +140,7 @@ class BlogsAppController extends AppController {
 						'plugin' => $this->params['plugin'],
 						'controller' => 'blog_blocks',
 						'action' => 'index',
-						$this->viewVars['frameId'],
+						Current::read('Frame.id'),
 					)
 				),
 				'frame_settings' => array(
@@ -146,7 +148,7 @@ class BlogsAppController extends AppController {
 						'plugin' => $this->params['plugin'],
 						'controller' => 'blog_frame_settings',
 						'action' => 'edit',
-						$this->viewVars['frameId'],
+						Current::read('Frame.id'),
 					),
 				),
 			),
@@ -161,8 +163,8 @@ class BlogsAppController extends AppController {
 						'plugin' => $this->params['plugin'],
 						'controller' => 'blog_blocks',
 						'action' => $this->params['action'],
-						$this->viewVars['frameId'],
-						$this->viewVars['blockId']
+						Current::read('Frame.id'),
+						Current::read('Block.id')
 					)
 				),
 				'role_permissions' => array(
@@ -170,8 +172,8 @@ class BlogsAppController extends AppController {
 						'plugin' => $this->params['plugin'],
 						'controller' => 'blog_block_role_permissions',
 						'action' => 'edit',
-						$this->viewVars['frameId'],
-						$this->viewVars['blockId']
+						Current::read('Frame.id'),
+						Current::read('Block.id')
 					)
 				),
 			),
@@ -187,7 +189,7 @@ class BlogsAppController extends AppController {
  * @return bool True on success, False on failure
  */
 	public function initBlog($contains = []) {
-		if (! $blog = $this->Blog->getBlog($this->viewVars['blockId'], $this->viewVars['roomId'])) {
+		if (! $blog = $this->Blog->getBlog(Current::read('Block.id'), Current::read('Room.id'))) {
 			$this->throwBadRequest();
 			return false;
 		}
@@ -201,8 +203,9 @@ class BlogsAppController extends AppController {
 			);
 		}
 		$this->_blogSetting = $blogSetting;
-		$blogSetting = $this->camelizeKeyRecursive($blogSetting);
-		$this->set($blogSetting);
+		//$blogSetting = $this->camelizeKeyRecursive($blogSetting);
+		$this->set('blogSetting', $blogSetting['BlogSetting']);
+		//$this->set($blogSetting);
 
 		// Blogでは_loadFrameSettingでやってる。
 		//if (in_array('blogFrameSetting', $contains, true)) {

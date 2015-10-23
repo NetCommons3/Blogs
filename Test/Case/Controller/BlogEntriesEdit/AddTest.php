@@ -97,7 +97,7 @@ class BlogsEntriesEdit_AddTest extends BlogsAppControllerTestBase {
 		$data['BlogEntry']['status'] = 1;
 		$data['BlogEntry']['origin_id'] = 0;
 		$data['BlogEntry']['language_id'] = 1;
-		$data['BlogEntry']['published_datetime'] = '2015-01-01 00:00:00';
+		$data['BlogEntry']['publish_start'] = '2015-01-01 00:00:00';
 		$data['BlogEntry']['block_id'] = 5;
 		$data['BlogEntry']['blog_key'] = 'blog1';
 

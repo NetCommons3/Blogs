@@ -19,7 +19,7 @@
     "require-dev": {
         "mustangostang/spyc":           "dev-master",
         "netcommons/categories":        "dev-master",
-        "netcommons/comments":          "dev-master",
+        "netcommons/workflow":          "dev-master",
         "netcommons/content-comments":  "dev-master",
         "netcommons/likes":             "dev-master",
         "netcommons/net-commons":       "dev-master",

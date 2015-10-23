@@ -14,14 +14,17 @@
 //もしくは 作成権限があり、自分の書いた記事であれあば編集できる（ステータスは関係しない）
 // 公開されたコンテンツの削除は公開権限が必用。
 ?>
-<?php if ($contentPublishable || $contentEditable ||
-		($contentCreatable && ($blogEntry['BlogEntry']['created_user'] == $userId))): ?>
-
-	<div class="nc-blog-edit-link">
-		<a href="<?php echo $this->Html->url('/blogs/blog_entries_edit/edit/' . $frameId . '/origin_id:' . $blogEntry['BlogEntry']['origin_id']); ?>"
-			class="btn btn-primary btn-xs" tooltip="<?php echo __d('blogs', 'Edit'); ?>">
-
-			<span class="glyphicon glyphicon-edit"> </span>
-		</a>
+<?php if ($this->Workflow->canEdit('BlogEntry', $blogEntry)) : ?>
+	<div class="text-right">
+		<?php echo $this->Button->editLink('',
+			array(
+				'controller' => 'blog_entries_edit',
+				'origin_id' => $blogEntry['BlogEntry']['origin_id']
+			),
+			array(
+				'tooltip' => true,
+				'iconSize' => 'btn-xs'
+			)
+		); ?>
 	</div>
 <?php endif;

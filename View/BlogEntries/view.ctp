@@ -28,12 +28,9 @@ echo $this->Html->css(
 	)
 );
 ?>
-<?php echo $this->BackTopage->backToPageButton(__d('blogs', 'Move list')) ?>
+<?php echo $this->BackTo->pageLinkButton(__d('blogs', 'Move list'), array('icon' => 'list')) ?>
 <div class="blogs_entry_status">
-	<?php echo $this->element(
-		'NetCommons.status_label',
-		array('status' => $blogEntry['BlogEntry']['status'])
-	); ?>
+	<?php echo $this->Workflow->label($blogEntry['BlogEntry']['status']); ?>
 </div>
 
 <article>
@@ -62,7 +59,7 @@ echo $this->Html->css(
 		<?php foreach ($blogEntry['Tag'] as $blogTag): ?>
 			<?php echo $this->Html->link(
 				$blogTag['name'],
-				array('controller' => 'blog_entries', 'action' => 'tag', $frameId, 'id' => $blogTag['id'])
+				$this->NetCommonsHtml->url(array('controller' => 'blog_entries', 'action' => 'tag', 'frame_id' => Current::read('Frame.id'), 'id' => $blogTag['id']))
 			); ?>&nbsp;
 		<?php endforeach; ?>
 	</div>
@@ -75,10 +72,10 @@ echo $this->Html->css(
 				<?php echo $this->element('ContentComments.index', array(
 					'pluginKey' => $this->request->params['plugin'],
 					'contentKey' => $blogEntry['BlogEntry']['key'],
-					'isCommentApproved' => $blogSetting['useCommentApproval'],
-					'useComment' => $blogSetting['useComment'],
+					'isCommentApproved' => $blogSetting['use_comment_approval'],
+					'useComment' => $blogSetting['use_comment'],
 					'contentCommentCnt' => $blogEntry['ContentCommentCnt']['cnt'],
-					'redirectUrl' => '/blogs/blog_entries/view/' . $frameId . '/origin_id:' . $blogEntry['BlogEntry']['origin_id'],
+					'redirectUrl' => $this->NetCommonsHtml->url(array('plugin' => 'blogs', 'controller' => 'blog_entries', 'action' => 'view', 'frame_id' => Current::read('Frame.id'), 'origin_id' => $blogEntry['BlogEntry']['origin_id'])),
 				)); ?>
 			</div>
 		</div>

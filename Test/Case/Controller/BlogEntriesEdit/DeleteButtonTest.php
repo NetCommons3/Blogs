@@ -66,7 +66,7 @@ class BlogsEntriesEdit_DeleteButtonTest extends BlogsAppControllerTestBase {
 				'return' => 'view',
 			)
 		);
-		$this->assertTextNotContains('glyphicon-trash', $view, print_r($view, true));
+		$this->assertTextNotContains('glyphicon-trash', $view, debug($view, true));
 
 		AuthGeneralControllerTest::logout($this);
 	}
@@ -86,7 +86,7 @@ class BlogsEntriesEdit_DeleteButtonTest extends BlogsAppControllerTestBase {
 				'return' => 'view',
 			)
 		);
-		$this->assertTextContains('glyphicon-trash', $view, print_r($view, true));
+		$this->assertTextContains('glyphicon-trash', $view, debug($view, true));
 
 		AuthGeneralControllerTest::logout($this);
 	}
@@ -106,7 +106,7 @@ class BlogsEntriesEdit_DeleteButtonTest extends BlogsAppControllerTestBase {
 				'return' => 'view',
 			)
 		);
-		$this->assertTextContains('glyphicon-trash', $view, print_r($view, true));
+		$this->assertTextContains('glyphicon-trash', $view, debug($view, true));
 
 		AuthGeneralControllerTest::logout($this);
 	}
@@ -130,7 +130,7 @@ class BlogsEntriesEdit_DeleteButtonTest extends BlogsAppControllerTestBase {
 				'return' => 'view',
 			)
 		);
-		$this->assertTextNotContains('glyphicon-trash', $view, print_r($view, true));
+		$this->assertTextNotContains('glyphicon-trash', $view, debug($view, true));
 
 		AuthGeneralControllerTest::logout($this);
 
@@ -144,7 +144,7 @@ class BlogsEntriesEdit_DeleteButtonTest extends BlogsAppControllerTestBase {
 				'return' => 'view',
 			)
 		);
-		$this->assertTextContains('glyphicon-trash', $view, print_r($view, true));
+		$this->assertTextContains('glyphicon-trash', $view, debug($view, true));
 
 		AuthGeneralControllerTest::logout($this);
 	}

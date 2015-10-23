@@ -10,17 +10,17 @@
  */
 ?>
 
-<div class="modal-body">
-	<?php echo $this->element('NetCommons.setting_tabs', $settingTabs); ?>
+<div class="block-setting-body">
+	<?php echo $this->BlockTabs->main(BlockTabsComponent::MAIN_TAB_BLOCK_INDEX); ?>
 
 	<div class="tab-content">
-		<?php echo $this->element('Blocks.setting_tabs', $blockSettingTabs); ?>
+		<?php echo $this->BlockTabs->block(BlockTabsComponent::BLOCK_TAB_PERMISSION); ?>
 
 		<?php echo $this->element('Blocks.edit_form', array(
-				'controller' => 'BlogBlockRolePermission',
-				'action' => 'edit' . '/' . $frameId . '/' . $blockId,
-				'callback' => 'Blogs.BlockRolePermissions/edit_form',
-				'cancelUrl' => '/blogs/blog_blocks/index/' . $frameId,
-			)); ?>
+			'model' => 'BlogBlockRolePermission',
+			'action' => 'edit' . '/' . $this->data['Frame']['id'] . '/' . $this->data['Block']['id'],
+			'callback' => 'Blogs.BlogBlockRolePermissions/edit_form',
+			'cancelUrl' => NetCommonsUrl::backToIndexUrl('default_setting_action'),
+		)); ?>
 	</div>
 </div>

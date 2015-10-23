@@ -11,6 +11,7 @@
  */
 
 App::uses('BlogsAppModel', 'Blogs.Model');
+App::uses('NetCommonsTime', 'NetCommons.Utility');
 
 /**
  * Summary for BlogEntry Model
@@ -31,9 +32,12 @@ class BlogEntry extends BlogsAppModel {
 		'NetCommons.Trackable',
 		'Tags.Tag',
 		'NetCommons.OriginalKey',
-		'NetCommons.Publishable',
-		'Likes.Like'
-	);
+		//'NetCommons.Publishable',
+		'Workflow.Workflow',
+		'Likes.Like',
+		'Workflow.WorkflowComment',
+		//'Categories.Category',
+		);
 
 /**
  * belongsTo associations
@@ -48,13 +52,13 @@ class BlogEntry extends BlogsAppModel {
 			'fields' => '',
 			'order' => ''
 		),
-		'CategoryOrder' => array(
-			'className' => 'Categories.CategoryOrder',
-			'foreignKey' => false,
-			'conditions' => 'CategoryOrder.category_key=Category.key',
-			'fields' => '',
-			'order' => ''
-		)
+	//	'CategoryOrder' => array(
+	//		'className' => 'Categories.CategoryOrder',
+	//		'foreignKey' => false,
+	//		'conditions' => 'CategoryOrder.category_key=Category.key',
+	//		'fields' => '',
+	//		'order' => ''
+	//	)
 	);
 
 /**
@@ -84,7 +88,7 @@ class BlogEntry extends BlogsAppModel {
 					//'on' => 'create', // Limit validation to 'create' or 'update' operations
 				],
 			),
-			'published_datetime' => array(
+			'publish_start' => array(
 				'notBlank' => [
 					'rule' => array('notBlank'),
 					'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('blogs', 'Published datetime')),
@@ -145,7 +149,8 @@ class BlogEntry extends BlogsAppModel {
  */
 	public function getNew() {
 		$new = parent::getNew();
-		$new['BlogEntry']['published_datetime'] = date('Y-m-d H:i:s');
+		$netCommonsTime = new NetCommonsTime();
+		$new['BlogEntry']['publish_start'] = $netCommonsTime->getNowDatetime();
 		return $new;
 	}
 /**
@@ -158,43 +163,48 @@ class BlogEntry extends BlogsAppModel {
  * @return array condition
  */
 	public function getConditions($blockId, $userId, $permissions, $currentDateTime) {
+		// contentReadable falseなら何も見えない
+		if ($permissions['content_readable'] === false) {
+			$conditions = array('BlogEntry.id' => 0); // ありえない条件でヒット0にしてる
+			return $conditions;
+		}
+
 		// デフォルト絞り込み条件
 		$conditions = array(
 			'BlogEntry.block_id' => $blockId
 		);
 
-		if ($permissions['contentEditable']) {
-			// 編集権限
-			$conditions['BlogEntry.is_latest'] = 1;
-			return $conditions;
-		}
+		$conditions = $this->getWorkflowConditions($conditions);
 
-		if ($permissions['contentCreatable']) {
-			// 作成権限
-			$conditions['OR'] = array(
-				array_merge(
-					$this->_getPublishedConditions($currentDateTime),
-					array('BlogEntry.created_user !=' => $userId)
-				),
-				array('BlogEntry.created_user' => $userId,
-						'BlogEntry.is_latest' => 1)
-			);
-			return $conditions;
-		}
-
-		if ($permissions['contentReadable']) {
-			// 公開中コンテンツだけ
-			$conditions = array_merge(
-				$conditions,
-				$this->_getPublishedConditions($currentDateTime));
-			return $conditions;
-		}
-
-		// contentReadable falseなら何も見えない
-		$conditions = array_merge(
-			$conditions,
-			array('BlogEntry.id' => 0) // ありえない条件でヒット0にしてる
-		);
+		//if ($permissions['content_editable']) {
+		////if ($this->canEditW/orkflowContent()) {
+		//	// 編集権限
+		//	$conditions['BlogEntry.is_latest'] = 1;
+		//	return $conditions;
+		//}
+		//
+		//if ($permissions['content_creatable']) {
+		////if ($this->canCreateWorkflowContent()) {
+		//	// 作成権限
+		//	$conditions['OR'] = array(
+		//		array_merge(
+		//			$this->_getPublishedConditions($currentDateTime),
+		//			array('BlogEntry.created_user !=' => $userId)
+		//		),
+		//		array('BlogEntry.created_user' => $userId,
+		//				'BlogEntry.is_latest' => 1)
+		//	);
+		//	return $conditions;
+		//}
+		//
+		//if ($permissions['content_readable']) {
+		////if ($this->canReadWorkflowContent()) {
+		//	 //公開中コンテンツだけ
+		//	$conditions = array_merge(
+		//		$conditions,
+		//		$this->_getPublishedConditions($currentDateTime));
+		//	return $conditions;
+		//}
 
 		return $conditions;
 	}
@@ -217,7 +227,7 @@ class BlogEntry extends BlogsAppModel {
 			'all',
 			array(
 				'fields' => array(
-					'DATE_FORMAT(BlogEntry.published_datetime, \'%Y-%m\') AS BlogEntry__year_month',
+					'DATE_FORMAT(BlogEntry.publish_start, \'%Y-%m\') AS BlogEntry__year_month',
 					'count(*) AS BlogEntry__count'
 				),
 				'conditions' => $conditions,
@@ -234,13 +244,13 @@ class BlogEntry extends BlogsAppModel {
 		$oldestEntry = $this->find('first',
 			array(
 				'conditions' => $conditions,
-				'order' => 'published_datetime ASC',
+				'order' => 'publish_start ASC',
 			)
 		);
 
 		// 一番古い記事の年月から現在までを先にゼロ埋め
 		if (isset($oldestEntry['BlogEntry'])) {
-			$currentYearMonthDay = date('Y-m-01', strtotime($oldestEntry['BlogEntry']['published_datetime']));
+			$currentYearMonthDay = date('Y-m-01', strtotime($oldestEntry['BlogEntry']['publish_start']));
 		} else {
 			// 記事がなかったら今月だけ
 			$currentYearMonthDay = date('Y-m-01', strtotime($currentDateTime));
@@ -271,10 +281,6 @@ class BlogEntry extends BlogsAppModel {
 	public function saveEntry($blockId, $frameId, $data) {
 		$this->begin();
 		try {
-			$this->loadModels(array(
-				'Comment' => 'Comments.Comment',
-				/* 'Topic' => 'Topics.Topic', */
-			));
 			$this->create(); // 常に新規登録
 			// 先にvalidate 失敗したらfalse返す
 			$this->set($data);
@@ -286,45 +292,6 @@ class BlogEntry extends BlogsAppModel {
 				//このsaveで失敗するならvalidate以外なので例外なげる
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
-
-			// validate comment
-			if (!$this->Comment->validateByStatus($savedData, array('caller' => $this->name))) {
-				$this->validationErrors = Hash::merge($this->validationErrors, $this->Comment->validationErrors);
-				$this->rollback();
-				return false;
-			}
-
-			//コメントの登録
-			if ($this->Comment->data) {
-				if (! $this->Comment->save(null, false)) {
-					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-				}
-			}
-
-			/* $plugin = strtolower($this->plugin); */
-			/* if (!$this->Topic->validateTopic([ */
-			/* 	'block_id' => $savedData[$this->alias]['block_id'], */
-			/* 	'status' => $savedData[$this->alias]['status'], */
-			/* 	'is_active' => $savedData[$this->alias]['is_active'], */
-			/* 	'is_latest' => $savedData[$this->alias]['is_latest'], */
-			/* 	'is_auto_translated' => '0', */
-			/* 	'is_first_auto_translation' => '0', */
-			/* 	'translation_engine' => '', */
-			/* 	/\* 'is_auto_translated' => $savedData[$this->alias]['is_auto_translated'], *\/ */
-			/* 	/\* 'is_first_auto_translation' => $savedData[$this->alias]['is_first_auto_translation'], *\/ */
-			/* 	/\* 'translation_engine' => $savedData[$this->alias]['translation_engine'], *\/ */
-			/* 	'title' => Search::prepareTitle($savedData[$this->alias]['title']), */
-			/* 	'contents' => Search::prepareContents([$savedData[$this->alias]['body1'], $savedData[$this->alias]['body2']]), */
-			/* 	'plugin_key' => $plugin, */
-			/* 	'path' => '/' . $plugin . '/' . $plugin . '/view/' . $frameId . '/origin_id:' . $savedData[$this->alias]['origin_id'], */
-			/* 	'from' => date('Y-m-d H:i:s'), */
-			/* ])) { */
-			/* 	$this->validationErrors = Hash::merge($this->validationErrors, $this->Topic->validationErrors); */
-			/* 	return false; */
-			/* } */
-			/* if (! $this->Topic->save(null, false)) { */
-			/* 	throw new InternalErrorException(__d('net_commons', 'Internal Server Error')); */
-			/* } */
 
 			$this->commit();
 			return $savedData;
@@ -350,10 +317,8 @@ class BlogEntry extends BlogsAppModel {
 		try{
 			//コメントの削除
 			$deleteEntry = $this->findByOriginId($originId);
-			$this->loadModels([
-				'Comment' => 'Comments.Comment',
-			]);
-			$this->Comment->deleteByContentKey($deleteEntry['BlogEntry']['key']);
+			//コメントの削除
+			$this->deleteCommentsByContentKey($deleteEntry['BlogEntry']['key']);
 
 			// 記事削除
 			$conditions = array('origin_id' => $originId);
@@ -395,7 +360,7 @@ class BlogEntry extends BlogsAppModel {
 	protected function _getPublishedConditions($currentDateTime) {
 		return array(
 			$this->name . '.is_active' => 1,
-			'BlogEntry.published_datetime <=' => $currentDateTime,
+			'BlogEntry.publish_start <=' => $currentDateTime,
 		);
 	}
 

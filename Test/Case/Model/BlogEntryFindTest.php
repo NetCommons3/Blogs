@@ -30,7 +30,7 @@ class BlogEntryFindTest extends CakeTestCase {
 		//'plugin.tags.tag',
 		//'plugin.tags.tags_content',
 		'plugin.users.user', // Trackableビヘイビアでテーブルが必用
-		'plugin.comments.comment',
+		'plugin.workflow.workflow_comment',
 	);
 
 /**
@@ -68,7 +68,7 @@ class BlogEntryFindTest extends CakeTestCase {
 		$now = '2015-01-01 00:00:00';
 		$conditions = $BlogEntryTesting->_testing__getPublishedConditions($now);
 		$this->assertEquals(1, $conditions['BlogEntry.is_active']);
-		$this->assertEquals($now, $conditions['BlogEntry.published_datetime <=']);
+		$this->assertEquals($now, $conditions['BlogEntry.publish_start <=']);
 	}
 
 /**
@@ -112,7 +112,7 @@ class BlogEntryFindTest extends CakeTestCase {
 			array(
 				'BlogEntry.block_id' => $blockId,
 				'BlogEntry.is_active' => 1,
-				'BlogEntry.published_datetime <=' => $currentDateTime
+				'BlogEntry.publish_start <=' => $currentDateTime
 			)
 		);
 
@@ -130,7 +130,7 @@ class BlogEntryFindTest extends CakeTestCase {
 				'OR' => array(
 					array(
 						'BlogEntry.is_active' => 1,
-						'BlogEntry.published_datetime <=' => $currentDateTime,
+						'BlogEntry.publish_start <=' => $currentDateTime,
 						'BlogEntry.created_user !=' => $userId,
 					),
 					array(
