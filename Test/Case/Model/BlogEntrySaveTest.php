@@ -63,15 +63,15 @@ class BlogEntrySaveTest extends CakeTestCase {
  *
  * @return void
  */
-	public function testDeleteEntryByOriginId() {
-		$count2 = $this->BlogEntry->find('count', array('conditions' => array('origin_id' => 1)));
+	public function testDeleteEntryByKey() {
+		$count2 = $this->BlogEntry->find('count', array('conditions' => array('key' => 1)));
 
 		$this->assertEqual($count2, 2);
 
-		$deleted = $this->BlogEntry->deleteEntryByOriginId(1);
+		$deleted = $this->BlogEntry->deleteEntryByKey(1);
 		$this->assertTrue($deleted);
 
-		$count0 = $this->BlogEntry->find('count', array('conditions' => array('origin_id' => 1)));
+		$count0 = $this->BlogEntry->find('count', array('conditions' => array('key' => 1)));
 		$this->assertEqual($count0, 0);
 	}
 
@@ -87,7 +87,7 @@ class BlogEntrySaveTest extends CakeTestCase {
 		$data['BlogEntry']['body1'] = 'body1';
 		$data['BlogEntry']['key'] = '';
 		$data['BlogEntry']['status'] = 2;
-		$data['BlogEntry']['origin_id'] = 0;
+		$data['BlogEntry']['key'] = 0;
 		$data['BlogEntry']['language_id'] = 1;
 		$data['BlogEntry']['publish_start'] = '2015-01-01 00:00:00';
 		$data['BlogEntry']['block_id'] = 5;
@@ -103,7 +103,7 @@ class BlogEntrySaveTest extends CakeTestCase {
  * @return void
  */
 	public function testCommentDelete() {
-		// origin_id=1 のテストデータのkeyはkey1なのでComment->deleteByContentKye('key1')がコールされるかテスト
+		// key=1 のテストデータのkeyはkey1なのでComment->deleteByContentKye('key1')がコールされるかテスト
 		$mock = $this->getMockForModel('Comments.Comment', ['deleteByContentKey']);
 		$mock->expects($this->once())
 			->method('deleteByContentKey')
@@ -111,7 +111,7 @@ class BlogEntrySaveTest extends CakeTestCase {
 				$this->equalTo('key1')
 			);
 
-		$this->BlogEntry->deleteEntryByOriginId(1);
+		$this->BlogEntry->deleteEntryByKey(1);
 	}
 
 /**
@@ -130,7 +130,7 @@ class BlogEntrySaveTest extends CakeTestCase {
 		$BlogEntryMock->Behaviors->unload('Tag');
 		$BlogEntryMock->Behaviors->unload('Trackable');
 		$BlogEntryMock->Behaviors->unload('Like');
-		$BlogEntryMock->deleteEntryByOriginId(1);
+		$BlogEntryMock->deleteEntryByKey(1);
 	}
 
 /**
@@ -150,7 +150,7 @@ class BlogEntrySaveTest extends CakeTestCase {
 		$data['BlogEntry']['body1'] = 'body1';
 		$data['BlogEntry']['key'] = '';
 		$data['BlogEntry']['status'] = 3;
-		$data['BlogEntry']['origin_id'] = 0;
+		$data['BlogEntry']['key'] = 0;
 		$data['BlogEntry']['language_id'] = 1;
 		$data['BlogEntry']['publish_start'] = '2015-01-01 00:00:00';
 		$data['BlogEntry']['block_id'] = 5;
@@ -172,7 +172,7 @@ class BlogEntrySaveTest extends CakeTestCase {
 		$data['BlogEntry']['body1'] = 'body1';
 		$data['BlogEntry']['key'] = '';
 		$data['BlogEntry']['status'] = 3;
-		$data['BlogEntry']['origin_id'] = 0;
+		$data['BlogEntry']['key'] = 0;
 		$data['BlogEntry']['language_id'] = 1;
 		$data['BlogEntry']['publish_start'] = '2015-01-01 00:00:00';
 		$data['BlogEntry']['block_id'] = 5;
@@ -198,7 +198,7 @@ class BlogEntrySaveTest extends CakeTestCase {
 		$data['BlogEntry']['body1'] = 'body1';
 		$data['BlogEntry']['key'] = '';
 		$data['BlogEntry']['status'] = 3;
-		$data['BlogEntry']['origin_id'] = 0;
+		$data['BlogEntry']['key'] = 0;
 		$data['BlogEntry']['language_id'] = 1;
 		$data['BlogEntry']['publish_start'] = '2015-01-01 00:00:00';
 		$data['BlogEntry']['block_id'] = 5;
@@ -225,7 +225,7 @@ class BlogEntrySaveTest extends CakeTestCase {
 		$data['BlogEntry']['body1'] = 'body1';
 		$data['BlogEntry']['key'] = '';
 		$data['BlogEntry']['status'] = 3;
-		$data['BlogEntry']['origin_id'] = 0;
+		$data['BlogEntry']['key'] = 0;
 		$data['BlogEntry']['language_id'] = 1;
 		$data['BlogEntry']['publish_start'] = '2015-01-01 00:00:00';
 		$data['BlogEntry']['block_id'] = 5;
@@ -256,7 +256,7 @@ class BlogEntrySaveTest extends CakeTestCase {
 		$data['BlogEntry']['body1'] = 'body1';
 		$data['BlogEntry']['key'] = '';
 		$data['BlogEntry']['status'] = 3;
-		$data['BlogEntry']['origin_id'] = 0;
+		$data['BlogEntry']['key'] = 0;
 		$data['BlogEntry']['language_id'] = 1;
 		$data['BlogEntry']['publish_start'] = '2015-01-01 00:00:00';
 		$data['BlogEntry']['block_id'] = 5;
