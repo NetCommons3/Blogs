@@ -75,7 +75,7 @@ echo $this->Html->css(
 					'isCommentApproved' => $blogSetting['use_comment_approval'],
 					'useComment' => $blogSetting['use_comment'],
 					'contentCommentCnt' => $blogEntry['ContentCommentCnt']['cnt'],
-					'redirectUrl' => $this->NetCommonsHtml->url(array('plugin' => 'blogs', 'controller' => 'blog_entries', 'action' => 'view', 'frame_id' => Current::read('Frame.id'), 'origin_id' => $blogEntry['BlogEntry']['origin_id'])),
+					'redirectUrl' => $this->NetCommonsHtml->url(array('plugin' => 'blogs', 'controller' => 'blog_entries', 'action' => 'view', 'frame_id' => Current::read('Frame.id'), 'key' => $blogEntry['BlogEntry']['key'])),
 				)); ?>
 			</div>
 		</div>

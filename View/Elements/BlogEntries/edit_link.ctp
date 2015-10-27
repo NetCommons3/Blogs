@@ -19,7 +19,7 @@
 		<?php echo $this->Button->editLink('',
 			array(
 				'controller' => 'blog_entries_edit',
-				'origin_id' => $blogEntry['BlogEntry']['origin_id']
+				'key' => $blogEntry['BlogEntry']['key']
 			),
 			array(
 				'tooltip' => true,

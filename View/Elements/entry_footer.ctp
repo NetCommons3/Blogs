@@ -5,7 +5,7 @@
 			<?php $contentUrl = FULL_BASE_URL . $this->NetCommonsHtml->url(array(
 					'action' => 'view',
 					'frame_id' => Current::read('Frame.id'),
-					'origin_id' => $blogEntry['BlogEntry']['origin_id'],
+					'key' => $blogEntry['BlogEntry']['key'],
 				));
 			?>
 			<!--Facebook-->

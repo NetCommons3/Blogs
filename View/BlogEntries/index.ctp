@@ -82,13 +82,16 @@ echo $this->Html->css(
 
 		<?php if (Current::permission('content_creatable')) : ?>
 		<div class="pull-right">
-			<?php echo $this->Button->addLink('',
-				$this->NetCommonsHtml->url(array(
-					'controller' => 'blog_entries_edit',
-					'action' => 'add',
-					//'frame_id' => Current::read('Frame.id')
-				)),
-				array('tooltip' => __d('blogs', 'Add entry'))); ?>
+			<?php
+			$addUrl = $this->NetCommonsHtml->url(array(
+				'controller' => 'blog_entries_edit',
+				'action' => 'add',
+				'frame_id' => Current::read('Frame.id')
+			)) ;
+			echo $this->Button->addLink('',
+				$addUrl,
+			array('tooltip' => __d('blogs', 'Add entry')));
+			?>
 		</div>
 		<?php endif ?>
 
@@ -114,7 +117,7 @@ echo $this->Html->css(
 									'controller' => 'blog_entries',
 									'action' => 'view',
 									//'frame_id' => Current::read('Frame.id'),
-									'origin_id' => $blogEntry['BlogEntry']['origin_id']
+									'key' => $blogEntry['BlogEntry']['key']
 								)
 							)
 						);
