@@ -125,7 +125,7 @@ class BlogsAppModelTest extends BlogsAppModelTestBase {
 		$data['BlogEntry']['title'] = 'title';
 		$data['BlogEntry']['body1'] = 'body1text';
 		$data['BlogEntry']['status'] = 2;
-		$data['BlogEntry']['origin_id'] = 1;
+		$data['BlogEntry']['key'] = 1;
 		$data['BlogEntry']['language_id'] = 1;
 		$data['BlogEntry']['block_id'] = 1;
 		$data['BlogEntry']['blog_key'] = 'blog1';

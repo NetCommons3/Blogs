@@ -227,8 +227,8 @@ class BlogEntriesController extends BlogsAppController {
 	public function view() {
 		$this->_prepare();
 
-		//$originId = $this->request->params['named']['origin_id'];
-		$originId = $this->params['pass'][1];
+		//$key = $this->request->params['named']['key'];
+		$key = $this->params['pass'][1];
 
 		$conditions = $this->BlogEntry->getConditions(
 			Current::read('Block.id'),
@@ -237,7 +237,7 @@ class BlogEntriesController extends BlogsAppController {
 			$this->_getCurrentDateTime()
 		);
 
-		$conditions['BlogEntry.origin_id'] = $originId;
+		$conditions['BlogEntry.key'] = $key;
 
 		$options = array(
 			'conditions' => $conditions,

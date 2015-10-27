@@ -46,7 +46,7 @@ $dataJson = json_encode(
 			);
 			$this->NetCommonsForm->unlockField('Tag');
 			?>
-			<?php echo $this->NetCommonsForm->input('origin_id', array('type' => 'hidden')); ?>
+			<?php echo $this->NetCommonsForm->input('key', array('type' => 'hidden')); ?>
 			<?php echo $this->NetCommonsForm->input('key', array('type' => 'hidden')); ?>
 			<!--		--><?php //echo $this->Form->hidden('Frame.id', array(
 			//			'value' => Current::read('Frame.id'),
@@ -118,7 +118,7 @@ $dataJson = json_encode(
 								array('controller' => 'blog_entries_edit', 'action' => 'delete', 'frame_id' => Current::read('Frame.id')))
 						)
 					) ?>
-					<?php echo $this->NetCommonsForm->input('origin_id', array('type' => 'hidden')); ?>
+					<?php echo $this->NetCommonsForm->input('key', array('type' => 'hidden')); ?>
 
 					<span class="nc-tooltip" tooltip="<?php echo __d('net_commons', 'Delete'); ?>">
 						<button class="btn btn-danger" onClick="return confirm('<?php echo __d('net_commons', 'Deleting the %s. Are you sure to proceed?', __d('blogs', 'BlogEntry')) ?>')"><span class="glyphicon glyphicon-trash"> </span></button>
