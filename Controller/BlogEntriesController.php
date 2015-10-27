@@ -283,7 +283,35 @@ class BlogEntriesController extends BlogsAppController {
 		}
 	}
 
-/**
+	public function download() {
+		$this->_prepare();
+
+		//$originId = $this->request->params['named']['origin_id'];
+		$originId = $this->params['pass'][1];
+
+		$conditions = $this->BlogEntry->getConditions(
+			Current::read('Block.id'),
+			$this->Auth->user('id'),
+			$this->_getPermission(),
+			$this->_getCurrentDateTime()
+		);
+
+		$conditions['BlogEntry.origin_id'] = $originId;
+		$options = array(
+			'conditions' => $conditions,
+		);
+		$blogEntry = $this->BlogEntry->find('first', $options);
+
+		if ($blogEntry) {
+			$this->FileDownload->do($blogEntry);
+			// TODO　リクエストパラメータからファイルIDを取得するカラム名を確定する
+		} else {
+			// 表示できない記事へのアクセスなら404
+			throw new NotFoundException(__('Invalid blog entry'));
+		}
+	}
+
+	/**
  * 年月選択肢をViewへセット
  *
  * @return void

@@ -12,6 +12,7 @@
 
 App::uses('BlogsAppModel', 'Blogs.Model');
 App::uses('NetCommonsTime', 'NetCommons.Utility');
+//App::uses('AttachmentBehavior', 'Files.Model/Behavior');
 
 /**
  * Summary for BlogEntry Model
@@ -37,6 +38,7 @@ class BlogEntry extends BlogsAppModel {
 		'Likes.Like',
 		'Workflow.WorkflowComment',
 		//'Categories.Category',
+		'Files.Attachment',
 		);
 
 /**
@@ -52,13 +54,11 @@ class BlogEntry extends BlogsAppModel {
 			'fields' => '',
 			'order' => ''
 		),
-	//	'CategoryOrder' => array(
-	//		'className' => 'Categories.CategoryOrder',
-	//		'foreignKey' => false,
-	//		'conditions' => 'CategoryOrder.category_key=Category.key',
-	//		'fields' => '',
-	//		'order' => ''
-	//	)
+		'PhotoFile' => array( // コンテンツを更新してもファイル差し替えないこともあるのでコンテンツn:ファイル1の関係
+			'className' => 'Files.Attachment',
+			'foreignKey' => 'photo_file_id',
+			'conditions' => '',
+		),// 関連づけておいて、afterSaveで関連モデルのsaveする？
 	);
 
 /**
