@@ -307,21 +307,21 @@ class BlogEntry extends BlogsAppModel {
 /**
  * 記事削除
  *
- * @param int $originId オリジンID
+ * @param int $key オリジンID
  * @throws InternalErrorException
  * @return bool
  */
-	public function deleteEntryByOriginId($originId) {
+	public function deleteEntryByKey($key) {
 		// ε(　　　　 v ﾟωﾟ)　＜タグリンク削除
 		$this->begin();
 		try{
 			//コメントの削除
-			$deleteEntry = $this->findByOriginId($originId);
+			$deleteEntry = $this->findByKey($key);
 			//コメントの削除
 			$this->deleteCommentsByContentKey($deleteEntry['BlogEntry']['key']);
 
 			// 記事削除
-			$conditions = array('origin_id' => $originId);
+			$conditions = array('key' => $key);
 			if ($result = $this->deleteAll($conditions, true, true)) {
 				$this->commit();
 				return $result;
@@ -344,7 +344,7 @@ class BlogEntry extends BlogsAppModel {
  */
 	public function yetPublish($blogEntry) {
 		$conditions = array(
-			'BlogEntry.origin_id' => $blogEntry['BlogEntry']['origin_id'],
+			'BlogEntry.key' => $blogEntry['BlogEntry']['key'],
 			'BlogEntry.is_active' => 1
 		);
 		$count = $this->find('count', array('conditions' => $conditions));

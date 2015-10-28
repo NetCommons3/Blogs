@@ -89,7 +89,7 @@ class BlogEntriesEditController extends BlogsAppController {
 						'action' => 'view',
 						'block_id' => Current::read('Block.id'),
 						'frame_id' => Current::read('Frame.id'),
-						'origin_id' => $result['BlogEntry']['origin_id'])
+						'key' => $result['BlogEntry']['key'])
 				);
 				return $this->redirect($url);
 			}
@@ -113,11 +113,11 @@ class BlogEntriesEditController extends BlogsAppController {
  */
 	public function edit() {
 		$this->set('isEdit', true);
-		//$originId = $this->request->params['named']['origin_id'];
-		$originId = $this->params['pass'][1];
+		//$key = $this->request->params['named']['key'];
+		$key = $this->params['pass'][1];
 
-		//  origin_idのis_latstを元に編集を開始
-		$blogEntry = $this->BlogEntry->findByOriginIdAndIsLatest($originId, 1);
+		//  keyのis_latstを元に編集を開始
+		$blogEntry = $this->BlogEntry->findByKeyAndIsLatest($key, 1);
 		if (empty($blogEntry)) {
 			//  404 NotFound
 			throw new NotFoundException();
@@ -148,7 +148,7 @@ class BlogEntriesEditController extends BlogsAppController {
 						'action' => 'view',
 						'frame_id' => Current::read('Frame.id'),
 						'block_id' => Current::read('Block.id'),
-						'origin_id' => $data['BlogEntry']['origin_id']
+						'key' => $data['BlogEntry']['key']
 					)
 				);
 
@@ -183,18 +183,18 @@ class BlogEntriesEditController extends BlogsAppController {
  * @return void
  */
 	public function delete() {
-		$originId = $this->request->data['BlogEntry']['origin_id'];
+		$key = $this->request->data['BlogEntry']['key'];
 
 		$this->request->allowMethod('post', 'delete');
 
-		$blogEntry = $this->BlogEntry->findByOriginIdAndIsLatest($originId, 1);
+		$blogEntry = $this->BlogEntry->findByKeyAndIsLatest($key, 1);
 
 		// 権限チェック
 		if ($this->BlogEntry->canDeleteWorkflowContent($blogEntry) === false) {
 			throw new ForbiddenException(__d('net_commons', 'Permission denied'));
 		}
 
-		if ($this->BlogEntry->deleteEntryByOriginId($originId) === false) {
+		if ($this->BlogEntry->deleteEntryByKey($key) === false) {
 			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 		}
 		return $this->redirect(

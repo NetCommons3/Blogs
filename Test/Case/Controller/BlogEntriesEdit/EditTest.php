@@ -61,7 +61,7 @@ class BlogsEntriesEdit_EditTest extends BlogsAppControllerTestBase {
 
 		RolesControllerTest::login($this);
 		$this->testAction(
-			'/blogs/blog_entries_edit/edit/1/origin_id:100',
+			'/blogs/blog_entries_edit/edit/1/key:100',
 			array(
 				'method' => 'get',
 			)
@@ -76,7 +76,7 @@ class BlogsEntriesEdit_EditTest extends BlogsAppControllerTestBase {
  */
 	public function testEditNoEditPermission() {
 		RolesControllerTest::login($this, 'general_user');
-		// origin_id:1作成ユーザと異なるuser idを返させる
+		// key:1作成ユーザと異なるuser idを返させる
 		$this->blogEntriesEditMock->Auth->expects($this->any())
 			->method('user')
 			->will($this->returnValue(4));
@@ -84,7 +84,7 @@ class BlogsEntriesEdit_EditTest extends BlogsAppControllerTestBase {
 		// 編集権限無しで他のユーザのコンテンツはedit NG
 		$this->setExpectedException('ForbiddenException');
 		$this->testAction(
-			'/blogs/blog_entries_edit/edit/1/origin_id:1',
+			'/blogs/blog_entries_edit/edit/1/key:1',
 			array(
 				'method' => 'get',
 			)
@@ -99,7 +99,7 @@ class BlogsEntriesEdit_EditTest extends BlogsAppControllerTestBase {
  */
 	public function testEditNoEditPermission4Visitor() {
 		RolesControllerTest::login($this, Role::ROLE_KEY_VISITOR);
-		// origin_id:1作成ユーザと異なるuser idを返させる
+		// key:1作成ユーザと異なるuser idを返させる
 		$this->blogEntriesEditMock->Auth->expects($this->any())
 			->method('user')
 			->will($this->returnValue(4));
@@ -107,7 +107,7 @@ class BlogsEntriesEdit_EditTest extends BlogsAppControllerTestBase {
 		// 編集権限無しで他のユーザのコンテンツはedit NG
 		$this->setExpectedException('ForbiddenException');
 		$this->testAction(
-			'/blogs/blog_entries_edit/edit/1/origin_id:1',
+			'/blogs/blog_entries_edit/edit/1/key:1',
 			array(
 				'method' => 'get',
 			)
@@ -132,7 +132,7 @@ class BlogsEntriesEdit_EditTest extends BlogsAppControllerTestBase {
 			->method('handleValidationError')
 			->with($this->isType('array'));
 		$this->testAction(
-			'/blogs/blog_entries_edit/edit/1/origin_id:1',
+			'/blogs/blog_entries_edit/edit/1/key:1',
 			array(
 				'method' => 'put',
 			)
@@ -155,19 +155,19 @@ class BlogsEntriesEdit_EditTest extends BlogsAppControllerTestBase {
 
 		$BlogEntry = ClassRegistry::init('Blogs.BlogEntry');
 
-		$data = $BlogEntry->findByOriginIdAndIsLatest(1, 1);
+		$data = $BlogEntry->findByKeyAndIsLatest(1, 1);
 
 		$data['BlogEntry']['title'] = 'Edit title';
 		$data['Comment']['comment'] = '';
 
 		$this->testAction(
-			'/blogs/blog_entries_edit/edit/1/origin_id:1',
+			'/blogs/blog_entries_edit/edit/1/key:1',
 			array(
 				'method' => 'put',
 				'data' => $data,
 			)
 		);
-		$this->assertRegExp('#blogs/blog_entries/view/1/origin_id:1#', $this->headers['Location']);
+		$this->assertRegExp('#blogs/blog_entries/view/1/key:1#', $this->headers['Location']);
 		AuthGeneralControllerTest::logout($this);
 	}
 

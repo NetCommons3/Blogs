@@ -57,7 +57,7 @@ class Controller_BlogEntries_ViewTest extends BlogsAppControllerTestBase {
 	public function testEditLink($role, $viewEditLink) {
 		RolesControllerTest::login($this, $role);
 		$view = $this->testAction(
-			'/blogs/blog_entries/view/1/origin_id:6',
+			'/blogs/blog_entries/view/1/key:6',
 			array(
 				'method' => 'get',
 				'return' => 'view',
@@ -94,9 +94,9 @@ class Controller_BlogEntries_ViewTest extends BlogsAppControllerTestBase {
  */
 	public function testViewNotFound() {
 		$this->setExpectedException('NotFoundException');
-		// origin_id:4はまだ公開されてない
+		// key:4はまだ公開されてない
 		$this->testAction(
-			'/blogs/blog_entries/view/1/origin_id:4',
+			'/blogs/blog_entries/view/1/key:4',
 			array(
 				'method' => 'get',
 				//'return' => 'view',
@@ -111,7 +111,7 @@ class Controller_BlogEntries_ViewTest extends BlogsAppControllerTestBase {
  */
 	public function testViewWithTag() {
 		$view = $this->testAction(
-			'/blogs/blog_entries/view/1/origin_id:1',
+			'/blogs/blog_entries/view/1/key:1',
 			array(
 				'method' => 'get',
 				'return' => 'view',
@@ -144,7 +144,7 @@ class Controller_BlogEntries_ViewTest extends BlogsAppControllerTestBase {
 		$this->setExpectedException('BadRequestException');
 
 		$this->testAction(
-			'/blogs/blog_entries/view/1/origin_id:1',
+			'/blogs/blog_entries/view/1/key:1',
 			array(
 				'method' => 'post',
 				//'return' => 'view',

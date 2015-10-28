@@ -80,7 +80,7 @@ class BlogsEntriesEdit_DeleteButtonTest extends BlogsAppControllerTestBase {
 		RolesControllerTest::login($this);
 
 		$view = $this->testAction(
-			'/blogs/blog_entries_edit/edit/1/origin_id:3',
+			'/blogs/blog_entries_edit/edit/1/key:3',
 			array(
 				'method' => 'get',
 				'return' => 'view',
@@ -100,7 +100,7 @@ class BlogsEntriesEdit_DeleteButtonTest extends BlogsAppControllerTestBase {
 		RolesControllerTest::login($this, Role::ROLE_KEY_EDITOR);
 
 		$view = $this->testAction(
-			'/blogs/blog_entries_edit/edit/1/origin_id:4',
+			'/blogs/blog_entries_edit/edit/1/key:4',
 			array(
 				'method' => 'get',
 				'return' => 'view',
@@ -124,7 +124,7 @@ class BlogsEntriesEdit_DeleteButtonTest extends BlogsAppControllerTestBase {
 		RolesControllerTest::login($this, Role::ROLE_KEY_EDITOR);
 
 		$view = $this->testAction(
-			'/blogs/blog_entries_edit/edit/1/origin_id:3',
+			'/blogs/blog_entries_edit/edit/1/key:3',
 			array(
 				'method' => 'get',
 				'return' => 'view',
@@ -138,7 +138,7 @@ class BlogsEntriesEdit_DeleteButtonTest extends BlogsAppControllerTestBase {
 		RolesControllerTest::login($this, Role::ROLE_KEY_SYSTEM_ADMINISTRATOR);
 
 		$view = $this->testAction(
-			'/blogs/blog_entries_edit/edit/1/origin_id:3',
+			'/blogs/blog_entries_edit/edit/1/key:3',
 			array(
 				'method' => 'get',
 				'return' => 'view',

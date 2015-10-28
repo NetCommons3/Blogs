@@ -66,14 +66,14 @@ class Controller_BlogsEntriesEdit_DeleteTest extends BlogsAppControllerTestBase 
 				'method' => 'post',
 				'return' => 'view',
 				'data' => array(
-					'BlogEntry' => array('origin_id' => 3)
+					'BlogEntry' => array('key' => 3)
 				)
 			)
 		);
 		$this->assertRegExp('#/blogs/blog_entries/index#', $this->headers['Location']);
 
 		$BlogEntry = ClassRegistry::init('Blogs.BlogEntry');
-		$countZero = $BlogEntry->find('count', array('conditions' => array('origin_id' => 3)));
+		$countZero = $BlogEntry->find('count', array('conditions' => array('key' => 3)));
 		$this->assertEquals(0, $countZero);
 
 		AuthGeneralControllerTest::logout($this);
@@ -99,7 +99,7 @@ class Controller_BlogsEntriesEdit_DeleteTest extends BlogsAppControllerTestBase 
 				'method' => 'post',
 				'return' => 'view',
 				'data' => array(
-					'BlogEntry' => array('origin_id' => 3)
+					'BlogEntry' => array('key' => 3)
 				)
 			)
 		);
@@ -115,9 +115,9 @@ class Controller_BlogsEntriesEdit_DeleteTest extends BlogsAppControllerTestBase 
 	public function testDeleteDeleteFail() {
 		RolesControllerTest::login($this);
 
-		$BlogEntryMock = $this->getMockForModel('Blogs.BlogEntry', ['deleteEntryByOriginId']);
+		$BlogEntryMock = $this->getMockForModel('Blogs.BlogEntry', ['deleteEntryByKey']);
 		$BlogEntryMock->expects($this->any())
-			->method('deleteEntryByOriginId')
+			->method('deleteEntryByKey')
 			->will($this->returnValue(false));
 		$this->setExpectedException('InternalErrorException');
 
@@ -127,7 +127,7 @@ class Controller_BlogsEntriesEdit_DeleteTest extends BlogsAppControllerTestBase 
 				'method' => 'post',
 				'return' => 'view',
 				'data' => array(
-					'BlogEntry' => array('origin_id' => 3)
+					'BlogEntry' => array('key' => 3)
 				)
 			)
 		);
