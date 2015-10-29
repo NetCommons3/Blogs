@@ -38,7 +38,10 @@ class BlogEntry extends BlogsAppModel {
 		'Likes.Like',
 		'Workflow.WorkflowComment',
 		//'Categories.Category',
-		'Files.Attachment',
+		'Files.Attachment' => [
+			'photo',
+			'pdf',
+		],
 		);
 
 /**
@@ -54,11 +57,11 @@ class BlogEntry extends BlogsAppModel {
 			'fields' => '',
 			'order' => ''
 		),
-		'PhotoFile' => array( // コンテンツを更新してもファイル差し替えないこともあるのでコンテンツn:ファイル1の関係
-			'className' => 'Files.Attachment',
-			'foreignKey' => 'photo_file_id',
-			'conditions' => '',
-		),// 関連づけておいて、afterSaveで関連モデルのsaveする？
+		//'PhotoFile' => array( // コンテンツを更新してもファイル差し替えないこともあるのでコンテンツn:ファイル1の関係
+		//	'className' => 'Files.Attachment',
+		//	'foreignKey' => 'photo_file_id',
+		//	'conditions' => '',
+		//),// 関連づけておいて、afterSaveで関連モデルのsaveする？
 	);
 
 /**

@@ -80,8 +80,8 @@ $dataJson = json_encode(
 					));?>
 					</div>
 
-					<?php echo $this->NetCommonsForm->input('photo_file_id', ['type' => 'file']) ?>
-					<?php echo $this->NetCommonsForm->input('pdf_file_id', ['type' => 'file']) ?>
+					<?php echo $this->NetCommonsForm->input('photo', ['type' => 'file']) ?>
+					<?php echo $this->NetCommonsForm->input('pdf', ['type' => 'file']) ?>
 
 					<?php
 					echo $this->NetCommonsForm->input('publish_start',
