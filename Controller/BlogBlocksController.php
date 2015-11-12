@@ -149,7 +149,6 @@ class BlogBlocksController extends BlogsAppController {
 
 		} else {
 			//表示処理(初期データセット)
-			CurrentFrame::setBlock($this->request->params['pass'][1]);
 			if (! $blog = $this->Blog->getBlog()) {
 				$this->setAction('throwBadRequest');
 				return false;
