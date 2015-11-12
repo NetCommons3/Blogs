@@ -71,6 +71,12 @@ class BlogEntry extends BlogsAppModel {
  */
 	protected function _getValidateSpecification() {
 		$validate = array(
+			'pdf' => [
+					'rule' => array('isValidExtension', array('pdf'), true),
+					'message' => 'pdf only'
+			],
+
+
 			'title' => array(
 				'notBlank' => [
 					'rule' => array('notBlank'),

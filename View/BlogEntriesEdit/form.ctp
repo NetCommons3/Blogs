@@ -112,6 +112,7 @@ $dataJson = json_encode(
 						echo $this->NetCommonsForm->checkbox($inputFieldName . '.remove', ['type' => 'checkbox', 'div' => false, 'error' => false]);
 						echo $this->Form->label($inputFieldName . '.remove', '削除');
 					}
+					// TODO ここまで
 					?>
 
 					<?php
