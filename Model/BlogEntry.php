@@ -39,7 +39,16 @@ class BlogEntry extends BlogsAppModel {
 		'Workflow.WorkflowComment',
 		//'Categories.Category',
 		'Files.Attachment' => [
-			'photo',
+			'photo' => [
+					'thumbnailSizes' => array(
+						// NC2 800 , 640, 480だった
+							'big' => '800ml',
+							'medium' => '400ml',
+							'small' => '200ml',
+							'thumb' => '20x20',
+					),
+
+			],
 			'pdf',
 		],
 		);
