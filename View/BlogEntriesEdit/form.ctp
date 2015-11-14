@@ -105,7 +105,7 @@ $dataJson = json_encode(
 					?>
 
 					<?php
-					echo $this->NetCommonsForm->uploadFile('pdf');
+					echo $this->NetCommonsForm->uploadFile('BlogEntry.pdf');
 					//$fieldName = 'pdf';
 					//$modelName = $this->NetCommonsForm->Form->defaultModel;
 					//$inputFieldName = $modelName . '.' . $fieldName;
