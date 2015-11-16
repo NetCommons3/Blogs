@@ -9,8 +9,7 @@
                 <directory suffix=".php">app/Plugin/Blogs/Config/Schema</directory>
                 <directory suffix=".php">app/Plugin/Blogs/Test/Case</directory>
                 <directory suffix=".php">app/Plugin/Blogs/Test/Fixture</directory>
-                <directory suffix=".php">app/Plugin/Blogs/TestSuite</directory>
-            </exclude>
+             </exclude>
         </whitelist>
     </filter>
     <logging>
