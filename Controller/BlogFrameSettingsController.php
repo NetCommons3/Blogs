@@ -24,7 +24,7 @@ class BlogFrameSettingsController extends BlogsAppController {
  *
  * @var array
  */
-	public $layout = 'Frames.setting';
+	public $layout = 'NetCommons.setting';
 
 /**
  * use models
