@@ -287,13 +287,9 @@ class BlogEntriesController extends BlogsAppController {
 	}
 
 	public function download() {
+		// ここから元コンテンツを取得する処理
 		$this->_prepare();
-
-		//$originId = $this->request->params['named']['origin_id'];
 		$key = $this->params['pass'][1];
-		$fieldName = $this->params['pass'][2];
-		$size = Hash::get($this->params['pass'], 3, null);
-
 		$conditions = $this->BlogEntry->getConditions(
 			Current::read('Block.id'),
 			$this->Auth->user('id'),
@@ -306,10 +302,11 @@ class BlogEntriesController extends BlogsAppController {
 			'conditions' => $conditions,
 		);
 		$blogEntry = $this->BlogEntry->find('first', $options);
+		// ここまで元コンテンツを取得する処理
 
+		// ダウンロード実行
 		if ($blogEntry) {
-			return $this->Download->doDownload($blogEntry['BlogEntry']['id'], $fieldName, $size);
-			// TODO　リクエストパラメータからファイルIDを取得するカラム名を確定する
+			return $this->Download->doDownload($blogEntry['BlogEntry']['id']);
 		} else {
 			// 表示できない記事へのアクセスなら404
 			throw new NotFoundException(__('Invalid blog entry'));
