@@ -30,6 +30,7 @@ class BlogEntriesController extends BlogsAppController {
 
 /**
  * @var array helpers
+ * @var array helpers
  */
 	public $helpers = array(
 		'NetCommons.Token',
@@ -37,6 +38,7 @@ class BlogEntriesController extends BlogsAppController {
 		'Workflow.Workflow',
 		'Likes.Like',
 	);
+
 
 /**
  * beforeFilter
@@ -75,6 +77,7 @@ class BlogEntriesController extends BlogsAppController {
 		),
 		'Categories.Categories',
 		'ContentComments.ContentComments',
+			'Files.Download',
 	);
 
 /**
@@ -287,7 +290,7 @@ class BlogEntriesController extends BlogsAppController {
 		$this->_prepare();
 
 		//$originId = $this->request->params['named']['origin_id'];
-		$originId = $this->params['pass'][1];
+		$key = $this->params['pass'][1];
 		$fieldName = $this->params['pass'][2];
 
 		$conditions = $this->BlogEntry->getConditions(
@@ -297,14 +300,14 @@ class BlogEntriesController extends BlogsAppController {
 			$this->_getCurrentDateTime()
 		);
 
-		$conditions['BlogEntry.origin_id'] = $originId;
+		$conditions['BlogEntry.key'] = $key;
 		$options = array(
 			'conditions' => $conditions,
 		);
 		$blogEntry = $this->BlogEntry->find('first', $options);
 
 		if ($blogEntry) {
-			$this->FileDownload->do($blogEntry);
+			return $this->Download->doDownload($blogEntry['BlogEntry']['id'], $fieldName);
 			// TODO　リクエストパラメータからファイルIDを取得するカラム名を確定する
 		} else {
 			// 表示できない記事へのアクセスなら404

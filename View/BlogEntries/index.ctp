@@ -130,14 +130,14 @@ echo $this->Html->css(
 					<div>
 						Image :
 						<?php echo $this->Html->image(
-										$this->NetCommonsHtml->url(
-												[
-													'action' => 'download',
-													'key' => $blogEntry['BlogEntry']['key'],
-													'pdf'
-												]
-										)
-								); ?>
+								$this->NetCommonsHtml->url(
+										[
+												'action' => 'download',
+												'key' => $blogEntry['BlogEntry']['key'],
+												'photo'
+										]
+								)
+						); ?>
 					</div>
 					<div>
 						PDF :
@@ -145,7 +145,8 @@ echo $this->Html->css(
 								$this->NetCommonsHtml->url(
 										[
 												'action' => 'download',
-												'key' => $blogEntry['BlogEntry']['key']
+												'key' => $blogEntry['BlogEntry']['key'],
+												'pdf',
 										]
 								)
 						); ?>

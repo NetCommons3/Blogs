@@ -42,6 +42,33 @@ echo $this->Html->css(
 		<?php echo $this->element('BlogEntries/edit_link', array('status' => $blogEntry['BlogEntry']['status'])); ?>
 	</div>
 
+	<!-- Files -->
+	<div>
+		Image :
+		<?php echo $this->Html->image(
+				$this->NetCommonsHtml->url(
+						[
+								'action' => 'download',
+								'key' => $blogEntry['BlogEntry']['key'],
+								'photo'
+						]
+				)
+		); ?>
+	</div>
+	<div>
+		PDF :
+		<?php echo $this->Html->link('PDF',
+				$this->NetCommonsHtml->url(
+						[
+								'action' => 'download',
+								'key' => $blogEntry['BlogEntry']['key'],
+							'pdf',
+						]
+				)
+		); ?>
+	</div>
+
+
 
 	<div>
 		<?php echo $blogEntry['BlogEntry']['body1']; ?>
