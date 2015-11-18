@@ -117,13 +117,40 @@ echo $this->Html->css(
 									'controller' => 'blog_entries',
 									'action' => 'view',
 									//'frame_id' => Current::read('Frame.id'),
-									'key' => $blogEntry['BlogEntry']['key']
+									'key' => $blogEntry['BlogEntry']['key'],
+										'photo'
 								)
 							)
 						);
 						?>
 					</h2>
 					<?php echo $this->element('entry_meta_info', array('blogEntry' => $blogEntry)); ?>
+
+					<!-- Files -->
+					<div>
+						Image :
+						<?php echo $this->Html->image(
+										$this->NetCommonsHtml->url(
+												[
+													'action' => 'download',
+													'key' => $blogEntry['BlogEntry']['key'],
+													'pdf'
+												]
+										)
+								); ?>
+					</div>
+					<div>
+						PDF :
+						<?php echo $this->Html->link('PDF',
+								$this->NetCommonsHtml->url(
+										[
+												'action' => 'download',
+												'key' => $blogEntry['BlogEntry']['key']
+										]
+								)
+						); ?>
+					</div>
+
 
 					<div class="blogs_entry_body1">
 						<?php echo $blogEntry['BlogEntry']['body1']; ?>

@@ -288,6 +288,7 @@ class BlogEntriesController extends BlogsAppController {
 
 		//$originId = $this->request->params['named']['origin_id'];
 		$originId = $this->params['pass'][1];
+		$fieldName = $this->params['pass'][2];
 
 		$conditions = $this->BlogEntry->getConditions(
 			Current::read('Block.id'),
