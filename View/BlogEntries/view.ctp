@@ -48,9 +48,10 @@ echo $this->Html->css(
 		<?php echo $this->Html->image(
 				$this->NetCommonsHtml->url(
 						[
-								'action' => 'download',
-								'key' => $blogEntry['BlogEntry']['key'],
-								'photo'
+							'action' => 'download',
+							'key' => $blogEntry['BlogEntry']['key'],
+							'photo',
+							'big',
 						]
 				)
 		); ?>
@@ -60,8 +61,8 @@ echo $this->Html->css(
 		<?php echo $this->Html->link('PDF',
 				$this->NetCommonsHtml->url(
 						[
-								'action' => 'download',
-								'key' => $blogEntry['BlogEntry']['key'],
+							'action' => 'download',
+							'key' => $blogEntry['BlogEntry']['key'],
 							'pdf',
 						]
 				)

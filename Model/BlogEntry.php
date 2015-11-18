@@ -41,11 +41,12 @@ class BlogEntry extends BlogsAppModel {
 		'Files.Attachment' => [
 			'photo' => [
 					'thumbnailSizes' => array(
-						// NC2 800 , 640, 480だった
+						// デフォルトはAttachmentビヘイビアできめてあるが、下記の様に設定も可能
+						// NC2 800 > 640 > 480だった
 							'big' => '800ml',
 							'medium' => '400ml',
 							'small' => '200ml',
-							'thumb' => '20x20',
+							'thumb' => '80x80',
 					),
 
 			],

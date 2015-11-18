@@ -134,7 +134,8 @@ echo $this->Html->css(
 										[
 												'action' => 'download',
 												'key' => $blogEntry['BlogEntry']['key'],
-												'photo'
+												'photo',
+											'thumb',
 										]
 								)
 						); ?>

@@ -292,6 +292,7 @@ class BlogEntriesController extends BlogsAppController {
 		//$originId = $this->request->params['named']['origin_id'];
 		$key = $this->params['pass'][1];
 		$fieldName = $this->params['pass'][2];
+		$size = Hash::get($this->params['pass'], 3, null);
 
 		$conditions = $this->BlogEntry->getConditions(
 			Current::read('Block.id'),
@@ -307,7 +308,7 @@ class BlogEntriesController extends BlogsAppController {
 		$blogEntry = $this->BlogEntry->find('first', $options);
 
 		if ($blogEntry) {
-			return $this->Download->doDownload($blogEntry['BlogEntry']['id'], $fieldName);
+			return $this->Download->doDownload($blogEntry['BlogEntry']['id'], $fieldName, $size);
 			// TODO　リクエストパラメータからファイルIDを取得するカラム名を確定する
 		} else {
 			// 表示できない記事へのアクセスなら404
