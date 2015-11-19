@@ -39,18 +39,6 @@ class BlogEntriesController extends BlogsAppController {
 	);
 
 /**
- * beforeFilter
- *
- * @return void
- */
-	public function beforeFilter() {
-		// ゲストアクセスOKのアクションを設定
-		$this->Auth->allow('index', 'view', 'category', 'tag', 'year_month');
-		//$this->Categories->initCategories();
-		parent::beforeFilter();
-	}
-
-/**
  * Components
  *
  * @var array
@@ -85,6 +73,18 @@ class BlogEntriesController extends BlogsAppController {
 		'status' => 0,
 		'yearMonth' => 0,
 	);
+
+/**
+ * beforeFilter
+ *
+ * @return void
+ */
+	public function beforeFilter() {
+		// ゲストアクセスOKのアクションを設定
+		$this->Auth->allow('index', 'view', 'category', 'tag', 'year_month');
+		//$this->Categories->initCategories();
+		parent::beforeFilter();
+	}
 
 /**
  * index
