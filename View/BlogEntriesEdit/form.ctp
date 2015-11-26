@@ -49,9 +49,6 @@ $dataJson = json_encode(
 			?>
 			<?php echo $this->NetCommonsForm->input('key', array('type' => 'hidden')); ?>
 			<?php echo $this->NetCommonsForm->input('key', array('type' => 'hidden')); ?>
-			<!--		--><?php //echo $this->Form->hidden('Frame.id', array(
-			//			'value' => Current::read('Frame.id'),
-			//		)); ?>
 
 			<div class="panel-body">
 
@@ -81,41 +78,11 @@ $dataJson = json_encode(
 					</div>
 
 					<?php
-					// TODO Files用
-					//if(isset($this->request->data['UploadFile'])){
-					//	foreach($this->request->data['UploadFile'] as $key => $uploadFile){
-					//		echo $this->NetCommonsForm->input('UploadFile.' . $key . '.id', ['type' => 'hidden']);
-					//		echo $this->NetCommonsForm->input('UploadFile.' . $key . '.field_name', ['type' => 'hidden']);
-					//	}
-					//	$originalNames = Hash::combine($this->request->data['UploadFile'], '{n}.field_name', '{n}.original_name');
-					//}
-					?>
-
-					<?php
 					echo $this->NetCommonsForm->uploadFile('photo');
-					//$fieldName = 'photo';
-					//$modelName = $this->NetCommonsForm->Form->defaultModel;
-					//$inputFieldName = $modelName . '.' . $fieldName;
-					//echo $this->NetCommonsForm->input($inputFieldName, ['type' => 'file']);
-					//if(isset($originalNames[$fieldName])){
-					//	echo $originalNames[$fieldName];
-					//	echo $this->NetCommonsForm->checkbox($inputFieldName . '.remove', ['type' => 'checkbox', 'div' => false, 'error' => false]);
-					//	echo $this->Form->label($inputFieldName . '.remove', '削除');
-					//}
 					?>
 
 					<?php
 					echo $this->NetCommonsForm->uploadFile('BlogEntry.pdf');
-					//$fieldName = 'pdf';
-					//$modelName = $this->NetCommonsForm->Form->defaultModel;
-					//$inputFieldName = $modelName . '.' . $fieldName;
-					//echo $this->NetCommonsForm->input($inputFieldName, ['type' => 'file']);
-					//if(isset($originalNames[$fieldName])){
-					//	echo $originalNames[$fieldName];
-					//	echo $this->NetCommonsForm->checkbox($inputFieldName . '.remove', ['type' => 'checkbox', 'div' => false, 'error' => false]);
-					//	echo $this->Form->label($inputFieldName . '.remove', '削除');
-					//}
-					// TODO ここまで
 					?>
 
 					<?php
