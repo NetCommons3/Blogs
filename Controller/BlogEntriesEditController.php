@@ -206,10 +206,34 @@ class BlogEntriesEditController extends BlogsAppController {
 
 
 	public function import() {
+		App::uses('CsvFileReader', 'Files.Utility');
 		if ($this->request->is(array('post', 'put'))) {
-			$file = $this->FileUpload->getTemporaryUploadFile('BlogEntry.import_csv');
-			debug($file);
-			debug($this->request->data);
+			$file = $this->FileUpload->getTemporaryUploadFile('import_csv');
+			$reader = new CsvFileReader($file);
+			foreach($reader as $row){
+				debug($row);
+			}
 		}
+	}
+
+	public function regist() {
+		$UploadFile = ClassRegistry::init('Files.UploadFile');
+		$path = '/var/www/app/app/Plugin/Files/Test/Fixture/logo.gif';
+		$path2 = TMP . 'logo.gif';
+		copy($path, $path2);
+		$UploadFile->registByFilePath($path2, 'blogs', 'content_key..', 'photo');
+	}
+
+	public function attach_file() {
+		$UploadFile = ClassRegistry::init('Files.UploadFile');
+		$path = '/var/www/app/app/Plugin/Files/Test/Fixture/logo.gif';
+		$path2 = TMP . 'logo.gif';
+		copy($path, $path2);
+		$data = $this->BlogEntry->find('first');
+		//$file = new File($path2);
+		$this->BlogEntry->attachFile($data, 'pdf', $path2);
+
+		$savedData = $this->BlogEntry->findById($data['BlogEntry']['id']);
+		debug($savedData);
 	}
 }
