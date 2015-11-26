@@ -48,7 +48,7 @@ class BlogEntry extends BlogsAppModel {
 							'small' => '200ml',
 							'thumb' => '80x80',
 					),
-
+				//'contentKeyFieldName' => 'id'
 			],
 			'pdf',
 		],

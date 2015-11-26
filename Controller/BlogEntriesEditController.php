@@ -45,6 +45,7 @@ class BlogEntriesEditController extends BlogsAppController {
 		'Categories.Categories',
 		//'Blogs.BlogEntryPermission',
 		'NetCommons.NetCommonsTime',
+		'Files.FileUpload',
 	);
 
 /**
@@ -200,5 +201,15 @@ class BlogEntriesEditController extends BlogsAppController {
 		return $this->redirect(
 			NetCommonsUrl::actionUrl(
 				array('controller' => 'blog_entries', 'action' => 'index', 'frame_id' => Current::read('Frame.id'), 'block_id' => Current::read('Block.id'))));
+	}
+
+
+
+	public function import() {
+		if ($this->request->is(array('post', 'put'))) {
+			$file = $this->FileUpload->getTemporaryUploadFile('BlogEntry.import_csv');
+			debug($file);
+			debug($this->request->data);
+		}
 	}
 }
