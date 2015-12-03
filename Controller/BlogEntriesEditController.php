@@ -236,7 +236,7 @@ class BlogEntriesEditController extends BlogsAppController {
 		debug($savedData);
 	}
 
-	public function csv_download() {
+	public function temporary_download() {
 		App::uses('TemporaryFile', 'Files.Utility');
 		$file = new TemporaryFile();
 		$file->append('test');
@@ -247,4 +247,54 @@ class BlogEntriesEditController extends BlogsAppController {
 		$this->response->file($file->path, ['name' => 'test.txt']);
 		return $this->response;
 	}
+
+
+	/**
+	 * 配列のCSV出力例
+	 *
+	 * @return CakeResponse|null
+	 */
+	public function csv_download2() {
+		App::uses('CsvFileWriter', 'Files.Utility');
+
+		$data = [
+			['データID', 'タイトル', '本文', '作成日時'],
+			[1, '薪だなつくりました', '薪だなつくるの大変だったよ', '2015-10-01 10:00:00'],
+			[2, '薪ストーブ点火', '寒くなってきたので薪ストーブに火入れましたよ', '2015-12-01 13:00:00'],
+		];
+		$csvWriter = new CsvFileWriter();
+		foreach($data as $line){
+			$csvWriter->add($line);
+		}
+		$csvWriter->close();
+
+		return $csvWriter->download('export.csv');
+	}
+
+	/**
+	 * Modelから取得したデータの指定カラムだけCSV出力する例
+	 *
+	 * @return CakeResponse
+	 */
+	public function csv_download3() {
+		App::uses('CsvFileWriter', 'Files.Utility');
+
+		$header = [
+			'BlogEntry.id' => 'データID',
+			'BlogEntry.title' => 'タイトル',
+			'BlogEntry.body1' => '本文1',
+			'BlogEntry.publish_start' => '公開日時'
+		];
+		$result = $this->BlogEntry->find('all');
+
+		$csvWriter = new CsvFileWriter(['header' => $header]);
+		foreach($result as $data){
+			$csvWriter->addModelData($data);
+		}
+		$csvWriter->close();
+
+		return $csvWriter->download('export.csv');
+	}
+
 }
+
