@@ -46,6 +46,7 @@ class BlogEntriesEditController extends BlogsAppController {
 		//'Blogs.BlogEntryPermission',
 		'NetCommons.NetCommonsTime',
 		'Files.FileUpload',
+		'Files.Download',
 	);
 
 /**
@@ -235,11 +236,15 @@ class BlogEntriesEditController extends BlogsAppController {
 		debug($savedData);
 	}
 
-	public function begintest() {
-		$this->BlogEntry->begin();
-		$this->BlogEntry->findById(1);
-		$this->BlogFrameSetting->begin();
-		$this->BlogFrameSetting->findById(1);
-		//$this->BlogFrameSetting->setSlaveDataSource();
+	public function csv_download() {
+		App::uses('TemporaryFile', 'Files.Utility');
+		$file = new TemporaryFile();
+		$file->append('test');
+
+		//$this->Download = $this->Components->load('Files.Download');
+		//return $this->Download->downloadFile($file, ['name', 'test.txt']);
+
+		$this->response->file($file->path, ['name' => 'test.txt']);
+		return $this->response;
 	}
 }
