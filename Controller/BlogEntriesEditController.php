@@ -203,8 +203,6 @@ class BlogEntriesEditController extends BlogsAppController {
 				array('controller' => 'blog_entries', 'action' => 'index', 'frame_id' => Current::read('Frame.id'), 'block_id' => Current::read('Block.id'))));
 	}
 
-
-
 	public function import() {
 		App::uses('CsvFileReader', 'Files.Utility');
 		if ($this->request->is(array('post', 'put'))) {
@@ -229,11 +227,19 @@ class BlogEntriesEditController extends BlogsAppController {
 		$path = '/var/www/app/app/Plugin/Files/Test/Fixture/logo.gif';
 		$path2 = TMP . 'logo.gif';
 		copy($path, $path2);
-		$data = $this->BlogEntry->find('first');
+		$data = $this->BlogEntry->findByIsLatest(true);
 		//$file = new File($path2);
 		$this->BlogEntry->attachFile($data, 'pdf', $path2);
 
 		$savedData = $this->BlogEntry->findById($data['BlogEntry']['id']);
 		debug($savedData);
+	}
+
+	public function begintest() {
+		$this->BlogEntry->begin();
+		$this->BlogEntry->findById(1);
+		$this->BlogFrameSetting->begin();
+		$this->BlogFrameSetting->findById(1);
+		//$this->BlogFrameSetting->setSlaveDataSource();
 	}
 }
