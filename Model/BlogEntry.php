@@ -52,6 +52,7 @@ class BlogEntry extends BlogsAppModel {
 			],
 			'pdf',
 		],
+			'AuthorizationKeys.AuthorizationKey',
 		);
 
 /**

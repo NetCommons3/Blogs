@@ -255,20 +255,24 @@ class BlogEntriesEditController extends BlogsAppController {
 	 * @return CakeResponse|null
 	 */
 	public function csv_download2() {
-		App::uses('CsvFileWriter', 'Files.Utility');
 
-		$data = [
-			['データID', 'タイトル', '本文', '作成日時'],
-			[1, '薪だなつくりました', '薪だなつくるの大変だったよ', '2015-10-01 10:00:00'],
-			[2, '薪ストーブ点火', '寒くなってきたので薪ストーブに火入れましたよ', '2015-12-01 13:00:00'],
-		];
-		$csvWriter = new CsvFileWriter();
-		foreach($data as $line){
-			$csvWriter->add($line);
+		if ($this->request->is(array('post', 'put'))) {
+			App::uses('CsvFileWriter', 'Files.Utility');
+
+			$data = [
+					['データID', 'タイトル', '本文', '作成日時'],
+					[1, '薪だなつくりました', '薪だなつくるの大変だったよ', '2015-10-01 10:00:00'],
+					[2, '薪ストーブ点火', '寒くなってきたので薪ストーブに火入れましたよ', '2015-12-01 13:00:00'],
+			];
+			$csvWriter = new CsvFileWriter();
+			foreach($data as $line){
+				$csvWriter->add($line);
+			}
+			$csvWriter->close();
+
+			return $csvWriter->download('export.csv');
 		}
-		$csvWriter->close();
 
-		return $csvWriter->download('export.csv');
 	}
 
 	/**
@@ -293,7 +297,17 @@ class BlogEntriesEditController extends BlogsAppController {
 		}
 		$csvWriter->close();
 
-		return $csvWriter->download('export.csv');
+		$zip = new ZipArchive();
+		$tmpFile = new TemporaryFile();
+		$zip->open($tmpFile->path, ZipArchive::CREATE | ZipArchive::OVERWRITE);
+		$zip->addFile($csvWriter->path);
+		$zip->close();
+
+		// パスワード
+
+
+		//return $csvWriter->download('export.csv');
+		return $csvWriter->zipDownload('test.zip', 'foo.csv', 'pass');
 	}
 
 }

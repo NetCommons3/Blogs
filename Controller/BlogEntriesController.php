@@ -16,6 +16,8 @@ App::uses('BlogsAppController', 'Blogs.Controller');
  * @property BlogEntry $BlogEntry
  * @property BlogCategory $BlogCategory
  */
+
+
 class BlogEntriesController extends BlogsAppController {
 
 /**
@@ -38,19 +40,6 @@ class BlogEntriesController extends BlogsAppController {
 		'Workflow.Workflow',
 		'Likes.Like',
 	);
-
-
-/**
- * beforeFilter
- *
- * @return void
- */
-	public function beforeFilter() {
-		// ゲストアクセスOKのアクションを設定
-		$this->Auth->allow('index', 'view', 'category', 'tag', 'year_month', 'download');
-		//$this->Categories->initCategories();
-		parent::beforeFilter();
-	}
 
 /**
  * Components
@@ -77,7 +66,14 @@ class BlogEntriesController extends BlogsAppController {
 		),
 		'Categories.Categories',
 		'ContentComments.ContentComments',
-			'Files.Download',
+		'Files.Download',
+		'AuthorizationKeys.AuthorizationKey' => [
+			//'operationType' => AuthorizationKeyComponent::OPERATION_REDIRECT,
+			//'operationType' => 'redirect',
+			'operationType' => 'none',
+			'targetAction' => 'download_pdf',
+			//'model' => 'BlogEntry',
+		],
 	);
 
 /**
@@ -88,6 +84,20 @@ class BlogEntriesController extends BlogsAppController {
 		'status' => 0,
 		'yearMonth' => 0,
 	);
+
+/**
+ * beforeFilter
+ *
+ * @return void
+ */
+	public function beforeFilter() {
+		// ゲストアクセスOKのアクションを設定
+		$this->Auth->allow('index', 'view', 'category', 'tag', 'year_month', 'download', 'download_pdf');
+		//$this->Categories->initCategories();
+		//$this->AuthorizationKey->contentId =23; // TODO hardcord
+		//$this->AuthorizationKey->model ='BlogEntry'; // TODO hardcord
+		parent::beforeFilter();
+	}
 
 /**
  * index
@@ -311,6 +321,42 @@ class BlogEntriesController extends BlogsAppController {
 			// 表示できない記事へのアクセスなら404
 			throw new NotFoundException(__('Invalid blog entry'));
 		}
+	}
+
+	public function download_pdf() {
+		// ここから元コンテンツを取得する処理
+		$this->_prepare();
+		$key = $this->params['pass'][1];
+		$conditions = $this->BlogEntry->getConditions(
+				Current::read('Block.id'),
+				$this->Auth->user('id'),
+				$this->_getPermission(),
+				$this->_getCurrentDateTime()
+		);
+
+		$conditions['BlogEntry.key'] = $key;
+		$options = array(
+				'conditions' => $conditions,
+		);
+		$blogEntry = $this->BlogEntry->find('first', $options);
+		// ここまで元コンテンツを取得する処理
+
+		if(Hash::get($blogEntry, 'AuthorizationKey', false)){
+			$this->AuthorizationKey->operationType = 'redirect';
+			$this->AuthorizationKey->model = 'BlogEntry';
+			$this->AuthorizationKey->contentId = $blogEntry['BlogEntry']['id'];
+			$this->AuthorizationKey->startup($this);
+		}
+
+
+		// ダウンロード実行
+		if ($blogEntry) {
+			return $this->Download->doDownload($blogEntry['BlogEntry']['id'], ['filed' => 'pdf']);
+		} else {
+			// 表示できない記事へのアクセスなら404
+			throw new NotFoundException(__('Invalid blog entry'));
+		}
+
 	}
 
 	/**

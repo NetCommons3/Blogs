@@ -61,7 +61,7 @@ echo $this->Html->css(
 		<?php echo $this->Html->link('PDF',
 				$this->NetCommonsHtml->url(
 						[
-							'action' => 'download',
+							'action' => 'download_pdf',
 							'key' => $blogEntry['BlogEntry']['key'],
 							'pdf',
 						]
