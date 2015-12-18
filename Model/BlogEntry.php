@@ -39,7 +39,7 @@ class BlogEntry extends BlogsAppModel {
 		'Workflow.WorkflowComment',
 		//'Categories.Category',
 		'Files.Attachment' => [
-			'photo' => [
+			'foo_photo' => [
 					'thumbnailSizes' => array(
 						// デフォルトはAttachmentビヘイビアできめてあるが、下記の様に設定も可能
 						// NC2 800 > 640 > 480だった

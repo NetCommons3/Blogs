@@ -69,8 +69,8 @@ class BlogEntriesController extends BlogsAppController {
 		'Files.Download',
 		'AuthorizationKeys.AuthorizationKey' => [
 			//'operationType' => AuthorizationKeyComponent::OPERATION_REDIRECT,
+			'operationType' => 'popup',
 			//'operationType' => 'redirect',
-			'operationType' => 'none',
 			'targetAction' => 'download_pdf',
 			//'model' => 'BlogEntry',
 		],
@@ -327,6 +327,7 @@ class BlogEntriesController extends BlogsAppController {
 		// ここから元コンテンツを取得する処理
 		$this->_prepare();
 		$key = $this->params['pass'][1];
+
 		$conditions = $this->BlogEntry->getConditions(
 				Current::read('Block.id'),
 				$this->Auth->user('id'),
@@ -337,17 +338,12 @@ class BlogEntriesController extends BlogsAppController {
 		$conditions['BlogEntry.key'] = $key;
 		$options = array(
 				'conditions' => $conditions,
+				'recursive' => 1,
 		);
 		$blogEntry = $this->BlogEntry->find('first', $options);
 		// ここまで元コンテンツを取得する処理
 
-		if(Hash::get($blogEntry, 'AuthorizationKey', false)){
-			$this->AuthorizationKey->operationType = 'redirect';
-			$this->AuthorizationKey->model = 'BlogEntry';
-			$this->AuthorizationKey->contentId = $blogEntry['BlogEntry']['id'];
-			$this->AuthorizationKey->startup($this);
-		}
-
+		$this->AuthorizationKey->guard('redirect', 'BlogEntry', $blogEntry, 'pdf');
 
 		// ダウンロード実行
 		if ($blogEntry) {
@@ -356,7 +352,6 @@ class BlogEntriesController extends BlogsAppController {
 			// 表示できない記事へのアクセスなら404
 			throw new NotFoundException(__('Invalid blog entry'));
 		}
-
 	}
 
 	/**

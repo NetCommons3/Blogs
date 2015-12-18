@@ -78,11 +78,11 @@ $dataJson = json_encode(
 					</div>
 
 					<?php
-					echo $this->NetCommonsForm->uploadFile('photo');
+					echo $this->NetCommonsForm->uploadFile('foo_photo');
 					?>
 
 					<?php
-					echo $this->NetCommonsForm->uploadFile('BlogEntry.pdf');
+					echo $this->NetCommonsForm->uploadFile('BlogEntry.pdf', ['help' => 'PDFを選ぶぺん']);
 					?>
 
 					<?php

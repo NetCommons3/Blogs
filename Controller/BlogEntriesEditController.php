@@ -208,6 +208,7 @@ class BlogEntriesEditController extends BlogsAppController {
 		App::uses('CsvFileReader', 'Files.Utility');
 		if ($this->request->is(array('post', 'put'))) {
 			$file = $this->FileUpload->getTemporaryUploadFile('import_csv');
+			debug($file);
 			$reader = new CsvFileReader($file);
 			foreach($reader as $row){
 				debug($row);
@@ -297,11 +298,11 @@ class BlogEntriesEditController extends BlogsAppController {
 		}
 		$csvWriter->close();
 
-		$zip = new ZipArchive();
-		$tmpFile = new TemporaryFile();
-		$zip->open($tmpFile->path, ZipArchive::CREATE | ZipArchive::OVERWRITE);
-		$zip->addFile($csvWriter->path);
-		$zip->close();
+		//$zip = new ZipArchive();
+		//$tmpFile = new TemporaryFile();
+		//$zip->open($tmpFile->path, ZipArchive::CREATE | ZipArchive::OVERWRITE);
+		//$zip->addFile($csvWriter->path);
+		//$zip->close();
 
 		// パスワード
 

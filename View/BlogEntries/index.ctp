@@ -36,6 +36,15 @@ echo $this->Html->css(
 		'inline' => false
 	)
 );
+echo $this->Html->script(
+	'/AuthorizationKeys/js/authorization_keys.js',
+	array(
+		'plugin' => false,
+		'once' => true,
+		'inline' => false
+	)
+);
+
 ?>
 
 <div class="blogEntries index nc-content-list" ng-controller="Blogs.Entries" ng-init="init(<?php echo Current::read('Frame.id') ?>)">
@@ -140,19 +149,24 @@ echo $this->Html->css(
 								)
 						); ?>
 					</div>
+					<?php if (Hash::get($blogEntry, 'UploadFile.pdf')) :?>
 					<div>
 						PDF :
 						<?php echo $this->Html->link('PDF',
-								$this->NetCommonsHtml->url(
-										[
-												'action' => 'download_pdf',
-												'key' => $blogEntry['BlogEntry']['key'],
-												'pdf',
-										]
-								)
+								'#',
+							['authorization-keys-popup-link',
+								'url' => $this->NetCommonsHtml->url(
+									[
+										'action' => 'download_pdf',
+										'key' => $blogEntry['BlogEntry']['key'],
+										'pdf',
+									]
+								),
+								'frame-id' => Current::read('Frame.id')
+							]
 						); ?>
 					</div>
-
+					<?php endif ?>
 
 					<div class="blogs_entry_body1">
 						<?php echo $blogEntry['BlogEntry']['body1']; ?>
