@@ -343,7 +343,7 @@ class BlogEntriesController extends BlogsAppController {
 		$blogEntry = $this->BlogEntry->find('first', $options);
 		// ここまで元コンテンツを取得する処理
 
-		$this->AuthorizationKey->guard('popup', 'BlogEntry', $blogEntry, 'pdf');
+		$this->AuthorizationKey->guard('popup', 'BlogEntry', $blogEntry);
 
 		// ダウンロード実行
 		if ($blogEntry) {
