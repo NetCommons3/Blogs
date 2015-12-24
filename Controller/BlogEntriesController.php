@@ -69,7 +69,7 @@ class BlogEntriesController extends BlogsAppController {
 		'Files.Download',
 		'AuthorizationKeys.AuthorizationKey' => [
 			//'operationType' => AuthorizationKeyComponent::OPERATION_REDIRECT,
-			'operationType' => 'redirect',
+			'operationType' => 'popup',
 			//'operationType' => 'redirect',
 			'targetAction' => 'download_pdf',
 			'model' => 'BlogEntry',
@@ -343,7 +343,7 @@ class BlogEntriesController extends BlogsAppController {
 		$blogEntry = $this->BlogEntry->find('first', $options);
 		// ここまで元コンテンツを取得する処理
 
-		$this->AuthorizationKey->guard('redirect', 'BlogEntry', $blogEntry, 'pdf');
+		$this->AuthorizationKey->guard('popup', 'BlogEntry', $blogEntry, 'pdf');
 
 		// ダウンロード実行
 		if ($blogEntry) {
