@@ -21,6 +21,7 @@ echo $this->Html->script(
 		'inline' => false
 	)
 );
+//$this->request->data['BlogEntry']['flag'] = 0;
 ?>
 <?php
 $dataJson = json_encode(
@@ -45,6 +46,7 @@ $dataJson = json_encode(
 					'type' => 'file',
 				)
 			);
+			echo $this->Form->input('flag', ['type' => 'hidden']);
 			$this->NetCommonsForm->unlockField('Tag');
 			?>
 			<?php echo $this->NetCommonsForm->input('key', array('type' => 'hidden')); ?>

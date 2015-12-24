@@ -308,7 +308,7 @@ class BlogEntriesEditController extends BlogsAppController {
 
 
 		//return $csvWriter->download('export.csv');
-		return $csvWriter->zipDownload('test.zip', 'foo.csv', 'pass');
+		return $csvWriter->zipDownload('test.zip', '日本語ファイル名.csv', 'pass');
 	}
 
 }

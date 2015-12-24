@@ -69,10 +69,10 @@ class BlogEntriesController extends BlogsAppController {
 		'Files.Download',
 		'AuthorizationKeys.AuthorizationKey' => [
 			//'operationType' => AuthorizationKeyComponent::OPERATION_REDIRECT,
-			'operationType' => 'popup',
+			'operationType' => 'redirect',
 			//'operationType' => 'redirect',
 			'targetAction' => 'download_pdf',
-			//'model' => 'BlogEntry',
+			'model' => 'BlogEntry',
 		],
 	);
 
