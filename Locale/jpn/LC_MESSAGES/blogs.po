@@ -84,3 +84,6 @@ msgstr "コメントを付けられる"
 
 msgid "Use sns"
 msgstr "SNSボタンを使う"
+
+msgid "Blog"
+msgstr "ブログ"
