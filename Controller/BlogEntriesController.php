@@ -347,7 +347,7 @@ class BlogEntriesController extends BlogsAppController {
 
 		// ダウンロード実行
 		if ($blogEntry) {
-			return $this->Download->doDownload($blogEntry['BlogEntry']['id'], ['filed' => 'pdf']);
+			return $this->Download->doDownload($blogEntry['BlogEntry']['id'], ['filed' => 'pdf', 'download' => true]);
 		} else {
 			// 表示できない記事へのアクセスなら404
 			throw new NotFoundException(__('Invalid blog entry'));
