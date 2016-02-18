@@ -41,7 +41,7 @@
 	<div class="pull-right">
 		<?php if (isset($index) && ($index === true)) : ?>
 		<span style="padding-right: 15px;">
-			<span class="glyphicon glyphicon-comment" aria-hidden="true"></span> <?php echo (int)$blogEntry['ContentCommentCnt']['cnt']; ?>
+			<?php echo $this->ContentComment->count($blogEntry); ?>
 		</span>
 		<?php endif ?>
 	</div>

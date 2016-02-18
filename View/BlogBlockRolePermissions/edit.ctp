@@ -18,7 +18,7 @@
 
 		<?php echo $this->element('Blocks.edit_form', array(
 			'model' => 'BlogBlockRolePermission',
-			'action' => 'edit' . '/' . $this->data['Frame']['id'] . '/' . $this->data['Block']['id'],
+			//'action' => 'edit' . '/' . $this->data['Frame']['id'] . '/' . $this->data['Block']['id'],
 			'callback' => 'Blogs.BlogBlockRolePermissions/edit_form',
 			'cancelUrl' => NetCommonsUrl::backToIndexUrl('default_setting_action'),
 		)); ?>
