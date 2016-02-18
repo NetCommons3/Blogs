@@ -37,6 +37,7 @@ class BlogEntry extends BlogsAppModel {
 		'Likes.Like',
 		'Workflow.WorkflowComment',
 		//'Categories.Category',
+		'ContentComments.ContentComment'
 		);
 
 /**

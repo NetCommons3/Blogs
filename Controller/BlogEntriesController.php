@@ -25,7 +25,7 @@ class BlogEntriesController extends BlogsAppController {
 		'Blogs.BlogEntry',
 		'Workflow.WorkflowComment',
 		'Categories.Category',
-		'ContentComments.ContentComment',	// コンテンツコメント
+		//'ContentComments.ContentComment',	// コンテンツコメント
 	);
 
 /**
@@ -36,6 +36,14 @@ class BlogEntriesController extends BlogsAppController {
 		'NetCommons.BackTo',
 		'Workflow.Workflow',
 		'Likes.Like',
+		'ContentComments.ContentComment' => array(
+			'viewVarsKey' => array(
+				'contentKey' => 'blogEntry.BlogEntry.key',
+				'useComment' => 'blogSetting.use_comment',
+				'useCommentApproval' => 'blogSetting.use_comment_approval'
+			)
+		),
+		'Users.DisplayUser',
 	);
 
 /**
@@ -62,8 +70,13 @@ class BlogEntriesController extends BlogsAppController {
 			),
 		),
 		'Categories.Categories',
-		'ContentComments.ContentComments',
-	);
+		'ContentComments.ContentComments' => array(
+			'viewVarsKey' => array(
+				'contentKey' => 'blogEntry.BlogEntry.key',
+				'useComment' => 'blogSetting.use_comment'
+			),
+			'allow' => array('view')
+		)	);
 
 /**
  * @var array 絞り込みフィルタ保持値
@@ -207,7 +220,7 @@ class BlogEntriesController extends BlogsAppController {
 				'conditions' => $conditions,
 				'limit' => $this->_frameSetting['BlogFrameSetting']['articles_per_page'],
 				'order' => 'publish_start DESC',
-				'fields' => '*, ContentCommentCnt.cnt',
+				//'fields' => '*, ContentCommentCnt.cnt',
 			)
 		);
 		$this->BlogEntry->recursive = 0;
@@ -242,10 +255,10 @@ class BlogEntriesController extends BlogsAppController {
 		$options = array(
 			'conditions' => $conditions,
 			'recursive' => 0,
-			'fields' => array(
-				'*',
-				'ContentCommentCnt.cnt',
-			)
+			//'fields' => array(
+			//	'*',
+			//	'ContentCommentCnt.cnt',
+			//)
 		);
 		$this->BlogEntry->Behaviors->load('ContentComments.ContentComment');
 		$blogEntry = $this->BlogEntry->find('first', $options);
@@ -267,14 +280,14 @@ class BlogEntriesController extends BlogsAppController {
 				}
 
 				// コンテンツコメントの取得
-				$contentComments = $this->ContentComment->getContentComments(array(
-					//'block_key' => $this->viewVars['blockKey'],
-					'block_key' => Current::read('Block.key'),
-					'plugin_key' => 'blogs',
-					'content_key' => $blogEntry['BlogEntry']['key'],
-				));
-				$contentComments = $this->camelizeKeyRecursive($contentComments);
-				$this->set('contentComments', $contentComments);
+				//$contentComments = $this->ContentComment->getContentComments(array(
+				//	//'block_key' => $this->viewVars['blockKey'],
+				//	'block_key' => Current::read('Block.key'),
+				//	'plugin_key' => 'blogs',
+				//	'content_key' => $blogEntry['BlogEntry']['key'],
+				//));
+				//$contentComments = $this->camelizeKeyRecursive($contentComments);
+				//$this->set('contentComments', $contentComments);
 			}
 
 		} else {

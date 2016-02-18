@@ -67,18 +67,19 @@ echo $this->Html->css(
 
 	<div>
 		<?php /* コンテンツコメント */ ?>
-		<div class="row">
-			<div class="col-xs-12">
-				<?php echo $this->element('ContentComments.index', array(
-					'pluginKey' => $this->request->params['plugin'],
-					'contentKey' => $blogEntry['BlogEntry']['key'],
-					'isCommentApproved' => $blogSetting['use_comment_approval'],
-					'useComment' => $blogSetting['use_comment'],
-					'contentCommentCnt' => $blogEntry['ContentCommentCnt']['cnt'],
-					'redirectUrl' => $this->NetCommonsHtml->url(array('plugin' => 'blogs', 'controller' => 'blog_entries', 'action' => 'view', 'frame_id' => Current::read('Frame.id'), 'key' => $blogEntry['BlogEntry']['key'])),
-				)); ?>
-			</div>
-		</div>
+		<?php echo $this->ContentComment->index($blogEntry); ?>
+		<!--<div class="row">-->
+		<!--	<div class="col-xs-12">-->
+		<!--		--><?php //echo $this->element('ContentComments.index', array(
+		//			'pluginKey' => $this->request->params['plugin'],
+		//			'contentKey' => $blogEntry['BlogEntry']['key'],
+		//			'isCommentApproved' => $blogSetting['use_comment_approval'],
+		//			'useComment' => $blogSetting['use_comment'],
+		//			'contentCommentCnt' => $blogEntry['ContentCommentCnt']['cnt'],
+		//			'redirectUrl' => $this->NetCommonsHtml->url(array('plugin' => 'blogs', 'controller' => 'blog_entries', 'action' => 'view', 'frame_id' => Current::read('Frame.id'), 'key' => $blogEntry['BlogEntry']['key'])),
+		//		)); ?>
+		<!--	</div>-->
+		<!--</div>-->
 	</div>
 </article>
 
