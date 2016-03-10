@@ -1,5 +1,3 @@
-<?php echo $this->element('shared_header'); ?>
-
 <?php
 echo $this->Html->css(
 	'/blogs/css/blogs.css',
