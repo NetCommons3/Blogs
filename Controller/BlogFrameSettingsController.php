@@ -41,16 +41,6 @@ class BlogFrameSettingsController extends BlogsAppController {
  * @var array
  */
 	public $components = array(
-		'Blocks.BlockTabs' => array(
-			'mainTabs' => array(
-				'block_index' => array('url' => array('controller' => 'blog_blocks')),
-				'frame_settings' => array('url' => array('controller' => 'blog_frame_settings')),
-			),
-			'blockTabs' => array(
-				'block_settings' => array('url' => array('controller' => 'blog_blocks')),
-				'role_permissions' => array('url' => array('controller' => 'blog_block_role_permissions')),
-			),
-		),
 		'NetCommons.Permission' => array(
 			//アクセスの権限
 			'allow' => array(
@@ -65,6 +55,16 @@ class BlogFrameSettingsController extends BlogsAppController {
  * @var array
  */
 	public $helpers = array(
+		'Blocks.BlockTabs' => array(
+			'mainTabs' => array(
+				'block_index' => array('url' => array('controller' => 'blog_blocks')),
+				'frame_settings' => array('url' => array('controller' => 'blog_frame_settings')),
+			),
+			'blockTabs' => array(
+				'block_settings' => array('url' => array('controller' => 'blog_blocks')),
+				'role_permissions' => array('url' => array('controller' => 'blog_block_role_permissions')),
+			),
+		),
 		'NetCommons.DisplayNumber',
 	);
 
