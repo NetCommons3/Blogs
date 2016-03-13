@@ -104,9 +104,7 @@ $dataJson = json_encode(
 
 			</div>
 
-			<div class="panel-footer" style="text-align: center">
-				<?php echo $this->Workflow->buttons('BlogEntry.status'); ?>
-			</div>
+			<?php echo $this->Workflow->buttons('BlogEntry.status'); ?>
 
 			<?php echo $this->NetCommonsForm->end() ?>
 			<?php if ($isEdit && $isDeletable) : ?>
