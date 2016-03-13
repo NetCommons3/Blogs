@@ -44,6 +44,7 @@ class BlogEntriesController extends BlogsAppController {
 			)
 		),
 		'Users.DisplayUser',
+		'NetCommons.SnsButton',
 	);
 
 /**
