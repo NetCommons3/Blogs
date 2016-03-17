@@ -37,24 +37,25 @@ class BlogFixture extends CakeTestFixture {
 /**
  * Records
  *
+ * @see https://github.com/s-nakajima/MyShell/blob/master/unitTest/AboutFixture.md#ブロックidの紐付くfixture
  * @var array
  */
 	public $records = array(
 		array(
-			'id' => 1,
-			'block_id' => 1,
+			'id' => 2,
+			'block_id' => 2,
 			'name' => 'Lorem ipsum dolor sit amet',
-			'key' => 'Lorem ipsum dolor sit amet',
+			'key' => 'content_block_1',
 			'created_user' => 1,
 			'created' => '2016-03-17 07:09:43',
 			'modified_user' => 1,
 			'modified' => '2016-03-17 07:09:43'
 		),
 		array(
-			'id' => 2,
-			'block_id' => 2,
+			'id' => 4,
+			'block_id' => 4,
 			'name' => 'Lorem ipsum dolor sit amet',
-			'key' => 'Lorem ipsum dolor sit amet',
+			'key' => 'content_block_2',
 			'created_user' => 2,
 			'created' => '2016-03-17 07:09:43',
 			'modified_user' => 2,

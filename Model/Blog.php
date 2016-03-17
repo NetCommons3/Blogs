@@ -291,15 +291,6 @@ class Blog extends BlogsAppModel {
 		//トランザクションBegin
 		$this->begin();
 
-		//$conditions = array(
-		//	$this->alias . '.key' => $data['Blog']['key']
-		//);
-		//$blogs = $this->find('list', array(
-		//	'recursive' => -1,
-		//	'conditions' => $conditions,
-		//));
-		//$blogIds = array_keys($blogs);
-
 		try {
 			if (! $this->deleteAll(array($this->alias . '.key' => $data['Blog']['key']), false, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));

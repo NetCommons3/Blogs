@@ -33,6 +33,9 @@ class BlogDeleteBlogTest extends NetCommonsDeleteTest {
 		'plugin.categories.category',
 		'plugin.categories.category_order',
 		'plugin.workflow.workflow_comment',
+
+		'plugin.likes.like',
+		'plugin.likes.likes_user',
 	);
 
 /**
@@ -67,9 +70,9 @@ class BlogDeleteBlogTest extends NetCommonsDeleteTest {
  */
 	public function dataProviderDelete() {
 		$data['Blog'] = (new BlogFixture())->records[0];
+		$data['Block']['key'] = 'block_1';
 		$association = array();
 
-		//TODO:テストパタンを書く
 		$results = array();
 		$results[0] = array($data, $association);
 
@@ -89,9 +92,10 @@ class BlogDeleteBlogTest extends NetCommonsDeleteTest {
 	public function dataProviderDeleteOnExceptionError() {
 		$data = $this->dataProviderDelete()[0][0];
 
-		//TODO:テストパタンを書く
 		return array(
 			array($data, 'Blogs.Blog', 'deleteAll'),
+			array($data, 'Blogs.BlogSetting', 'deleteAll'),
+			array($data, 'Blogs.BlogEntry', 'deleteAll'),
 		);
 	}
 
