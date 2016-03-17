@@ -81,7 +81,7 @@ class BlogEntriesEditController extends BlogsAppController {
 			// set block_id
 			$this->request->data['BlogEntry']['block_id'] = Current::read('Block.id');
 			// set language_id
-			$this->request->data['BlogEntry']['language_id'] = $this->viewVars['languageId'];
+			$this->request->data['BlogEntry']['language_id'] = Current::read('Language.id');
 			if (($result = $this->BlogEntry->saveEntry(Current::read('Block.id'), Current::read('Frame.id'), $this->request->data))) {
 				$url = NetCommonsUrl::actionUrl(
 					array(
@@ -135,7 +135,7 @@ class BlogEntriesEditController extends BlogsAppController {
 			// set block_id
 			$this->request->data['BlogEntry']['block_id'] = Current::read('Block.id');
 			// set language_id
-			$this->request->data['BlogEntry']['language_id'] = $this->viewVars['languageId'];
+			$this->request->data['BlogEntry']['language_id'] = Current::read('Language.id');
 
 			$data = $this->request->data;
 
