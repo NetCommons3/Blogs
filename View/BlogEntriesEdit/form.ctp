@@ -24,7 +24,7 @@ echo $this->Html->script(
 ?>
 <?php
 $dataJson = json_encode(
-	$this->NetCommonsTime->toUserDatetimeArray($this->request->data, array('publish_start'))
+	$this->NetCommonsTime->toUserDatetimeArray($this->request->data, array('BlogEntry.publish_start'))
 );
 ?>
 <div class="blogEntries form" ng-controller="Blogs" ng-init="init(<?php echo h($dataJson) ?>)">
