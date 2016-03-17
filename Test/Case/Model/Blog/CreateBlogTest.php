@@ -56,6 +56,33 @@ class BlogCreateBlogTest extends NetCommonsModelTestCase {
 	protected $_methodName = 'createBlog';
 
 /**
+ * @var array Current::$current待避
+ */
+	protected $_current = array();
+
+/**
+ * setUp
+ *
+ * @return void
+ */
+	public function setUp() {
+		parent::setUp();
+		$this->_current = Current::$current;
+		Current::$current['Room']['id'] = 1;
+		Current::$current['language']['id'] = 2;
+	}
+
+/**
+ * teadDown
+ *
+ * @return void
+ */
+	public function tearDown() {
+		parent::tearDown();
+		Current::$current = $this->_current;
+	}
+
+/**
  * createBlog()のテスト
  *
  * @return void
@@ -70,8 +97,13 @@ class BlogCreateBlogTest extends NetCommonsModelTestCase {
 		$result = $this->$model->$methodName();
 
 		//チェック
-		//TODO:Assertを書く
-		debug($result);
+		// ブログ名に New blogが含まれる
+		$this->assertContains('New blog', $result['Blog']['name']);
+		// BlogSettingがある
+		$this->assertArrayHasKey('BlogSetting', $result);
+		// Blockにroom_id, language_idがセットされてる
+		$this->assertEquals(1, $result['Block']['room_id']);
+		$this->assertEquals(2, $result['Block']['language_id']);
 	}
 
 }
