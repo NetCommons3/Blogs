@@ -9,7 +9,6 @@ App::uses('Controller', 'Controller');
 App::uses('CakeRequest', 'Network');
 App::uses('CakeResponse', 'Network');
 App::uses('ComponentCollection', 'Controller');
-App::uses('BlogEntryPermissionComponent', 'Blogs.Controller/Component');
 
 /**
  * Class BlogsFakeController Fakeコントローラ
