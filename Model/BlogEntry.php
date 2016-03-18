@@ -322,7 +322,7 @@ class BlogEntry extends BlogsAppModel {
 			$this->deleteCommentsByContentKey($deleteEntry['BlogEntry']['key']);
 
 			// 記事削除
-			$conditions = array('key' => $key);
+			$conditions = array('BlogEntry.key' => $key);
 			if ($result = $this->deleteAll($conditions, true, true)) {
 				$this->commit();
 				return $result;

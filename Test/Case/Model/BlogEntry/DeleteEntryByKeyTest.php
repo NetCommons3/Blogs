@@ -10,6 +10,7 @@
  */
 
 App::uses('WorkflowDeleteTest', 'Workflow.TestSuite');
+App::uses('NetCommonsModelTestCase', 'NetCommons.TestSuite');
 App::uses('BlogEntryFixture', 'Blogs.Test/Fixture');
 
 /**
@@ -18,7 +19,7 @@ App::uses('BlogEntryFixture', 'Blogs.Test/Fixture');
  * @author Ryuji AMANO <ryuji@ryus.co.jp>
  * @package NetCommons\Blogs\Test\Case\Model\BlogEntry
  */
-class BlogEntryDeleteEntryByKeyTest extends WorkflowDeleteTest {
+class BlogEntryDeleteEntryByKeyTest extends NetCommonsModelTestCase {
 
 /**
  * Fixtures
@@ -57,42 +58,59 @@ class BlogEntryDeleteEntryByKeyTest extends WorkflowDeleteTest {
 	protected $_methodName = 'deleteEntryByKey';
 
 /**
- * Delete用DataProvider
+ * setUp
  *
- * ### 戻り値
- *  - data: 削除データ
- *  - associationModels: 削除確認の関連モデル array(model => conditions)
- *
- * @return array テストデータ
+ * @return void
  */
-	public function dataProviderDelete() {
-		$data['BlogEntry'] = (new BlogEntryFixture())->records[0];
-		$association = array();
-
-		//TODO:テストパタンを書く
-		$results = array();
-		$results[0] = array($data, $association);
-
-		return $results;
+	public function setUp() {
+		parent::setUp();
+		$this->_removeBehaviors($this->BlogEntry);
 	}
 
 /**
- * ExceptionError用DataProvider
+ * テストの邪魔になるビヘイビアとアソシエーションをひっぺがす
  *
- * ### 戻り値
- *  - data 登録データ
- *  - mockModel Mockのモデル
- *  - mockMethod Mockのメソッド
- *
- * @return array テストデータ
+ * @param BlogEntry $model BlogEntryモデル
+ * @return void
  */
-	public function dataProviderDeleteOnExceptionError() {
-		$data = $this->dataProviderDelete()[0][0];
+	protected function _removeBehaviors($model) {
+		$model->Behaviors->unload('Tag');
+		$model->Behaviors->unload('ContentComment');
+		$model->Behaviors->unload('Like');
+		$model->unbindModel(['belongsTo' => ['Like', 'LikesUser']], false);
+	}
 
-		//TODO:テストパタンを書く
-		return array(
-			array($data, 'Blogs.BlogEntry', 'deleteAll'),
-		);
+/**
+ * testDeleteEntryByKey
+ *
+ * @return void
+ */
+	public function testDeleteEntryByKey() {
+		$key = 'content_key_1';
+		$result = $this->BlogEntry->deleteEntryByKey($key);
+		$this->assertTrue($result);
+
+		$count = $this->BlogEntry->find('count', ['conditions' => ['key' => $key]]);
+
+		$this->assertEquals(0, $count);
+	}
+
+/**
+ * testDeleteEntryByKey delete failed
+ *
+ * @return void
+ */
+	public function testDeleteEntryByKeyFailed() {
+		$key = 'content_key_1';
+		$blogEntryMock = $this->getMockForModel('Blogs.BlogEntry', ['deleteAll']);
+		$blogEntryMock->expects($this->once())
+			->method('deleteAll')
+			->will($this->returnValue(false));
+
+		$this->_removeBehaviors($blogEntryMock);
+
+		$this->setExpectedException('InternalErrorException');
+		$blogEntryMock->deleteEntryByKey($key);
 	}
 
 }
