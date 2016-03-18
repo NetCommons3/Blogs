@@ -71,11 +71,11 @@ class BlogValidateTest extends NetCommonsValidateTest {
 	public function dataProviderValidationError() {
 		$data['Blog'] = (new BlogFixture())->records[0];
 
-		//TODO:テストパタンを書く
-		debug($data);
 		return array(
-			array('data' => $data, 'field' => '', 'value' => '',
-				'message' => __d('net_commons', 'Invalid request.')),
+			array($data, 'key', '',
+				__d('net_commons', 'Invalid request.')),
+			array($data, 'name', '',
+				sprintf(__d('net_commons', 'Please input %s.'), __d('blogs', 'Blog name'))),
 		);
 	}
 

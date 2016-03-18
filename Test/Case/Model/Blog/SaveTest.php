@@ -10,6 +10,7 @@
  */
 
 App::uses('NetCommonsModelTestCase', 'NetCommons.TestSuite');
+App::uses('NetCommonsSaveTest', 'NetCommons.TestSuite');
 App::uses('BlogFixture', 'Blogs.Test/Fixture');
 
 /**
@@ -18,7 +19,7 @@ App::uses('BlogFixture', 'Blogs.Test/Fixture');
  * @author Ryuji AMANO <ryuji@ryus.co.jp>
  * @package NetCommons\Blogs\Test\Case\Model\Blog
  */
-class BlogSaveTest extends NetCommonsModelTestCase {
+class BlogSaveTest extends NetCommonsSaveTest {
 
 /**
  * Fixtures
@@ -33,6 +34,7 @@ class BlogSaveTest extends NetCommonsModelTestCase {
 		'plugin.categories.category',
 		'plugin.categories.category_order',
 		'plugin.workflow.workflow_comment',
+		'plugin.likes.like',
 	);
 
 /**
@@ -54,26 +56,114 @@ class BlogSaveTest extends NetCommonsModelTestCase {
  *
  * @var string
  */
-	protected $_methodName = 'save';
+	protected $_methodName = 'saveBlog';
 
 /**
- * save()のテスト
+ * テストDataの取得
  *
- * @return void
+ * @param string $blogKey bbsKey
+ * @return array
  */
-	public function testSave() {
-		$model = $this->_modelName;
-		$methodName = $this->_methodName;
+	private function __getData($blogKey = 'blog_1') {
+		$frameId = '6';
+		$frameKey = 'frame_3';
+		$blockId = '2';
+		$blockKey = 'block_1';
+		$blogId = '2';
+		if ($blogKey === 'blog_1') {
+			$blogId = '2';
+			$blogSettingId = '1';
+		} else {
+			$blogId = null;
+			$blogSettingId = null;
+		}
 
-		//データ生成
-		$data['Blog'] = (new BlogFixture())->records[0];
+		$data = array(
+			'Frame' => array(
+				'id' => $frameId
+			),
+			'Block' => array(
+				'id' => $blockId,
+				'key' => $blockKey,
+				'language_id' => '2',
+				'room_id' => '1',
+				'plugin_key' => $this->plugin,
+				'public_type' => '1',
+			),
+			'Blog' => array(
+				'id' => $blogId,
+				'key' => $blogKey,
+				'name' => 'blogName',
+				'block_id' => $blockId,
+				//'bbs_article_count' => '0',
+				//'bbs_article_modified' => null,
+			),
+			'BlogSetting' => array(
+				'id' => $blogSettingId,
+				'blog_key' => $blogKey,
+				'use_comment' => '1',
+				'use_like' => '1',
+				'use_unlike' => '1',
+			),
+			'BlogFrameSetting' => array(
+				'id' => $blogId,
+				'frame_key' => $frameKey,
+				'articles_per_page' => 10,
+				//'comments_per_page' => 10,
+			),
+		);
 
-		//テスト実施
-		$result = $this->$model->$methodName($data);
+		return $data;
+	}
 
-		//チェック
-		//TODO:Assertを書く
-		debug($result);
+/**
+ * SaveのDataProvider
+ *
+ * ### 戻り値
+ *  - data 登録データ
+ *
+ * @return array
+ */
+	public function dataProviderSave() {
+		return array(
+			array($this->__getData()), //修正
+			array($this->__getData(null)), //新規
+		);
+	}
+
+/**
+ * SaveのExceptionErrorのDataProvider
+ *
+ * ### 戻り値
+ *  - data 登録データ
+ *  - mockModel Mockのモデル
+ *  - mockMethod Mockのメソッド
+ *
+ * @return array
+ */
+	public function dataProviderSaveOnExceptionError() {
+		return array(
+			array($this->__getData(), 'Blogs.Blog', 'save'),
+			array($this->__getData(null), 'Blogs.BlogSetting', 'save'),
+			array($this->__getData(null), 'Blogs.BlogFrameSetting', 'save'),
+		);
+	}
+
+/**
+ * SaveのValidationErrorのDataProvider
+ *
+ * ### 戻り値
+ *  - data 登録データ
+ *  - mockModel Mockのモデル
+ *
+ * @return array
+ */
+	public function dataProviderSaveOnValidationError() {
+		return array(
+			array($this->__getData(), 'Blogs.Blog'),
+			array($this->__getData(), 'Blogs.BlogSetting'),
+			array($this->__getData(null), 'Blogs.BlogFrameSetting'),
+		);
 	}
 
 }

@@ -122,9 +122,9 @@ class Blog extends BlogsAppModel {
 			),
 		));
 
-		if (! parent::beforeValidate($options)) {
-			return false;
-		}
+		//if (! parent::beforeValidate($options)) {
+		//	return false;
+		//}
 
 		if (isset($this->data['BlogSetting'])) {
 			$this->BlogSetting->set($this->data['BlogSetting']);
@@ -141,6 +141,8 @@ class Blog extends BlogsAppModel {
 				return false;
 			}
 		}
+
+		return parent::beforeValidate($options);
 	}
 
 /**

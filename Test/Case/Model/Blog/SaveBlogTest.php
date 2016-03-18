@@ -93,7 +93,6 @@ class BlogSaveBlogTest extends NetCommonsSaveTest {
 	public function dataProviderSaveOnExceptionError() {
 		$data = $this->dataProviderSave()[0][0];
 
-		//TODO:テストパタンを書く
 		return array(
 			array($data, 'Blogs.Blog', 'save'),
 		);
@@ -112,7 +111,6 @@ class BlogSaveBlogTest extends NetCommonsSaveTest {
 	public function dataProviderSaveOnValidationError() {
 		$data = $this->dataProviderSave()[0][0];
 
-		//TODO:テストパタンを書く
 		return array(
 			array($data, 'Blogs.Blog'),
 		);
