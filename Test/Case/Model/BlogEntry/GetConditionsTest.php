@@ -56,26 +56,29 @@ class BlogEntryGetConditionsTest extends WorkflowGetTest {
 	protected $_methodName = 'getConditions';
 
 /**
- * getConditions()のテスト
+ * test getConditions content_readable = false
  *
  * @return void
  */
-	public function testGetConditions() {
-		$model = $this->_modelName;
-		$methodName = $this->_methodName;
-
-		//データ生成
-		$blockId = null;
-		$userId = null;
-		$permissions = null;
-		$currentDateTime = null;
-
-		//テスト実施
-		$result = $this->$model->$methodName($blockId, $userId, $permissions, $currentDateTime);
-
-		//チェック
-		//TODO:Assertを書く
-		debug($result);
+	public function testGetConditionsForNotReadable() {
+		$permissions = [
+			'content_readable' => false,
+		];
+		$result = $this->BlogEntry->getConditions(1, $permissions);
+		$this->assertEquals(['BlogEntry.id' => 0], $result);
 	}
 
+/**
+ * test getConditions content_readable = true
+ *
+ * @return void
+ */
+	public function testGetConditionsForReadable() {
+		$permissions = [
+			'content_readable' => true,
+		];
+		$blockId = 1;
+		$result = $this->BlogEntry->getConditions($blockId, $permissions);
+		$this->assertEquals($blockId, $result['BlogEntry.block_id']);
+	}
 }

@@ -208,9 +208,7 @@ class BlogEntriesController extends BlogsAppController {
 
 		$conditions = $this->BlogEntry->getConditions(
 			Current::read('Block.id'),
-			$this->Auth->user('id'),
-			$permission,
-			$this->_getCurrentDateTime()
+			$permission
 		);
 		if ($extraConditions) {
 			$conditions = Hash::merge($conditions, $extraConditions);
@@ -246,9 +244,7 @@ class BlogEntriesController extends BlogsAppController {
 
 		$conditions = $this->BlogEntry->getConditions(
 			Current::read('Block.id'),
-			$this->Auth->user('id'),
-			$this->_getPermission(),
-			$this->_getCurrentDateTime()
+			$this->_getPermission()
 		);
 
 		$conditions['BlogEntry.key'] = $key;

@@ -154,16 +154,17 @@ class BlogEntry extends BlogsAppModel {
 		$new['BlogEntry']['publish_start'] = $netCommonsTime->getNowDatetime();
 		return $new;
 	}
-/**
- * UserIdと権限から参照可能なEntryを取得するCondition配列を返す
- *
- * @param int $blockId ブロックId
- * @param int $userId アクセスユーザID
- * @param array $permissions 権限
- * @param datetime $currentDateTime 現在日時
- * @return array condition
- */
-	public function getConditions($blockId, $userId, $permissions, $currentDateTime) {
+
+	/**
+	 * UserIdと権限から参照可能なEntryを取得するCondition配列を返す
+	 *
+	 * @param int $blockId ブロックId
+	 * @param array $permissions 権限
+	 * @return array condition
+	 * @internal param int $userId アクセスユーザID
+	 * @internal param datetime $currentDateTime 現在日時
+	 */
+	public function getConditions($blockId, $permissions) {
 		// contentReadable falseなら何も見えない
 		if ($permissions['content_readable'] === false) {
 			$conditions = array('BlogEntry.id' => 0); // ありえない条件でヒット0にしてる
@@ -176,36 +177,6 @@ class BlogEntry extends BlogsAppModel {
 		);
 
 		$conditions = $this->getWorkflowConditions($conditions);
-
-		//if ($permissions['content_editable']) {
-		////if ($this->canEditW/orkflowContent()) {
-		//	// 編集権限
-		//	$conditions['BlogEntry.is_latest'] = 1;
-		//	return $conditions;
-		//}
-		//
-		//if ($permissions['content_creatable']) {
-		////if ($this->canCreateWorkflowContent()) {
-		//	// 作成権限
-		//	$conditions['OR'] = array(
-		//		array_merge(
-		//			$this->_getPublishedConditions($currentDateTime),
-		//			array('BlogEntry.created_user !=' => $userId)
-		//		),
-		//		array('BlogEntry.created_user' => $userId,
-		//				'BlogEntry.is_latest' => 1)
-		//	);
-		//	return $conditions;
-		//}
-		//
-		//if ($permissions['content_readable']) {
-		////if ($this->canReadWorkflowContent()) {
-		//	 //公開中コンテンツだけ
-		//	$conditions = array_merge(
-		//		$conditions,
-		//		$this->_getPublishedConditions($currentDateTime));
-		//	return $conditions;
-		//}
 
 		return $conditions;
 	}
@@ -220,7 +191,7 @@ class BlogEntry extends BlogsAppModel {
  * @return array
  */
 	public function getYearMonthCount($blockId, $userId, $permissions, $currentDateTime) {
-		$conditions = $this->getConditions($blockId, $userId, $permissions, $currentDateTime);
+		$conditions = $this->getConditions($blockId, $permissions);
 		// 年月でグループ化してカウント→取得できなかった年月をゼロセット
 		$this->virtualFields['year_month'] = 0; // バーチャルフィールドを追加
 		$this->virtualFields['count'] = 0; // バーチャルフィールドを追加
