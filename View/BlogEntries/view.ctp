@@ -32,7 +32,11 @@ echo $this->Html->css(
 </div>
 
 <article>
-	<h1><?php echo h($blogEntry['BlogEntry']['title']); ?></h1>
+	<h1>
+		<?php echo $this->TitleIcon->titleIcon($blogEntry['BlogEntry']['title_icon']); ?>
+
+		<?php echo h($blogEntry['BlogEntry']['title']); ?>
+	</h1>
 
 	<?php echo $this->element('entry_meta_info'); ?>
 
