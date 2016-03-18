@@ -67,15 +67,15 @@ class BlogSaveBlogTest extends NetCommonsSaveTest {
 	public function dataProviderSave() {
 		$data['Blog'] = (new BlogFixture())->records[0];
 
-		//TODO:テストパタンを書く
 		$results = array();
 		// * 編集の登録処理
 		$results[0] = array($data);
 		// * 新規の登録処理
 		$results[1] = array($data);
 		$results[1] = Hash::insert($results[1], '0.Blog.id', null);
-		$results[1] = Hash::insert($results[1], '0.Blog.key', null); //TODO:不要なら削除する
+		$results[1] = Hash::insert($results[1], '0.Blog.key', null);
 		$results[1] = Hash::remove($results[1], '0.Blog.created_user');
+		$results[1] = Hash::remove($results[1], '0.Blog.created');
 
 		return $results;
 	}

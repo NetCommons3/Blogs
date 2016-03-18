@@ -43,7 +43,7 @@ class BlogFixture extends CakeTestFixture {
 	public $records = array(
 		array(
 			'id' => 2,
-			'block_id' => 2,
+			'block_id' => '2',
 			'name' => 'Lorem ipsum dolor sit amet',
 			'key' => 'content_block_1',
 			'created_user' => 1,
