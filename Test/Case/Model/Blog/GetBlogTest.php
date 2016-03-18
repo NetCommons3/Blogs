@@ -56,22 +56,49 @@ class BlogGetBlogTest extends NetCommonsGetTest {
 	protected $_methodName = 'getBlog';
 
 /**
- * getBlog()のテスト
+ * Getのテスト
+ *
+ * @param array $exist 取得するキー情報
+ * @param array $expected 期待値（取得したキー情報）
+ * @dataProvider dataProviderGet
  *
  * @return void
  */
-	public function testGetBlog() {
+	public function testGet($exist, $expected) {
 		$model = $this->_modelName;
-		$methodName = $this->_methodName;
+		$method = $this->_methodName;
 
-		//データ生成
-
-		//テスト実施
-		$result = $this->$model->$methodName();
-
+		//事前準備
+		$testCurrentData = Hash::expand($exist);
+		Current::$current = Hash::merge(Current::$current, $testCurrentData);
+		//テスト実行
+		$result = $this->$model->$method();
 		//チェック
-		//TODO:Assertを書く
-		debug($result);
+		if ($result == null) {
+			$this->assertEquals($expected['id'], '0');
+		} else {
+			foreach ($expected as $key => $val) {
+				$this->assertEquals($result[$model][$key], $val);
+			}
+		}
 	}
 
+/**
+ * getのDataProvider
+ *
+ * #### 戻り値
+ *  - array 取得するキー情報
+ *  - array 期待値 （取得したキー情報）
+ *
+ * @return array
+ */
+	public function dataProviderGet() {
+		$existData = array('Block.id' => '2', 'Room.id' => '1'); // データあり
+		$notExistData = array('Block.id' => '0', 'Room.id' => '0'); // データなし
+
+		return array(
+			array($existData, array('id' => '2', 'key' => 'content_block_1')), // 存在する
+			array($notExistData, array('id' => '0')), // 存在しない
+		);
+	}
 }

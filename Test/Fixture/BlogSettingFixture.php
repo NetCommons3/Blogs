@@ -46,7 +46,7 @@ class BlogSettingFixture extends CakeTestFixture {
 	public $records = array(
 		array(
 			'id' => 1,
-			'blog_key' => 'Lorem ipsum dolor sit amet',
+			'blog_key' => 'content_block_1',
 			'use_workflow' => 1,
 			'use_comment' => 1,
 			'use_comment_approval' => 1,
@@ -60,7 +60,7 @@ class BlogSettingFixture extends CakeTestFixture {
 		),
 		array(
 			'id' => 2,
-			'blog_key' => 'Lorem ipsum dolor sit amet',
+			'blog_key' => 'content_block_2',
 			'use_workflow' => 1,
 			'use_comment' => 1,
 			'use_comment_approval' => 1,
