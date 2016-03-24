@@ -63,6 +63,25 @@ class BlogEntry extends BlogsAppModel {
 	);
 
 /**
+ * プラリマリキーを除いた新規レコード配列を返す
+ * ex) array('ModelName' => array('filedName' => default, ...));
+ *
+ * @return array
+ */
+	protected function _getNew() {
+		if (is_null($this->_newRecord)) {
+			$newRecord = array();
+			foreach ($this->_schema as $fieldName => $fieldDetail) {
+				if ($fieldName != $this->primaryKey) {
+					$newRecord[$this->name][$fieldName] = $fieldDetail['default'];
+				}
+			}
+			$this->_newRecord = $newRecord;
+		}
+		return $this->_newRecord;
+	}
+
+/**
  * バリデーションルールを返す
  *
  * @return array
@@ -149,7 +168,7 @@ class BlogEntry extends BlogsAppModel {
  * @return array
  */
 	public function getNew() {
-		$new = parent::getNew();
+		$new = $this->_getNew();
 		$netCommonsTime = new NetCommonsTime();
 		$new['BlogEntry']['publish_start'] = $netCommonsTime->getNowDatetime();
 		return $new;
