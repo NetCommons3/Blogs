@@ -155,15 +155,13 @@ class BlogEntry extends BlogsAppModel {
 		return $new;
 	}
 
-	/**
-	 * UserIdと権限から参照可能なEntryを取得するCondition配列を返す
-	 *
-	 * @param int $blockId ブロックId
-	 * @param array $permissions 権限
-	 * @return array condition
-	 * @internal param int $userId アクセスユーザID
-	 * @internal param datetime $currentDateTime 現在日時
-	 */
+/**
+ * UserIdと権限から参照可能なEntryを取得するCondition配列を返す
+ *
+ * @param int $blockId ブロックId
+ * @param array $permissions 権限
+ * @return array condition
+ */
 	public function getConditions($blockId, $permissions) {
 		// contentReadable falseなら何も見えない
 		if ($permissions['content_readable'] === false) {
@@ -185,12 +183,10 @@ class BlogEntry extends BlogsAppModel {
  * 年月毎の記事数を返す
  *
  * @param int $blockId ブロックID
- * @param int $userId ユーザID
  * @param array $permissions 権限
- * @param datetime $currentDateTime 現在日時
  * @return array
  */
-	public function getYearMonthCount($blockId, $userId, $permissions, $currentDateTime) {
+	public function getYearMonthCount($blockId, $permissions) {
 		$conditions = $this->getConditions($blockId, $permissions);
 		// 年月でグループ化してカウント→取得できなかった年月をゼロセット
 		$this->virtualFields['year_month'] = 0; // バーチャルフィールドを追加

@@ -302,9 +302,7 @@ class BlogEntriesController extends BlogsAppController {
 		// 年月と記事数
 		$yearMonthCount = $this->BlogEntry->getYearMonthCount(
 			Current::read('Block.id'),
-			$this->Auth->user('id'),
-			$this->_getPermission(),
-			$this->_getCurrentDateTime()
+			$this->_getPermission()
 		);
 		foreach ($yearMonthCount as $yearMonth => $count) {
 			list($year, $month) = explode('-', $yearMonth);

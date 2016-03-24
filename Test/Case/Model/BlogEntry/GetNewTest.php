@@ -65,13 +65,17 @@ class BlogEntryGetNewTest extends WorkflowGetTest {
 		$methodName = $this->_methodName;
 
 		//データ生成
+		// NetCommonsTimeに現在日付を 2016-01-01 00:00:00 に設定する
+		$nowProperty = new ReflectionProperty('NetCommonsTime', '_now');
+		$nowProperty->setAccessible(true);
+		$nowProperty->setValue(strtotime('2016-01-01 00:00:00'));
+		// test code ..
 
 		//テスト実施
 		$result = $this->$model->$methodName();
 
-		//チェック
-		//TODO:Assertを書く
-		debug($result);
-	}
+		$this->assertEquals('2016-01-01 00:00:00', $result['BlogEntry']['publish_start']);
 
+		$nowProperty->setValue(null); // 現在日時変更が他のテストに影響を与えないようにnullにもどしておく
+	}
 }
