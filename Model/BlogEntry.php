@@ -259,16 +259,16 @@ class BlogEntry extends BlogsAppModel {
 		return $ret;
 	}
 
-/**
- * 記事の保存。タグも保存する
- *
- * @param int $blockId ブロックID
- * @param int $frameId frame ID
- * @param array $data 登録データ
- * @return bool
- * @throws InternalErrorException
- */
-	public function saveEntry($blockId, $frameId, $data) {
+	/**
+	 * 記事の保存。タグも保存する
+	 *
+	 * @param array $data 登録データ
+	 * @return bool
+	 * @throws null
+	 * @internal param int $blockId ブロックID
+	 * @internal param int $frameId frame ID
+	 */
+	public function saveEntry($data) {
 		$this->begin();
 		try {
 			$this->create(); // 常に新規登録
@@ -284,14 +284,11 @@ class BlogEntry extends BlogsAppModel {
 			}
 
 			$this->commit();
-			return $savedData;
 
 		} catch (Exception $e) {
-			$this->rollback();
-			//エラー出力
-			CakeLog::error($e);
-			throw $e;
+			$this->rollback($e);
 		}
+		return $savedData;
 	}
 
 /**

@@ -82,7 +82,7 @@ class BlogEntriesEditController extends BlogsAppController {
 			$this->request->data['BlogEntry']['block_id'] = Current::read('Block.id');
 			// set language_id
 			$this->request->data['BlogEntry']['language_id'] = Current::read('Language.id');
-			if (($result = $this->BlogEntry->saveEntry(Current::read('Block.id'), Current::read('Frame.id'), $this->request->data))) {
+			if (($result = $this->BlogEntry->saveEntry($this->request->data))) {
 				$url = NetCommonsUrl::actionUrl(
 					array(
 						'controller' => 'blog_entries',
@@ -141,7 +141,7 @@ class BlogEntriesEditController extends BlogsAppController {
 
 			unset($data['BlogEntry']['id']); // 常に新規保存
 
-			if ($this->BlogEntry->saveEntry(Current::read('Block.id'), Current::read('Frame.id'), $data)) {
+			if ($this->BlogEntry->saveEntry($data)) {
 				$url = NetCommonsUrl::actionUrl(
 					array(
 						'controller' => 'blog_entries',

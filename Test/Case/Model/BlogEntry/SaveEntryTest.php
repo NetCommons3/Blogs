@@ -33,6 +33,15 @@ class BlogEntrySaveEntryTest extends WorkflowSaveTest {
 		'plugin.categories.category',
 		'plugin.categories.category_order',
 		'plugin.workflow.workflow_comment',
+		'plugin.tags.tags_content',
+		'plugin.tags.tag',
+		'plugin.likes.like',
+		'plugin.likes.likes_user',
+		//'plugin.content_comments.content_comment',
+		//'plugin.mails.mail_setting',
+		//'plugin.mails.mail_queue',
+		//'plugin.mails.mail_queue_user',
+		//'plugin.site_manager.site_setting',
 	);
 
 /**
@@ -56,6 +65,11 @@ class BlogEntrySaveEntryTest extends WorkflowSaveTest {
  */
 	protected $_methodName = 'saveEntry';
 
+	public function setUp() {
+		parent::setUp();
+		$this->BlogEntry->Behaviors->unload('ContentComment');
+	}
+
 /**
  * Save用DataProvider
  *
@@ -68,15 +82,15 @@ class BlogEntrySaveEntryTest extends WorkflowSaveTest {
 		$data['BlogEntry'] = (new BlogEntryFixture())->records[1];
 		$data['BlogEntry']['status'] = '1';
 
-		//TODO:テストパタンを書く
 		$results = array();
 		// * 編集の登録処理
 		$results[0] = array($data);
 		// * 新規の登録処理
 		$results[1] = array($data);
 		$results[1] = Hash::insert($results[1], '0.BlogEntry.id', null);
-		$results[1] = Hash::insert($results[1], '0.BlogEntry.key', null); //TODO:不要なら削除する
+		$results[1] = Hash::insert($results[1], '0.BlogEntry.key', null);
 		$results[1] = Hash::remove($results[1], '0.BlogEntry.created_user');
+		$results[1] = Hash::remove($results[1], '0.BlogEntry.created');
 
 		return $results;
 	}
