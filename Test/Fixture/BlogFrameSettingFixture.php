@@ -40,21 +40,21 @@ class BlogFrameSettingFixture extends CakeTestFixture {
  */
 	public $records = array(
 		array(
-			'id' => 1,
+			'id' => '1',
 			'frame_key' => 'frame_key_1',
-			'articles_per_page' => 1,
-			'created_user' => 1,
+			'articles_per_page' => '1',
+			'created_user' => '1',
 			'created' => '2016-03-17 07:10:45',
-			'modified_user' => 1,
+			'modified_user' => '1',
 			'modified' => '2016-03-17 07:10:45'
 		),
 		array(
-			'id' => 2,
+			'id' => '2',
 			'frame_key' => 'frame_key_2',
-			'articles_per_page' => 2,
-			'created_user' => 2,
+			'articles_per_page' => '2',
+			'created_user' => '2',
 			'created' => '2016-03-17 07:10:45',
-			'modified_user' => 2,
+			'modified_user' => '2',
 			'modified' => '2016-03-17 07:10:45'
 		),
 	);
