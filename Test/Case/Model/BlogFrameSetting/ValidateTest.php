@@ -71,10 +71,12 @@ class BlogFrameSettingValidateTest extends NetCommonsValidateTest {
 	public function dataProviderValidationError() {
 		$data['BlogFrameSetting'] = (new BlogFrameSettingFixture())->records[0];
 
-		//TODO:テストパタンを書く
-		debug($data);
 		return array(
-			array('data' => $data, 'field' => '', 'value' => '',
+			array('data' => $data, 'field' => 'frame_key', 'value' => '',
+				'message' => __d('net_commons', 'Invalid request.')),
+			array('data' => $data, 'field' => 'articles_per_page', 'value' => '',
+				'message' => __d('net_commons', 'Invalid request.')),
+			array('data' => $data, 'field' => 'articles_per_page', 'value' => 'string',
 				'message' => __d('net_commons', 'Invalid request.')),
 		);
 	}

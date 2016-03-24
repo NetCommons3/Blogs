@@ -62,11 +62,17 @@ class BlogFrameSetting extends BlogsAppModel {
 				)
 			),
 			'articles_per_page' => array(
-				'number' => array(
+				'notBlank' => array(
 					'rule' => array('notBlank'),
 					'message' => __d('net_commons', 'Invalid request.'),
 					'required' => true,
-				)
+				),
+				'numeric' => array(
+					'rule' => array('numeric'),
+					'message' => __d('net_commons', 'Invalid request.'),
+					'required' => true,
+				),
+
 			),
 			//'comments_per_page' => array(
 			//	'number' => array(
