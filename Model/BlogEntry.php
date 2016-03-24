@@ -63,6 +63,20 @@ class BlogEntry extends BlogsAppModel {
 	);
 
 /**
+ * バリデートメッセージ多言語化対応のためのラップ
+ *
+ * @param array $options options
+ * @return bool
+ */
+	public function beforeValidate($options = array()) {
+		$this->validate = Hash::merge(
+			$this->validate,
+			$this->_getValidateSpecification()
+		);
+		return parent::beforeValidate($options);
+	}
+
+/**
  * プラリマリキーを除いた新規レコード配列を返す
  * ex) array('ModelName' => array('filedName' => default, ...));
  *
