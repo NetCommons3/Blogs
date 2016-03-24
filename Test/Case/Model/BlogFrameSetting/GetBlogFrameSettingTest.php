@@ -57,22 +57,45 @@ class BlogFrameSettingGetBlogFrameSettingTest extends NetCommonsGetTest {
 
 /**
  * getBlogFrameSetting()のテスト
+ * FrameSettingが存在するFrame.key
  *
  * @return void
  */
-	public function testGetBlogFrameSetting() {
+	public function testGetBlogFrameSettingFount() {
 		$model = $this->_modelName;
 		$methodName = $this->_methodName;
 
 		//データ生成
-		$created = null;
+		Current::$current['Frame']['key'] = 'frame_key_1';
 
 		//テスト実施
-		$result = $this->$model->$methodName($created);
+		$result = $this->$model->$methodName();
 
 		//チェック
-		//TODO:Assertを書く
-		debug($result);
+		$frameKey1Data['BlogFrameSetting'] = (new BlogFrameSettingFixture())->records[0];
+		$this->assertEquals($frameKey1Data, $result);
+		$this->assertArrayHasKey('id', $result['BlogFrameSetting']);
+	}
+
+/**
+ * getBlogFrameSetting()のテスト
+ * FrameSettingが存在しないFrame.key
+ *
+ * @return void
+ */
+	public function testGetBlogFrameSettingNotFound() {
+		$model = $this->_modelName;
+		$methodName = $this->_methodName;
+
+		//データ生成
+		Current::$current['Frame']['key'] = 'frame_key_not_found';
+
+		//テスト実施
+		$result = $this->$model->$methodName();
+
+		//チェック
+		$this->assertArrayNotHasKey('id', $result['BlogFrameSetting']);
+		$this->assertEquals('frame_key_not_found', $result['BlogFrameSetting']['frame_key']);
 	}
 
 }

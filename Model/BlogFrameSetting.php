@@ -82,10 +82,9 @@ class BlogFrameSetting extends BlogsAppModel {
 /**
  * Get BlogFrameSetting data
  *
- * @param bool $created If True, the results of the Model::find() to create it if it was null
  * @return array BlogFrameSetting data
  */
-	public function getBlogFrameSetting($created) {
+	public function getBlogFrameSetting() {
 		$conditions = array(
 			'frame_key' => Current::read('Frame.key')
 		);
@@ -96,7 +95,7 @@ class BlogFrameSetting extends BlogsAppModel {
 			)
 		);
 
-		if ($created && ! $blogFrameSetting) {
+		if (! $blogFrameSetting) {
 			$blogFrameSetting = $this->create(array(
 				'frame_key' => Current::read('Frame.key'),
 			));

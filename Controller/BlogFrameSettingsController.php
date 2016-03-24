@@ -82,7 +82,7 @@ class BlogFrameSettingsController extends BlogsAppController {
 			$this->NetCommons->handleValidationError($this->BlogFrameSetting->validationErrors);
 
 		} else {
-			$this->request->data = $this->BlogFrameSetting->getBlogFrameSetting(true);
+			$this->request->data = $this->BlogFrameSetting->getBlogFrameSetting();
 			$this->request->data['Frame'] = Current::read('Frame');
 		}
 	}

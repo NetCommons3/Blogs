@@ -41,7 +41,7 @@ class BlogFrameSettingFixture extends CakeTestFixture {
 	public $records = array(
 		array(
 			'id' => 1,
-			'frame_key' => 'Lorem ipsum dolor sit amet',
+			'frame_key' => 'frame_key_1',
 			'articles_per_page' => 1,
 			'created_user' => 1,
 			'created' => '2016-03-17 07:10:45',
@@ -50,7 +50,7 @@ class BlogFrameSettingFixture extends CakeTestFixture {
 		),
 		array(
 			'id' => 2,
-			'frame_key' => 'Lorem ipsum dolor sit amet',
+			'frame_key' => 'frame_key_2',
 			'articles_per_page' => 2,
 			'created_user' => 2,
 			'created' => '2016-03-17 07:10:45',

@@ -98,7 +98,7 @@ class BlogsAppController extends AppController {
  * @return void
  */
 	protected function _loadFrameSetting() {
-		$this->_frameSetting = $this->BlogFrameSetting->getBlogFrameSetting(true);
+		$this->_frameSetting = $this->BlogFrameSetting->getBlogFrameSetting();
 	}
 
 /**
