@@ -73,6 +73,7 @@ class BlogEntryGetYearMonthCountTest extends WorkflowGetTest {
 		$this->_nowProperty = new ReflectionProperty('NetCommonsTime', '_now');
 		$this->_nowProperty->setAccessible(true);
 		$this->_nowProperty->setValue(strtotime('2016-01-01 00:00:00'));
+		$this->BlogEntry->Behaviors->unload('ContentComment');
 	}
 
 /**
