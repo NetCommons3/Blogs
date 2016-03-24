@@ -17,7 +17,7 @@ App::uses('NetCommonsTestSuite', 'NetCommons.TestSuite');
  * @author Ryuji AMANO <ryuji@ryus.co.jp>
  * @package NetCommons\Blogs\Test\Case\_Test
  */
-class AllBlogsTestTest extends NetCommonsTestSuite {
+class AllBlogsTest extends NetCommonsTestSuite {
 
 /**
  * All _Test Test suite
