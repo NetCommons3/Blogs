@@ -65,6 +65,11 @@ class BlogEntrySaveEntryTest extends WorkflowSaveTest {
  */
 	protected $_methodName = 'saveEntry';
 
+/**
+ * setUp
+ *
+ * @return void
+ */
 	public function setUp() {
 		parent::setUp();
 		$this->BlogEntry->Behaviors->unload('ContentComment');
@@ -108,7 +113,6 @@ class BlogEntrySaveEntryTest extends WorkflowSaveTest {
 	public function dataProviderSaveOnExceptionError() {
 		$data = $this->dataProviderSave()[0][0];
 
-		//TODO:テストパタンを書く
 		return array(
 			array($data, 'Blogs.BlogEntry', 'save'),
 		);
@@ -127,7 +131,6 @@ class BlogEntrySaveEntryTest extends WorkflowSaveTest {
 	public function dataProviderSaveOnValidationError() {
 		$data = $this->dataProviderSave()[0][0];
 
-		//TODO:テストパタンを書く
 		return array(
 			array($data, 'Blogs.BlogEntry'),
 		);
