@@ -61,7 +61,7 @@ class BlogEntryFixture extends CakeTestFixture {
 			'key' => 'content_key_1',
 			'language_id' => '2',
 			'status' => '1',
-			'is_active' => true,
+			'is_active' => true, // @see BlogEntryYetPublishTest
 			'is_latest' => false,
 
 			'blog_key' => 'Lorem ipsum dolor sit amet',
@@ -111,7 +111,7 @@ class BlogEntryFixture extends CakeTestFixture {
 			'language_id' => '2',
 			'status' => '2',
 			'is_active' => false,
-			'is_latest' => true,
+			'is_latest' => true, // @see BlogEntryYetPublishTest
 
 			'blog_key' => 'Lorem ipsum dolor sit amet',
 			'category_id' => '3',
@@ -187,7 +187,7 @@ class BlogEntryFixture extends CakeTestFixture {
 			'language_id' => '2',
 			'category_id' => '1',
 			'status' => '1',
-			'is_active' => true,
+			'is_active' => true, // @see BlogEntryYetPublishTest
 			'is_latest' => false,
 
 			'blog_key' => 'Lorem ipsum dolor sit amet',
