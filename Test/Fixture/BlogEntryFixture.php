@@ -94,7 +94,7 @@ class BlogEntryFixture extends CakeTestFixture {
 			'body1' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
 			'body2' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
 			'public_type' => 2,
-			'publish_start' => '2016-03-17 07:10:12',
+			'publish_start' => '2015-01-24 07:10:12', // 2015年1月の記事  @see BlogEntryGetYearMonthCountTest で利用
 			'publish_end' => '2016-03-17 07:10:12',
 			'plus_vote_number' => 2,
 			'minus_vote_number' => 2,
@@ -119,7 +119,7 @@ class BlogEntryFixture extends CakeTestFixture {
 			'body1' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
 			'body2' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
 			'public_type' => 3,
-			'publish_start' => '2016-03-17 07:10:12',
+			'publish_start' => '2015-01-17 07:10:12', // 2015年1月記事  @see BlogEntryGetYearMonthCountTest で利用
 			'publish_end' => '2016-03-17 07:10:12',
 			'plus_vote_number' => 3,
 			'minus_vote_number' => 3,
@@ -145,7 +145,7 @@ class BlogEntryFixture extends CakeTestFixture {
 			'body1' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
 			'body2' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
 			'public_type' => 4,
-			'publish_start' => '2016-03-17 07:10:12',
+			'publish_start' => '2015-03-17 07:10:12',
 			'publish_end' => '2016-03-17 07:10:12',
 			'plus_vote_number' => 4,
 			'minus_vote_number' => 4,
@@ -169,7 +169,7 @@ class BlogEntryFixture extends CakeTestFixture {
 			'body1' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
 			'body2' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
 			'public_type' => 5,
-			'publish_start' => '2016-03-17 07:10:12',
+			'publish_start' => '2015-03-17 07:10:12', // 2015年3月記事 @see BlogEntryGetYearMonthCountTest で利用
 			'publish_end' => '2016-03-17 07:10:12',
 			'plus_vote_number' => 5,
 			'minus_vote_number' => 5,

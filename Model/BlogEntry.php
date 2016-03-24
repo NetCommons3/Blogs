@@ -187,6 +187,7 @@ class BlogEntry extends BlogsAppModel {
  * @return array
  */
 	public function getYearMonthCount($blockId, $permissions) {
+		$currentDateTime = NetCommonsTime::getNowDatetime();
 		$conditions = $this->getConditions($blockId, $permissions);
 		// 年月でグループ化してカウント→取得できなかった年月をゼロセット
 		$this->virtualFields['year_month'] = 0; // バーチャルフィールドを追加
@@ -223,13 +224,34 @@ class BlogEntry extends BlogsAppModel {
 			// 記事がなかったら今月だけ
 			$currentYearMonthDay = date('Y-m-01', strtotime($currentDateTime));
 		}
-		while ($currentYearMonthDay <= $currentDateTime) {
+
+		// 未来に公開予定の記事があったら、その記事の公開年月まで0うめした配列を用意する
+		$latestConditions = Hash::merge(
+			$conditions,
+			[
+				'publish_start >=' => $currentDateTime
+			]
+		);
+
+		$latestBlogEntry = $this->find(
+			'first',
+			[
+				'conditions' => $latestConditions,
+				'order' => 'publish_start DESC'
+			]
+		);
+		if ($latestBlogEntry) {
+			$endDateTime = $latestBlogEntry['BlogEntry']['publish_start'];
+		} else {
+			$endDateTime = $currentDateTime;
+		}
+		while ($currentYearMonthDay <= $endDateTime) {
 			$ret[substr($currentYearMonthDay, 0, 7)] = 0;
 			$currentYearMonthDay = date('Y-m-01', strtotime($currentYearMonthDay . ' +1 month'));
 		}
 		// 記事がある年月は記事数を上書きしておく
 		foreach ($result as $yearMonth) {
-			$ret[$yearMonth['BlogEntry']['year_month']] = $yearMonth['BlogEntry']['count'];
+			$ret[$yearMonth['BlogEntry']['year_month']] = (int)$yearMonth['BlogEntry']['count'];
 		}
 
 		//年月降順に並び替える
