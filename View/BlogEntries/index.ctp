@@ -109,6 +109,7 @@ echo $this->Html->css(
 
 				<article>
 					<h2 class="blogs_entry_title">
+						<?php echo $this->TitleIcon->titleIcon($blogEntry['BlogEntry']['title_icon']); ?>
 						<?php echo $this->Html->link(
 							$blogEntry['BlogEntry']['title'],
 							$this->NetCommonsHtml->url(

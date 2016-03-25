@@ -13,7 +13,7 @@ echo $this->Html->script(
 	array(
 		'/tags/js/tags.js',
 		'/blogs/js/blogs_entry_edit.js',
-		'/net_commons/js/wysiwyg.js',
+		//'/wysiwyg/js/wysiwyg.js',
 	),
 	array(
 		'plugin' => false,
@@ -57,8 +57,9 @@ $dataJson = json_encode(
 				<fieldset>
 
 					<?php
-					echo $this->NetCommonsForm->input(
+					echo $this->TitleIcon->inputWithTitleIcon(
 						'title',
+						'BlogEntry.title_icon',
 						array(
 							'label' => __d('blogs', 'Title'),
 							'required' => 'required',

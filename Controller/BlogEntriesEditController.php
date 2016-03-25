@@ -56,6 +56,7 @@ class BlogEntriesEditController extends BlogsAppController {
 		'NetCommons.NetCommonsForm',
 		'Workflow.Workflow',
 		'NetCommons.NetCommonsTime',
+		'NetCommons.TitleIcon',
 		//'Likes.Like',
 	);
 
