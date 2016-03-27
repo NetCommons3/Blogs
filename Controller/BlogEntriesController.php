@@ -39,6 +39,7 @@ class BlogEntriesController extends BlogsAppController {
 		'ContentComments.ContentComment' => array(
 			'viewVarsKey' => array(
 				'contentKey' => 'blogEntry.BlogEntry.key',
+				'contentTitleForMail' => 'blogEntry.BlogEntry.title',
 				'useComment' => 'blogSetting.use_comment',
 				'useCommentApproval' => 'blogSetting.use_comment_approval'
 			)
