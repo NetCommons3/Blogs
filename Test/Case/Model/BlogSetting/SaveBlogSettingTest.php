@@ -67,15 +67,14 @@ class BlogSettingSaveBlogSettingTest extends NetCommonsSaveTest {
 	public function dataProviderSave() {
 		$data['BlogSetting'] = (new BlogSettingFixture())->records[0];
 
-		//TODO:テストパタンを書く
 		$results = array();
 		// * 編集の登録処理
 		$results[0] = array($data);
 		// * 新規の登録処理
 		$results[1] = array($data);
 		$results[1] = Hash::insert($results[1], '0.BlogSetting.id', null);
-		$results[1] = Hash::insert($results[1], '0.BlogSetting.key', null); //TODO:不要なら削除する
 		$results[1] = Hash::remove($results[1], '0.BlogSetting.created_user');
+		$results[1] = Hash::remove($results[1], '0.BlogSetting.created');
 
 		return $results;
 	}
@@ -93,7 +92,6 @@ class BlogSettingSaveBlogSettingTest extends NetCommonsSaveTest {
 	public function dataProviderSaveOnExceptionError() {
 		$data = $this->dataProviderSave()[0][0];
 
-		//TODO:テストパタンを書く
 		return array(
 			array($data, 'Blogs.BlogSetting', 'save'),
 		);
@@ -112,7 +110,6 @@ class BlogSettingSaveBlogSettingTest extends NetCommonsSaveTest {
 	public function dataProviderSaveOnValidationError() {
 		$data = $this->dataProviderSave()[0][0];
 
-		//TODO:テストパタンを書く
 		return array(
 			array($data, 'Blogs.BlogSetting'),
 		);

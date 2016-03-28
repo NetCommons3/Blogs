@@ -65,14 +65,12 @@ class BlogSettingGetBlogSettingTest extends NetCommonsGetTest {
 		$methodName = $this->_methodName;
 
 		//データ生成
-		$blogKey = null;
+		$blogKey = 'content_block_2';
 
 		//テスト実施
 		$result = $this->$model->$methodName($blogKey);
-
-		//チェック
-		//TODO:Assertを書く
-		debug($result);
+		$expects = ['BlogSetting' => (new BlogSettingFixture())->records[1]];
+		$this->assertEquals($expects, $result);
 	}
 
 }

@@ -346,15 +346,14 @@ class BlogEntry extends BlogsAppModel {
 			$conditions = array('BlogEntry.key' => $key);
 			if ($result = $this->deleteAll($conditions, true, true)) {
 				$this->commit();
-				return $result;
 			} else {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 		} catch (Exception $e) {
 			$this->rollback($e);
 			//エラー出力
-			return false;
 		}
+		return $result;
 	}
 
 /**
@@ -370,19 +369,6 @@ class BlogEntry extends BlogsAppModel {
 		);
 		$count = $this->find('count', array('conditions' => $conditions));
 		return ($count == 0);
-	}
-
-/**
- * 公開データ取得のconditionsを返す
- *
- * @param datetime $currentDateTime 現在の日時
- * @return array
- */
-	protected function _getPublishedConditions($currentDateTime) {
-		return array(
-			$this->name . '.is_active' => 1,
-			'BlogEntry.publish_start <=' => $currentDateTime,
-		);
 	}
 
 }
