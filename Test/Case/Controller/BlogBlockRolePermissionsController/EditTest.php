@@ -56,7 +56,6 @@ class BlogBlockRolePermissionsControllerEditTest extends BlockRolePermissionsCon
 	private function __approvalFields() {
 		$data = array(
 			'BlogSetting' => array(
-				//TODO:権限設定で使用するFieldsをここに書く
 				'use_workflow',
 				'use_comment_approval',
 				'approval_type',
@@ -76,7 +75,6 @@ class BlogBlockRolePermissionsControllerEditTest extends BlockRolePermissionsCon
 			'BlogSetting' => array(
 				'id' => 2,
 				'blog_key' => 'blog_key_2',
-				//TODO:必要なデータセットをここに書く
 				'use_workflow' => true,
 				'use_comment_approval' => true,
 				'approval_type' => true,
@@ -98,7 +96,7 @@ class BlogBlockRolePermissionsControllerEditTest extends BlockRolePermissionsCon
  */
 	public function dataProviderEditGet() {
 		return array(
-			array('approvalFields' => $this->__approvalFields())
+			array('approvalFields' => $this->__approvalFields()),
 		);
 	}
 
@@ -118,4 +116,39 @@ class BlogBlockRolePermissionsControllerEditTest extends BlockRolePermissionsCon
 		);
 	}
 
+/**
+ * editアクションのGETテスト(Exceptionエラー)
+ *
+ * @param array $approvalFields コンテンツ承認の利用有無のフィールド
+ * @param string|null $exception Exception
+ * @param string $return testActionの実行後の結果
+ * @dataProvider dataProviderEditGet
+ * @return void
+ */
+	public function testEditGetExceptionError($approvalFields, $exception = null, $return = 'view') {
+		$this->_mockForReturnFalse('Blogs.Blog', 'getBlog');
+
+		$exception = 'BadRequestException';
+		$this->testEditGet($approvalFields, $exception, $return);
+	}
+
+/**
+ * test Post でのsaveBlogSetting 失敗
+ *
+ * @param array $data saveデータ
+ * @return void
+ * @dataProvider dataProviderEditPost
+ */
+	public function testSaveBlogSettingFail($data) {
+		$this->_mockForReturnFalse('Blogs.BlogSetting', 'saveBlogSetting');
+
+		//$this->_controller->NetCommons = $this->getMock('NetCommonsComponent', ['handleValidationError']);
+		//
+		//$this->_controller->NetCommons->expects($this->once())
+		//	->method('handleValidationError');
+
+		$result = $this->testEditPost($data, false, 'view');
+		$approvalFields = $this->__approvalFields();
+		$this->_assertEditGetPermission($approvalFields, $result);
+	}
 }

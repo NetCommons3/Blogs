@@ -75,8 +75,7 @@ class BlogBlockRolePermissionsController extends BlogsAppController {
  */
 	public function edit() {
 		if (! $blog = $this->Blog->getBlog()) {
-			$this->setAction('throwBadRequest');
-			return false;
+			return $this->throwBadRequest();
 		}
 
 		$permissions = $this->Workflow->getBlockRolePermissions(
@@ -84,12 +83,15 @@ class BlogBlockRolePermissionsController extends BlogsAppController {
 		);
 		$this->set('roles', $permissions['Roles']);
 
-		if ($this->request->isPost()) {
+		if ($this->request->is('post')) {
 			if ($this->BlogSetting->saveBlogSetting($this->request->data)) {
-				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
-				return;
+				return $this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
 			}
 			$this->NetCommons->handleValidationError($this->BlogSetting->validationErrors);
+			$this->request->data['BlockRolePermission'] = Hash::merge(
+				$permissions['BlockRolePermissions'],
+				$this->request->data['BlockRolePermission']
+			);
 
 		} else {
 			$this->request->data['BlogSetting'] = $blog['BlogSetting'];
