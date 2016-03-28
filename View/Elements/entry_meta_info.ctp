@@ -4,7 +4,7 @@
 		<?php echo __d(
 			'blogs',
 			'posted : %s',
-			$this->BlogsFormat->publishedDatetime($blogEntry['BlogEntry']['publish_start'])
+			$this->Date->dateFormat($blogEntry['BlogEntry']['publish_start'])
 		); ?>&nbsp;
 
 		<!--	TODO 投稿者アバター-->

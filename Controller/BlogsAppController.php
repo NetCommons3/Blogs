@@ -39,13 +39,6 @@ class BlogsAppController extends AppController {
 	);
 
 /**
- * @var array helpers
- */
-	public $helpers = array(
-		'Blogs.BlogsFormat',
-	);
-
-/**
  * @var array use model
  */
 	public $uses = array(
