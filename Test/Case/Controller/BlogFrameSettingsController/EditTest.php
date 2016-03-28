@@ -3,21 +3,21 @@
  * BlogFrameSettingsController::edit()のテスト
  *
  * @author Noriko Arai <arai@nii.ac.jp>
- * @author Ryuji AMANO <ryuji@ryus.co.jp>
- * @link http://www.netcommons.org NetCommons Project
+ * @author   Ryuji AMANO <ryuji@ryus.co.jp>
+ * @blog http://www.netcommons.org NetCommons Project
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('NetCommonsControllerTestCase', 'NetCommons.TestSuite');
+App::uses('FrameSettingsControllerTest', 'Frames.TestSuite');
 
 /**
  * BlogFrameSettingsController::edit()のテスト
  *
- * @author Ryuji AMANO <ryuji@ryus.co.jp>
+ * @author   Ryuji AMANO <ryuji@ryus.co.jp>
  * @package NetCommons\Blogs\Test\Case\Controller\BlogFrameSettingsController
  */
-class BlogFrameSettingsControllerEditTest extends NetCommonsControllerTestCase {
+class BlogFrameSettingsControllerEditTest extends FrameSettingsControllerTest {
 
 /**
  * Fixtures
@@ -26,12 +26,8 @@ class BlogFrameSettingsControllerEditTest extends NetCommonsControllerTestCase {
  */
 	public $fixtures = array(
 		'plugin.blogs.blog',
-		'plugin.blogs.blog_entry',
 		'plugin.blogs.blog_frame_setting',
 		'plugin.blogs.blog_setting',
-		'plugin.categories.category',
-		'plugin.categories.category_order',
-		'plugin.workflow.workflow_comment',
 	);
 
 /**
@@ -49,133 +45,58 @@ class BlogFrameSettingsControllerEditTest extends NetCommonsControllerTestCase {
 	protected $_controller = 'blog_frame_settings';
 
 /**
- * setUp method
+ * テストDataの取得
  *
- * @return void
- */
-	public function setUp() {
-		parent::setUp();
-
-		//ログイン
-		TestAuthGeneral::login($this);
-	}
-
-/**
- * tearDown method
- *
- * @return void
- */
-	public function tearDown() {
-		//ログアウト
-		TestAuthGeneral::logout($this);
-
-		parent::tearDown();
-	}
-
-/**
- * edit()アクションのGetリクエストテスト
- *
- * @return void
- */
-	public function testEditGet() {
-		//テストデータ
-		$frameId = '6';
-		$blockId = '2';
-		$blockKey = 'block_1';
-
-		//テスト実行
-		$this->_testGetAction(array('action' => 'edit', 'block_id' => $blockId, 'frame_id' => $frameId),
-				array('method' => 'assertNotEmpty'), null, 'view');
-
-		//チェック
-		$this->__assertEditGet($frameId, $blockId, $blockKey);
-	}
-
-/**
- * edit()のチェック
- *
- * @param int $frameId フレームID
- * @param int $blockId ブロックID
- * @param string $blockKey ブロックKey
- * @return void
- */
-	private function __assertEditGet($frameId, $blockId, $blockKey) {
-		//TODO:必要に応じてassert書く
-		debug($this->view);
-		debug($this->controller->request->data);
-
-		$this->assertInput('form', null, 'blogs/blog_frame_settings/edit/' . $blockId, $this->view);
-		$this->assertInput('input', '_method', 'PUT', $this->view);
-		$this->assertInput('input', 'data[Frame][id]', $frameId, $this->view);
-		$this->assertInput('input', 'data[Block][id]', $blockId, $this->view);
-		$this->assertInput('input', 'data[Block][key]', $blockKey, $this->view);
-
-		$this->assertEquals($frameId, Hash::get($this->controller->request->data, 'Frame.id'));
-		$this->assertEquals($blockId, Hash::get($this->controller->request->data, 'Block.id'));
-		$this->assertEquals($blockKey, Hash::get($this->controller->request->data, 'Block.key'));
-
-		//TODO:必要に応じてassert書く
-	}
-
-/**
- * POSTリクエストデータ生成
- *
- * @return array リクエストデータ
+ * @return array
  */
 	private function __data() {
+		$frameId = '6';
+		$frameKey = 'frame_3';
+		$blogFrameId = '6';
+
 		$data = array(
 			'Frame' => array(
-				'id' => '6'
+				'id' => $frameId,
+				'key' => $frameKey,
 			),
-			'Block' => array(
-				'id' => '2', 'key' => 'block_1'
+			'BlogFrameSetting' => array(
+				'id' => $blogFrameId,
+				'frame_key' => $frameKey,
+				'articles_per_page' => '10',
 			),
-			//TODO:必要に応じて、assertを追加する
 		);
 
 		return $data;
 	}
 
 /**
- * edit()アクションのPOSTリクエストテスト
+ * edit()アクションDataProvider
  *
- * @return void
- */
-	public function testEditPost() {
-		//テストデータ
-		$frameId = '6';
-		$blockId = '2';
-
-		//テスト実行
-		$this->_testPostAction('put', $this->__data(),
-				array('action' => 'edit', 'block_id' => $blockId, 'frame_id' => $frameId), null, 'view');
-
-		//チェック
-		$header = $this->controller->response->header();
-		$pattern = '/' . preg_quote('/blog/blog/index/' . $blockId, '/') . '/';
-		$this->assertRegExp($pattern, $header['Location']);
-	}
-
-/**
- * ValidationErrorテスト
+ * ### 戻り値
+ *  - method: リクエストメソッド（get or post or put）
+ *  - data: 登録データ
+ *  - validationError: バリデーションエラー(省略可)
+ *  - exception: Exception Error(省略可)
  *
- * @return void
+ * @return array
  */
-	public function testEditPostValidationError() {
-		$this->_mockForReturnFalse('TODO:MockにするModel名書く', 'TODO:Mockにするメソッド名書く');
+	public function dataProviderEdit() {
+		$data = $this->__data();
 
 		//テストデータ
-		$frameId = '6';
-		$blockId = '2';
+		$results = array();
+		$results[0] = array('method' => 'get');
+		$results[1] = array('method' => 'post', 'data' => $data, 'validationError' => false);
+		$results[2] = array('method' => 'put', 'data' => $data, 'validationError' => false);
+		$results[3] = array('method' => 'put', 'data' => $data,
+			'validationError' => array(
+				'field' => 'BlogFrameSetting.frame_key',
+				'value' => null,
+			),
+			'BadRequestException'
+		);
 
-		//テスト実行
-		//TODO:処理によって必要な方を有効にする
-		$this->_testPostAction('put', $this->__data(),
-				array('action' => 'edit', 'block_id' => $blockId, 'frame_id' => $frameId), null, 'view');
-		//$this->_testPostAction('put', $this->__data(),
-		//		array('action' => 'edit', 'block_id' => $blockId, 'frame_id' => $frameId), 'BadRequestException', 'view');
-
-		//TODO:必要に応じてassert書く
+		return $results;
 	}
 
 }

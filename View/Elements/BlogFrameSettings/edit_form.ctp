@@ -10,9 +10,11 @@
  */
 ?>
 
-<?php echo $this->Form->hidden('Frame.id'); ?>
-<?php echo $this->Form->hidden('BlogFrameSetting.id'); ?>
-<?php echo $this->Form->hidden('BlogFrameSetting.frame_key'); ?>
+<?php echo $this->NetCommonsForm->hidden('Frame.id'); ?>
+<?php echo $this->NetCommonsForm->hidden('Frame.key'); ?>
+
+<?php echo $this->NetCommonsForm->hidden('BlogFrameSetting.id'); ?>
+<?php echo $this->NetCommonsForm->hidden('BlogFrameSetting.frame_key'); ?>
 
 <?php echo $this->DisplayNumber->select('BlogFrameSetting.articles_per_page', array(
 	'label' => __d('blogs', 'Show articles per page'),
@@ -21,7 +23,6 @@
 		'multiple' => __d('blogs', '%s articles')
 	),
 )); ?>
-
 <?php //echo $this->DisplayNumber->select('BlogFrameSetting.comments_per_page', array(
 //	'label' => __d('blogs', 'Show comments per page'),
 //	'unit' => array(

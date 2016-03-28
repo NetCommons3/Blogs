@@ -16,6 +16,11 @@
 	<div class="tab-content">
 		<?php echo $this->element('Blocks.edit_form', array(
 			'model' => 'BlogFrameSetting',
+			'action' => NetCommonsUrl::actionUrl(array(
+				'controller' => $this->params['controller'],
+				'action' => 'edit',
+				'frame_id' => Current::read('Frame.id')
+			)),
 			'callback' => 'Blogs.BlogFrameSettings/edit_form',
 			'cancelUrl' => NetCommonsUrl::backToPageUrl(),
 		)); ?>
