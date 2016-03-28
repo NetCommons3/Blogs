@@ -71,7 +71,6 @@ class BlogEntryValidateTest extends NetCommonsValidateTest {
 	public function dataProviderValidationError() {
 		$data['BlogEntry'] = (new BlogEntryFixture())->records[0];
 
-		//TODO:テストパタンを書く
 		return array(
 			// タイトル無し
 			array('data' => $data, 'field' => 'title', 'value' => '',
@@ -80,6 +79,8 @@ class BlogEntryValidateTest extends NetCommonsValidateTest {
 			array('data' => $data, 'field' => 'body1', 'value' => '',
 				'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('blogs', 'Body1'))),
 			// publish_start 不正な年月日時分秒
+			array('data' => $data, 'field' => 'publish_start', 'value' => '',
+				sprintf(__d('net_commons', 'Please input %s.'), __d('blogs', 'Published datetime'))),
 			array('data' => $data, 'field' => 'publish_start', 'value' => '2016-02-30 00:00:00',
 				'message' => __d('net_commons', 'Invalid request.')),
 			// publish_start 年月日時分秒になってない

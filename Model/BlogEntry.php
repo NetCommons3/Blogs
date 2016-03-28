@@ -131,6 +131,10 @@ class BlogEntry extends BlogsAppModel {
 					//'last' => false, // Stop validation after this rule
 					//'on' => 'create', // Limit validation to 'create' or 'update' operations
 				],
+				'datetime' => [
+					'rule' => array('datetime'),
+					'message' => __d('net_commons', 'Invalid request.'),
+				],
 			),
 			'category_id' => array(
 				'numeric' => array(
@@ -292,15 +296,13 @@ class BlogEntry extends BlogsAppModel {
 		return $ret;
 	}
 
-	/**
-	 * 記事の保存。タグも保存する
-	 *
-	 * @param array $data 登録データ
-	 * @return bool
-	 * @throws null
-	 * @internal param int $blockId ブロックID
-	 * @internal param int $frameId frame ID
-	 */
+/**
+ * 記事の保存。タグも保存する
+ *
+ * @param array $data 登録データ
+ * @return bool
+ * @throws InternalErrorException
+ */
 	public function saveEntry($data) {
 		$this->begin();
 		try {
@@ -349,10 +351,9 @@ class BlogEntry extends BlogsAppModel {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 		} catch (Exception $e) {
-			$this->rollback();
+			$this->rollback($e);
 			//エラー出力
-			CakeLog::error($e);
-			throw $e;
+			return false;
 		}
 	}
 
