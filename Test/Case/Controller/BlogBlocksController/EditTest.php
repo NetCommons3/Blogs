@@ -90,7 +90,7 @@ class BlogBlocksControllerEditTest extends BlocksControllerEditTest {
 				'from' => null,
 				'to' => null,
 			),
-			//TODO:必要のデータセットをここに書く
+			// 必要のデータセットをここに書く
 			'Blog' => array(
 				'id' => $blogId,
 				'key' => $blogKey,
@@ -122,9 +122,9 @@ class BlogBlocksControllerEditTest extends BlocksControllerEditTest {
 		$results[2] = array('method' => 'post', 'data' => $data, 'validationError' => false);
 		$results[3] = array('method' => 'post', 'data' => $data,
 			'validationError' => array(
-				'field' => 'Blog.name', //TODO:エラーにするフィールド指定
+				'field' => 'Blog.name', //エラーにするフィールド指定
 				'value' => '',
-				'message' => sprintf(__d('net_commons', 'Please input %s.'), 'TODO:メッセージ'),
+				'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('blogs', 'Blog name')),
 			)
 		);
 
@@ -151,9 +151,9 @@ class BlogBlocksControllerEditTest extends BlocksControllerEditTest {
 		$results[2] = array('method' => 'put', 'data' => $data, 'validationError' => false);
 		$results[3] = array('method' => 'put', 'data' => $data,
 			'validationError' => array(
-				'field' => 'Blog.name', //TODO:エラーにするフィールド指定
+				'field' => 'Blog.name', //エラーにするフィールド指定
 				'value' => '',
-				'message' => sprintf(__d('net_commons', 'Please input %s.'), 'TODO:メッセージ'),
+				'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('blogs', 'Blog name')),
 			)
 		);
 
@@ -174,7 +174,7 @@ class BlogBlocksControllerEditTest extends BlocksControllerEditTest {
 				'id' => '4',
 				'key' => 'block_2',
 			),
-			//TODO:必要に応じてパラメータ変更する
+			// 必要に応じてパラメータ変更する
 			'Blog' => array(
 				'key' => 'blog_key_2',
 			),
