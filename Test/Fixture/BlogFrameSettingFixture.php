@@ -2,11 +2,11 @@
 /**
  * BlogFrameSettingFixture
  *
-* @author Noriko Arai <arai@nii.ac.jp>
-* @author Your Name <yourname@domain.com>
-* @link http://www.netcommons.org NetCommons Project
-* @license http://www.netcommons.org/license.txt NetCommons License
-* @copyright Copyright 2014, NetCommons Project
+ * @author Noriko Arai <arai@nii.ac.jp>
+ * @author   Ryuji AMANO <ryuji@ryus.co.jp>
+ * @link http://www.netcommons.org NetCommons Project
+ * @license http://www.netcommons.org/license.txt NetCommons License
+ * @copyright Copyright 2014, NetCommons Project
  */
 
 /**
@@ -51,6 +51,15 @@ class BlogFrameSettingFixture extends CakeTestFixture {
 		array(
 			'id' => '2',
 			'frame_key' => 'frame_key_2',
+			'articles_per_page' => '2',
+			'created_user' => '2',
+			'created' => '2016-03-17 07:10:45',
+			'modified_user' => '2',
+			'modified' => '2016-03-17 07:10:45'
+		),
+		array(
+			'id' => '6', // @see BlogBlocksControllerBeforeFilterTest
+			'frame_key' => 'frame_3',
 			'articles_per_page' => '2',
 			'created_user' => '2',
 			'created' => '2016-03-17 07:10:45',

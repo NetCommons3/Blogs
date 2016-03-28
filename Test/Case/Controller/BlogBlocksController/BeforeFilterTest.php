@@ -73,17 +73,40 @@ class BlogBlocksControllerBeforeFilterTest extends NetCommonsControllerTestCase 
 	}
 
 /**
- * index()アクションのGetリクエストテスト
+ * index()アクションのテスト
  *
  * @return void
  */
-	public function testBeforeFilterGet() {
+	public function testBeforeFilterIndex() {
+		//ログイン
+		TestAuthGeneral::login($this);
+
 		//テスト実行
-		$this->_testGetAction(array('action' => 'index'), array('method' => 'assertNotEmpty'), null, 'view');
+		$this->_testGetAction(array('action' => 'index', 'block_id' => '2', 'frame_id' => '6'),
+			array('method' => 'assertNotEmpty'), null, 'view');
 
 		//チェック
-		//TODO:assert追加
-		debug($this->view);
+		$this->assertFalse($this->controller->Components->loaded('Categories.CategoryEdit'));
+		$this->assertNotEmpty($this->view);
+
+		//ログアウト
+		TestAuthGeneral::logout($this);
+	}
+
+/**
+ * edit()アクションのGetリクエストテスト
+ *
+ * @return void
+ */
+	public function testBeforeFilterGetForEdit() {
+		//テスト実行
+		$this->_testGetAction(array('action' => 'edit', 'block_id' => '2', 'frame_id' => '6'),
+			array('method' => 'assertNotEmpty'), null, 'view');
+
+		//チェック
+		// action=indexのときはCategoryEditComponentが無いこと
+		$result = $this->controller->Components->loaded('CategoryEdit');
+		$this->assertTrue($result);
 	}
 
 }
