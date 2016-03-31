@@ -32,6 +32,11 @@ class BlogEntriesControllerIndexTest extends WorkflowControllerIndexTest {
 		'plugin.categories.category',
 		'plugin.categories.category_order',
 		'plugin.workflow.workflow_comment',
+		'plugin.tags.tags_content',
+		'plugin.tags.tag',
+		'plugin.content_comments.content_comment',
+		'plugin.likes.like',
+		'plugin.likes.likes_user',
 	);
 
 /**
@@ -78,16 +83,32 @@ class BlogEntriesControllerIndexTest extends WorkflowControllerIndexTest {
  * @return array
  */
 	public function dataProviderIndex() {
-		$data = $this->__data();
+		$data0 = $this->__data();
 
 		//テストデータ
 		$results = array();
 		$results[0] = array(
-			'urlOptions' => $data,
+			'urlOptions' => $data0,
 			'assert' => array('method' => 'assertNotEmpty'),
 		);
 
-		//TODO:必要なテストデータ追加
+		// ブロックID取れないとき
+		$data1 = $this->__data();
+		$data1['block_id'] = 0; // 存在しない
+		$data1['frame_id'] = null; // frame_idをセットしちゃうとURLにブロックIDなくてもframe_idからblock_idを特定できちゃうので、null上書きしておく
+		$results[1] = array(
+			'urlOptions' => $data1,
+			'assert' => array('method' => 'assertNull'),
+		);
+
+		// カテゴリIDによる絞り込み
+		$data2 = $this->__data();
+		$data2['category_id'] = 1;
+
+		$results[2] = array(
+			'urlOptions' => $data2,
+			'assert' => array('method' => 'assertRegExp', 'expected' => '/<h1.*?>' . __d('blogs', 'Category') . '/'),
+		);
 
 		return $results;
 	}
@@ -104,11 +125,12 @@ class BlogEntriesControllerIndexTest extends WorkflowControllerIndexTest {
  */
 	public function testIndex($urlOptions, $assert, $exception = null, $return = 'view') {
 		//テスト実行
+		TestAuthGeneral::logout($this); // webテスト中は管理者ログインしてるとゲスト扱いにならないようなのでログアウトしておく
+
 		parent::testIndex($urlOptions, $assert, $exception, $return);
 
-		//チェック
-		//TODO:view(ctp)ファイルに対するassert追加
-		debug($this->view);
+		// ゲストなら追加ボタンはでない
+		$this->assertTextNotContains(__d('blogs', 'Add entry'), $this->view);
 	}
 
 /**
@@ -141,8 +163,8 @@ class BlogEntriesControllerIndexTest extends WorkflowControllerIndexTest {
 		parent::testIndexByCreatable($urlOptions, $assert, $exception, $return);
 
 		//チェック
-		//TODO:view(ctp)ファイルに対するassert追加
-		debug($this->view);
+		// 追加ボタンがある
+		$this->assertTextContains(__d('blogs', 'Add entry'), $this->view);
 	}
 
 /**
@@ -175,8 +197,8 @@ class BlogEntriesControllerIndexTest extends WorkflowControllerIndexTest {
 		parent::testIndexByEditable($urlOptions, $assert, $exception, $return);
 
 		//チェック
-		//TODO:view(ctp)ファイルに対するassert追加
-		debug($this->view);
+		// 追加ボタンがある
+		$this->assertTextContains(__d('blogs', 'Add entry'), $this->view);
 	}
 
 }

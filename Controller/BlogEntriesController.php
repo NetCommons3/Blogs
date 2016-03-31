@@ -97,7 +97,7 @@ class BlogEntriesController extends BlogsAppController {
  */
 	public function beforeFilter() {
 		// ゲストアクセスOKのアクションを設定
-		$this->Auth->allow('index', 'view', 'category', 'tag', 'year_month');
+		$this->Auth->allow('index', 'view', 'tag', 'year_month');
 		//$this->Categories->initCategories();
 		parent::beforeFilter();
 	}
@@ -132,6 +132,7 @@ class BlogEntriesController extends BlogsAppController {
 /**
  * tag別一覧
  *
+ * @throws NotFoundException
  * @return void
  */
 	public function tag() {
@@ -141,6 +142,9 @@ class BlogEntriesController extends BlogsAppController {
 
 		// カテゴリ名をタイトルに
 		$tag = $this->BlogEntry->getTagByTagId($tagId);
+		if (!$tag) {
+			throw new NotFoundException(__d('tags', 'Tag not found'));
+		}
 		$this->set('listTitle', __d('blogs', 'Tag') . ':' . $tag['Tag']['name']);
 		$this->set('filterDropDownLabel', '----');
 
@@ -161,17 +165,26 @@ class BlogEntriesController extends BlogsAppController {
 		// indexとの違いはyear_monthでの絞り込み
 		$this->_filter['yearMonth'] = $this->_getNamed('year_month', 0);
 
+		if (!preg_match('/^[0-9]{4}-[0-1][0-9]$/', $this->_filter['yearMonth'])) {
+			// 年月としてありえない値だったらBadRequest
+			return $this->throwBadRequest();
+		}
 		list($year, $month) = explode('-', $this->_filter['yearMonth']);
-		$this->set('listTitle', __d('blogs', '%d-%d Blog Entry List', $year, $month));
-		$this->set('filterDropDownLabel', __d('blogs', '%d-%d', $year, $month));
+		if (is_numeric($year) && $month >= 1 && $month <= 12) {
+			$this->set('listTitle', __d('blogs', '%d-%d Blog Entry List', $year, $month));
+			$this->set('filterDropDownLabel', __d('blogs', '%d-%d', $year, $month));
 
-		$first = $this->_filter['yearMonth'] . '-1';
-		$last = date('Y-m-t', strtotime($first));
+			$first = $this->_filter['yearMonth'] . '-1';
+			$last = date('Y-m-t', strtotime($first));
 
-		$conditions = array(
-			'BlogEntry.publish_start BETWEEN ? AND ?' => array($first, $last)
-		);
-		$this->_list($conditions);
+			$conditions = array(
+				'BlogEntry.publish_start BETWEEN ? AND ?' => array($first, $last)
+			);
+			$this->_list($conditions);
+		}else{
+			// 年月としてありえない値だったらBadRequest
+			return $this->throwBadRequest();
+		}
 	}
 
 /**
@@ -241,7 +254,6 @@ class BlogEntriesController extends BlogsAppController {
 	public function view() {
 		$this->_prepare();
 
-		//$key = $this->request->params['named']['key'];
 		$key = $this->params['pass'][1];
 
 		$conditions = $this->BlogEntry->getConditions(
@@ -254,10 +266,6 @@ class BlogEntriesController extends BlogsAppController {
 		$options = array(
 			'conditions' => $conditions,
 			'recursive' => 0,
-			//'fields' => array(
-			//	'*',
-			//	'ContentCommentCnt.cnt',
-			//)
 		);
 		$this->BlogEntry->Behaviors->load('ContentComments.ContentComment');
 		$blogEntry = $this->BlogEntry->find('first', $options);
@@ -270,28 +278,17 @@ class BlogEntriesController extends BlogsAppController {
 
 			// コメントを利用する
 			if ($this->_blogSetting['BlogSetting']['use_comment']) {
-				if ($this->request->isPost()) {
+				if ($this->request->is('post')) {
 					// コメントする
 					if (!$this->ContentComments->comment('blogs', $blogEntry['BlogEntry']['key'], $this->_blogSetting['BlogSetting']['use_comment_approval'])) {
-						$this->throwBadRequest();
-						return;
+						return $this->throwBadRequest();
 					}
 				}
-
-				// コンテンツコメントの取得
-				//$contentComments = $this->ContentComment->getContentComments(array(
-				//	//'block_key' => $this->viewVars['blockKey'],
-				//	'block_key' => Current::read('Block.key'),
-				//	'plugin_key' => 'blogs',
-				//	'content_key' => $blogEntry['BlogEntry']['key'],
-				//));
-				//$contentComments = $this->camelizeKeyRecursive($contentComments);
-				//$this->set('contentComments', $contentComments);
 			}
 
 		} else {
-			// 表示できない記事へのアクセスなら404
-			throw new NotFoundException(__('Invalid blog entry'));
+			// 表示できない記事へのアクセスならBadRequest
+			return $this->throwBadRequest();
 		}
 	}
 

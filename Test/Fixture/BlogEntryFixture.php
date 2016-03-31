@@ -41,6 +41,8 @@ class BlogEntryFixture extends CakeTestFixture {
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null, 'comment' => 'modified datetime | 更新日時 |  | '),
 		'block_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'unsigned' => false),
 		'key' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'title_icon' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1)
 		),
@@ -66,7 +68,7 @@ class BlogEntryFixture extends CakeTestFixture {
 
 			'blog_key' => 'Lorem ipsum dolor sit amet',
 			'category_id' => '1',
-			'title' => 'Lorem ipsum dolor sit amet',
+			'title' => 'Title 1',
 			'body1' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
 			'body2' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
 			'public_type' => '1',
@@ -90,7 +92,7 @@ class BlogEntryFixture extends CakeTestFixture {
 
 			'blog_key' => 'Lorem ipsum dolor sit amet',
 			'category_id' => '2',
-			'title' => 'Lorem ipsum dolor sit amet',
+			'title' => 'Title 2',
 			'body1' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
 			'body2' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
 			'public_type' => '2',
@@ -115,7 +117,7 @@ class BlogEntryFixture extends CakeTestFixture {
 
 			'blog_key' => 'Lorem ipsum dolor sit amet',
 			'category_id' => '3',
-			'title' => 'Lorem ipsum dolor sit amet',
+			'title' => 'Title 3',
 			'body1' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
 			'body2' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
 			'public_type' => '3',
@@ -141,10 +143,10 @@ class BlogEntryFixture extends CakeTestFixture {
 
 			'blog_key' => 'Lorem ipsum dolor sit amet',
 			'category_id' => '4',
-			'title' => 'Lorem ipsum dolor sit amet',
+			'title' => 'Title 4',
 			'body1' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
 			'body2' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
-			'public_type' => '4',
+			'public_type' => '1',
 			'publish_start' => '2015-03-17 07:10:12',
 			'publish_end' => '2016-03-17 07:10:12',
 			'plus_vote_number' => '4',
@@ -165,10 +167,10 @@ class BlogEntryFixture extends CakeTestFixture {
 
 			'blog_key' => 'Lorem ipsum dolor sit amet',
 			'category_id' => '5',
-			'title' => 'Lorem ipsum dolor sit amet',
+			'title' => 'Title 5',
 			'body1' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
 			'body2' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
-			'public_type' => '5',
+			'public_type' => '1',
 			'publish_start' => '2015-03-17 07:10:12', // 2015年3月記事 @see BlogEntryGetYearMonthCountTest で利用
 			'publish_end' => '2016-03-17 07:10:12',
 			'plus_vote_number' => '5',
@@ -191,10 +193,10 @@ class BlogEntryFixture extends CakeTestFixture {
 			'is_latest' => false,
 
 			'blog_key' => 'Lorem ipsum dolor sit amet',
-			'title' => 'Lorem ipsum dolor sit amet',
+			'title' => 'Title 6',
 			'body1' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
 			'body2' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
-			'public_type' => '6',
+			'public_type' => '1',
 			'publish_start' => '2016-03-17 07:10:12',
 			'publish_end' => '2016-03-17 07:10:12',
 			'plus_vote_number' => '6',
@@ -215,10 +217,10 @@ class BlogEntryFixture extends CakeTestFixture {
 
 			'blog_key' => 'Lorem ipsum dolor sit amet',
 			'category_id' => '7',
-			'title' => 'Lorem ipsum dolor sit amet',
+			'title' => 'Title 7',
 			'body1' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
 			'body2' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
-			'public_type' => '7',
+			'public_type' => '1',
 			'publish_start' => '2016-03-17 07:10:12',
 			'publish_end' => '2016-03-17 07:10:12',
 			'plus_vote_number' => '7',
@@ -239,10 +241,10 @@ class BlogEntryFixture extends CakeTestFixture {
 
 			'blog_key' => 'Lorem ipsum dolor sit amet',
 			'category_id' => '8',
-			'title' => 'Lorem ipsum dolor sit amet',
+			'title' => 'Title 8',
 			'body1' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
 			'body2' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
-			'public_type' => '8',
+			'public_type' => '1',
 			'publish_start' => '2016-03-17 07:10:12',
 			'publish_end' => '2016-03-17 07:10:12',
 			'plus_vote_number' => '8',

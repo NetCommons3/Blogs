@@ -139,7 +139,7 @@ class BlogBlocksController extends BlogsAppController {
  * @return void
  */
 	public function edit() {
-		if ($this->request->isPut()) {
+		if ($this->request->is('put')) {
 			//登録処理
 			if ($this->Blog->saveBlog($this->data)) {
 				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
@@ -164,7 +164,7 @@ class BlogBlocksController extends BlogsAppController {
  * @return void
  */
 	public function delete() {
-		if ($this->request->isDelete()) {
+		if ($this->request->is('delete')) {
 			if ($this->Blog->deleteBlog($this->data)) {
 				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
 			}
