@@ -32,6 +32,11 @@ class BlogEntriesEditControllerEditTest extends WorkflowControllerEditTest {
 		'plugin.categories.category',
 		'plugin.categories.category_order',
 		'plugin.workflow.workflow_comment',
+		'plugin.tags.tags_content',
+		'plugin.tags.tag',
+		'plugin.content_comments.content_comment',
+		'plugin.likes.like',
+		'plugin.likes.likes_user',
 	);
 
 /**
@@ -79,12 +84,15 @@ class BlogEntriesEditControllerEditTest extends WorkflowControllerEditTest {
 				'plugin_key' => $this->plugin,
 			),
 
-			//TODO:必要のデータセットをここに書く
-			'' => array(
+			//必要のデータセットをここに書く
+			'BlogEntry' => array(
 				'id' => $contentId,
 				'key' => $contentKey,
 				'language_id' => '2',
 				'status' => null,
+				'title' => 'BlogEntryTitle',
+				'body1' => 'BlogEntryBody1',
+				'publish_start' => '2016-01-01 10:00',
 			),
 
 			'WorkflowComment' => array(
@@ -181,7 +189,6 @@ class BlogEntriesEditControllerEditTest extends WorkflowControllerEditTest {
 		// * 編集権限あり
 		$results = array();
 		// ** コンテンツあり
-		$base = 0;
 		$results[0] = array(
 			'urlOptions' => array(
 				'frame_id' => $data['Frame']['id'],
@@ -195,11 +202,11 @@ class BlogEntriesEditControllerEditTest extends WorkflowControllerEditTest {
 		$results[count($results)] = array(
 			'urlOptions' => array(
 				'frame_id' => '14',
-				'block_id' => null,
-				'key' => null
+				'block_id' => 1, // でたらめ
+				'key' => 'content_key_detarame'
 			),
-			'assert' => array('method' => 'assertEquals', 'expected' => 'emptyRender'),
-			'exception' => null, 'return' => 'viewFile'
+			'assert' => null,
+			'exception' => 'BadRequestException'
 		);
 
 		return $results;
@@ -340,13 +347,11 @@ class BlogEntriesEditControllerEditTest extends WorkflowControllerEditTest {
 		$results = array();
 		array_push($results, Hash::merge($result, array(
 			'validationError' => array(
-				'field' => '', //TODO:フィールド指定(Hashのpath形式)
+				'field' => 'BlogEntry.title', // フィールド指定(Hashのpath形式)
 				'value' => '',
-				'message' => '' //TODO:メッセージ追加
+				'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('blogs', 'Title')), //エラーメッセージ指定
 			)
 		)));
-
-		//TODO:必要なテストデータ追加
 
 		return $results;
 	}
@@ -358,8 +363,7 @@ class BlogEntriesEditControllerEditTest extends WorkflowControllerEditTest {
  * @return void
  */
 	private function __assertEditGet($data) {
-		//TODO:必要に応じてassert書く
-		debug($this->view);
+		//debug($this->view);
 
 		$this->assertInput(
 			'input', 'data[Frame][id]', $data['Frame']['id'], $this->view
@@ -367,8 +371,6 @@ class BlogEntriesEditControllerEditTest extends WorkflowControllerEditTest {
 		$this->assertInput(
 			'input', 'data[Block][id]', $data['Block']['id'], $this->view
 		);
-
-		//TODO:上記以外に必要なassert追加
 	}
 
 /**
@@ -396,8 +398,6 @@ class BlogEntriesEditControllerEditTest extends WorkflowControllerEditTest {
 		$this->assertInput('button', 'save_' . WorkflowComponent::STATUS_IN_DRAFT, null, $this->view);
 		$this->assertInput('button', 'save_' . WorkflowComponent::STATUS_APPROVED, null, $this->view);
 		$this->assertNotRegExp('/<input.*?name="_method" value="DELETE".*?>/', $this->view);
-
-		//TODO:上記以外に必要なassert追加
 
 		TestAuthGeneral::logout($this);
 	}
@@ -427,8 +427,7 @@ class BlogEntriesEditControllerEditTest extends WorkflowControllerEditTest {
 		$this->assertInput('button', 'save_' . WorkflowComponent::STATUS_PUBLISHED, null, $this->view);
 		$this->assertInput('input', '_method', 'DELETE', $this->view);
 
-		//TODO:上記以外に必要なassert追加
-		debug($this->view);
+		//debug($this->view);
 
 		//ログアウト
 		TestAuthGeneral::logout($this);

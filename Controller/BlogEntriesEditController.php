@@ -108,8 +108,6 @@ class BlogEntriesEditController extends BlogsAppController {
 /**
  * edit method
  *
- * @throws NotFoundException
- * @throws ForbiddenException
  * @return void
  */
 	public function edit() {
@@ -120,8 +118,11 @@ class BlogEntriesEditController extends BlogsAppController {
 		//  keyのis_latstを元に編集を開始
 		$blogEntry = $this->BlogEntry->findByKeyAndIsLatest($key, 1);
 		if (empty($blogEntry)) {
-			//  404 NotFound
-			throw new NotFoundException();
+			return $this->throwBadRequest();
+		}
+
+		if ($this->BlogEntry->canEditWorkflowContent($blogEntry) === false) {
+			return $this->throwBadRequest();
 		}
 
 		if ($this->request->is(array('post', 'put'))) {
@@ -161,9 +162,6 @@ class BlogEntriesEditController extends BlogsAppController {
 		} else {
 
 			$this->request->data = $blogEntry;
-			if ($this->BlogEntry->canEditWorkflowContent($blogEntry) === false) {
-				throw new ForbiddenException(__d('net_commons', 'Permission denied'));
-			}
 
 		}
 

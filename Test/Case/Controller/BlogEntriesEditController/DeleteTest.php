@@ -32,6 +32,11 @@ class BlogEntriesEditControllerDeleteTest extends WorkflowControllerDeleteTest {
 		'plugin.categories.category',
 		'plugin.categories.category_order',
 		'plugin.workflow.workflow_comment',
+		'plugin.tags.tags_content',
+		'plugin.tags.tag',
+		'plugin.content_comments.content_comment',
+		'plugin.likes.like',
+		'plugin.likes.likes_user',
 	);
 
 /**
@@ -77,7 +82,7 @@ class BlogEntriesEditControllerDeleteTest extends WorkflowControllerDeleteTest {
 			),
 
 			//TODO:必要のデータセットをここに書く
-			'' => array(
+			'BlogEntry' => array(
 				'id' => $contentId,
 				'key' => $contentKey,
 			),
