@@ -81,7 +81,6 @@ class BlogEntriesEditControllerDeleteTest extends WorkflowControllerDeleteTest {
 				'key' => $blockKey,
 			),
 
-			//TODO:必要のデータセットをここに書く
 			'BlogEntry' => array(
 				'id' => $contentId,
 				'key' => $contentKey,
@@ -117,6 +116,9 @@ class BlogEntriesEditControllerDeleteTest extends WorkflowControllerDeleteTest {
 			),
 			'assert' => null, 'exception' => 'ForbiddenException'
 		);
+
+		// 権限あったとしてもgetリクエストはみとめてないので MethodNotAllowedException
+
 		// * 作成権限のみ(自分自身)
 		array_push($results, Hash::merge($results[0], array(
 			'role' => Role::ROOM_ROLE_KEY_GENERAL_USER,
@@ -125,17 +127,17 @@ class BlogEntriesEditControllerDeleteTest extends WorkflowControllerDeleteTest {
 				'block_id' => $data['Block']['id'],
 				'key' => 'content_key_2',
 			),
-			'assert' => null, 'exception' => 'BadRequestException'
+			'assert' => null, 'exception' => 'MethodNotAllowedException'
 		)));
 		// * 編集権限、公開権限なし
 		array_push($results, Hash::merge($results[0], array(
 			'role' => Role::ROOM_ROLE_KEY_EDITOR,
-			'assert' => null, 'exception' => 'BadRequestException'
+			'assert' => null, 'exception' => 'MethodNotAllowedException'
 		)));
 		// * 公開権限あり
 		array_push($results, Hash::merge($results[0], array(
 			'role' => Role::ROOM_ROLE_KEY_ROOM_ADMINISTRATOR,
-			'assert' => null, 'exception' => 'BadRequestException'
+			'assert' => null, 'exception' => 'MethodNotAllowedException'
 		)));
 
 		return $results;
@@ -265,19 +267,17 @@ class BlogEntriesEditControllerDeleteTest extends WorkflowControllerDeleteTest {
 		//テストデータ
 		$results = array();
 		$results[0] = array(
-			'mockModel' => 'Blogs.Xxxxxx', //TODO:Mockモデルをセットする
-			'mockMethod' => 'deleteXxxxxx', //TODO:Mockメソッドをセットする
+			'mockModel' => 'Blogs.BlogEntry', // Mockモデルをセットする
+			'mockMethod' => 'deleteEntryByKey', // Mockメソッドをセットする
 			'data' => $data,
 			'urlOptions' => array(
 				'frame_id' => $data['Frame']['id'],
 				'block_id' => $data['Block']['id'],
 				'key' => 'content_key_1',
 			),
-			'exception' => 'BadRequestException',
+			'exception' => 'InternalErrorException',
 			'return' => 'view'
 		);
-
-		//TODO:必要なデータをここに書く
 
 		return $results;
 	}

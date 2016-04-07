@@ -177,20 +177,18 @@ class BlogEntriesEditController extends BlogsAppController {
 /**
  * delete method
  *
- * @throws ForbiddenException
  * @throws InternalErrorException
  * @return void
  */
 	public function delete() {
-		$key = $this->request->data['BlogEntry']['key'];
-
 		$this->request->allowMethod('post', 'delete');
 
+		$key = $this->request->data['BlogEntry']['key'];
 		$blogEntry = $this->BlogEntry->findByKeyAndIsLatest($key, 1);
 
 		// 権限チェック
 		if ($this->BlogEntry->canDeleteWorkflowContent($blogEntry) === false) {
-			throw new ForbiddenException(__d('net_commons', 'Permission denied'));
+			return $this->throwBadRequest();
 		}
 
 		if ($this->BlogEntry->deleteEntryByKey($key) === false) {
