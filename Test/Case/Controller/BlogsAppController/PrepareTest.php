@@ -18,7 +18,7 @@ App::uses('UserRole', 'UserRoles.Model');
  * @author Ryuji AMANO <ryuji@ryus.co.jp>
  * @package NetCommons\Blogs\Test\Case\Controller\BlogsAppController
  */
-class BlogsAppControllerInitBlogTest extends NetCommonsControllerTestCase {
+class BlogsAppControllerPrepareTest extends NetCommonsControllerTestCase {
 
 /**
  * Fixtures
@@ -44,7 +44,7 @@ class BlogsAppControllerInitBlogTest extends NetCommonsControllerTestCase {
 
 		//テストプラグインのロード
 		NetCommonsCakeTestCase::loadTestPlugin($this, 'Blogs', 'TestBlogs');
-		$this->generateNc('TestBlogs.TestBlogsAppControllerInitBlog');
+		$this->generateNc('TestBlogs.TestBlogsAppControllerIndex');
 
 		//ログイン
 		TestAuthGeneral::login($this);
@@ -69,9 +69,18 @@ class BlogsAppControllerInitBlogTest extends NetCommonsControllerTestCase {
  */
 	public function testInitBlog() {
 		//TODO:テストデータ
+		$frameId = '6';
+		$blockId = '2';
 
+		$urlOptions = [
+			'plugin' => 'test_blogs',
+			'controller' => 'test_blogs_app_controller_index',
+			'action' => 'index',
+			'block_id' => $blockId,
+			'frame_id' => $frameId
+		];
 		//テスト実行
-		$this->_testGetAction('/test_blogs/test_blogs_app_controller_init_blog/initBlog', null);
+		$this->_testGetAction($urlOptions, $assert);
 
 		//チェック
 		//TODO:assert追加

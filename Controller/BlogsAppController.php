@@ -74,7 +74,7 @@ class BlogsAppController extends AppController {
  */
 	protected function _prepare() {
 		$this->_setupBlogTitle();
-		$this->initBlog(['blogSetting']);
+		$this->_initBlog(['blogSetting']);
 		$this->_loadFrameSetting();
 	}
 
@@ -84,7 +84,7 @@ class BlogsAppController extends AppController {
  * @param array $contains Optional result sets
  * @return bool True on success, False on failure
  */
-	public function initBlog($contains = []) {
+	protected function _initBlog($contains = []) {
 		if (! $blog = $this->Blog->getBlog(Current::read('Block.id'), Current::read('Room.id'))) {
 			return $this->throwBadRequest();
 		}
