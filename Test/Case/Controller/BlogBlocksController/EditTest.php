@@ -32,6 +32,11 @@ class BlogBlocksControllerEditTest extends BlocksControllerEditTest {
 		'plugin.categories.category',
 		'plugin.categories.category_order',
 		'plugin.workflow.workflow_comment',
+		'plugin.tags.tags_content',
+		'plugin.tags.tag',
+		'plugin.content_comments.content_comment',
+		'plugin.likes.like',
+		'plugin.likes.likes_user',
 	);
 
 /**
@@ -176,7 +181,7 @@ class BlogBlocksControllerEditTest extends BlocksControllerEditTest {
 			),
 			// 必要に応じてパラメータ変更する
 			'Blog' => array(
-				'key' => 'blog_key_2',
+				'key' => 'content_block_2',
 			),
 		);
 
