@@ -33,18 +33,8 @@
 
 <?php echo $this->Like->setting('BlogSetting.use_like', 'BlogSetting.use_unlike');?>
 
-<!-- TODO もっと整理できる？-->
 <div class="row form-group">
 	<div class="col-xs-12">
-		<?php echo $this->Form->input('BlogSetting.use_sns', array(
-				//'div' => false,
-				'type' => 'checkbox',
-				//'hiddenField' => false,
-				'checked' => isset($blogSetting['use_sns']) ? (int)$blogSetting['use_sns'] : null
-			)
-		); ?>
-		<?php //echo $this->Form->label('BlogSetting.use_sns', __d('blogs', 'Use sns')); ?>
-
 		<?php echo $this->Form->checkbox('BlogSetting.use_sns', array(
 				'div' => false,
 				//'hiddenField' => false,
