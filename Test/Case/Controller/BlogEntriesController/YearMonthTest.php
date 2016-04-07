@@ -163,7 +163,7 @@ class BlogEntriesControllerYearMonthTest extends WorkflowControllerIndexTest {
 		parent::testIndexByCreatable($urlOptions, $assert, $exception, $return);
 
 		//チェック
-		debug($this->view);
+		//debug($this->view);
 	}
 
 /**
