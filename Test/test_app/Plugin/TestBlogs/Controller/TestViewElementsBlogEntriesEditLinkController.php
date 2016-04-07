@@ -10,7 +10,7 @@
  */
 
 App::uses('AppController', 'Controller');
-
+App::uses('BlogEntryFixture', 'Blogs.Test/Fixture');
 /**
  * View/Elements/BlogEntries/edit_linkテスト用Controller
  *
@@ -20,12 +20,22 @@ App::uses('AppController', 'Controller');
 class TestViewElementsBlogEntriesEditLinkController extends AppController {
 
 /**
+ * @var array Helpers
+ */
+	public $helpers = [
+		'Workflow.Workflow',
+	];
+
+/**
  * edit_link
  *
  * @return void
  */
 	public function edit_link() {
 		$this->autoRender = true;
+
+		$blogEntry['BlogEntry'] = (new BlogEntryFixture())->records[0];
+		$this->set('blogEntry', $blogEntry);
 	}
 
 }
