@@ -166,7 +166,7 @@ class BlogBlocksController extends BlogsAppController {
 	public function delete() {
 		if ($this->request->is('delete')) {
 			if ($this->Blog->deleteBlog($this->data)) {
-				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
+				return $this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
 			}
 		}
 
