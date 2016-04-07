@@ -118,7 +118,8 @@ class BlogEntriesController extends BlogsAppController {
 		$this->set('filterDropDownLabel', __d('blogs', 'All Entries'));
 
 		$conditions = array();
-		$this->_filter['categoryId'] = $this->_getNamed('category_id', 0);
+		//$this->_filter['categoryId'] = Hash::get($this->request->params['named'], 'category_id', 0);
+		$this->_filter['categoryId'] = Hash::get($this->request->params['named'], 'category_id', 0);
 		if ($this->_filter['categoryId']) {
 			$conditions['BlogEntry.category_id'] = $this->_filter['categoryId'];
 			$category = $this->Category->findById($this->_filter['categoryId']);
@@ -138,7 +139,7 @@ class BlogEntriesController extends BlogsAppController {
 	public function tag() {
 		$this->_prepare();
 		// indexとのちがいはtagIdでの絞り込みだけ
-		$tagId = $this->_getNamed('id', 0);
+		$tagId = Hash::get($this->request->params['named'], 'id', 0);
 
 		// カテゴリ名をタイトルに
 		$tag = $this->BlogEntry->getTagByTagId($tagId);
@@ -163,7 +164,7 @@ class BlogEntriesController extends BlogsAppController {
 	public function year_month() {
 		$this->_prepare();
 		// indexとの違いはyear_monthでの絞り込み
-		$this->_filter['yearMonth'] = $this->_getNamed('year_month', 0);
+		$this->_filter['yearMonth'] = Hash::get($this->request->params['named'], 'year_month', 0);
 
 		if (!preg_match('/^[0-9]{4}-[0-1][0-9]$/', $this->_filter['yearMonth'])) {
 			// 年月としてありえない値だったらBadRequest
