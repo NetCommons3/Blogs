@@ -47,10 +47,12 @@ $dataJson = json_encode(
 			$this->NetCommonsForm->unlockField('Tag');
 			?>
 			<?php echo $this->NetCommonsForm->input('key', array('type' => 'hidden')); ?>
-			<?php echo $this->NetCommonsForm->input('key', array('type' => 'hidden')); ?>
-			<!--		--><?php //echo $this->Form->hidden('Frame.id', array(
-			//			'value' => Current::read('Frame.id'),
-			//		)); ?>
+			<?php echo $this->NetCommonsForm->hidden('Frame.id', array(
+						'value' => Current::read('Frame.id'),
+					)); ?>
+			<?php echo $this->NetCommonsForm->hidden('Block.id', array(
+				'value' => Current::read('Block.id'),
+			)); ?>
 
 			<div class="panel-body">
 

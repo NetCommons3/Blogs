@@ -104,7 +104,7 @@ class BlogEntriesControllerYearMonthTest extends WorkflowControllerIndexTest {
 
 		$data2 = $this->__data();
 		$data2['year_month'] = '2015'; // ありえない値
-		$results[1] = array(
+		$results[2] = array(
 			'urlOptions' => $data2,
 			'assert' => array('method' => 'assertNotEmpty'),
 			'exception' => 'BadRequestException',
@@ -196,7 +196,6 @@ class BlogEntriesControllerYearMonthTest extends WorkflowControllerIndexTest {
 		parent::testIndexByEditable($urlOptions, $assert, $exception, $return);
 
 		//チェック
-		debug($this->view);
 	}
 
 }
