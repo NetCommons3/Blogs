@@ -14,7 +14,7 @@
 //もしくは 作成権限があり、自分の書いた記事であれあば編集できる（ステータスは関係しない）
 // 公開されたコンテンツの削除は公開権限が必用。
 ?>
-<?php if ($this->Workflow->canEdit('BlogEntry', $blogEntry)) : ?>
+<?php if ($this->Workflow->canEdit('Blogs.BlogEntry', $blogEntry)) : ?>
 	<div class="text-right">
 		<?php echo $this->Button->editLink('',
 			array(

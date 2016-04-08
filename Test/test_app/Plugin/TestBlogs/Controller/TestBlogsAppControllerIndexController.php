@@ -25,6 +25,7 @@ class TestBlogsAppControllerIndexController extends BlogsAppController {
  * @return void
  */
 	public function index() {
+		$this->_prepare();
 		$this->autoRender = true;
 	}
 

@@ -32,6 +32,11 @@ class BlogEntriesControllerTagTest extends WorkflowControllerIndexTest {
 		'plugin.categories.category',
 		'plugin.categories.category_order',
 		'plugin.workflow.workflow_comment',
+		'plugin.tags.tags_content',
+		'plugin.tags.tag',
+		'plugin.content_comments.content_comment',
+		'plugin.likes.like',
+		'plugin.likes.likes_user',
 	);
 
 /**
@@ -58,9 +63,10 @@ class BlogEntriesControllerTagTest extends WorkflowControllerIndexTest {
 		$blockId = '2';
 
 		$data = array(
-			'action' => 'index',
+			'action' => 'tag',
 			'frame_id' => $frameId,
 			'block_id' => $blockId,
+			'id' => 1,
 		);
 
 		return $data;
@@ -82,12 +88,20 @@ class BlogEntriesControllerTagTest extends WorkflowControllerIndexTest {
 
 		//テストデータ
 		$results = array();
+
 		$results[0] = array(
 			'urlOptions' => $data,
 			'assert' => array('method' => 'assertNotEmpty'),
 		);
 
-		//TODO:必要なテストデータ追加
+		// タグが見つからなければNotFound例外
+		$data1 = $this->__data();
+		$data1['id'] = 0;
+		$results[1] = array(
+			'urlOptions' => $data1,
+			'assert' => array('method' => 'assertNotEmpty'),
+			'exception' => 'NotFoundException'
+		);
 
 		return $results;
 	}
@@ -107,8 +121,8 @@ class BlogEntriesControllerTagTest extends WorkflowControllerIndexTest {
 		parent::testIndex($urlOptions, $assert, $exception, $return);
 
 		//チェック
-		//TODO:view(ctp)ファイルに対するassert追加
-		debug($this->view);
+		// タイトルに 「タグ」と表示される
+		$this->assertRegExp('/<h1.*?>' . __d('blogs', 'Tag') . '/', $this->view);
 	}
 
 /**
@@ -140,9 +154,6 @@ class BlogEntriesControllerTagTest extends WorkflowControllerIndexTest {
 		//テスト実行
 		parent::testIndexByCreatable($urlOptions, $assert, $exception, $return);
 
-		//チェック
-		//TODO:view(ctp)ファイルに対するassert追加
-		debug($this->view);
 	}
 
 /**
@@ -171,12 +182,8 @@ class BlogEntriesControllerTagTest extends WorkflowControllerIndexTest {
  * @return void
  */
 	public function testIndexByEditable($urlOptions, $assert, $exception = null, $return = 'view') {
-		//テスト実行
+		////テスト実行
 		parent::testIndexByEditable($urlOptions, $assert, $exception, $return);
-
-		//チェック
-		//TODO:view(ctp)ファイルに対するassert追加
-		debug($this->view);
 	}
 
 }

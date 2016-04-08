@@ -44,7 +44,7 @@ class BlogFixture extends CakeTestFixture {
 		array(
 			'id' => 2,
 			'block_id' => '2',
-			'name' => 'Lorem ipsum dolor sit amet',
+			'name' => 'BlockId2Blog',
 			'key' => 'content_block_1',
 			'created_user' => 1,
 			'created' => '2016-03-17 07:09:43',

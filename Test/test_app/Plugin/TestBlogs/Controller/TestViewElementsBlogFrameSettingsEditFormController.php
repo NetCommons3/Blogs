@@ -20,12 +20,31 @@ App::uses('AppController', 'Controller');
 class TestViewElementsBlogFrameSettingsEditFormController extends AppController {
 
 /**
+ * @var array Helpers
+ */
+	public $helpers = [
+		'NetCommons.DisplayNumber',
+	];
+
+/**
  * edit_form
  *
  * @return void
  */
 	public function edit_form() {
 		$this->autoRender = true;
+
+		$this->request->data = [
+			'Frame' => [
+				'id' => 1,
+				'key' => 'frame_key_1',
+			],
+			'BlogFrameSetting' => [
+				'id' => 6,
+				'frame_key' => 'frame_key_1',
+				'articles_per_page' => 10,
+			],
+		];
 	}
 
 }

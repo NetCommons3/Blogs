@@ -26,6 +26,18 @@ class TestViewElementsEntryMetaInfoController extends AppController {
  */
 	public function entry_meta_info() {
 		$this->autoRender = true;
+		$blogEntry = [
+			'BlogEntry' => [
+				'key' => 'content_key_1',
+				'status' => WorkflowComponent::STATUS_PUBLISHED,
+				'publish_start' => '2016-01-01 00:00:00',
+				'category_id' => 1,
+			],
+			'Category' => [
+				'name' => 'Category Name'
+			],
+		];
+		$this->set('blogEntry', $blogEntry);
 	}
 
 }

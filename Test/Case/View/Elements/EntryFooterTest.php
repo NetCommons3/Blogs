@@ -24,7 +24,10 @@ class BlogsViewElementsEntryFooterTest extends NetCommonsControllerTestCase {
  *
  * @var array
  */
-	public $fixtures = array();
+	public $fixtures = array(
+		'plugin.likes.like',
+		'plugin.likes.likes_user',
+	);
 
 /**
  * Plugin name
@@ -44,7 +47,20 @@ class BlogsViewElementsEntryFooterTest extends NetCommonsControllerTestCase {
 		//テストプラグインのロード
 		NetCommonsCakeTestCase::loadTestPlugin($this, 'Blogs', 'TestBlogs');
 		//テストコントローラ生成
-		$this->generateNc('TestBlogs.TestViewElementsEntryFooter');
+		$this->generateNc('TestBlogs.TestViewElementsEntryFooter',
+			[
+				'helpers' => [
+					'ContentComments.ContentComment' => array(
+						'viewVarsKey' => array(
+							'contentKey' => 'blogEntry.BlogEntry.key',
+							'contentTitleForMail' => 'blogEntry.BlogEntry.title',
+							'useComment' => 'blogSetting.use_comment',
+							'useCommentApproval' => 'blogSetting.use_comment_approval'
+						)
+					),
+				]
+			]
+		);
 	}
 
 /**
@@ -61,8 +77,69 @@ class BlogsViewElementsEntryFooterTest extends NetCommonsControllerTestCase {
 		$pattern = '/' . preg_quote('View/Elements/entry_footer', '/') . '/';
 		$this->assertRegExp($pattern, $this->view);
 
-		//TODO:必要に応じてassert追加する
-		debug($this->view);
+		// use sns
+		$this->assertContains('fb-like', $this->view);
+		$this->assertContains('twitter.com', $this->view);
+		// use like
+		$this->assertContains('glyphicon-thumbs-up', $this->view);
+		// indexでは表示のみでLikeボタンではない
+		$this->assertNotContains('ng-controller="Likes"', $this->view);
+
+		// indexではcontent comment countを表示
+		$this->assertContains('blogs__content-comment-count', $this->view);
+	}
+
+/**
+ * use_sns falseのテスト
+ *
+ * @return void
+ */
+	public function testNotUseSns() {
+		//テスト実行
+		$this->_testGetAction('/test_blogs/test_view_elements_entry_footer/not_use_sns',
+			array('method' => 'assertNotEmpty'), null, 'view');
+
+		//チェック
+		$pattern = '/' . preg_quote('View/Elements/entry_footer', '/') . '/';
+		$this->assertRegExp($pattern, $this->view);
+
+		// use sns
+		$this->assertNotContains('fb-like', $this->view);
+		$this->assertNotContains('twitter.com', $this->view);
+		// use like
+		$this->assertContains('glyphicon-thumbs-up', $this->view);
+		// indexでは表示のみでLikeボタンではない
+		$this->assertNotContains('ng-controller="Likes"', $this->view);
+
+		// indexではcontent comment countを表示
+		$this->assertContains('blogs__content-comment-count', $this->view);
+	}
+
+/**
+ * indexじゃないときのテスト
+ *
+ * @return void
+ */
+	public function testNotIndex() {
+		//テスト実行
+		$this->_testGetAction('/test_blogs/test_view_elements_entry_footer/not_index',
+			array('method' => 'assertNotEmpty'), null, 'view');
+
+		//チェック
+		$pattern = '/' . preg_quote('View/Elements/entry_footer', '/') . '/';
+		$this->assertRegExp($pattern, $this->view);
+
+		// use sns
+
+		$this->assertNotContains('fb-like', $this->view);
+		$this->assertNotContains('twitter.com', $this->view);
+		// use like
+		$this->assertContains('glyphicon-thumbs-up', $this->view);
+		// indexでは表示のみでLikeボタンではない
+		$this->assertContains('ng-controller="Likes"', $this->view);
+
+		// indexではcontent comment countを表示
+		$this->assertNotContains('blogs__content-comment-count', $this->view);
 	}
 
 }

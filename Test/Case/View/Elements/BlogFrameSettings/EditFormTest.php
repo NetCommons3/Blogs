@@ -63,6 +63,55 @@ class BlogsViewElementsBlogFrameSettingsEditFormTest extends NetCommonsControlle
 
 		//TODO:必要に応じてassert追加する
 		debug($this->view);
+
+		//$this->assertInput(
+		//	'input',
+		//	'data[Block][id]',
+		//	$this->controller->request->data['Block']['id'],
+		//	$this->view
+		//);
+		//$this->assertInput(
+		//	'input',
+		//	'data[Block][key]',
+		//	$this->controller->request->data['Block']['key'],
+		//	$this->view
+		//);
+		//$this->assertInput(
+		//	'input',
+		//	'data[BlogSetting][id]',
+		//	$this->controller->request->data['BlogSetting']['id'],
+		//	$this->view
+		//);
+		$this->assertInput(
+			'input',
+			'data[Frame][id]',
+			$this->controller->request->data['Frame']['id'],
+			$this->view
+		);
+		$this->assertInput(
+			'input',
+			'data[Frame][key]',
+			$this->controller->request->data['Frame']['key'],
+			$this->view
+		);
+		$this->assertInput(
+			'input',
+			'data[BlogFrameSetting][id]',
+			$this->controller->request->data['BlogFrameSetting']['id'],
+			$this->view
+		);
+		$this->assertInput(
+			'input',
+			'data[BlogFrameSetting][frame_key]',
+			$this->controller->request->data['BlogFrameSetting']['frame_key'],
+			$this->view
+		);
+		$this->assertInput(
+			'input',
+			'data[BlogFrameSetting][articles_per_page]',
+			$this->controller->request->data['BlogFrameSetting']['articles_per_page'],
+			$this->view
+		);
 	}
 
 }

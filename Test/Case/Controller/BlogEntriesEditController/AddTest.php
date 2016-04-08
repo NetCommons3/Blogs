@@ -32,6 +32,11 @@ class BlogEntriesEditControllerAddTest extends WorkflowControllerAddTest {
 		'plugin.categories.category',
 		'plugin.categories.category_order',
 		'plugin.workflow.workflow_comment',
+		'plugin.tags.tags_content',
+		'plugin.tags.tag',
+		'plugin.content_comments.content_comment',
+		'plugin.likes.like',
+		'plugin.likes.likes_user',
 	);
 
 /**
@@ -71,12 +76,15 @@ class BlogEntriesEditControllerAddTest extends WorkflowControllerAddTest {
 				'plugin_key' => $this->plugin,
 			),
 
-			//TODO:必要のデータセットをここに書く
-			'' => array(
+			//必要のデータセットをここに書く
+			'BlogEntry' => array(
 				'id' => null,
 				'key' => null,
 				'language_id' => '2',
 				'status' => null,
+				'title' => 'BlogEntryTitle',
+				'body1' => 'BlogEntryBody1',
+				'publish_start' => '2016-01-01 10:00',
 			),
 
 			'WorkflowComment' => array(
@@ -218,13 +226,11 @@ class BlogEntriesEditControllerAddTest extends WorkflowControllerAddTest {
 		$results = array();
 		array_push($results, Hash::merge($result, array(
 			'validationError' => array(
-				'field' => '', //TODO:エラーにするフィールド指定
+				'field' => 'BlogEntry.title', // エラーにするフィールド指定
 				'value' => '',
-				'message' => '' //TODO:エラーメッセージ指定
+				'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('blogs', 'Title')), //エラーメッセージ指定
 			)
 		)));
-
-		//TODO:必要なテストデータ追加
 
 		return $results;
 	}
@@ -242,8 +248,6 @@ class BlogEntriesEditControllerAddTest extends WorkflowControllerAddTest {
 		$this->assertInput(
 			'input', 'data[Block][id]', $data['Block']['id'], $this->view
 		);
-
-		//TODO:上記以外に必要なassert追加
 	}
 
 /**
@@ -270,8 +274,7 @@ class BlogEntriesEditControllerAddTest extends WorkflowControllerAddTest {
 		$this->assertInput('button', 'save_' . WorkflowComponent::STATUS_IN_DRAFT, null, $this->view);
 		$this->assertInput('button', 'save_' . WorkflowComponent::STATUS_APPROVED, null, $this->view);
 
-		//TODO:上記以外に必要なassert追加
-		debug($this->view);
+		//debug($this->view);
 
 		TestAuthGeneral::logout($this);
 	}
@@ -301,8 +304,7 @@ class BlogEntriesEditControllerAddTest extends WorkflowControllerAddTest {
 		$this->assertInput('button', 'save_' . WorkflowComponent::STATUS_IN_DRAFT, null, $this->view);
 		$this->assertInput('button', 'save_' . WorkflowComponent::STATUS_PUBLISHED, null, $this->view);
 
-		//TODO:上記以外に必要なassert追加
-		debug($this->view);
+		//debug($this->view);
 
 		//ログアウト
 		TestAuthGeneral::logout($this);
