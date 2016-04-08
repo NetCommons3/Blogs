@@ -153,7 +153,6 @@ class BlogEntriesControllerTagTest extends WorkflowControllerIndexTest {
 	public function testIndexByCreatable($urlOptions, $assert, $exception = null, $return = 'view') {
 		//テスト実行
 		parent::testIndexByCreatable($urlOptions, $assert, $exception, $return);
-
 	}
 
 /**

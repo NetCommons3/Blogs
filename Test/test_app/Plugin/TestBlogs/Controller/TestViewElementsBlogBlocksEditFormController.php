@@ -25,6 +25,7 @@ class TestViewElementsBlogBlocksEditFormController extends AppController {
 	public $helpers = [
 		'Likes.Like',
 	];
+
 /**
  * edit_form
  *

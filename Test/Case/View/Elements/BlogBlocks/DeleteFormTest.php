@@ -61,14 +61,11 @@ class BlogsViewElementsBlogBlocksDeleteFormTest extends NetCommonsControllerTest
 		$pattern = '/' . preg_quote('View/Elements/BlogBlocks/delete_form', '/') . '/';
 		$this->assertRegExp($pattern, $this->view);
 
-		//debug($this->view);
-
 		$this->assertTextContains(sprintf(__d('net_commons', 'Delete all data associated with the %s.'), __d('blogs', 'Blog')), $this->view);
 
 		$this->assertInput('input', 'data[Block][id]', 10, $this->view);
 		$this->assertInput('input', 'data[Block][key]', 'block_key_10', $this->view);
 		$this->assertInput('input', 'data[Blog][key]', 'blog_key_10', $this->view);
-
 	}
 
 }

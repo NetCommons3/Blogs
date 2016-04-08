@@ -346,8 +346,7 @@ class BlogEntriesControllerViewTest extends WorkflowControllerViewTest {
 
 		$this->generateNc('Blogs.BlogEntries', [
 			'components' => [
-				'ContentComments.ContentComments'=> ['comment'],
-				//'ContentComments.ContentComments'
+				'ContentComments.ContentComments' => ['comment'],
 			]
 		]);
 
@@ -388,8 +387,7 @@ class BlogEntriesControllerViewTest extends WorkflowControllerViewTest {
 
 		$this->generateNc('Blogs.BlogEntries', [
 			'components' => [
-				'ContentComments.ContentComments'=> ['comment'],
-				//'ContentComments.ContentComments'
+				'ContentComments.ContentComments' => ['comment'],
 			]
 		]);
 

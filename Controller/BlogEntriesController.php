@@ -182,7 +182,7 @@ class BlogEntriesController extends BlogsAppController {
 				'BlogEntry.publish_start BETWEEN ? AND ?' => array($first, $last)
 			);
 			$this->_list($conditions);
-		}else{
+		} else {
 			// 年月としてありえない値だったらBadRequest
 			return $this->throwBadRequest();
 		}

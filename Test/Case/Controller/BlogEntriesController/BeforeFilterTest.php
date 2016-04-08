@@ -60,10 +60,6 @@ class BlogEntriesControllerBeforeFilterTest extends NetCommonsControllerTestCase
  */
 	public function setUp() {
 		parent::setUp();
-
-
-		//ログイン
-		//TestAuthGeneral::login($this);
 	}
 
 /**
