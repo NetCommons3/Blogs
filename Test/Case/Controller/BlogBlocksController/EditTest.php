@@ -192,4 +192,26 @@ class BlogBlocksControllerEditTest extends BlocksControllerEditTest {
 		return $results;
 	}
 
+/**
+ * BlogNotFoundでBadRequest
+ *
+ * @return void
+ */
+	public function testEditBlogNotFound() {
+		//ログイン
+		TestAuthGeneral::login($this);
+
+		$this->_mockForReturnFalse('Blogs.Blog', 'getBlog', 1);
+
+		// Blog::getBlog()がfalseならBadRequest
+		//$this->setExpectedException('BadRequestException');
+
+		//テスト実行
+		$this->_testGetAction(array('action' => 'edit', 'block_id' => '2', 'frame_id' => '6'),
+			false, 'BadRequestException', 'view');
+
+		//ログアウト
+		TestAuthGeneral::logout($this);
+	}
+
 }
