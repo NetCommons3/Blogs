@@ -33,8 +33,6 @@ class BlogEntryFixture extends CakeTestFixture {
 		'public_type' => array('type' => 'integer', 'null' => false, 'default' => '1', 'length' => '4', 'unsigned' => false),
 		'publish_start' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'publish_end' => array('type' => 'datetime', 'null' => true, 'default' => null),
-		'plus_vote_number' => array('type' => 'integer', 'null' => false, 'default' => '0', 'unsigned' => false, 'comment' => 'plus vote number | プラス投票数 |  | '),
-		'minus_vote_number' => array('type' => 'integer', 'null' => false, 'default' => '0', 'unsigned' => false, 'comment' => 'minus vote number | マイナス投票数 |  | '),
 		'created_user' => array('type' => 'integer', 'null' => true, 'default' => '0', 'unsigned' => false, 'comment' => 'created user | 作成者 | users.id | '),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => null, 'comment' => 'created datetime | 作成日時 |  | '),
 		'modified_user' => array('type' => 'integer', 'null' => true, 'default' => '0', 'unsigned' => false, 'comment' => 'modified user | 更新者 | users.id | '),
@@ -74,12 +72,11 @@ class BlogEntryFixture extends CakeTestFixture {
 			'public_type' => '1',
 			'publish_start' => '2016-03-17 07:10:12',
 			'publish_end' => '2016-03-17 07:10:12',
-			'plus_vote_number' => '1',
-			'minus_vote_number' => '1',
 			'created_user' => '1',
 			'created' => '2016-03-17 07:10:12',
 			'modified_user' => '1',
 			'modified' => '2016-03-17 07:10:12',
+			'title_icon' => '',
 		),
 		array(
 			'id' => '2',
@@ -98,12 +95,11 @@ class BlogEntryFixture extends CakeTestFixture {
 			'public_type' => '2',
 			'publish_start' => '2015-01-24 07:10:12', // 2015年1月の記事  @see BlogEntryGetYearMonthCountTest で利用
 			'publish_end' => '2016-03-17 07:10:12',
-			'plus_vote_number' => '2',
-			'minus_vote_number' => '2',
 			'created_user' => '1',
 			'created' => '2016-03-17 07:10:12',
 			'modified_user' => '2',
 			'modified' => '2016-03-17 07:10:12',
+			'title_icon' => '',
 		),
 		// * 一般が書いたコンテンツ＆一度も公開していない（承認待ち）
 		array(
@@ -123,12 +119,11 @@ class BlogEntryFixture extends CakeTestFixture {
 			'public_type' => '3',
 			'publish_start' => '2015-01-17 07:10:12', // 2015年1月記事  @see BlogEntryGetYearMonthCountTest で利用
 			'publish_end' => '2016-03-17 07:10:12',
-			'plus_vote_number' => '3',
-			'minus_vote_number' => '3',
 			'created_user' => '4',
 			'created' => '2016-03-17 07:10:12',
 			'modified_user' => '3',
 			'modified' => '2016-03-17 07:10:12',
+			'title_icon' => '',
 		),
 		// * 一般が書いたコンテンツ＆公開して、一時保存
 		//   (id=4とid=5で区別できるものをセットする)
@@ -149,12 +144,11 @@ class BlogEntryFixture extends CakeTestFixture {
 			'public_type' => '1',
 			'publish_start' => '2015-03-17 07:10:12',
 			'publish_end' => '2016-03-17 07:10:12',
-			'plus_vote_number' => '4',
-			'minus_vote_number' => '4',
 			'created_user' => '4',
 			'created' => '2016-03-17 07:10:12',
 			'modified_user' => '4',
 			'modified' => '2016-03-17 07:10:12',
+			'title_icon' => '',
 		),
 		array(
 			'id' => '5',
@@ -173,12 +167,11 @@ class BlogEntryFixture extends CakeTestFixture {
 			'public_type' => '1',
 			'publish_start' => '2015-03-17 07:10:12', // 2015年3月記事 @see BlogEntryGetYearMonthCountTest で利用
 			'publish_end' => '2016-03-17 07:10:12',
-			'plus_vote_number' => '5',
-			'minus_vote_number' => '5',
 			'created_user' => '4',
 			'created' => '2016-03-17 07:10:12',
 			'modified_user' => '5',
 			'modified' => '2016-03-17 07:10:12',
+			'title_icon' => '',
 		),
 		// * 編集者が書いたコンテンツ＆一度公開して、差し戻し
 		//   (id=6とid=7で区別できるものをセットする)
@@ -199,12 +192,11 @@ class BlogEntryFixture extends CakeTestFixture {
 			'public_type' => '1',
 			'publish_start' => '2016-03-17 07:10:12',
 			'publish_end' => '2016-03-17 07:10:12',
-			'plus_vote_number' => '6',
-			'minus_vote_number' => '6',
 			'created_user' => '3',
 			'created' => '2016-03-17 07:10:12',
 			'modified_user' => '6',
 			'modified' => '2016-03-17 07:10:12',
+			'title_icon' => '',
 		),
 		array(
 			'id' => '7',
@@ -223,12 +215,11 @@ class BlogEntryFixture extends CakeTestFixture {
 			'public_type' => '1',
 			'publish_start' => '2016-03-17 07:10:12',
 			'publish_end' => '2016-03-17 07:10:12',
-			'plus_vote_number' => '7',
-			'minus_vote_number' => '7',
 			'created_user' => '3',
 			'created' => '2016-03-17 07:10:12',
 			'modified_user' => '7',
 			'modified' => '2016-03-17 07:10:12',
+			'title_icon' => '',
 		),
 		array(
 			'id' => '8',
@@ -247,12 +238,11 @@ class BlogEntryFixture extends CakeTestFixture {
 			'public_type' => '1',
 			'publish_start' => '2016-03-17 07:10:12',
 			'publish_end' => '2016-03-17 07:10:12',
-			'plus_vote_number' => '8',
-			'minus_vote_number' => '8',
 			'created_user' => '2',
 			'created' => '2016-03-17 07:10:12',
 			'modified_user' => '8',
 			'modified' => '2016-03-17 07:10:12',
+			'title_icon' => '',
 		),
 	);
 
