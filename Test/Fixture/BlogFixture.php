@@ -2,11 +2,11 @@
 /**
  * BlogFixture
  *
-* @author Noriko Arai <arai@nii.ac.jp>
-* @author Your Name <yourname@domain.com>
-* @link http://www.netcommons.org NetCommons Project
-* @license http://www.netcommons.org/license.txt NetCommons License
-* @copyright Copyright 2014, NetCommons Project
+ * @author Noriko Arai <arai@nii.ac.jp>
+ * @author Ryuji AMANO <ryuji@ryus.co.jp>
+ * @link http://www.netcommons.org NetCommons Project
+ * @license http://www.netcommons.org/license.txt NetCommons License
+ * @copyright Copyright 2014, NetCommons Project
  */
 
 /**
@@ -44,7 +44,7 @@ class BlogFixture extends CakeTestFixture {
 		array(
 			'id' => 2,
 			'block_id' => '2',
-			'name' => 'Lorem ipsum dolor sit amet',
+			'name' => 'BlockId2Blog',
 			'key' => 'content_block_1',
 			'created_user' => 1,
 			'created' => '2016-03-17 07:09:43',

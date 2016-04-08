@@ -32,6 +32,11 @@ class BlogEntriesControllerBeforeFilterTest extends NetCommonsControllerTestCase
 		'plugin.categories.category',
 		'plugin.categories.category_order',
 		'plugin.workflow.workflow_comment',
+		'plugin.tags.tags_content',
+		'plugin.tags.tag',
+		'plugin.content_comments.content_comment',
+		'plugin.likes.like',
+		'plugin.likes.likes_user',
 	);
 
 /**
@@ -55,9 +60,6 @@ class BlogEntriesControllerBeforeFilterTest extends NetCommonsControllerTestCase
  */
 	public function setUp() {
 		parent::setUp();
-
-		//ログイン
-		TestAuthGeneral::login($this);
 	}
 
 /**
@@ -67,7 +69,7 @@ class BlogEntriesControllerBeforeFilterTest extends NetCommonsControllerTestCase
  */
 	public function tearDown() {
 		//ログアウト
-		TestAuthGeneral::logout($this);
+		//TestAuthGeneral::logout($this);
 
 		parent::tearDown();
 	}
@@ -79,11 +81,14 @@ class BlogEntriesControllerBeforeFilterTest extends NetCommonsControllerTestCase
  */
 	public function testBeforeFilterGet() {
 		//テスト実行
-		$this->_testGetAction(array('action' => 'index'), array('method' => 'assertNotEmpty'), null, 'view');
+		$blockId = '2';
 
-		//チェック
-		//TODO:assert追加
-		debug($this->view);
+		// Loginしてなくても'index', 'view', 'category', 'tag', 'year_month'にアクセスできる
+
+		$this->_testGetAction(array('action' => 'index', 'block_id' => $blockId), array('method' => 'assertNotEmpty'), false, 'view');
+		$this->_testGetAction(array('action' => 'view', 'block_id' => $blockId, 'key' => (new BlogEntryFixture())->records[0]['key']), array('method' => 'assertNotEmpty'), false, 'view');
+		$this->_testGetAction(array('action' => 'tag', 'block_id' => $blockId, 'id' => 1), array('method' => 'assertNotEmpty'), false, 'view');
+		$this->_testGetAction(array('action' => 'year_month', 'block_id' => $blockId, 'year_month' => '2015-01'), array('method' => 'assertNotEmpty'), false, 'view');
 	}
 
 }

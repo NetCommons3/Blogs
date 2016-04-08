@@ -7,9 +7,7 @@
 			$this->Date->dateFormat($blogEntry['BlogEntry']['publish_start'])
 		); ?>&nbsp;
 
-		<!--	TODO 投稿者アバター-->
-		<!--	TODO　投稿者名 リンク-->
-		<?php echo $this->Html->link($blogEntry['TrackableCreator']['username'], array()); ?>&nbsp;
+		<?php echo $this->DisplayUser->handleLink($blogEntry, array('avatar' => true)); ?>&nbsp;
 		<?php echo __d('blogs', 'Category') ?>:<?php echo $this->Html->link(
 			$blogEntry['Category']['name'],
 			$this->NetCommonsHtml->url(

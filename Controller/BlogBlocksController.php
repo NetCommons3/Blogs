@@ -118,7 +118,7 @@ class BlogBlocksController extends BlogsAppController {
 	public function add() {
 		$this->view = 'edit';
 
-		if ($this->request->isPost()) {
+		if ($this->request->is('post')) {
 			//登録処理
 			if ($this->Blog->saveBlog($this->data)) {
 				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
@@ -139,7 +139,7 @@ class BlogBlocksController extends BlogsAppController {
  * @return void
  */
 	public function edit() {
-		if ($this->request->isPut()) {
+		if ($this->request->is('put')) {
 			//登録処理
 			if ($this->Blog->saveBlog($this->data)) {
 				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
@@ -149,8 +149,7 @@ class BlogBlocksController extends BlogsAppController {
 		} else {
 			//表示処理(初期データセット)
 			if (! $blog = $this->Blog->getBlog()) {
-				$this->setAction('throwBadRequest');
-				return false;
+				return $this->throwBadRequest();
 			}
 			$this->request->data = Hash::merge($this->request->data, $blog);
 			$this->request->data = Hash::merge($this->request->data, $this->BlogFrameSetting->getBlogFrameSetting());
@@ -164,12 +163,12 @@ class BlogBlocksController extends BlogsAppController {
  * @return void
  */
 	public function delete() {
-		if ($this->request->isDelete()) {
+		if ($this->request->is('delete')) {
 			if ($this->Blog->deleteBlog($this->data)) {
-				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
+				return $this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
 			}
 		}
 
-		$this->setAction('throwBadRequest');
+		return $this->throwBadRequest();
 	}
 }

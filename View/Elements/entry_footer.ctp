@@ -29,7 +29,7 @@
 
 	<div class="pull-right">
 		<?php if (isset($index) && ($index === true)) : ?>
-		<span style="padding-right: 15px;">
+		<span class="blogs__content-comment-count">
 			<?php echo $this->ContentComment->count($blogEntry); ?>
 		</span>
 		<?php endif ?>

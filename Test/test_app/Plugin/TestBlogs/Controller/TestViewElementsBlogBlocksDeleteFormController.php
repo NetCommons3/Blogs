@@ -25,6 +25,15 @@ class TestViewElementsBlogBlocksDeleteFormController extends AppController {
  * @return void
  */
 	public function delete_form() {
+		$block = [
+			'id' => 10,
+			'key' => 'block_key_10'
+		];
+		$this->set('block', $block);
+		$blog = [
+			'key' => 'blog_key_10'
+		];
+		$this->set('blog', $blog);
 		$this->autoRender = true;
 	}
 

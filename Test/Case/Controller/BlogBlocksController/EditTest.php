@@ -32,6 +32,11 @@ class BlogBlocksControllerEditTest extends BlocksControllerEditTest {
 		'plugin.categories.category',
 		'plugin.categories.category_order',
 		'plugin.workflow.workflow_comment',
+		'plugin.tags.tags_content',
+		'plugin.tags.tag',
+		'plugin.content_comments.content_comment',
+		'plugin.likes.like',
+		'plugin.likes.likes_user',
 	);
 
 /**
@@ -176,7 +181,7 @@ class BlogBlocksControllerEditTest extends BlocksControllerEditTest {
 			),
 			// 必要に応じてパラメータ変更する
 			'Blog' => array(
-				'key' => 'blog_key_2',
+				'key' => 'content_block_2',
 			),
 		);
 
@@ -185,6 +190,28 @@ class BlogBlocksControllerEditTest extends BlocksControllerEditTest {
 		$results[0] = array('data' => $data);
 
 		return $results;
+	}
+
+/**
+ * BlogNotFoundでBadRequest
+ *
+ * @return void
+ */
+	public function testEditBlogNotFound() {
+		//ログイン
+		TestAuthGeneral::login($this);
+
+		$this->_mockForReturnFalse('Blogs.Blog', 'getBlog', 1);
+
+		// Blog::getBlog()がfalseならBadRequest
+		//$this->setExpectedException('BadRequestException');
+
+		//テスト実行
+		$this->_testGetAction(array('action' => 'edit', 'block_id' => '2', 'frame_id' => '6'),
+			false, 'BadRequestException', 'view');
+
+		//ログアウト
+		TestAuthGeneral::logout($this);
 	}
 
 }

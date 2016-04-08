@@ -32,6 +32,11 @@ class BlogEntriesControllerViewTest extends WorkflowControllerViewTest {
 		'plugin.categories.category',
 		'plugin.categories.category_order',
 		'plugin.workflow.workflow_comment',
+		'plugin.tags.tags_content',
+		'plugin.tags.tag',
+		'plugin.content_comments.content_comment',
+		'plugin.likes.like',
+		'plugin.likes.likes_user',
 	);
 
 /**
@@ -283,44 +288,127 @@ class BlogEntriesControllerViewTest extends WorkflowControllerViewTest {
  * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  */
 	private function __assertView($contentKey, $isLatest = false) {
-		//TODO:view(ctp)ファイルに対するassert追加
+		//view(ctp)ファイルに対するassert追加
 		//debug($this->view);
 
 		if ($contentKey === 'content_key_1') {
 			if ($isLatest) {
-				//TODO: コンテンツのデータ(id=2, key=content_key_1)に対する期待値
+				//コンテンツのデータ(id=2, key=content_key_1)に対する期待値
 				$this->assertTextContains('Title 2', $this->view);
 			} else {
-				//TODO: コンテンツのデータ(id=1, key=content_key_1)に対する期待値
+				//コンテンツのデータ(id=1, key=content_key_1)に対する期待値
 				$this->assertTextContains('Title 1', $this->view);
 			}
 
 		} elseif ($contentKey === 'content_key_2') {
-			//TODO: コンテンツのデータ(id=3, key=content_key_2)に対する期待値
+			//コンテンツのデータ(id=3, key=content_key_2)に対する期待値
 			$this->assertTextContains('Title 3', $this->view);
 
 		} elseif ($contentKey === 'content_key_3') {
 			if ($isLatest) {
-				//TODO: コンテンツのデータ(id=5, key=content_key_3)に対する期待値
-				$this->assertTextContains('', $this->view);
+				//コンテンツのデータ(id=5, key=content_key_3)に対する期待値
+				$this->assertTextContains('Title 5', $this->view);
 			} else {
-				//TODO: コンテンツのデータ(id=4, key=content_key_3)に対する期待値
-				$this->assertTextContains('', $this->view);
+				//コンテンツのデータ(id=4, key=content_key_3)に対する期待値
+				$this->assertTextContains('Title 4', $this->view);
 			}
 
 		} elseif ($contentKey === 'content_key_4') {
 			if ($isLatest) {
-				//TODO: コンテンツのデータ(id=7, key=content_key_4)に対する期待値
-				$this->assertTextContains('', $this->view);
+				//コンテンツのデータ(id=7, key=content_key_4)に対する期待値
+				$this->assertTextContains('Title 7', $this->view);
 			} else {
-				//TODO: コンテンツのデータ(id=6, key=content_key_4)に対する期待値
-				$this->assertTextContains('', $this->view);
+				//コンテンツのデータ(id=6, key=content_key_4)に対する期待値
+				$this->assertTextContains('Title 6', $this->view);
 			}
 
 		} elseif ($contentKey === 'content_key_5') {
-			//TODO: コンテンツのデータ(id=8, key=content_key_5)に対する期待値
-			$this->assertTextContains('', $this->view);
+			//コンテンツのデータ(id=8, key=content_key_5)に対する期待値
+			$this->assertTextContains('Title 8', $this->view);
 		}
 	}
 
+/**
+ * test ContentComment
+ *
+ * @return void
+ */
+	public function testCommentPost() {
+		// ログインしとく
+		TestAuthGeneral::login($this, Role::ROOM_ROLE_KEY_GENERAL_USER);
+
+		// コメントPOST
+		$data = [
+			'BlogEntry' => [
+				'key' => 'content_key_1'
+			]
+		];
+
+		$this->generateNc('Blogs.BlogEntries', [
+			'components' => [
+				'ContentComments.ContentComments' => ['comment'],
+			]
+		]);
+
+		// ContentCommentsComponent::comment()がコールされる
+		$this->controller->ContentComments->expects($this->once())
+			->method('comment')
+			->with(
+				$this->equalTo('blogs'),
+				$this->equalTo('content_key_1'),
+				$this->anything()
+			)
+			->will($this->returnValue(true));
+
+		$blogSetting = new ReflectionProperty($this->controller, '_blogSetting');
+		$blogSetting->setAccessible(true);
+		$blogSetting->setValue($this->controller, ['BlogSetting' => ['use_comment' => true]]);
+
+		$this->_testPostAction('post', $data, ['action' => 'view', 'key' => 'content_key_1', 'block_id' => 2]);
+
+		TestAuthGeneral::logout($this);
+	}
+
+/**
+ * test ContentComment
+ *
+ * @return void
+ */
+	public function testCommentPostFail() {
+		// ログインしとく
+		TestAuthGeneral::login($this, Role::ROOM_ROLE_KEY_GENERAL_USER);
+
+		// コメントPOST
+		$data = [
+			'BlogEntry' => [
+				'key' => 'content_key_1'
+			]
+		];
+
+		$this->generateNc('Blogs.BlogEntries', [
+			'components' => [
+				'ContentComments.ContentComments' => ['comment'],
+			]
+		]);
+
+		// ContentCommentsComponent::comment()がコールされる
+		$this->controller->ContentComments->expects($this->once())
+			->method('comment')
+			->with(
+				$this->equalTo('blogs'),
+				$this->equalTo('content_key_1'),
+				$this->anything()
+			)
+			->will($this->returnValue(false)); // ContentCommentsComponent::comment()がfalseなら例外発生する
+
+		$blogSetting = new ReflectionProperty($this->controller, '_blogSetting');
+		$blogSetting->setAccessible(true);
+		$blogSetting->setValue($this->controller, ['BlogSetting' => ['use_comment' => true]]);
+
+		$this->setExpectedException('BadRequestException');
+
+		$this->_testPostAction('post', $data, ['action' => 'view', 'key' => 'content_key_1', 'block_id' => 2]);
+
+		TestAuthGeneral::logout($this);
+	}
 }

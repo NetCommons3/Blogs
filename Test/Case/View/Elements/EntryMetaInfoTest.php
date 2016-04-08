@@ -61,8 +61,15 @@ class BlogsViewElementsEntryMetaInfoTest extends NetCommonsControllerTestCase {
 		$pattern = '/' . preg_quote('View/Elements/entry_meta_info', '/') . '/';
 		$this->assertRegExp($pattern, $this->view);
 
-		//TODO:必要に応じてassert追加する
-		debug($this->view);
+		// 掲載日時
+		$this->assertContains(
+			__d('blogs', 'posted : %s', $this->controller->View->Date->dateFormat('2016-01-01 00:00:00')),
+			$this->view
+		);
+		// 投稿者リンク
+		$this->assertContains('ng-controller="Users.controller', $this->view);
+		// カテゴリリンク
+		$this->assertRegExp('/<a.*?href=".*?category_id:1.*?">Category Name<\/a>/', $this->view);
 	}
 
 }

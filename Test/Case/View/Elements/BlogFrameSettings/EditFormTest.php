@@ -61,8 +61,36 @@ class BlogsViewElementsBlogFrameSettingsEditFormTest extends NetCommonsControlle
 		$pattern = '/' . preg_quote('View/Elements/BlogFrameSettings/edit_form', '/') . '/';
 		$this->assertRegExp($pattern, $this->view);
 
-		//TODO:必要に応じてassert追加する
-		debug($this->view);
+		$this->assertInput(
+			'input',
+			'data[Frame][id]',
+			$this->controller->request->data['Frame']['id'],
+			$this->view
+		);
+		$this->assertInput(
+			'input',
+			'data[Frame][key]',
+			$this->controller->request->data['Frame']['key'],
+			$this->view
+		);
+		$this->assertInput(
+			'input',
+			'data[BlogFrameSetting][id]',
+			$this->controller->request->data['BlogFrameSetting']['id'],
+			$this->view
+		);
+		$this->assertInput(
+			'input',
+			'data[BlogFrameSetting][frame_key]',
+			$this->controller->request->data['BlogFrameSetting']['frame_key'],
+			$this->view
+		);
+		$this->assertInput(
+			'input',
+			'data[BlogFrameSetting][articles_per_page]',
+			$this->controller->request->data['BlogFrameSetting']['articles_per_page'],
+			$this->view
+		);
 	}
 
 }

@@ -32,6 +32,11 @@ class BlogEntriesControllerYearMonthTest extends WorkflowControllerIndexTest {
 		'plugin.categories.category',
 		'plugin.categories.category_order',
 		'plugin.workflow.workflow_comment',
+		'plugin.tags.tags_content',
+		'plugin.tags.tag',
+		'plugin.content_comments.content_comment',
+		'plugin.likes.like',
+		'plugin.likes.likes_user',
 	);
 
 /**
@@ -58,9 +63,10 @@ class BlogEntriesControllerYearMonthTest extends WorkflowControllerIndexTest {
 		$blockId = '2';
 
 		$data = array(
-			'action' => 'index',
+			'action' => 'year_month',
 			'frame_id' => $frameId,
 			'block_id' => $blockId,
+			'year_month' => '2015-01',
 		);
 
 		return $data;
@@ -82,12 +88,28 @@ class BlogEntriesControllerYearMonthTest extends WorkflowControllerIndexTest {
 
 		//テストデータ
 		$results = array();
+
 		$results[0] = array(
 			'urlOptions' => $data,
 			'assert' => array('method' => 'assertNotEmpty'),
 		);
 
-		//TODO:必要なテストデータ追加
+		$data1 = $this->__data();
+		$data1['year_month'] = '2015-13'; // ありえない値
+		$results[1] = array(
+			'urlOptions' => $data1,
+			'assert' => array('method' => 'assertNotEmpty'),
+			'exception' => 'BadRequestException'
+		);
+
+		$data2 = $this->__data();
+		$data2['year_month'] = '2015'; // ありえない値
+		$results[2] = array(
+			'urlOptions' => $data2,
+			'assert' => array('method' => 'assertNotEmpty'),
+			'exception' => 'BadRequestException',
+			false,
+		);
 
 		return $results;
 	}
@@ -107,8 +129,8 @@ class BlogEntriesControllerYearMonthTest extends WorkflowControllerIndexTest {
 		parent::testIndex($urlOptions, $assert, $exception, $return);
 
 		//チェック
-		//TODO:view(ctp)ファイルに対するassert追加
-		debug($this->view);
+		//一覧タイトルに年と月の数字が入る
+		$this->assertRegExp('/<h1.*?>[0-9]{4}.*?[0-9]{1,2}/', $this->view);
 	}
 
 /**
@@ -141,8 +163,7 @@ class BlogEntriesControllerYearMonthTest extends WorkflowControllerIndexTest {
 		parent::testIndexByCreatable($urlOptions, $assert, $exception, $return);
 
 		//チェック
-		//TODO:view(ctp)ファイルに対するassert追加
-		debug($this->view);
+		//debug($this->view);
 	}
 
 /**
@@ -175,8 +196,6 @@ class BlogEntriesControllerYearMonthTest extends WorkflowControllerIndexTest {
 		parent::testIndexByEditable($urlOptions, $assert, $exception, $return);
 
 		//チェック
-		//TODO:view(ctp)ファイルに対するassert追加
-		debug($this->view);
 	}
 
 }
