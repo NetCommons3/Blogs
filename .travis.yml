@@ -8,7 +8,14 @@ php:
 sudo: required
 
 env:
-  - NETCOMMONS_VERSION=master DB=mysql
+  matrix:
+    - NETCOMMONS_VERSION=master DB=mysql
+  global:
+      - secure: "LcT7Ivvh9s24ERAbryDL+/P7fS/k3EidAEcPZg2GFnCpmrMvTIBa/Gwe1PSugpHlBPBuMOmPTdPguZD93xyihb4kmjgRFaYSeAj+nByNjJIQQIAQr4zfy/DtzyGNw7tOaNlYfbMAARlMN5Ex/JEfXs088diJGGWSTBbnqkfRmBQ="
+      - GIT_COMMITTER_NAME=RyujiAMANO
+      - GIT_COMMITTER_EMAIL=ryuji@ryus.co.jp
+      - GIT_AUTHOR_NAME=RyujiAMANO
+      - GIT_AUTHOR_EMAIL=ryuji@ryus.co.jp
 
 before_script:
   - export NETCOMMONS_BUILD_DIR=`dirname $TRAVIS_BUILD_DIR`/NetCommons3

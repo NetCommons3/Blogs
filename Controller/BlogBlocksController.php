@@ -16,6 +16,8 @@ App::uses('BlogsAppController', 'Blogs.Controller');
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Blogs\Controller
+ *
+ * @property Blog $Blog
  */
 class BlogBlocksController extends BlogsAppController {
 
