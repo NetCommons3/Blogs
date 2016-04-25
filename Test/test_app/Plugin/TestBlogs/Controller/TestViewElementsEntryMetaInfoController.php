@@ -32,6 +32,11 @@ class TestViewElementsEntryMetaInfoController extends AppController {
 				'status' => WorkflowComponent::STATUS_PUBLISHED,
 				'publish_start' => '2016-01-01 00:00:00',
 				'category_id' => 1,
+				'created_user' => 1,
+			],
+			'TrackableCreator' => [
+				'id' => 1,
+				'handlename' => 'admin'
 			],
 			'Category' => [
 				'name' => 'Category Name'
