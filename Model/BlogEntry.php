@@ -125,7 +125,9 @@ class BlogEntry extends BlogsAppModel {
 			'publish_start' => array(
 				'notBlank' => [
 					'rule' => array('notBlank'),
-					'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('blogs', 'Published datetime')),
+					'message' => sprintf(__d('net_commons', 'Please input %s.'),
+						__d('blogs', 'Published datetime')
+					),
 					//'allowEmpty' => false,
 					'required' => true,
 					//'last' => false, // Stop validation after this rule

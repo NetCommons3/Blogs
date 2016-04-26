@@ -73,7 +73,8 @@ class BlogEntriesEditController extends BlogsAppController {
 
 		if ($this->request->is('post')) {
 			$this->BlogEntry->create();
-			$this->request->data['BlogEntry']['blog_key'] = ''; // https://github.com/NetCommons3/NetCommons3/issues/7 対策
+			// https://github.com/NetCommons3/NetCommons3/issues/7 対策
+			$this->request->data['BlogEntry']['blog_key'] = '';
 
 			// set status
 			$status = $this->Workflow->parseStatus();
@@ -128,7 +129,8 @@ class BlogEntriesEditController extends BlogsAppController {
 		if ($this->request->is(array('post', 'put'))) {
 
 			$this->BlogEntry->create();
-			$this->request->data['BlogEntry']['blog_key'] = ''; // https://github.com/NetCommons3/NetCommons3/issues/7 対策
+			// https://github.com/NetCommons3/NetCommons3/issues/7 対策
+			$this->request->data['BlogEntry']['blog_key'] = '';
 
 			// set status
 			$status = $this->Workflow->parseStatus();
@@ -196,6 +198,13 @@ class BlogEntriesEditController extends BlogsAppController {
 		}
 		return $this->redirect(
 			NetCommonsUrl::actionUrl(
-				array('controller' => 'blog_entries', 'action' => 'index', 'frame_id' => Current::read('Frame.id'), 'block_id' => Current::read('Block.id'))));
+				array(
+					'controller' => 'blog_entries',
+					'action' => 'index',
+					'frame_id' => Current::read('Frame.id'),
+					'block_id' => Current::read('Block.id')
+				)
+			)
+		);
 	}
 }
