@@ -302,10 +302,10 @@ class Blog extends BlogsAppModel {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
-			$blogSettingConditions = array(
+			$settingConditions = array(
 				$this->BlogSetting->alias . '.blog_key' => $data['Blog']['key']
 			);
-			if (! $this->BlogSetting->deleteAll($blogSettingConditions, false, false)) {
+			if (! $this->BlogSetting->deleteAll($settingConditions, false, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
