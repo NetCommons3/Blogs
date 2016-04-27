@@ -129,7 +129,8 @@ class Blog extends BlogsAppModel {
 		if (isset($this->data['BlogSetting'])) {
 			$this->BlogSetting->set($this->data['BlogSetting']);
 			if (! $this->BlogSetting->validates()) {
-				$this->validationErrors = Hash::merge($this->validationErrors, $this->BlogSetting->validationErrors);
+				$this->validationErrors = Hash::merge($this->validationErrors,
+					$this->BlogSetting->validationErrors);
 				return false;
 			}
 		}
@@ -137,7 +138,8 @@ class Blog extends BlogsAppModel {
 		if (isset($this->data['BlogFrameSetting']) && ! $this->data['BlogFrameSetting']['id']) {
 			$this->BlogFrameSetting->set($this->data['BlogFrameSetting']);
 			if (! $this->BlogFrameSetting->validates()) {
-				$this->validationErrors = Hash::merge($this->validationErrors, $this->BlogFrameSetting->validationErrors);
+				$this->validationErrors = Hash::merge($this->validationErrors,
+					$this->BlogFrameSetting->validationErrors);
 				return false;
 			}
 		}
@@ -167,7 +169,8 @@ class Blog extends BlogsAppModel {
 		}
 
 		//BlogFrameSetting登録
-		if (isset($this->BlogFrameSetting->data['BlogFrameSetting']) && ! $this->BlogFrameSetting->data['BlogFrameSetting']['id']) {
+		if (isset($this->BlogFrameSetting->data['BlogFrameSetting'])
+			&& ! $this->BlogFrameSetting->data['BlogFrameSetting']['id']) {
 			if (! $this->BlogFrameSetting->save(null, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
@@ -294,15 +297,22 @@ class Blog extends BlogsAppModel {
 		$this->begin();
 
 		try {
-			if (! $this->deleteAll(array($this->alias . '.key' => $data['Blog']['key']), false, false)) {
+			$conditions = array($this->alias . '.key' => $data['Blog']['key']);
+			if (! $this->deleteAll($conditions, false, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
-			if (! $this->BlogSetting->deleteAll(array($this->BlogSetting->alias . '.blog_key' => $data['Blog']['key']), false, false)) {
+			$settingConditions = array(
+				$this->BlogSetting->alias . '.blog_key' => $data['Blog']['key']
+			);
+			if (! $this->BlogSetting->deleteAll($settingConditions, false, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
-			if (! $this->BlogEntry->deleteAll(array($this->BlogEntry->alias . '.blog_key' => $data['Blog']['key']), false)) {
+			$blogEntryConditions = array(
+				$this->BlogEntry->alias . '.blog_key' => $data['Blog']['key']
+			);
+			if (! $this->BlogEntry->deleteAll($blogEntryConditions, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 

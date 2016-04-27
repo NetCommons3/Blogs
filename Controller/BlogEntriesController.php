@@ -281,7 +281,11 @@ class BlogEntriesController extends BlogsAppController {
 			if ($this->_blogSetting['BlogSetting']['use_comment']) {
 				if ($this->request->is('post')) {
 					// コメントする
-					if (!$this->ContentComments->comment('blogs', $blogEntry['BlogEntry']['key'], $this->_blogSetting['BlogSetting']['use_comment_approval'])) {
+
+					$blogEntryKey = $blogEntry['BlogEntry']['key'];
+					$useCommentApproval = $this->_blogSetting['BlogSetting']['use_comment_approval'];
+					if (!$this->ContentComments->comment('blogs', $blogEntryKey,
+						$useCommentApproval)) {
 						return $this->throwBadRequest();
 					}
 				}

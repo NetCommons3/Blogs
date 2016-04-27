@@ -24,7 +24,9 @@ class BlogsViewElementsEntryMetaInfoTest extends NetCommonsControllerTestCase {
  *
  * @var array
  */
-	public $fixtures = array();
+	public $fixtures = array(
+		//'plugin.users.user',
+	);
 
 /**
  * Plugin name
