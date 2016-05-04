@@ -41,7 +41,7 @@ class BlogEntry extends BlogsAppModel {
 		'Topics.Topics' => array(
 			'fields' => array(
 				'title' => 'title',
-				'contents' => 'body1',
+				'summary' => 'body1',
 				'path' => '/:plugin_key/blog_entries/view/:block_id/:content_key',
 			),
 			'search_contents' => array('body2')
