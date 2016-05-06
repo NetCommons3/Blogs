@@ -52,7 +52,6 @@ class BlogBlocksController extends BlogsAppController {
 		),
 		'Paginator',
 		'Categories.CategoryEdit',
-
 	);
 
 /**
