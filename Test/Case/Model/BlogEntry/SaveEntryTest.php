@@ -73,6 +73,7 @@ class BlogEntrySaveEntryTest extends WorkflowSaveTest {
 	public function setUp() {
 		parent::setUp();
 		$this->BlogEntry->Behaviors->unload('ContentComment');
+		$this->BlogEntry->Behaviors->unload('Topics');
 	}
 
 /**
