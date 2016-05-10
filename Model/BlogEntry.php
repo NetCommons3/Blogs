@@ -37,8 +37,16 @@ class BlogEntry extends BlogsAppModel {
 		'Likes.Like',
 		'Workflow.WorkflowComment',
 		//'Categories.Category',
-		'ContentComments.ContentComment'
-		);
+		'ContentComments.ContentComment',
+		'Topics.Topics' => array(
+			'fields' => array(
+				'title' => 'title',
+				'summary' => 'body1',
+				'path' => '/:plugin_key/blog_entries/view/:block_id/:content_key',
+			),
+			'search_contents' => array('body2')
+		),
+	);
 
 /**
  * belongsTo associations

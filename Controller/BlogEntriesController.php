@@ -273,6 +273,10 @@ class BlogEntriesController extends BlogsAppController {
 		$this->BlogEntry->Behaviors->unload('ContentComments.ContentComment');
 		if ($blogEntry) {
 			$this->set('blogEntry', $blogEntry);
+
+			//新着データを既読にする
+			$this->BlogEntry->saveTopicUserStatus($blogEntry);
+
 			// tag取得
 			//$blogTags = $this->BlogTag->getTagsByEntryId($blogEntry['BlogEntry']['id']);
 			//$this->set('blogTags', $blogTags);
