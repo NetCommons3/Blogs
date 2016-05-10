@@ -6,7 +6,6 @@
 		'inline' => false
 	)
 ); ?>
-<?php echo $this->element('NetCommons.datetimepicker'); ?>
 <?php
 // 編集用
 echo $this->Html->script(
