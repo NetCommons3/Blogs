@@ -347,12 +347,8 @@ class BlogEntry extends BlogsAppModel {
 		// ε(　　　　 v ﾟωﾟ)　＜タグリンク削除
 		$this->begin();
 		try{
-			//コメントの削除
-			$deleteEntry = $this->findByKey($key);
-			//コメントの削除
-			$this->deleteCommentsByContentKey($deleteEntry['BlogEntry']['key']);
-
 			// 記事削除
+			$this->contentKey = $key;
 			$conditions = array('BlogEntry.key' => $key);
 			if ($result = $this->deleteAll($conditions, true, true)) {
 				$this->commit();

@@ -45,7 +45,6 @@ class Blog extends BlogsAppModel {
 			'name' => 'Blog.name',
 			'loadModels' => array(
 				'Like' => 'Likes.Like',
-				'WorkflowComment' => 'Workflow.WorkflowComment',
 				'Category' => 'Categories.Category',
 				'CategoryOrder' => 'Categories.CategoryOrder',
 			)
@@ -309,10 +308,11 @@ class Blog extends BlogsAppModel {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
+			$this->BlogEntry->blockKey = $data['Block']['key'];
 			$blogEntryConditions = array(
 				$this->BlogEntry->alias . '.blog_key' => $data['Blog']['key']
 			);
-			if (! $this->BlogEntry->deleteAll($blogEntryConditions, false)) {
+			if (! $this->BlogEntry->deleteAll($blogEntryConditions, false, true)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
