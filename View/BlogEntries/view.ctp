@@ -26,17 +26,17 @@ echo $this->Html->css(
 	)
 );
 ?>
-<?php echo $this->BackTo->pageLinkButton(__d('blogs', 'Move list'), array('icon' => 'list')) ?>
-<div class="blogs_entry_status">
-	<?php echo $this->Workflow->label($blogEntry['BlogEntry']['status']); ?>
-</div>
+
+<header>
+	<?php echo $this->BackTo->listLinkButton(); ?>
+
+	<div class="blogs_entry_status">
+		<?php echo $this->Workflow->label($blogEntry['BlogEntry']['status']); ?>
+	</div>
+</header>
 
 <article>
-	<h1>
-		<?php echo $this->TitleIcon->titleIcon($blogEntry['BlogEntry']['title_icon']); ?>
-
-		<?php echo h($blogEntry['BlogEntry']['title']); ?>
-	</h1>
+	<?php echo $this->NetCommonsHtml->blockTitle($blogEntry['BlogEntry']['title'], $blogEntry['BlogEntry']['title_icon']); ?>
 
 	<?php echo $this->element('entry_meta_info'); ?>
 
