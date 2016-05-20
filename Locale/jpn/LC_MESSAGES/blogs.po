@@ -87,3 +87,6 @@ msgstr "SNSボタンを使う"
 
 msgid "Blog"
 msgstr "ブログ"
+
+msgid "No %s found."
+msgstr "1件も%sはありません。"

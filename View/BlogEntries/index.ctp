@@ -98,6 +98,11 @@ echo $this->Html->css(
 
 	<div>
 		<!--記事一覧-->
+		<?php if (count($blogEntries) == 0): ?>
+			<p>
+				<?php echo __d('blogs', 'No %s found.', __d('blogs', 'BlogEntry')); ?>
+			</p>
+		<?php endif?>
 		<?php foreach ($blogEntries as $blogEntry): ?>
 
 			<div class="blogs_entry" ng-controller="Blogs.Entries.Entry">
