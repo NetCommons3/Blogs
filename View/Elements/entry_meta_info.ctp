@@ -7,7 +7,7 @@
 			$this->Date->dateFormat($blogEntry['BlogEntry']['publish_start'])
 		); ?>&nbsp;
 
-		<?php echo $this->DisplayUser->handleLink($blogEntry, array('avatar' => true)); ?>&nbsp;
+		<?php echo $this->NetCommonsHtml->handleLink($blogEntry, array('avatar' => true)); ?>&nbsp;
 		<?php echo __d('blogs', 'Category') ?>:<?php echo $this->Html->link(
 			$blogEntry['Category']['name'],
 			$this->NetCommonsHtml->url(
