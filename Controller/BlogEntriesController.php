@@ -44,7 +44,6 @@ class BlogEntriesController extends BlogsAppController {
 				'useCommentApproval' => 'blogSetting.use_comment_approval'
 			)
 		),
-		'Users.DisplayUser',
 		'NetCommons.SnsButton',
 		'NetCommons.TitleIcon',
 	);
