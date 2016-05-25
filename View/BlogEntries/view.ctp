@@ -29,20 +29,21 @@ echo $this->Html->css(
 
 <header>
 	<?php echo $this->BackTo->listLinkButton(); ?>
-
-	<div class="blogs_entry_status">
-		<?php echo $this->Workflow->label($blogEntry['BlogEntry']['status']); ?>
+	<div class="pull-right">
+		<?php echo $this->element('BlogEntries/edit_link', array('status' => $blogEntry['BlogEntry']['status'])); ?>
 	</div>
+
 </header>
 
 <article>
-	<?php echo $this->NetCommonsHtml->blockTitle($blogEntry['BlogEntry']['title'], $blogEntry['BlogEntry']['title_icon']); ?>
+	<div class="blogs_view_title clearfix">
+		<?php $title = h($blogEntry['BlogEntry']['title']) . '<small>' . $this->Workflow->label($blogEntry['BlogEntry']['status']) . '</small>' ?>
+		<?php echo $this->NetCommonsHtml->blockTitle($title,
+			$blogEntry['BlogEntry']['title_icon'], ['escape' => false]); ?>
+	</div>
 
 	<?php echo $this->element('entry_meta_info'); ?>
 
-	<div>
-		<?php echo $this->element('BlogEntries/edit_link', array('status' => $blogEntry['BlogEntry']['status'])); ?>
-	</div>
 
 
 	<div>

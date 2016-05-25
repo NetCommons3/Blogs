@@ -28,7 +28,7 @@ $dataJson = json_encode(
 ?>
 <div class="blogEntries form" ng-controller="Blogs" ng-init="init(<?php echo h($dataJson) ?>)">
 	<article>
-		<h1>BLOG</h1>
+		<h1><?php echo $blog['Blog']['name'] ?></h1>
 		<div class="panel panel-default">
 
 			<?php echo $this->NetCommonsForm->create(
@@ -87,7 +87,11 @@ $dataJson = json_encode(
 						array(
 							'type' => 'datetime',
 							'required' => 'required',
-							'label' => __d('blogs', 'Published datetime')));
+							'label' => __d('blogs', 'Published datetime'),
+							'childDiv' => 'form-inline',
+							//'div' => 'form-inline'
+						)
+					);
 					?>
 					<?php echo $this->Category->select('BlogEntry.category_id', array('empty' => true)); ?>
 

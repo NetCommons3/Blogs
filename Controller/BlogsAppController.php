@@ -89,7 +89,7 @@ class BlogsAppController extends AppController {
 			return $this->throwBadRequest();
 		}
 		$this->_blogTitle = $blog['Blog']['name'];
-		$this->set($blog);
+		$this->set('blog', $blog);
 
 		if (! $blogSetting = $this->BlogSetting->getBlogSetting($blog['Blog']['key'])) {
 			$blogSetting = $this->BlogSetting->create(

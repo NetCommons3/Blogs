@@ -23,7 +23,7 @@
 			),
 			array(
 				'tooltip' => true,
-				'iconSize' => 'btn-xs'
+				//'iconSize' => 'btn-xs'
 			)
 		); ?>
 	</div>
