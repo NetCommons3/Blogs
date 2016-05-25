@@ -26,7 +26,7 @@ msgid "Add tag"
 msgstr "タグ追加"
 
 msgid "require title"
-msgstr "タイトルを入力してください"
+msgstr "タイトルを入力してください。"
 
 msgid "Title"
 msgstr "タイトル"
