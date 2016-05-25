@@ -29,6 +29,9 @@ echo $this->Html->css(
 
 <header>
 	<?php echo $this->BackTo->listLinkButton(); ?>
+	<div class="pull-right">
+		<?php echo $this->element('BlogEntries/edit_link', array('status' => $blogEntry['BlogEntry']['status'])); ?>
+	</div>
 
 </header>
 
@@ -41,9 +44,6 @@ echo $this->Html->css(
 
 	<?php echo $this->element('entry_meta_info'); ?>
 
-	<div>
-		<?php echo $this->element('BlogEntries/edit_link', array('status' => $blogEntry['BlogEntry']['status'])); ?>
-	</div>
 
 
 	<div>

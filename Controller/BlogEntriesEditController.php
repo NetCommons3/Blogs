@@ -67,6 +67,7 @@ class BlogEntriesEditController extends BlogsAppController {
  */
 	public function add() {
 		$this->set('isEdit', false);
+		$this->_prepare();
 
 		$blogEntry = $this->BlogEntry->getNew();
 		$this->set('blogEntry', $blogEntry);
@@ -125,6 +126,7 @@ class BlogEntriesEditController extends BlogsAppController {
 		if ($this->BlogEntry->canEditWorkflowContent($blogEntry) === false) {
 			return $this->throwBadRequest();
 		}
+		$this->_prepare();
 
 		if ($this->request->is(array('post', 'put'))) {
 
