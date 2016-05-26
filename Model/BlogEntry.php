@@ -46,6 +46,13 @@ class BlogEntry extends BlogsAppModel {
 			),
 			'search_contents' => array('body2')
 		),
+		'Mails.MailQueue' => array(		// 自動でメールキューの登録, 削除。ワークフロー利用時はWorkflow.Workflowより下に記述する
+			'embedTags' => array(
+				'X-SUBJECT' => 'BlogEntry.title',
+				'X-BODY' => 'BlogEntry.body1',
+			),
+		),
+
 	);
 
 /**

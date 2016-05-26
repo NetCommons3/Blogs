@@ -68,6 +68,7 @@ class BlogBlocksController extends BlogsAppController {
 			),
 			'blockTabs' => array(
 				'block_settings' => array('url' => array('controller' => 'blog_blocks')),
+				'mail_settings',
 				'role_permissions' => array('url' => array('controller' => 'blog_block_role_permissions')),
 			),
 		),
