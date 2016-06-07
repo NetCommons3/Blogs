@@ -73,8 +73,8 @@ class BlogEntriesEditController extends BlogsAppController {
 
 		if ($this->request->is('post')) {
 			$this->BlogEntry->create();
-			// https://github.com/NetCommons3/NetCommons3/issues/7 対策
-			$this->request->data['BlogEntry']['blog_key'] = '';
+			$this->request->data['BlogEntry']['blog_key'] =
+				$this->_blogSetting['BlogSetting']['blog_key'];
 
 			// set status
 			$status = $this->Workflow->parseStatus();
@@ -130,8 +130,8 @@ class BlogEntriesEditController extends BlogsAppController {
 		if ($this->request->is(array('post', 'put'))) {
 
 			$this->BlogEntry->create();
-			// https://github.com/NetCommons3/NetCommons3/issues/7 対策
-			$this->request->data['BlogEntry']['blog_key'] = '';
+			$this->request->data['BlogEntry']['blog_key'] =
+				$this->_blogSetting['BlogSetting']['blog_key'];
 
 			// set status
 			$status = $this->Workflow->parseStatus();
