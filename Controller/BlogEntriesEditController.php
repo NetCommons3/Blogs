@@ -51,7 +51,6 @@ class BlogEntriesEditController extends BlogsAppController {
  * @var array helpers
  */
 	public $helpers = array(
-		//'NetCommons.Token',
 		'NetCommons.BackTo',
 		'NetCommons.NetCommonsForm',
 		'Workflow.Workflow',
