@@ -42,3 +42,5 @@
 echo $this->element('Categories.edit_form', array(
 	'categories' => isset($categories) ? $categories : null
 ));
+?>
+<?php echo $this->element('Blocks.modifed_info', array('displayModified' => true));
