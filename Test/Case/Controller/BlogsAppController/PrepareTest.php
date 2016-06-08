@@ -90,7 +90,7 @@ class BlogsAppControllerPrepareTest extends NetCommonsControllerTestCase {
 		//テスト実行
 		$this->_testGetAction($urlOptions, ['method' => 'assertNotEmpty']);
 
-		$this->assertEquals('BlockId2Blog', $this->vars['Blog']['name']);
+		$this->assertEquals('BlockId2Blog', $this->vars['blog']['Blog']['name']);
 		$this->assertEquals('1', $this->vars['blogSetting']['id']);
 
 		$frameSetting = new ReflectionProperty($this->controller, '_frameSetting');
