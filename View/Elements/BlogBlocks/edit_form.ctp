@@ -23,6 +23,7 @@
 <?php echo $this->NetCommonsForm->input('Blog.name', array(
 		'type' => 'text',
 		'label' => __d('blogs', 'Blog name'),
+		'required' => true,
 	)); ?>
 
 <?php echo $this->element('Blocks.public_type'); ?>
