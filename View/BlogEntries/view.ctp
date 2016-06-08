@@ -36,10 +36,10 @@ echo $this->Html->css(
 </header>
 
 <article>
+	<?php echo $this->Workflow->label($blogEntry['BlogEntry']['status'])?>
 	<div class="blogs_view_title clearfix">
-		<?php $title = h($blogEntry['BlogEntry']['title']) . '<small>' . $this->Workflow->label($blogEntry['BlogEntry']['status']) . '</small>' ?>
-		<?php echo $this->NetCommonsHtml->blockTitle($title,
-			$blogEntry['BlogEntry']['title_icon'], ['escape' => false]); ?>
+		<?php echo $this->NetCommonsHtml->blockTitle($blogEntry['BlogEntry']['title'],
+			$blogEntry['BlogEntry']['title_icon']); ?>
 	</div>
 
 	<?php echo $this->element('entry_meta_info'); ?>
