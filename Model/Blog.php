@@ -47,7 +47,8 @@ class Blog extends BlogsAppModel {
 				'Like' => 'Likes.Like',
 				'Category' => 'Categories.Category',
 				'CategoryOrder' => 'Categories.CategoryOrder',
-			)
+				'WorkflowComment' => 'Workflow.WorkflowComment',
+				)
 		),
 		'Categories.Category',
 		'NetCommons.OriginalKey',
