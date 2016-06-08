@@ -42,7 +42,7 @@ echo $this->Html->css(
 
 	<div class="clearfix blogs_navigation_header">
 		<div class="pull-left">
-			<div class="dropdown">
+			<span class="dropdown">
 				<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
 					<?php echo $filterDropDownLabel ?>
 					<span class="caret"></span>
@@ -76,7 +76,11 @@ echo $this->Html->css(
 							);?>"><?php echo $label ?></a></li>
 					<?php endforeach ?>
 				</ul>
-			</div>
+			</span>
+			<?php echo $this->DisplayNumber->dropDownToggle(); ?>
+			<?php /* 表示件数 */ ?>
+
+
 		</div>
 
 		<?php if (Current::permission('content_creatable')) : ?>

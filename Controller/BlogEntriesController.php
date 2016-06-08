@@ -45,6 +45,7 @@ class BlogEntriesController extends BlogsAppController {
 		),
 		'NetCommons.SnsButton',
 		'NetCommons.TitleIcon',
+		'NetCommons.DisplayNumber',
 	);
 
 /**
