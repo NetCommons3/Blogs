@@ -17,7 +17,7 @@
 <?php echo $this->NetCommonsForm->hidden('BlogFrameSetting.frame_key'); ?>
 
 <?php echo $this->DisplayNumber->select('BlogFrameSetting.articles_per_page', array(
-	'label' => __d('blogs', 'Show articles per page'),
+	'label' => __d('net_commons', 'Display the number of each page'),
 	'unit' => array(
 		'single' => __d('blogs', '%s article'),
 		'multiple' => __d('blogs', '%s articles')
