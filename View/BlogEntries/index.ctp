@@ -100,7 +100,7 @@ echo $this->Html->css(
 		<!--記事一覧-->
 		<?php if (count($blogEntries) == 0): ?>
 			<p>
-				<?php echo __d('blogs', 'No %s found.', __d('blogs', 'BlogEntry')); ?>
+				<?php echo __d('net_commons', '%s is not.', __d('blogs', 'BlogEntry')); ?>
 			</p>
 		<?php endif?>
 		<?php foreach ($blogEntries as $blogEntry): ?>
