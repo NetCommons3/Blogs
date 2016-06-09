@@ -51,7 +51,7 @@ class BlogFrameSettingFixture extends CakeTestFixture {
 		array(
 			'id' => '2',
 			'frame_key' => 'frame_key_2',
-			'articles_per_page' => '2',
+			'articles_per_page' => '20',
 			'created_user' => '2',
 			'created' => '2016-03-17 07:10:45',
 			'modified_user' => '2',
@@ -60,7 +60,7 @@ class BlogFrameSettingFixture extends CakeTestFixture {
 		array(
 			'id' => '6', // @see BlogBlocksControllerBeforeFilterTest
 			'frame_key' => 'frame_3',
-			'articles_per_page' => '2',
+			'articles_per_page' => '20',
 			'created_user' => '2',
 			'created' => '2016-03-17 07:10:45',
 			'modified_user' => '2',
