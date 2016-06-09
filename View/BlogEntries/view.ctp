@@ -27,8 +27,10 @@ echo $this->Html->css(
 );
 ?>
 
-<header>
-	<?php echo $this->BackTo->listLinkButton(); ?>
+<header class="clearfix">
+	<div class="pull-left">
+		<?php echo $this->Workflow->label($blogEntry['BlogEntry']['status'])?>
+	</div>
 	<div class="pull-right">
 		<?php echo $this->element('BlogEntries/edit_link', array('status' => $blogEntry['BlogEntry']['status'])); ?>
 	</div>
@@ -36,7 +38,7 @@ echo $this->Html->css(
 </header>
 
 <article>
-	<?php echo $this->Workflow->label($blogEntry['BlogEntry']['status'])?>
+
 	<div class="blogs_view_title clearfix">
 		<?php echo $this->NetCommonsHtml->blockTitle($blogEntry['BlogEntry']['title'],
 			$blogEntry['BlogEntry']['title_icon']); ?>
