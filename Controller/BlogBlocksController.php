@@ -72,6 +72,7 @@ class BlogBlocksController extends BlogsAppController {
 				'role_permissions' => array('url' => array('controller' => 'blog_block_role_permissions')),
 			),
 		),
+		'Blocks.BlockIndex',
 		//'Blocks.Block',
 		'Likes.Like',
 	);
