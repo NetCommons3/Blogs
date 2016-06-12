@@ -13,56 +13,79 @@
 <article class="block-setting-body">
 	<?php echo $this->BlockTabs->main(BlockTabsHelper::MAIN_TAB_BLOCK_INDEX); ?>
 
+	<?php echo $this->BlockIndex->description(); ?>
+
 	<div class="tab-content">
-		<div class="text-right">
-			<?php echo $this->Button->addLink(); ?>
-		</div>
+		<?php echo $this->BlockIndex->create(); ?>
+		<?php echo $this->BlockIndex->addLink(); ?>
 
-		<?php echo $this->Form->create('', array(
-			'url' => NetCommonsUrl::actionUrl(array('plugin' => 'frames', 'controller' => 'frames', 'action' => 'edit'))
-		)); ?>
+		<?php echo $this->BlockIndex->startTable(); ?>
+		<thead>
+		<tr>
+			<?php echo $this->BlockIndex->tableHeader(
+				'Frame.block_id'
+			); ?>
+			<?php echo $this->BlockIndex->tableHeader(
+				'Block.name', __d('blogs', 'Blog Name'),
+				array('sort' => true)
+			); ?>
+			<?php echo $this->BlockIndex->tableHeader(
+				'Blog.entries_count', __d('net_commons', 'Number'),
+				array('sort' => false)
+			); ?>
+			<?php // ε(　　　　 v ﾟωﾟ)　＜ 公開状態機能まち ?>
+			<?php
+			//echo $this->BlockIndex->tableHeader(
+			//	'Block.public_type', __d('blocks', 'Publishing setting'),
+			//	array('sort' => true)
+			//); ?>
+			<?php echo $this->BlockIndex->tableHeader(
+				'TrackableUpdater.handlename', __d('net_commons', 'Modified user'),
+				array('sort' => true, 'type' => 'handle')
+			); ?>
+			<?php echo $this->BlockIndex->tableHeader(
+				'Block.modified', __d('net_commons', 'Modified datetime'),
+				array('sort' => true, 'type' => 'datetime')
+			); ?>
+		</tr>
+		</thead>
+		<tbody>
+		<?php foreach ($blogs as $blog) : ?>
+			<?php echo $this->BlockIndex->startTableRow($blog['Block']['id']); ?>
+			<?php echo $this->BlockIndex->tableData(
+				'Frame.block_id', $blog['Block']['id']
+			); ?>
+			<?php echo $this->BlockIndex->tableData(
+				'Block.name', $blog['Block']['name'],
+				array('editUrl' => array('block_id' => $blog['Block']['id']))
+			); ?>
+			<?php echo $this->BlockIndex->tableData(
+				'Blog.entries_count', $blog['Blog']['entries_count']
+			); ?>
+			<?php // ε(　　　　 v ﾟωﾟ)　＜ 公開状態機能まち ?>
+			<?php
+			//echo $this->BlockIndex->tableData(
+			//	'Block.public_type', $blog['Block']['public_type']
+			//); ?>
+			<?php echo $this->BlockIndex->tableData(
+				'TrackableUpdater', $blog,
+				array('type' => 'handle')
+			); ?>
+			<?php echo $this->BlockIndex->tableData(
+				'Block.modified', $blog['Block']['modified'],
+				array('type' => 'datetime')
+			); ?>
+			<?php echo $this->BlockIndex->endTableRow(); ?>
+		<?php endforeach; ?>
+		</tbody>
+		<?php echo $this->BlockIndex->endTable(); ?>
 
-		<?php echo $this->Form->hidden('Frame.id'); ?>
-
-		<table class="table table-hover">
-			<thead>
-			<tr>
-				<th></th>
-				<th>
-					<?php echo $this->Paginator->sort('Blog.name', __d('blogs', 'Blog name')); ?>
-				</th>
-				<!--<th class="text-right">-->
-				<!--	--><?php //echo $this->Paginator->sort('Blog.blog_article_count', __d('blogs', 'Article count')); ?>
-				<!--</th>-->
-				<th>
-					<?php echo $this->Paginator->sort('Block.modified', __d('net_commons', 'Updated date')); ?>
-				</th>
-			</tr>
-			</thead>
-			<tbody>
-			<?php foreach ($blogs as $blog) : ?>
-				<tr<?php echo ($this->data['Frame']['block_id'] === $blog['Block']['id'] ? ' class="active"' : ''); ?>>
-					<td>
-						<?php echo $this->BlockForm->displayFrame('Frame.block_id', $blog['Block']['id']); ?>
-					</td>
-					<td>
-						<?php echo $this->NetCommonsHtml->editLink($blog['Blog']['name'], array('block_id' => $blog['Block']['id'])); ?>
-					</td>
-					<!--<td class="text-right">-->
-					<!--	--><?php //echo h($blog['Blog']['blog_article_count']); ?>
-					<!--</td>-->
-					<td>
-						<?php echo $this->Date->dateFormat($blog['Block']['modified']); ?>
-					</td>
-					<!--</td>-->
-				</tr>
-			<?php endforeach; ?>
-			</tbody>
-		</table>
-		<?php echo $this->Form->end(); ?>
+		<?php echo $this->BlockIndex->end(); ?>
 
 		<?php echo $this->element('NetCommons.paginator'); ?>
 	</div>
+	
+
 </article>
 
 

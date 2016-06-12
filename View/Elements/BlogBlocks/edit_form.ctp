@@ -23,6 +23,7 @@
 <?php echo $this->NetCommonsForm->input('Blog.name', array(
 		'type' => 'text',
 		'label' => __d('blogs', 'Blog name'),
+		'required' => true,
 	)); ?>
 
 <?php echo $this->element('Blocks.public_type'); ?>
@@ -41,3 +42,5 @@
 echo $this->element('Categories.edit_form', array(
 	'categories' => isset($categories) ? $categories : null
 ));
+?>
+<?php echo $this->element('Blocks.modifed_info', array('displayModified' => true));

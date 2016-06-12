@@ -18,6 +18,14 @@
 
 		<div class="pull-left">
 			<?php if (isset($index) && ($index === true)) : ?>
+				<span class="blogs__content-comment-count">
+			<?php echo $this->ContentComment->count($blogEntry); ?>
+		</span>
+			<?php endif ?>
+		</div>
+
+		<div class="pull-left">
+			<?php if (isset($index) && ($index === true)) : ?>
 				<!--view only-->
 				<?php echo $this->Like->display($blogSetting, $blogEntry, array('div' => true)); ?>
 			<?php else : ?>
@@ -27,12 +35,5 @@
 		</div>
 	</div>
 
-	<div class="pull-right">
-		<?php if (isset($index) && ($index === true)) : ?>
-		<span class="blogs__content-comment-count">
-			<?php echo $this->ContentComment->count($blogEntry); ?>
-		</span>
-		<?php endif ?>
-	</div>
 
 </div>

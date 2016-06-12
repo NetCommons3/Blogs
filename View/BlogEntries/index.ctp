@@ -37,12 +37,12 @@ echo $this->Html->css(
 );
 ?>
 
-<div class="blogEntries index nc-content-list" ng-controller="Blogs.Entries" ng-init="init(<?php echo Current::read('Frame.id') ?>)">
+<div class="blogEntries index " ng-controller="Blogs.Entries" ng-init="init(<?php echo Current::read('Frame.id') ?>)">
 	<h1 class="blogs_blogTitle"><?php echo $listTitle ?></h1>
 
 	<div class="clearfix blogs_navigation_header">
 		<div class="pull-left">
-			<div class="dropdown">
+			<span class="dropdown">
 				<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
 					<?php echo $filterDropDownLabel ?>
 					<span class="caret"></span>
@@ -76,7 +76,11 @@ echo $this->Html->css(
 							);?>"><?php echo $label ?></a></li>
 					<?php endforeach ?>
 				</ul>
-			</div>
+			</span>
+			<?php echo $this->DisplayNumber->dropDownToggle(); ?>
+			<?php /* 表示件数 */ ?>
+
+
 		</div>
 
 		<?php if (Current::permission('content_creatable')) : ?>
@@ -96,59 +100,52 @@ echo $this->Html->css(
 
 	</div>
 
-	<div>
+	<div class="nc-content-list">
 		<!--記事一覧-->
 		<?php if (count($blogEntries) == 0): ?>
 			<p>
-				<?php echo __d('blogs', 'No %s found.', __d('blogs', 'BlogEntry')); ?>
+				<?php echo __d('net_commons', '%s is not.', __d('blogs', 'BlogEntry')); ?>
 			</p>
 		<?php endif?>
 		<?php foreach ($blogEntries as $blogEntry): ?>
 
-			<div class="blogs_entry" ng-controller="Blogs.Entries.Entry">
-
-
+			<article class="blogs_entry" ng-controller="Blogs.Entries.Entry">
 				<div class="blogs_entry_status">
 					<?php echo $this->Workflow->label($blogEntry['BlogEntry']['status']); ?>
 				</div>
-
-				<article>
-					<h2 class="blogs_entry_title">
-						<?php echo $this->TitleIcon->titleIcon($blogEntry['BlogEntry']['title_icon']); ?>
-						<?php echo $this->Html->link(
-							$blogEntry['BlogEntry']['title'],
-							$this->NetCommonsHtml->url(
-								array(
-									'controller' => 'blog_entries',
-									'action' => 'view',
-									//'frame_id' => Current::read('Frame.id'),
-									'key' => $blogEntry['BlogEntry']['key']
-								)
+				<h2 class="blogs_entry_title">
+					<?php echo $this->TitleIcon->titleIcon($blogEntry['BlogEntry']['title_icon']); ?>
+					<?php echo $this->Html->link(
+						$blogEntry['BlogEntry']['title'],
+						$this->NetCommonsHtml->url(
+							array(
+								'controller' => 'blog_entries',
+								'action' => 'view',
+								//'frame_id' => Current::read('Frame.id'),
+								'key' => $blogEntry['BlogEntry']['key']
 							)
-						);
-						?>
-					</h2>
-					<?php echo $this->element('entry_meta_info', array('blogEntry' => $blogEntry)); ?>
+						)
+					);
+					?>
+				</h2>
+				<?php echo $this->element('entry_meta_info', array('blogEntry' => $blogEntry)); ?>
 
-					<div class="blogs_entry_body1">
-						<?php echo $blogEntry['BlogEntry']['body1']; ?>
+				<div class="blogs_entry_body1">
+					<?php echo $blogEntry['BlogEntry']['body1']; ?>
+				</div>
+				<?php if ($blogEntry['BlogEntry']['body2']) : ?>
+					<div ng-hide="isShowBody2">
+						<a ng-click="showBody2()"><?php echo __d('blogs', 'Read more'); ?></a>
 					</div>
-					<?php if ($blogEntry['BlogEntry']['body2']) : ?>
-						<div ng-hide="isShowBody2">
-							<a ng-click="showBody2()"><?php echo __d('blogs', 'Read more'); ?></a>
-						</div>
-						<div ng-show="isShowBody2">
-							<?php echo $blogEntry['BlogEntry']['body2'] ?>
-						</div>
-						<div ng-show="isShowBody2">
-							<a ng-click="hideBody2()"><?php echo __d('blogs', 'Close'); ?></a>
-						</div>
-					<?php endif ?>
-					<?php echo $this->element('entry_footer', array('blogEntry' => $blogEntry, 'index' => true)); ?>
-				</article>
-
-			</div>
-
+					<div ng-show="isShowBody2">
+						<?php echo $blogEntry['BlogEntry']['body2'] ?>
+					</div>
+					<div ng-show="isShowBody2">
+						<a ng-click="hideBody2()"><?php echo __d('blogs', 'Close'); ?></a>
+					</div>
+				<?php endif ?>
+				<?php echo $this->element('entry_footer', array('blogEntry' => $blogEntry, 'index' => true)); ?>
+			</article>
 
 		<?php endforeach; ?>
 	</div>

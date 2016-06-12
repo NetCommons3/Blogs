@@ -4,13 +4,14 @@
 }
 
 .blogs_entry {
-    border-bottom: 1px solid #ccc;
-    margin-bottom: 40px;
+    /* @see NetCommons/webroot/css/style.css
+.frame.nc-content-list article h2のmargin-topとあわせた*/
+    padding-top: 16px;
 }
 
 .blogs_entry_title {
-    margin-top: 0px;
-    margin-bottom: 20px;
+    /*margin-top: 0px;*/
+    /*margin-bottom: 20px;*/
 
 }
 
@@ -22,8 +23,8 @@
 
 /* 一覧 */
 .blogs_entry_status {
-    text-align: right;
-    float:right;
+    /*text-align: right;*/
+    /*float:right;*/
 }
 
 .blogs_entry_body1 {

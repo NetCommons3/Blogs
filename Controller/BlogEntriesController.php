@@ -32,7 +32,6 @@ class BlogEntriesController extends BlogsAppController {
  * @var array helpers
  */
 	public $helpers = array(
-		'NetCommons.Token',
 		'NetCommons.BackTo',
 		'Workflow.Workflow',
 		'Likes.Like',
@@ -46,6 +45,7 @@ class BlogEntriesController extends BlogsAppController {
 		),
 		'NetCommons.SnsButton',
 		'NetCommons.TitleIcon',
+		'NetCommons.DisplayNumber',
 	);
 
 /**
