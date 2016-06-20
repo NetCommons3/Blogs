@@ -86,11 +86,11 @@ echo $this->Html->css(
 		<?php if (Current::permission('content_creatable')) : ?>
 		<div class="pull-right">
 			<?php
-			$addUrl = $this->NetCommonsHtml->url(array(
+			$addUrl = array(
 				'controller' => 'blog_entries_edit',
 				'action' => 'add',
 				'frame_id' => Current::read('Frame.id')
-			));
+			);
 			echo $this->Button->addLink('',
 				$addUrl,
 			array('tooltip' => __d('blogs', 'Add entry')));
