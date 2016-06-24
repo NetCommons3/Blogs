@@ -99,10 +99,7 @@ class BlogBlocksController extends BlogsAppController {
  */
 	public function index() {
 		$this->Paginator->settings = array(
-			'Blog' => array(
-				'order' => array('Blog.id' => 'desc'),
-				'conditions' => $this->Blog->getBlockConditions(),
-			)
+			'Blog' => $this->Blog->getBlockIndexSettings()
 		);
 
 		$blogs = $this->Paginator->paginate('Blog');
