@@ -160,7 +160,7 @@ class Blog extends BlogsAppModel {
 	public function afterSave($created, $options = array()) {
 		//BlogSetting登録
 		if (isset($this->BlogSetting->data['BlogSetting'])) {
-			if (! $this->BlogSetting->data['BlogSetting']['blog_key']) {
+			if (! Hash::get($this->BlogSetting->data, 'BlogSetting.blog_key')) {
 				$this->BlogSetting->data['BlogSetting']['blog_key'] = $this->data[$this->alias]['key'];
 			}
 			if (! $this->BlogSetting->save(null, false)) {
