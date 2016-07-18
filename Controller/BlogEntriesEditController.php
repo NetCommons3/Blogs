@@ -114,7 +114,7 @@ class BlogEntriesEditController extends BlogsAppController {
 	public function edit() {
 		$this->set('isEdit', true);
 		//$key = $this->request->params['named']['key'];
-		$key = $this->params['pass'][1];
+		$key = $this->params['key'];
 
 		//  keyのis_latstを元に編集を開始
 		$blogEntry = $this->BlogEntry->findByKeyAndIsLatest($key, 1);

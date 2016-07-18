@@ -254,7 +254,7 @@ class BlogEntriesController extends BlogsAppController {
 	public function view() {
 		$this->_prepare();
 
-		$key = $this->params['pass'][1];
+		$key = $this->params['key'];
 
 		$conditions = $this->BlogEntry->getConditions(
 			Current::read('Block.id'),
