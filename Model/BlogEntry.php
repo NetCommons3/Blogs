@@ -53,7 +53,9 @@ class BlogEntry extends BlogsAppModel {
 				'X-BODY' => 'BlogEntry.body1',
 			),
 		),
-
+		'Wysiwyg.Wysiwyg' => array(
+			'fields' => array('body1', 'body2'),
+		),
 	);
 
 /**
