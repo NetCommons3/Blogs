@@ -131,6 +131,9 @@ class BlogEntriesControllerYearMonthTest extends WorkflowControllerIndexTest {
 		//チェック
 		//一覧タイトルに年と月の数字が入る
 		$this->assertRegExp('/<h1.*?>[0-9]{4}.*?[0-9]{1,2}/', $this->view);
+
+		//BlogEntry::recursiveが-1に戻っている
+		$this->assertEquals(-1, $this->controller->BlogEntry->recursive);
 	}
 
 /**
