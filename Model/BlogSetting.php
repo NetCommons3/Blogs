@@ -49,6 +49,7 @@ class BlogSetting extends BlockBaseModel {
 			BlockSettingBehavior::FIELD_USE_UNLIKE,
 			BlockSettingBehavior::FIELD_USE_COMMENT,
 			BlockSettingBehavior::FIELD_USE_COMMENT_APPROVAL,
+			'use_sns'
 		),
 	);
 

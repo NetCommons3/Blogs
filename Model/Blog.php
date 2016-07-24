@@ -71,17 +71,23 @@ class Blog extends BlogsAppModel {
 	);
 
 /**
- * hasMany associations
+ * Constructor. Binds the model's database table to the object.
  *
- * @var array
+ * @param bool|int|string|array $id Set this ID for this model on startup,
+ * can also be an array of options, see above.
+ * @param string $table Name of database table to use.
+ * @param string $ds DataSource connection name.
+ * @see Model::__construct()
+ * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  */
-	public $hasMany = array(
-		'BlogSetting' => array(
-			'className' => 'Blogs.BlogSetting',
-			'foreignKey' => 'blog_key',
-			'dependent' => false
-		),
-	);
+	public function __construct($id = false, $table = null, $ds = null) {
+		parent::__construct($id, $table, $ds);
+
+		$this->loadModels([
+			'BlogSetting' => 'Blogs.BlogSetting',
+			'BlogFrameSetting' => 'Blogs.BlogFrameSetting',
+		]);
+	}
 
 /**
  * Called during validation operations, before validation. Please note that custom
@@ -182,8 +188,6 @@ class Blog extends BlogsAppModel {
  * @return array
  */
 	public function createBlog() {
-		$this->BlogSetting = ClassRegistry::init('Blogs.BlogSetting');
-
 		$blog = $this->createAll(array(
 			'Blog' => array(
 				'name' => __d('blogs', 'New blog %s', date('YmdHis')),

@@ -91,10 +91,11 @@ class BlogsAppController extends AppController {
 		$this->_blogTitle = $blog['Blog']['name'];
 		$this->set('blog', $blog);
 
-		if (! $blogSetting = $this->BlogSetting->getBlogSetting($blog['Blog']['key'])) {
-			$blogSetting = $this->BlogSetting->create(
-				array('id' => null)
-			);
+		if (! $blogSetting = $this->BlogSetting->getBlogSetting()) {
+			$blogSetting = $this->BlogSetting->createBlockSetting();
+			$blogSetting['BlogSetting']['blog_key'] = null;
+		} else {
+			$blogSetting['BlogSetting']['blog_key'] = $blog['Blog']['key'];
 		}
 		$this->_blogSetting = $blogSetting;
 		$this->set('blogSetting', $blogSetting['BlogSetting']);
