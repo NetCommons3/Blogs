@@ -71,25 +71,6 @@ class Blog extends BlogsAppModel {
 	);
 
 /**
- * Constructor. Binds the model's database table to the object.
- *
- * @param bool|int|string|array $id Set this ID for this model on startup,
- * can also be an array of options, see above.
- * @param string $table Name of database table to use.
- * @param string $ds DataSource connection name.
- * @see Model::__construct()
- * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
- */
-	public function __construct($id = false, $table = null, $ds = null) {
-		parent::__construct($id, $table, $ds);
-
-		$this->loadModels([
-			'BlogSetting' => 'Blogs.BlogSetting',
-			'BlogFrameSetting' => 'Blogs.BlogFrameSetting',
-		]);
-	}
-
-/**
  * Called during validation operations, before validation. Please note that custom
  * validation rules can be defined in $validate.
  *
@@ -188,6 +169,8 @@ class Blog extends BlogsAppModel {
  * @return array
  */
 	public function createBlog() {
+		$this->loadModels(['BlogSetting' => 'Blogs.BlogSetting']);
+
 		$blog = $this->createAll(array(
 			'Blog' => array(
 				'name' => __d('blogs', 'New blog %s', date('YmdHis')),
@@ -208,6 +191,8 @@ class Blog extends BlogsAppModel {
  * @return array
  */
 	public function getBlog() {
+		$this->loadModels(['BlogSetting' => 'Blogs.BlogSetting']);
+
 		$blog = $this->find('all', array(
 			'recursive' => -1,
 			'fields' => array(
@@ -240,6 +225,11 @@ class Blog extends BlogsAppModel {
  * @throws InternalErrorException
  */
 	public function saveBlog($data) {
+		$this->loadModels([
+			'BlogSetting' => 'Blogs.BlogSetting',
+			'BlogFrameSetting' => 'Blogs.BlogFrameSetting',
+		]);
+
 		//トランザクションBegin
 		$this->begin();
 
