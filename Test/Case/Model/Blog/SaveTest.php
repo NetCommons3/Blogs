@@ -63,7 +63,7 @@ class BlogSaveTest extends NetCommonsSaveTest {
  *
  * @var string
  */
-	protected $blockKey = 'block_1';
+	public $blockKey = 'block_1';
 
 /**
  * setUp method
