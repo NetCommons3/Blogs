@@ -14,7 +14,6 @@
 
 <?php echo $this->Form->hidden('Blog.id'); ?>
 <?php echo $this->Form->hidden('Blog.key'); ?>
-<?php echo $this->Form->hidden('BlogSetting.id'); ?>
 <?php echo $this->Form->hidden('BlogSetting.use_workflow'); ?>
 <?php echo $this->Form->hidden('BlogSetting.use_comment_approval'); ?>
 <?php echo $this->Form->hidden('BlogFrameSetting.id'); ?>

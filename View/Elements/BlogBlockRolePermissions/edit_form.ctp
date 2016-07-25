@@ -12,7 +12,6 @@
 
 <?php echo $this->Form->hidden('Block.id'); ?>
 <?php echo $this->Form->hidden('Block.key'); ?>
-<?php echo $this->Form->hidden('BlogSetting.id'); ?>
 
 <?php echo $this->element('Blocks.block_creatable_setting', array(
 	'settingPermissions' => array(
