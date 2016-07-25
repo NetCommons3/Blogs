@@ -29,7 +29,7 @@ class BlogDeleteBlogTest extends NetCommonsDeleteTest {
 		'plugin.blogs.blog',
 		'plugin.blogs.blog_entry',
 		'plugin.blogs.blog_frame_setting',
-		'plugin.blogs.blog_setting',
+		'plugin.blogs.block_setting_for_blog',
 		'plugin.categories.category',
 		'plugin.categories.category_order',
 		'plugin.workflow.workflow_comment',
@@ -94,7 +94,6 @@ class BlogDeleteBlogTest extends NetCommonsDeleteTest {
 
 		return array(
 			array($data, 'Blogs.Blog', 'deleteAll'),
-			array($data, 'Blogs.BlogSetting', 'deleteAll'),
 			array($data, 'Blogs.BlogEntry', 'deleteAll'),
 		);
 	}

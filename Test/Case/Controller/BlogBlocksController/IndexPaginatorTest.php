@@ -28,7 +28,7 @@ class BlogBlocksControllerIndexPaginatorTest extends BlocksControllerPaginatorTe
 		'plugin.blogs.blog',
 		'plugin.blogs.blog_entry',
 		'plugin.blogs.blog_frame_setting',
-		'plugin.blogs.blog_setting',
+		'plugin.blogs.block_setting_for_blog',
 		'plugin.blogs.blog4paginator',
 		'plugin.categories.category',
 		'plugin.categories.category_order',

@@ -45,10 +45,11 @@ class Blog extends BlogsAppModel {
 			'name' => 'Blog.name',
 			'loadModels' => array(
 				'Like' => 'Likes.Like',
+				'BlockSetting' => 'Blocks.BlockSetting',
 				'Category' => 'Categories.Category',
 				'CategoryOrder' => 'Categories.CategoryOrder',
 				'WorkflowComment' => 'Workflow.WorkflowComment',
-				)
+			)
 		),
 		'Categories.Category',
 		'NetCommons.OriginalKey',
@@ -66,19 +67,6 @@ class Blog extends BlogsAppModel {
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
-		),
-	);
-
-/**
- * hasMany associations
- *
- * @var array
- */
-	public $hasMany = array(
-		'BlogSetting' => array(
-			'className' => 'Blogs.BlogSetting',
-			'foreignKey' => 'blog_key',
-			'dependent' => false
 		),
 	);
 
@@ -160,12 +148,8 @@ class Blog extends BlogsAppModel {
 	public function afterSave($created, $options = array()) {
 		//BlogSetting登録
 		if (isset($this->BlogSetting->data['BlogSetting'])) {
-			if (! Hash::get($this->BlogSetting->data, 'BlogSetting.blog_key')) {
-				$this->BlogSetting->data['BlogSetting']['blog_key'] = $this->data[$this->alias]['key'];
-			}
-			if (! $this->BlogSetting->save(null, false)) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			}
+			$this->BlogSetting->set($this->BlogSetting->data['BlogSetting']);
+			$this->BlogSetting->save(null, false);
 		}
 
 		//BlogFrameSetting登録
@@ -185,7 +169,7 @@ class Blog extends BlogsAppModel {
  * @return array
  */
 	public function createBlog() {
-		$this->BlogSetting = ClassRegistry::init('Blogs.BlogSetting');
+		$this->loadModels(['BlogSetting' => 'Blogs.BlogSetting']);
 
 		$blog = $this->createAll(array(
 			'Blog' => array(
@@ -196,7 +180,7 @@ class Blog extends BlogsAppModel {
 				'language_id' => Current::read('Language.id'),
 			),
 		));
-		$blog = Hash::merge($blog, $this->BlogSetting->create());
+		$blog = Hash::merge($blog, $this->BlogSetting->createBlockSetting());
 
 		return $blog;
 	}
@@ -207,12 +191,13 @@ class Blog extends BlogsAppModel {
  * @return array
  */
 	public function getBlog() {
+		$this->loadModels(['BlogSetting' => 'Blogs.BlogSetting']);
+
 		$blog = $this->find('all', array(
 			'recursive' => -1,
 			'fields' => array(
 				$this->alias . '.*',
 				$this->Block->alias . '.*',
-				$this->BlogSetting->alias . '.*',
 			),
 			'joins' => array(
 				array(
@@ -223,21 +208,13 @@ class Blog extends BlogsAppModel {
 						$this->alias . '.block_id' . ' = ' . $this->Block->alias . ' .id',
 					),
 				),
-				array(
-					'table' => $this->BlogSetting->table,
-					'alias' => $this->BlogSetting->alias,
-					'type' => 'INNER',
-					'conditions' => array(
-						$this->alias . '.key' . ' = ' . $this->BlogSetting->alias . ' .blog_key',
-					),
-				),
 			),
 			'conditions' => $this->getBlockConditionById(),
 		));
 		if (! $blog) {
 			return $blog;
 		}
-		return $blog[0];
+		return Hash::merge($blog[0], $this->BlogSetting->getBlogSetting());
 	}
 
 /**
@@ -249,7 +226,6 @@ class Blog extends BlogsAppModel {
  */
 	public function saveBlog($data) {
 		$this->loadModels([
-			'Blog' => 'Blogs.Blog',
 			'BlogSetting' => 'Blogs.BlogSetting',
 			'BlogFrameSetting' => 'Blogs.BlogFrameSetting',
 		]);
@@ -289,7 +265,6 @@ class Blog extends BlogsAppModel {
 	public function deleteBlog($data) {
 		$this->loadModels([
 			'Blog' => 'Blogs.Blog',
-			'BlogSetting' => 'Blogs.BlogSetting',
 			'BlogEntry' => 'Blogs.BlogEntry',
 		]);
 
@@ -299,13 +274,6 @@ class Blog extends BlogsAppModel {
 		try {
 			$conditions = array($this->alias . '.key' => $data['Blog']['key']);
 			if (! $this->deleteAll($conditions, false, false)) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			}
-
-			$settingConditions = array(
-				$this->BlogSetting->alias . '.blog_key' => $data['Blog']['key']
-			);
-			if (! $this->BlogSetting->deleteAll($settingConditions, false, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 

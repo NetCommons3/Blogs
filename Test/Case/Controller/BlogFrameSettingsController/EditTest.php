@@ -27,7 +27,7 @@ class BlogFrameSettingsControllerEditTest extends FrameSettingsControllerTest {
 	public $fixtures = array(
 		'plugin.blogs.blog',
 		'plugin.blogs.blog_frame_setting',
-		'plugin.blogs.blog_setting',
+		'plugin.blogs.block_setting_for_blog',
 	);
 
 /**

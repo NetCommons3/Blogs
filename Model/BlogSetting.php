@@ -11,7 +11,8 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('BlogsAppModel', 'Blogs.Model');
+App::uses('BlockBaseModel', 'Blocks.Model');
+App::uses('BlockSettingBehavior', 'Blocks.Model/Behavior');
 
 /**
  * BlogSetting Model
@@ -19,7 +20,14 @@ App::uses('BlogsAppModel', 'Blogs.Model');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Blogs\Model
  */
-class BlogSetting extends BlogsAppModel {
+class BlogSetting extends BlockBaseModel {
+
+/**
+ * Custom database table name
+ *
+ * @var string
+ */
+	public $useTable = false;
 
 /**
  * Validation rules
@@ -35,26 +43,24 @@ class BlogSetting extends BlogsAppModel {
  */
 	public $actsAs = array(
 		'Blocks.BlockRolePermission',
+		'Blocks.BlockSetting' => array(
+			BlockSettingBehavior::FIELD_USE_WORKFLOW,
+			BlockSettingBehavior::FIELD_USE_LIKE,
+			BlockSettingBehavior::FIELD_USE_UNLIKE,
+			BlockSettingBehavior::FIELD_USE_COMMENT,
+			BlockSettingBehavior::FIELD_USE_COMMENT_APPROVAL,
+			'use_sns'
+		),
 	);
 
 /**
  * Get blog setting data
  *
- * @param string $blogKey blogs.key
  * @return array
+ * @see BlockSettingBehavior::getBlockSetting()
  */
-	public function getBlogSetting($blogKey) {
-		$conditions = array(
-			'blog_key' => $blogKey
-		);
-
-		$blogSetting = $this->find('first', array(
-				'recursive' => -1,
-				'conditions' => $conditions,
-			)
-		);
-
-		return $blogSetting;
+	public function getBlogSetting() {
+		return $this->getBlockSetting();
 	}
 
 /**
@@ -65,10 +71,6 @@ class BlogSetting extends BlogsAppModel {
  * @throws InternalErrorException
  */
 	public function saveBlogSetting($data) {
-		$this->loadModels([
-			'BlogSetting' => 'Blogs.BlogSetting',
-		]);
-
 		//トランザクションBegin
 		$this->begin();
 
@@ -80,9 +82,8 @@ class BlogSetting extends BlogsAppModel {
 		}
 
 		try {
-			if (! $this->save(null, false)) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			}
+			// useTable = falseでsaveすると必ずfalseになるので、throwしない
+			$this->save(null, false);
 
 			//トランザクションCommit
 			$this->commit();

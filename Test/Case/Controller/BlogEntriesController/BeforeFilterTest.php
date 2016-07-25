@@ -28,7 +28,7 @@ class BlogEntriesControllerBeforeFilterTest extends NetCommonsControllerTestCase
 		'plugin.blogs.blog',
 		'plugin.blogs.blog_entry',
 		'plugin.blogs.blog_frame_setting',
-		'plugin.blogs.blog_setting',
+		'plugin.blogs.block_setting_for_blog',
 		'plugin.categories.category',
 		'plugin.categories.category_order',
 		'plugin.workflow.workflow_comment',

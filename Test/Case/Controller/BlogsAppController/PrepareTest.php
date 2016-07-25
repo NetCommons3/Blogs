@@ -29,7 +29,7 @@ class BlogsAppControllerPrepareTest extends NetCommonsControllerTestCase {
 		'plugin.blogs.blog',
 		'plugin.blogs.blog_entry',
 		'plugin.blogs.blog_frame_setting',
-		'plugin.blogs.blog_setting',
+		'plugin.blogs.block_setting_for_blog',
 		'plugin.categories.category',
 		'plugin.categories.category_order',
 		'plugin.workflow.workflow_comment',
@@ -91,7 +91,7 @@ class BlogsAppControllerPrepareTest extends NetCommonsControllerTestCase {
 		$this->_testGetAction($urlOptions, ['method' => 'assertNotEmpty']);
 
 		$this->assertEquals('BlockId2Blog', $this->vars['blog']['Blog']['name']);
-		$this->assertEquals('1', $this->vars['blogSetting']['id']);
+		$this->assertEquals('content_block_1', $this->vars['blogSetting']['blog_key']);
 
 		$frameSetting = new ReflectionProperty($this->controller, '_frameSetting');
 		$frameSetting->setAccessible(true);
@@ -136,7 +136,13 @@ class BlogsAppControllerPrepareTest extends NetCommonsControllerTestCase {
 			'frame_id' => $frameId
 		];
 
-		$this->_mockForReturn('Blogs.BlogSetting', 'getBlogSetting', false, 1);
+		//$this->_mockForReturn('Blogs.BlogSetting', 'getBlogSetting', false, 1);
+		$mockModel = 'Blogs.BlogSetting';
+		$mockMethod = 'getBlogSetting';
+		list($mockPlugin, $mockModel) = pluginSplit($mockModel);
+		$this->controller->$mockModel = $this->getMockForModel(
+			$mockPlugin . '.' . $mockModel, array($mockMethod)
+		);
 
 		//テスト実行
 		$this->_testGetAction(
@@ -145,7 +151,7 @@ class BlogsAppControllerPrepareTest extends NetCommonsControllerTestCase {
 				'method' => 'assertNotEmpty'
 			]
 		);
-		$this->assertNull($this->vars['blogSetting']['id']);
+		$this->assertNull($this->vars['blogSetting']['blog_key']);
 		$this->assertEquals(1, $this->vars['blogSetting']['use_sns']);
 	}
 

@@ -54,7 +54,7 @@ class TestViewElementsBlogBlocksEditFormController extends AppController {
 				'name' => 'BlogTitle',
 			],
 			'BlogSetting' => [
-				'id' => 5,
+				'use_workflow' => 1,
 				'use_sns' => 1,
 				'use_comment' => 1,
 			],
