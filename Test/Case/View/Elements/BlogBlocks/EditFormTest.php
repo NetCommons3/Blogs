@@ -90,12 +90,6 @@ class BlogsViewElementsBlogBlocksEditFormTest extends NetCommonsControllerTestCa
 		);
 		$this->assertInput(
 			'input',
-			'data[BlogSetting][id]',
-			$this->controller->request->data['BlogSetting']['id'],
-			$this->view
-		);
-		$this->assertInput(
-			'input',
 			'data[BlogFrameSetting][frame_key]',
 			$this->controller->request->data['BlogFrameSetting']['frame_key'],
 			$this->view
@@ -110,6 +104,12 @@ class BlogsViewElementsBlogBlocksEditFormTest extends NetCommonsControllerTestCa
 			'input',
 			'data[Blog][name]',
 			$this->controller->request->data['Blog']['name'],
+			$this->view
+		);
+		$this->assertInput(
+			'input',
+			'data[BlogSetting][use_workflow]',
+			$this->controller->request->data['BlogSetting']['use_workflow'],
 			$this->view
 		);
 		$this->assertInput(
