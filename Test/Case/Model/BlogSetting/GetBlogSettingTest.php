@@ -65,11 +65,23 @@ class BlogSettingGetBlogSettingTest extends NetCommonsGetTest {
 		$methodName = $this->_methodName;
 
 		//データ生成
-		$blogKey = 'content_block_2';
+		Current::write('Plugin.key', $this->plugin);
+		Current::write('Block.key', 'block_1');
+		Current::write('Language.id', '2');
+		Current::write('Room.need_approval', '1'); //ルーム承認する
 
 		//テスト実施
-		$result = $this->$model->$methodName($blogKey);
-		$expects = ['BlogSetting' => (new BlogSettingFixture())->records[1]];
+		$result = $this->$model->$methodName();
+		$expects = [
+			'BlogSetting' => [
+				'use_workflow' => 1,
+				'use_comment' => 1,
+				'use_comment_approval' => 1,
+				'use_like' => 1,
+				'use_unlike' => 1,
+				'use_sns' => 1,
+			]
+		];
 		$this->assertEquals($expects, $result);
 	}
 

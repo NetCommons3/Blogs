@@ -94,7 +94,6 @@ class BlogDeleteBlogTest extends NetCommonsDeleteTest {
 
 		return array(
 			array($data, 'Blogs.Blog', 'deleteAll'),
-			array($data, 'Blogs.BlogSetting', 'deleteAll'),
 			array($data, 'Blogs.BlogEntry', 'deleteAll'),
 		);
 	}

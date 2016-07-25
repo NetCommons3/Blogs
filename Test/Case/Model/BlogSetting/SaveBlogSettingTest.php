@@ -10,7 +10,6 @@
  */
 
 App::uses('NetCommonsSaveTest', 'NetCommons.TestSuite');
-App::uses('BlogSettingFixture', 'Blogs.Test/Fixture');
 
 /**
  * BlogSetting::saveBlogSetting()のテスト
@@ -57,6 +56,18 @@ class BlogSettingSaveBlogSettingTest extends NetCommonsSaveTest {
 	protected $_methodName = 'saveBlogSetting';
 
 /**
+ * setUp method
+ *
+ * @return void
+ */
+	public function setUp() {
+		parent::setUp();
+
+		Current::write('Plugin.key', $this->plugin);
+		Current::write('Block.key', 'block_1');
+	}
+
+/**
  * Save用DataProvider
  *
  * ### 戻り値
@@ -65,18 +76,41 @@ class BlogSettingSaveBlogSettingTest extends NetCommonsSaveTest {
  * @return array テストデータ
  */
 	public function dataProviderSave() {
-		$data['BlogSetting'] = (new BlogSettingFixture())->records[0];
+		$data['BlogSetting'] = array(
+			'use_workflow' => 1,
+			'use_comment' => 1,
+			'use_comment_approval' => 1,
+			'use_like' => 1,
+			'use_unlike' => 1,
+			'use_sns' => 1,
+		);
 
 		$results = array();
-		// * 編集の登録処理
 		$results[0] = array($data);
-		// * 新規の登録処理
-		$results[1] = array($data);
-		$results[1] = Hash::insert($results[1], '0.BlogSetting.id', null);
-		$results[1] = Hash::remove($results[1], '0.BlogSetting.created_user');
-		$results[1] = Hash::remove($results[1], '0.BlogSetting.created');
 
 		return $results;
+	}
+
+/**
+ * Saveのテスト
+ *
+ * @param array $data 登録データ
+ * @dataProvider dataProviderSave
+ * @return void
+ */
+	public function testSave($data) {
+		$model = $this->_modelName;
+		$method = $this->_methodName;
+
+		//テスト実行
+		$result = $this->$model->$method($data);
+		$this->assertNotEmpty($result);
+
+		//登録データ取得
+		$actual = $this->$model->getBlogSetting();
+		$expected = $data;
+
+		$this->assertEquals($expected, $actual);
 	}
 
 /**
@@ -93,7 +127,7 @@ class BlogSettingSaveBlogSettingTest extends NetCommonsSaveTest {
 		$data = $this->dataProviderSave()[0][0];
 
 		return array(
-			array($data, 'Blogs.BlogSetting', 'save'),
+			array($data[$this->_modelName], 'Blocks.BlockSetting', 'saveMany'),
 		);
 	}
 

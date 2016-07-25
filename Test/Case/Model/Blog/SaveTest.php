@@ -59,6 +59,25 @@ class BlogSaveTest extends NetCommonsSaveTest {
 	protected $_methodName = 'saveBlog';
 
 /**
+ * Method name
+ *
+ * @var string
+ */
+	protected $blockKey = 'block_1';
+
+/**
+ * setUp method
+ *
+ * @return void
+ */
+	public function setUp() {
+		parent::setUp();
+
+		Current::write('Plugin.key', $this->plugin);
+		Current::write('Block.key', $this->blockKey);
+	}
+
+/**
  * テストDataの取得
  *
  * @param string $blogKey bbsKey
@@ -68,14 +87,11 @@ class BlogSaveTest extends NetCommonsSaveTest {
 		$frameId = '6';
 		$frameKey = 'frame_3';
 		$blockId = '2';
-		$blockKey = 'block_1';
-		$blogId = '2';
+		$blockKey = $this->blockKey;
 		if ($blogKey === 'blog_1') {
 			$blogId = '2';
-			$blogSettingId = '1';
 		} else {
 			$blogId = null;
-			$blogSettingId = null;
 		}
 
 		$data = array(
@@ -99,8 +115,6 @@ class BlogSaveTest extends NetCommonsSaveTest {
 				//'bbs_article_modified' => null,
 			),
 			'BlogSetting' => array(
-				'id' => $blogSettingId,
-				'blog_key' => $blogKey,
 				'use_comment' => '1',
 				'use_like' => '1',
 				'use_unlike' => '1',
@@ -144,7 +158,7 @@ class BlogSaveTest extends NetCommonsSaveTest {
 	public function dataProviderSaveOnExceptionError() {
 		return array(
 			array($this->__getData(), 'Blogs.Blog', 'save'),
-			array($this->__getData(null), 'Blogs.BlogSetting', 'save'),
+			array($this->__getData(null), 'Blocks.BlockSetting', 'saveMany'),
 			array($this->__getData(null), 'Blogs.BlogFrameSetting', 'save'),
 		);
 	}

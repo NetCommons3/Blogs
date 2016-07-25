@@ -8,6 +8,7 @@ App::uses('AppController', 'Controller');
  * Class BlogsAppController
  *
  * @property BlogFrameSetting $BlogFrameSetting
+ * @property BlogSetting $BlogSetting
  */
 class BlogsAppController extends AppController {
 
