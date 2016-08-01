@@ -24,8 +24,6 @@ class AddIndex extends CakeMigration {
 		'up' => array(
 			'create_field' => array(
 				'blog_entries' => array(
-					'plus_vote_number' => array('type' => 'integer', 'null' => false, 'default' => '0', 'unsigned' => false, 'comment' => 'plus vote number | プラス投票数 |  | ', 'after' => 'publish_end'),
-					'minus_vote_number' => array('type' => 'integer', 'null' => false, 'default' => '0', 'unsigned' => false, 'comment' => 'minus vote number | マイナス投票数 |  | ', 'after' => 'plus_vote_number'),
 					'indexes' => array(
 						'block_id' => array('column' => array('block_id', 'language_id'), 'unique' => 0),
 					),
@@ -48,7 +46,6 @@ class AddIndex extends CakeMigration {
 			),
 			'alter_field' => array(
 				'blog_entries' => array(
-					'public_type' => array('type' => 'integer', 'null' => false, 'default' => '1', 'length' => 4, 'unsigned' => false),
 					'block_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'unsigned' => false, 'key' => 'index'),
 				),
 				'blog_frame_settings' => array(
@@ -64,14 +61,13 @@ class AddIndex extends CakeMigration {
 		),
 		'down' => array(
 			'drop_field' => array(
-				'blog_entries' => array('plus_vote_number', 'minus_vote_number', 'indexes' => array('block_id')),
+				'blog_entries' => array('indexes' => array('block_id')),
 				'blog_frame_settings' => array('indexes' => array('frame_key')),
 				'blog_settings' => array('indexes' => array('blog_key')),
 				'blogs' => array('indexes' => array('block_id')),
 			),
 			'alter_field' => array(
 				'blog_entries' => array(
-					'public_type' => array('type' => 'integer', 'null' => false, 'default' => '2', 'length' => 4, 'unsigned' => false),
 					'block_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'unsigned' => false),
 				),
 				'blog_frame_settings' => array(
