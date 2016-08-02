@@ -141,7 +141,9 @@ class BlogsAppControllerPrepareTest extends NetCommonsControllerTestCase {
 		$mockMethod = 'getBlogSetting';
 		list($mockPlugin, $mockModel) = pluginSplit($mockModel);
 		$this->controller->$mockModel = $this->getMockForModel(
-			$mockPlugin . '.' . $mockModel, array($mockMethod)
+			$mockPlugin . '.' . $mockModel,
+			array($mockMethod),
+			array('plugin' => 'Blogs')
 		);
 
 		//テスト実行
