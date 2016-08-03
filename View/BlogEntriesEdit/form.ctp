@@ -118,7 +118,7 @@ $dataJson = json_encode(
 					<?php echo $this->NetCommonsForm->create('BlogEntry',
 						array(
 							'type' => 'delete',
-							'url' => $this->NetCommonsHtml->url(
+							'url' => NetCommonsUrl::blockUrl(
 								array('controller' => 'blog_entries_edit', 'action' => 'delete', 'frame_id' => Current::read('Frame.id')))
 						)
 					) ?>
