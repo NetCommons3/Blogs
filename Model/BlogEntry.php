@@ -78,6 +78,16 @@ class BlogEntry extends BlogsAppModel {
 	//		'fields' => '',
 	//		'order' => ''
 	//	)
+		'Block' => array(
+			'className' => 'Blocks.Block',
+			'foreignKey' => 'block_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'counterCache' => array(
+				'content_count' => array('BlogEntry.is_latest' => 1),
+			),
+		),
 	);
 
 /**
@@ -270,7 +280,7 @@ class BlogEntry extends BlogsAppModel {
 		$oldestEntry = $this->find('first',
 			array(
 				'conditions' => $conditions,
-				'order' => 'publish_start ASC',
+				'order' => 'BlogEntry.publish_start ASC',
 			)
 		);
 
@@ -286,7 +296,7 @@ class BlogEntry extends BlogsAppModel {
 		$latestConditions = Hash::merge(
 			$conditions,
 			[
-				'publish_start >=' => $currentDateTime
+				'BlogEntry.publish_start >=' => $currentDateTime
 			]
 		);
 
@@ -294,7 +304,7 @@ class BlogEntry extends BlogsAppModel {
 			'first',
 			[
 				'conditions' => $latestConditions,
-				'order' => 'publish_start DESC'
+				'order' => 'BlogEntry.publish_start DESC'
 			]
 		);
 		if ($latestBlogEntry) {

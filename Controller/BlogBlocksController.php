@@ -107,17 +107,6 @@ class BlogBlocksController extends BlogsAppController {
 			$this->view = 'Blocks.Blocks/not_found';
 			return;
 		}
-		foreach ($blogs as &$blog) {
-			// is_latestで同一言語の件数をとってくる
-			$conditions = [
-				'BlogEntry.language_id' => Current::read('Language.id'),
-				'BlogEntry.is_latest' => true,
-				'BlogEntry.blog_key' => $blog['Blog']['key']
-			];
-			$count = $this->BlogEntry->find('count', ['conditions' => $conditions]);
-
-			$blog['Blog']['entries_count'] = $count;
-		}
 		$this->set('blogs', $blogs);
 		$this->request->data['Frame'] = Current::read('Frame');
 	}

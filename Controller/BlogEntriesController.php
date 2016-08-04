@@ -233,7 +233,7 @@ class BlogEntriesController extends BlogsAppController {
 			array(
 				'conditions' => $conditions,
 				'limit' => $this->_frameSetting['BlogFrameSetting']['articles_per_page'],
-				'order' => 'publish_start DESC',
+				'order' => 'BlogEntry.publish_start DESC',
 				//'fields' => '*, ContentCommentCnt.cnt',
 			)
 		);
