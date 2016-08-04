@@ -8,15 +8,13 @@
 		); ?>&nbsp;
 
 		<?php echo $this->NetCommonsHtml->handleLink($blogEntry, array('avatar' => true)); ?>&nbsp;
-		<?php echo __d('blogs', 'Category') ?>:<?php echo $this->Html->link(
+		<?php echo __d('blogs', 'Category') ?>:<?php echo $this->NetCommonsHtml->link(
 			$blogEntry['Category']['name'],
-			$this->NetCommonsHtml->url(
-				array(
-					'controller' => 'blog_entries',
-					'action' => 'index',
-					'frame_id' => Current::read('Frame.id'),
-					'category_id' => $blogEntry['BlogEntry']['category_id']
-				)
+			array(
+				'controller' => 'blog_entries',
+				'action' => 'index',
+				'frame_id' => Current::read('Frame.id'),
+				'category_id' => $blogEntry['BlogEntry']['category_id']
 			)
 		); ?>
 	</div>

@@ -1,43 +1,15 @@
 <?php
-echo $this->Html->css(
+echo $this->NetCommonsHtml->css([
 	'/blogs/css/blogs.css',
-	array(
-		'plugin' => false,
-		'once' => true,
-		'inline' => false
-	)
-); ?>
-<?php
-echo $this->Html->script(
-	'/blogs/js/blogs.js',
-	array(
-		'plugin' => false,
-		'once' => true,
-		'inline' => false
-	)
-);
-?>
-<?php
-// Like
-echo $this->Html->script(
-	'/likes/js/likes.js',
-	array(
-		'plugin' => false,
-		'once' => true,
-		'inline' => false
-	)
-);
-echo $this->Html->css(
 	'/likes/css/style.css',
-	array(
-		'plugin' => false,
-		'once' => true,
-		'inline' => false
-	)
-);
+]);
+echo $this->NetCommonsHtml->script([
+	'/blogs/js/blogs.js',
+	'/likes/js/likes.js',
+]);
 ?>
 
-<div class="blogEntries index " ng-controller="Blogs.Entries" ng-init="init(<?php echo Current::read('Frame.id') ?>)">
+<article class="blogEntries index " ng-controller="Blogs.Entries" ng-init="init(<?php echo Current::read('Frame.id') ?>)">
 	<h1 class="blogs_blogTitle"><?php echo $listTitle ?></h1>
 
 	<div class="clearfix blogs_navigation_header">
@@ -115,15 +87,13 @@ echo $this->Html->css(
 				</div>
 				<h2 class="blogs_entry_title">
 					<?php echo $this->TitleIcon->titleIcon($blogEntry['BlogEntry']['title_icon']); ?>
-					<?php echo $this->Html->link(
+					<?php echo $this->NetCommonsHtml->link(
 						$blogEntry['BlogEntry']['title'],
-						$this->NetCommonsHtml->url(
-							array(
-								'controller' => 'blog_entries',
-								'action' => 'view',
-								//'frame_id' => Current::read('Frame.id'),
-								'key' => $blogEntry['BlogEntry']['key']
-							)
+						array(
+							'controller' => 'blog_entries',
+							'action' => 'view',
+							//'frame_id' => Current::read('Frame.id'),
+							'key' => $blogEntry['BlogEntry']['key']
 						)
 					);
 					?>
@@ -151,4 +121,4 @@ echo $this->Html->css(
 	</div>
 
 	<?php echo $this->element('NetCommons.paginator') ?>
-</div>
+</article>

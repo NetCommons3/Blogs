@@ -24,7 +24,7 @@
 				),
 			),
 			NetCommonsUrl::backToIndexUrl('default_setting_action'),
-			1,
+			0,
 			1
 		); ?>
 	</div>

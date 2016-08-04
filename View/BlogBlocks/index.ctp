@@ -30,8 +30,8 @@
 				array('sort' => true, 'editUrl' => true)
 			); ?>
 			<?php echo $this->BlockIndex->tableHeader(
-				'Blog.entries_count', __d('net_commons', 'Number'),
-				array('sort' => false, 'type' => 'numeric')
+				'Block.content_count', __d('net_commons', 'Number'),
+				array('sort' => true, 'type' => 'numeric')
 			); ?>
 			<?php
 			echo $this->BlockIndex->tableHeader(
@@ -59,7 +59,7 @@
 				array('editUrl' => array('block_id' => $blog['Block']['id']))
 			); ?>
 			<?php echo $this->BlockIndex->tableData(
-				'Blog.entries_count', $blog['Blog']['entries_count'], array('type' => 'numeric')
+				'Block.content_count', $blog['Block']['content_count'], array('type' => 'numeric')
 			); ?>
 			<?php echo $this->BlockIndex->tableData(
 				'Block.public_type', $blog
