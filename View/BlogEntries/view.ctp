@@ -1,30 +1,11 @@
 <?php
-echo $this->Html->css(
+echo $this->NetCommonsHtml->css([
 	'/blogs/css/blogs.css',
-	array(
-		'plugin' => false,
-		'once' => true,
-		'inline' => false
-	)
-); ?>
-<?php
-// Like
-echo $this->Html->script(
-	'/likes/js/likes.js',
-	array(
-		'plugin' => false,
-		'once' => true,
-		'inline' => false
-	)
-);
-echo $this->Html->css(
 	'/likes/css/style.css',
-	array(
-		'plugin' => false,
-		'once' => true,
-		'inline' => false
-	)
-);
+]);
+echo $this->NetCommonsHtml->script([
+	'/likes/js/likes.js',
+]);
 ?>
 
 <header class="clearfix">
@@ -62,9 +43,9 @@ echo $this->Html->css(
 	<div>
 		<?php echo __d('blogs', 'tag'); ?>
 		<?php foreach ($blogEntry['Tag'] as $blogTag): ?>
-			<?php echo $this->Html->link(
+			<?php echo $this->NetCommonsHtml->link(
 				$blogTag['name'],
-				$this->NetCommonsHtml->url(array('controller' => 'blog_entries', 'action' => 'tag', 'frame_id' => Current::read('Frame.id'), 'id' => $blogTag['id']))
+				array('controller' => 'blog_entries', 'action' => 'tag', 'frame_id' => Current::read('Frame.id'), 'id' => $blogTag['id'])
 			); ?>&nbsp;
 		<?php endforeach; ?>
 	</div>

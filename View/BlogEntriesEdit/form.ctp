@@ -1,26 +1,8 @@
-<?php echo $this->Html->script(
+<?php echo $this->NetCommonsHtml->script([
 	'/blogs/js/blogs.js',
-	array(
-		'plugin' => false,
-		'once' => true,
-		'inline' => false
-	)
-); ?>
-<?php
-// 編集用
-echo $this->Html->script(
-	array(
-		'/tags/js/tags.js',
-		'/blogs/js/blogs_entry_edit.js',
-		//'/wysiwyg/js/wysiwyg.js',
-	),
-	array(
-		'plugin' => false,
-		'once' => true,
-		'inline' => false
-	)
-);
-?>
+	'/blogs/js/blogs_entry_edit.js',
+	'/tags/js/tags.js',
+]); ?>
 <?php
 $dataJson = json_encode(
 	$this->NetCommonsTime->toUserDatetimeArray($this->request->data, array('BlogEntry.publish_start'))
