@@ -9,17 +9,17 @@
     },
     "require": {
         "cakedc/migrations":            "~2.2",
-        "netcommons/categories":        "dev-master",
-        "netcommons/content-comments":  "dev-master",
-        "netcommons/likes":             "dev-master",
-        "netcommons/mails":             "dev-master",
-        "netcommons/net-commons":       "dev-master",
-        "netcommons/pages":             "dev-master",
-        "netcommons/plugin-manager":    "dev-master",
-        "netcommons/tags":              "dev-master",
-        "netcommons/topics":            "dev-master",
-        "netcommons/workflow":          "dev-master",
-        "netcommons/wysiwyg":           "dev-master"
+        "netcommons/categories":        "@dev",
+        "netcommons/content-comments":  "@dev",
+        "netcommons/likes":             "@dev",
+        "netcommons/mails":             "@dev",
+        "netcommons/net-commons":       "@dev",
+        "netcommons/pages":             "@dev",
+        "netcommons/plugin-manager":    "@dev",
+        "netcommons/tags":              "@dev",
+        "netcommons/topics":            "@dev",
+        "netcommons/workflow":          "@dev",
+        "netcommons/wysiwyg":           "@dev"
     },
     "license": "NetCommons License",
     "authors": [
