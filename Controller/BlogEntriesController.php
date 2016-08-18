@@ -123,7 +123,7 @@ class BlogEntriesController extends BlogsAppController {
 			$conditions['BlogEntry.category_id'] = $this->_filter['categoryId'];
 			$category = $this->Category->findById($this->_filter['categoryId']);
 			// カテゴリがみつからないならBadRequest
-			if(! $category) {
+			if (!$category) {
 				return $this->throwBadRequest();
 			}
 			$this->set('listTitle', __d('blogs', 'Category') . ':' . $category['Category']['name']);
