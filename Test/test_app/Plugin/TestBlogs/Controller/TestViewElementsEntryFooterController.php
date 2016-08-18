@@ -58,6 +58,7 @@ class TestViewElementsEntryFooterController extends AppController {
 		$blogEntry = [
 			'BlogEntry' => [
 				'key' => 'content_key_1',
+				'title' => 'title',
 				'status' => WorkflowComponent::STATUS_PUBLISHED,
 			]
 		];
