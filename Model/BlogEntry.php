@@ -51,6 +51,9 @@ class BlogEntry extends BlogsAppModel {
 			'embedTags' => array(
 				'X-SUBJECT' => 'BlogEntry.title',
 				'X-BODY' => 'BlogEntry.body1',
+				'X-URL' => [
+					'controller' => 'blog_entries'
+				]
 			),
 		),
 		'Wysiwyg.Wysiwyg' => array(
