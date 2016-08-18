@@ -12,7 +12,7 @@
 			<?php echo $this->SnsButton->facebook($contentUrl);?>
 			<!--Twitter-->
 			<div class="pull-left">
-				<?php echo $this->SnsButton->twitter($contentUrl);?>
+				<?php echo $this->SnsButton->twitter($contentUrl, $blogEntry['BlogEntry']['title']);?>
 			</div>
 		<?php endif ?>
 
