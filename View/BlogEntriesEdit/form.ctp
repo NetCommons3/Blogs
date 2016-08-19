@@ -27,7 +27,7 @@ $dataJson = json_encode(
 			);
 			$this->NetCommonsForm->unlockField('Tag');
 			?>
-			<?php echo $this->NetCommonsForm->input('key', array('type' => 'hidden')); ?>
+			<?php echo $this->NetCommonsForm->hidden('key'); ?>
 			<?php echo $this->NetCommonsForm->hidden('Frame.id', array(
 						'value' => Current::read('Frame.id'),
 					)); ?>
@@ -52,17 +52,20 @@ $dataJson = json_encode(
 					<?php echo $this->NetCommonsForm->wysiwyg('BlogEntry.body1', array(
 						'label' => __d('blogs', 'Body1'),
 						'required' => true,
+						'rows' => 12
 					));?>
 
-					<label><input type="checkbox" ng-model="writeBody2"/><?php echo __d('blogs', 'Write body2') ?>
-					</label>
+					<div>
+						<label><input type="checkbox" ng-model="writeBody2"/><?php echo __d('blogs', 'Write body2') ?>
+						</label>
+					</div>
 
 					<div class="form-group" ng-show="writeBody2">
 					<?php echo $this->NetCommonsForm->wysiwyg('BlogEntry.body2', array(
 						'label' => __d('blogs', 'Body2'),
+						'rows' => 12
 					));?>
 					</div>
-
 
 					<?php
 					echo $this->NetCommonsForm->input('publish_start',
@@ -70,11 +73,12 @@ $dataJson = json_encode(
 							'type' => 'datetime',
 							'required' => 'required',
 							'label' => __d('blogs', 'Published datetime'),
-							'childDiv' => 'form-inline',
-							//'div' => 'form-inline'
+							'childDiv' => ['class' => 'form-inline', 'style' =>
+								'position:relative'],
 						)
 					);
 					?>
+
 					<?php echo $this->Category->select('BlogEntry.category_id', array('empty' => true)); ?>
 
 					<?php echo $this->element(
@@ -95,6 +99,7 @@ $dataJson = json_encode(
 			<?php echo $this->Workflow->buttons('BlogEntry.status'); ?>
 
 			<?php echo $this->NetCommonsForm->end() ?>
+
 			<?php if ($isEdit && $isDeletable) : ?>
 				<div  class="panel-footer" style="text-align: right;">
 					<?php echo $this->NetCommonsForm->create('BlogEntry',
