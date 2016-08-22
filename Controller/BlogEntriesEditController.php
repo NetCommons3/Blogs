@@ -117,6 +117,7 @@ class BlogEntriesEditController extends BlogsAppController {
 		$key = $this->params['key'];
 
 		//  keyのis_latstを元に編集を開始
+		$this->BlogEntry->recursive = 0;
 		$blogEntry = $this->BlogEntry->findByKeyAndIsLatest($key, 1);
 		if (empty($blogEntry)) {
 			return $this->throwBadRequest();

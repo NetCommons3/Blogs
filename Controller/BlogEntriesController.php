@@ -272,6 +272,7 @@ class BlogEntriesController extends BlogsAppController {
 			'conditions' => $conditions,
 			'recursive' => 0,
 		);
+		$this->BlogEntry->recursive = 0;
 		$this->BlogEntry->Behaviors->load('ContentComments.ContentComment');
 		$blogEntry = $this->BlogEntry->find('first', $options);
 		$this->BlogEntry->Behaviors->unload('ContentComments.ContentComment');
