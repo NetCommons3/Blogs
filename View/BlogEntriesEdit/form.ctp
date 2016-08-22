@@ -73,8 +73,7 @@ $dataJson = json_encode(
 							'type' => 'datetime',
 							'required' => 'required',
 							'label' => __d('blogs', 'Published datetime'),
-							'childDiv' => ['class' => 'form-inline', 'style' =>
-								'position:relative'],
+							'childDiv' => ['class' => 'form-inline'],
 						)
 					);
 					?>
