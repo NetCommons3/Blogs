@@ -80,7 +80,7 @@ msgid "Use comment"
 msgstr "コメントを付けられる"
 
 msgid "Use sns"
-msgstr "SNSボタンを使う"
+msgstr "SNSボタンを使用する"
 
 msgid "Blog"
 msgstr "ブログ"

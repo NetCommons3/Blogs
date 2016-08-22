@@ -30,7 +30,7 @@
 <?php echo $this->element('Blocks.public_type'); ?>
 
 <?php echo $this->NetCommonsForm->inlineCheckbox('BlogSetting.use_comment', array(
-			'label' => __d('blogs', 'Use comment')
+			'label' => __d('content_comments', 'Use comment')
 	)); ?>
 
 <?php echo $this->Like->setting('BlogSetting.use_like', 'BlogSetting.use_unlike');?>
