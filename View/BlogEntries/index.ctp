@@ -31,7 +31,13 @@ echo $this->NetCommonsHtml->script([
 					<?php echo $this->Category->dropDownToggle(array(
 						'empty' => false,
 						'displayMenu' => false,
-						$this->NetCommonsHtml->url(array('action' => 'index')),
+						'url' => NetCommonsUrl::actionUrlAsArray(
+							array(
+								'action' => 'index',
+								'block_id' => Current::read('Block.id'),
+								'frame_id' => Current::read('Frame.id'),
+							)
+						),
 					)); ?>
 
 					<li role="presentation" class="divider"></li>
