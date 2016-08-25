@@ -275,7 +275,8 @@ class BlogEntry extends BlogsAppModel {
 			'all',
 			array(
 				'fields' => array(
-					'DATE_FORMAT(CONVERT_TZ(BlogEntry.publish_start, \'+00:00\', \'' . $timeOffset . '\'), \'%Y-%m\') AS BlogEntry__year_month',
+					'DATE_FORMAT(CONVERT_TZ(BlogEntry.publish_start,' .
+					' \'+00:00\', \'' . $timeOffset . '\'), \'%Y-%m\') AS BlogEntry__year_month',
 					'count(*) AS BlogEntry__count'
 				),
 				'conditions' => $conditions,
@@ -297,7 +298,8 @@ class BlogEntry extends BlogsAppModel {
 
 		// 一番古い記事の年月から現在までを先にゼロ埋め
 		if (isset($oldestEntry['BlogEntry'])) {
-			$currentYearMonthDay = date('Y-m-01', strtotime($netCommonsTime->toUserDatetime($oldestEntry['BlogEntry']['publish_start'])));
+			$currentYearMonthDay = date('Y-m-01', strtotime(
+				$netCommonsTime->toUserDatetime($oldestEntry['BlogEntry']['publish_start'])));
 		} else {
 			// 記事がなかったら今月だけ
 			$currentYearMonthDay = date('Y-m-01', strtotime($currentDateTime));
