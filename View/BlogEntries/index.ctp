@@ -16,8 +16,12 @@ echo $this->NetCommonsHtml->script([
 		<div class="pull-left">
 			<span class="dropdown">
 				<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
-					<?php echo $filterDropDownLabel ?>
-					<span class="caret"></span>
+					<span class="pull-left nc-drop-down-ellipsis">
+						<?php echo $filterDropDownLabel ?>
+					</span>
+					<span class="pull-right">
+						<span class="caret"></span>
+					</span>
 				</button>
 				<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
 					<li role="presentation"><a role="menuitem" tabindex="-1" href="<?php echo $this->NetCommonsHtml->url(
