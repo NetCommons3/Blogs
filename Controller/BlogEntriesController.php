@@ -181,6 +181,11 @@ class BlogEntriesController extends BlogsAppController {
 			$first = $this->_filter['yearMonth'] . '-1';
 			$last = date('Y-m-t', strtotime($first));
 
+			// 期間をサーバタイムゾーンに変換する
+			$netCommonsTime = new NetCommonsTime();
+			$first = $netCommonsTime->toServerDatetime($first);
+			$last = $netCommonsTime->toServerDatetime($last);
+
 			$conditions = array(
 				'BlogEntry.publish_start BETWEEN ? AND ?' => array($first, $last)
 			);
