@@ -92,9 +92,6 @@ echo $this->NetCommonsHtml->script([
 			<?php foreach ($blogEntries as $blogEntry): ?>
 
 				<article class="blogs_entry" ng-controller="Blogs.Entries.Entry">
-					<div class="blogs_entry_status">
-						<?php echo $this->Workflow->label($blogEntry['BlogEntry']['status']); ?>
-					</div>
 					<h2 class="blogs_entry_title">
 						<?php echo $this->TitleIcon->titleIcon($blogEntry['BlogEntry']['title_icon']); ?>
 						<?php echo $this->NetCommonsHtml->link(
@@ -107,6 +104,7 @@ echo $this->NetCommonsHtml->script([
 							)
 						);
 						?>
+						<?php echo $this->Workflow->label($blogEntry['BlogEntry']['status']); ?>
 					</h2>
 					<?php echo $this->element('entry_meta_info', array('blogEntry' => $blogEntry)); ?>
 
