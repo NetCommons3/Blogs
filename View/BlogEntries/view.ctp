@@ -22,9 +22,9 @@ echo $this->NetCommonsHtml->script([
 
 	<div class="blogs_view_title clearfix">
 		<?php echo $this->NetCommonsHtml->blockTitle(
-				$this->Workflow->label($blogEntry['BlogEntry']['status']) . h($blogEntry['BlogEntry']['title']),
+				$blogEntry['BlogEntry']['title'],
 				$blogEntry['BlogEntry']['title_icon'],
-				array('escape' => false)
+				array('status' => $this->Workflow->label($blogEntry['BlogEntry']['status']))
 			); ?>
 	</div>
 
