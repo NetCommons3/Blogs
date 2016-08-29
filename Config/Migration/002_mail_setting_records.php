@@ -64,8 +64,18 @@ class BlogMailSettingRecords extends MailsMigration {
 				'plugin_key' => self::PLUGIN_KEY,
 				'block_key' => null,
 				'type_key' => 'contents',
-				'mail_fixed_phrase_subject' => '',
-				'mail_fixed_phrase_body' => '',
+				'mail_fixed_phrase_subject' => '[{X-SITE_NAME}-{X-PLUGIN_NAME}]{X-SUBJECT}({X-ROOM} {X-BLOCK_NAME})',
+				'mail_fixed_phrase_body' => 'Posted on {X-PLUGIN_NAME}.
+Room name: {X-ROOM}
+Channel name: {X-BLOCK_NAME}
+Video Title: {X-SUBJECT}
+Posted by: {X-USER}
+Post time: {X-TO_DATE}
+
+{X-BODY}
+
+Please click on the link below to check this post content.
+{X-URL}',
 			),
 			// * 日本語
 			array(
@@ -73,8 +83,18 @@ class BlogMailSettingRecords extends MailsMigration {
 				'plugin_key' => self::PLUGIN_KEY,
 				'block_key' => null,
 				'type_key' => 'contents',
-				'mail_fixed_phrase_subject' => '',
-				'mail_fixed_phrase_body' => '',
+				'mail_fixed_phrase_subject' => '[{X-SITE_NAME}-{X-PLUGIN_NAME}]{X-SUBJECT}({X-ROOM} {X-BLOCK_NAME})',
+				'mail_fixed_phrase_body' => '{X-PLUGIN_NAME}にコンテンツが投稿されたのでお知らせします。
+ルーム名:{X-ROOM}
+ブロック名:{X-BLOCK_NAME}
+タイトル:{X-SUBJECT}
+投稿者:{X-USER}
+投稿日時:{X-TO_DATE}
+
+{X-BODY}
+
+この投稿内容を確認するには下記のリンクをクリックしてください。
+{X-URL}',
 			),
 		),
 	);
