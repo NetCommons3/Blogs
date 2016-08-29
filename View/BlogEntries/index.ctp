@@ -10,7 +10,7 @@ echo $this->NetCommonsHtml->script([
 ?>
 
 <article class="blogEntries index " ng-controller="Blogs.Entries" ng-init="init(<?php echo Current::read('Frame.id') ?>)">
-	<h1 class="blogs_blogTitle"><?php echo $listTitle ?></h1>
+	<h1 class="blogs_blogTitle"><?php echo h($listTitle) ?></h1>
 
 	<header class="clearfix blogs_navigation_header">
 		<div class="pull-left">
