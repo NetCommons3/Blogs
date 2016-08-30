@@ -10,7 +10,7 @@ echo $this->NetCommonsHtml->script([
 
 <header class="clearfix">
 	<div class="pull-left">
-		<?php echo $this->Workflow->label($blogEntry['BlogEntry']['status'])?>
+		<?php echo $this->LinkButton->toList(); ?>
 	</div>
 	<div class="pull-right">
 		<?php echo $this->element('BlogEntries/edit_link', array('status' => $blogEntry['BlogEntry']['status'])); ?>
@@ -21,8 +21,11 @@ echo $this->NetCommonsHtml->script([
 <article>
 
 	<div class="blogs_view_title clearfix">
-		<?php echo $this->NetCommonsHtml->blockTitle($blogEntry['BlogEntry']['title'],
-			$blogEntry['BlogEntry']['title_icon']); ?>
+		<?php echo $this->NetCommonsHtml->blockTitle(
+				$blogEntry['BlogEntry']['title'],
+				$blogEntry['BlogEntry']['title_icon'],
+				array('status' => $this->Workflow->label($blogEntry['BlogEntry']['status']))
+			); ?>
 	</div>
 
 	<?php echo $this->element('entry_meta_info'); ?>
