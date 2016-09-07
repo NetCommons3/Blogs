@@ -25,15 +25,7 @@
 		</div>
 
 		<div class="pull-left">
-			<?php if (isset($index) && ($index === true)) : ?>
-				<!--view only-->
-				<?php echo $this->Like->display($blogSetting, $blogEntry, array('div' => true)); ?>
-			<?php else : ?>
-				<!--post like-->
-				<?php echo $this->Like->buttons('BlogEntry', $blogSetting, $blogEntry, array('div' => true)); ?>
-			<?php endif ?>
+			<?php echo $this->Like->buttons('BlogEntry', $blogSetting, $blogEntry, array('div' => true)); ?>
 		</div>
 	</div>
-
-
 </div>

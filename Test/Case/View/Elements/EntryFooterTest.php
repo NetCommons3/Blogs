@@ -82,8 +82,8 @@ class BlogsViewElementsEntryFooterTest extends NetCommonsControllerTestCase {
 		$this->assertContains('twitter.com', $this->view);
 		// use like
 		$this->assertContains('glyphicon-thumbs-up', $this->view);
-		// indexでは表示のみでLikeボタンではない
-		$this->assertNotContains('ng-controller="Likes"', $this->view);
+		// indexでもLikeボタンを表示
+		$this->assertContains('ng-controller="Likes"', $this->view);
 
 		// indexではcontent comment countを表示
 		$this->assertContains('blogs__content-comment-count', $this->view);
@@ -108,8 +108,8 @@ class BlogsViewElementsEntryFooterTest extends NetCommonsControllerTestCase {
 		$this->assertNotContains('twitter.com', $this->view);
 		// use like
 		$this->assertContains('glyphicon-thumbs-up', $this->view);
-		// indexでは表示のみでLikeボタンではない
-		$this->assertNotContains('ng-controller="Likes"', $this->view);
+		// indexでもLikeボタンを表示
+		$this->assertContains('ng-controller="Likes"', $this->view);
 
 		// indexではcontent comment countを表示
 		$this->assertContains('blogs__content-comment-count', $this->view);
@@ -135,7 +135,7 @@ class BlogsViewElementsEntryFooterTest extends NetCommonsControllerTestCase {
 		$this->assertNotContains('twitter.com', $this->view);
 		// use like
 		$this->assertContains('glyphicon-thumbs-up', $this->view);
-		// indexでは表示のみでLikeボタンではない
+		// index以外でもLikeボタン表示
 		$this->assertContains('ng-controller="Likes"', $this->view);
 
 		// indexではcontent comment countを表示
