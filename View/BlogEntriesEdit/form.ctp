@@ -10,7 +10,7 @@ $dataJson = json_encode(
 ?>
 <div class="blogEntries form" ng-controller="Blogs" ng-init="init(<?php echo h($dataJson) ?>)">
 	<article>
-		<h1><?php echo $blog['Blog']['name'] ?></h1>
+		<h1><?php echo h($blog['Blog']['name']) ?></h1>
 		<div class="panel panel-default">
 
 			<?php echo $this->NetCommonsForm->create(
