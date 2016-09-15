@@ -10,7 +10,7 @@ $dataJson = json_encode(
 ?>
 <div class="blogEntries form" ng-controller="Blogs" ng-init="init(<?php echo h($dataJson) ?>)">
 	<article>
-		<h1><?php echo $blog['Blog']['name'] ?></h1>
+		<h1><?php echo h($blog['Blog']['name']) ?></h1>
 		<div class="panel panel-default">
 
 			<?php echo $this->NetCommonsForm->create(
@@ -110,9 +110,7 @@ $dataJson = json_encode(
 					) ?>
 					<?php echo $this->NetCommonsForm->input('key', array('type' => 'hidden')); ?>
 
-					<span class="nc-tooltip" tooltip="<?php echo __d('net_commons', 'Delete'); ?>">
-						<button class="btn btn-danger" onClick="return confirm('<?php echo __d('net_commons', 'Deleting the %s. Are you sure to proceed?', __d('blogs', 'BlogEntry')) ?>')"><span class="glyphicon glyphicon-trash"> </span></button>
-
+					<?php echo $this->Button->delete('', __d('net_commons', 'Deleting the %s. Are you sure to proceed?', __d('blogs', 'BlogEntry')));?>
 
 					</span>
 					<?php echo $this->NetCommonsForm->end() ?>
