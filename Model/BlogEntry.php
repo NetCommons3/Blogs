@@ -347,6 +347,9 @@ class BlogEntry extends BlogsAppModel {
  * @throws InternalErrorException
  */
 	public function saveEntry($data) {
+		// category_id=0だったらnullにする。そうしないと空文字としてSQL発行される
+		$data[$this->alias]['category_id'] = ($data[$this->alias]['category_id'] == 0) ? null :
+			$data[$this->alias]['category_id'];
 		$this->begin();
 		try {
 			$this->create(); // 常に新規登録
