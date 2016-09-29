@@ -8,8 +8,17 @@
  */
 class BlogsSchema extends CakeSchema {
 
+/**
+ * @var string connection
+ */
 	public $connection = 'master';
 
+/**
+ * before
+ *
+ * @param array $event event
+ * @return bool
+ */
 	public function before($event = array()) {
 		return true;
 	}
