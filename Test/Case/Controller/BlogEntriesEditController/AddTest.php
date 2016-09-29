@@ -85,6 +85,7 @@ class BlogEntriesEditControllerAddTest extends WorkflowControllerAddTest {
 				'title' => 'BlogEntryTitle',
 				'body1' => 'BlogEntryBody1',
 				'publish_start' => '2016-01-01 10:00',
+				'category_id' => null,
 			),
 
 			'WorkflowComment' => array(
