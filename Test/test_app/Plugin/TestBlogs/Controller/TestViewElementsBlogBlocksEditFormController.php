@@ -42,7 +42,7 @@ class TestViewElementsBlogBlocksEditFormController extends AppController {
 				'id' => 2,
 				'key' => 'content_block_key_2',
 				'language_id' => 2,
-				'room_id' => 3,
+				'room_id' => '4',
 				'plugin_key' => 'blogs',
 				'public_type' => 2,
 				'publish_start' => null,
