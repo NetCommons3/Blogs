@@ -69,11 +69,11 @@ class AddRecord extends NetCommonsMigration {
 		),
 		'PluginsRoom' => array(
 			//パブリックスペース
-			array('room_id' => '1', 'plugin_key' => 'blogs', ),
-			//プライベートスペース
 			array('room_id' => '2', 'plugin_key' => 'blogs', ),
-			//グループスペース
+			//プライベートスペース
 			array('room_id' => '3', 'plugin_key' => 'blogs', ),
+			//グループスペース
+			array('room_id' => '4', 'plugin_key' => 'blogs', ),
 		),
 	);
 
