@@ -28,14 +28,14 @@ class CategoryIdAllowNull extends CakeMigration {
 		'up' => array(
 			'alter_field' => array(
 				'blog_entries' => array(
-					'category_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'unsigned' => false, 'comment' => 'category id | カテゴリーID | blog_categories.id | '),
+					'category_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'unsigned' => false, 'comment' => 'カテゴリーID'),
 				),
 			),
 		),
 		'down' => array(
 			'alter_field' => array(
 				'blog_entries' => array(
-					'category_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'comment' => 'category id | カテゴリーID | blog_categories.id | '),
+					'category_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'comment' => 'カテゴリーID'),
 				),
 			),
 		),

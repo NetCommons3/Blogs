@@ -49,7 +49,7 @@ class AddIndex extends CakeMigration {
 					'block_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'unsigned' => false, 'key' => 'index'),
 				),
 				'blog_frame_settings' => array(
-					'frame_key' => array('type' => 'string', 'null' => false, 'default' => null, 'key' => 'index', 'collate' => 'utf8_general_ci', 'comment' => 'frame key | フレームKey | frames.key | ', 'charset' => 'utf8'),
+					'frame_key' => array('type' => 'string', 'null' => false, 'default' => null, 'key' => 'index', 'collate' => 'utf8_general_ci', 'comment' => 'フレームKey', 'charset' => 'utf8'),
 				),
 				'blog_settings' => array(
 					'blog_key' => array('type' => 'string', 'null' => false, 'default' => null, 'key' => 'index', 'collate' => 'utf8_general_ci', 'comment' => 'Blog key | BLOGキー | Hash値 | ', 'charset' => 'utf8'),
@@ -71,7 +71,7 @@ class AddIndex extends CakeMigration {
 					'block_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'unsigned' => false),
 				),
 				'blog_frame_settings' => array(
-					'frame_key' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'frame key | フレームKey | frames.key | ', 'charset' => 'utf8'),
+					'frame_key' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'フレームKey', 'charset' => 'utf8'),
 				),
 				'blog_settings' => array(
 					'blog_key' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'Blog key | BLOGキー | Hash値 | ', 'charset' => 'utf8'),
