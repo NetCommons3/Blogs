@@ -105,7 +105,7 @@ class BlogsAppControllerPrepareTest extends NetCommonsControllerTestCase {
  * @return void
  */
 	public function testBlogNotFound() {
-		$frameId = '6';
+		$frameId = null;
 		$blockId = '3';
 
 		$urlOptions = [

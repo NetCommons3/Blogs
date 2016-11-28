@@ -26,7 +26,7 @@
 				'Frame.block_id'
 			); ?>
 			<?php echo $this->BlockIndex->tableHeader(
-				'Block.name', __d('blogs', 'Blog name'),
+				'BlocksLanguage.name', __d('blogs', 'Blog name'),
 				array('sort' => true, 'editUrl' => true)
 			); ?>
 			<?php echo $this->BlockIndex->tableHeader(
@@ -55,7 +55,7 @@
 				'Frame.block_id', $blog['Block']['id']
 			); ?>
 			<?php echo $this->BlockIndex->tableData(
-				'Block.name', $blog['Block']['name'],
+				'BlocksLanguage.name', $blog['BlocksLanguage']['name'],
 				array('editUrl' => array('block_id' => $blog['Block']['id']))
 			); ?>
 			<?php echo $this->BlockIndex->tableData(
