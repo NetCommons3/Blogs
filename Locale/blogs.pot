@@ -1,0 +1,133 @@
+# LANGUAGE translation of CakePHP Application
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: Blogs/Controller/BlogEntriesController.php:117
+#: Blogs/View/BlogEntries/index.ctp:32
+msgid "All Entries"
+msgstr ""
+
+#: Blogs/Controller/BlogEntriesController.php:129
+#: Blogs/Test/Case/Controller/BlogEntriesController/IndexTest.php:110
+#: Blogs/View/BlogEntries/index.ctp:33
+#: Blogs/View/Elements/entry_meta_info.ctp:11
+msgid "Category"
+msgstr ""
+
+#: Blogs/Controller/BlogEntriesController.php:152
+#: Blogs/Test/Case/Controller/BlogEntriesController/TagTest.php:125
+msgid "Tag"
+msgstr ""
+
+#: Blogs/Controller/BlogEntriesController.php:178
+msgid "%d-%d Blog Entry List"
+msgstr ""
+
+#: Blogs/Controller/BlogEntriesController.php:179
+msgid "%d-%d"
+msgstr ""
+
+#: Blogs/Controller/BlogEntriesController.php:327
+msgid "%d-%d (%s)"
+msgstr ""
+
+#: Blogs/Model/Blog.php:107
+#: Blogs/Test/Case/Controller/BlogBlocksController/EditTest.php:132;161
+#: Blogs/Test/Case/Model/Blog/ValidateTest.php:78
+#: Blogs/View/BlogBlocks/index.ctp:29
+#: Blogs/View/Elements/BlogBlocks/edit_form.ctp:26
+msgid "Blog name"
+msgstr ""
+
+#: Blogs/Model/Blog.php:176
+msgid "New blog %s"
+msgstr ""
+
+#: Blogs/Model/BlogEntry.php:139
+#: Blogs/Test/Case/Controller/BlogEntriesEditController/AddTest.php:232
+#: Blogs/Test/Case/Controller/BlogEntriesEditController/EditTest.php:353
+#: Blogs/Test/Case/Model/BlogEntry/ValidateTest.php:77
+#: Blogs/View/BlogEntriesEdit/form.ctp:47
+msgid "Title"
+msgstr ""
+
+#: Blogs/Model/BlogEntry.php:149
+#: Blogs/Test/Case/Model/BlogEntry/ValidateTest.php:80
+#: Blogs/View/BlogEntriesEdit/form.ctp:53
+msgid "Body1"
+msgstr ""
+
+#: Blogs/Model/BlogEntry.php:160
+#: Blogs/Test/Case/Model/BlogEntry/ValidateTest.php:83
+#: Blogs/View/BlogEntriesEdit/form.ctp:75
+msgid "Published datetime"
+msgstr ""
+
+#: Blogs/Test/Case/Controller/BlogEntriesController/IndexTest.php:133;167;201
+#: Blogs/View/BlogEntries/index.ctp:78
+msgid "Add entry"
+msgstr ""
+
+#: Blogs/Test/Case/View/Elements/EntryMetaInfoTest.php:68
+#: Blogs/View/Elements/entry_meta_info.ctp:4
+msgid "posted : %s"
+msgstr ""
+
+#: Blogs/Test/Case/View/Elements/BlogBlocks/DeleteFormTest.php:64
+#: Blogs/View/Elements/BlogBlocks/delete_form.ctp:14;28
+msgid "Blog"
+msgstr ""
+
+#: Blogs/View/BlogEntries/index.ctp:49
+msgid "Archive"
+msgstr ""
+
+#: Blogs/View/BlogEntries/index.ctp:87
+#: Blogs/View/BlogEntriesEdit/form.ctp:113
+#: Blogs/View/Elements/BlogBlockRolePermissions/edit_form.ctp:34
+msgid "BlogEntry"
+msgstr ""
+
+#: Blogs/View/BlogEntries/index.ctp:116
+msgid "Read more"
+msgstr ""
+
+#: Blogs/View/BlogEntries/index.ctp:122
+msgid "Close"
+msgstr ""
+
+#: Blogs/View/BlogEntries/view.ctp:47
+msgid "tag"
+msgstr ""
+
+#: Blogs/View/BlogEntriesEdit/form.ctp:59
+msgid "Write body2"
+msgstr ""
+
+#: Blogs/View/BlogEntriesEdit/form.ctp:65
+msgid "Body2"
+msgstr ""
+
+#: Blogs/View/Elements/BlogBlocks/edit_form.ctp:39
+msgid "Use sns"
+msgstr ""
+
+#: Blogs/View/Elements/BlogFrameSettings/edit_form.ctp:22
+msgid "%s article"
+msgstr ""
+
+#: Blogs/View/Elements/BlogFrameSettings/edit_form.ctp:23
+msgid "%s articles"
+msgstr ""
+
