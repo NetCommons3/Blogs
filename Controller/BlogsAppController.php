@@ -57,7 +57,7 @@ class BlogsAppController extends AppController {
 		$this->loadModel('Blocks.Block');
 		$block = $this->Block->find('first', array(
 			'recursive' => 0,
-			'condtions' => array(
+			'conditions' => array(
 				'Block.id' => Current::read('Block.id')
 			)
 		));
