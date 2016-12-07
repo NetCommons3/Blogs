@@ -38,7 +38,7 @@ class TestViewElementsEntryMetaInfoController extends AppController {
 				'id' => 1,
 				'handlename' => 'admin'
 			],
-			'Category' => [
+			'CategoriesLanguage' => [
 				'name' => 'Category Name'
 			],
 		];
