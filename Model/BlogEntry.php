@@ -92,7 +92,10 @@ class BlogEntry extends BlogsAppModel {
 			'fields' => '',
 			'order' => '',
 			'counterCache' => array(
-				'content_count' => array('BlogEntry.is_latest' => 1),
+				'content_count' => array(
+					'BlogEntry.is_origin' => true,
+					'BlogEntry.is_latest' => true
+				),
 			),
 		),
 	);
@@ -107,7 +110,7 @@ class BlogEntry extends BlogsAppModel {
  * @link http://book.cakephp.org/2.0/en/models/callback-methods.html#beforefind
  */
 	public function beforeFind($query) {
-		if (Hash::get($query, 'recursive') > -1) {
+		if (Hash::get($query, 'recursive') > -1 && ! $this->id) {
 			$belongsTo = $this->Category->bindModelCategoryLang('BlogEntry.category_id');
 			$this->bindModel($belongsTo, true);
 		}
