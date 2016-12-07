@@ -9,7 +9,7 @@
 
 		<?php echo $this->NetCommonsHtml->handleLink($blogEntry, array('avatar' => true)); ?>&nbsp;
 		<?php echo __d('blogs', 'Category') ?>:<?php echo $this->NetCommonsHtml->link(
-			$blogEntry['Category']['name'],
+			$blogEntry['CategoriesLanguage']['name'],
 			array(
 				'controller' => 'blog_entries',
 				'action' => 'index',

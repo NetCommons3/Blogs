@@ -32,6 +32,7 @@ class BlogBlocksControllerIndexPaginatorTest extends BlocksControllerPaginatorTe
 		'plugin.blogs.blog4paginator',
 		'plugin.categories.category',
 		'plugin.categories.category_order',
+		'plugin.categories.categories_language',
 		'plugin.workflow.workflow_comment',
 	);
 

@@ -32,6 +32,7 @@ class BlogDeleteBlogTest extends NetCommonsDeleteTest {
 		'plugin.blogs.block_setting_for_blog',
 		'plugin.categories.category',
 		'plugin.categories.category_order',
+		'plugin.categories.categories_language',
 		'plugin.workflow.workflow_comment',
 
 		'plugin.likes.like',

@@ -15,25 +15,6 @@
 class BlogFrameSettingFixture extends CakeTestFixture {
 
 /**
- * Fields
- *
- * @var array
- */
-	public $fields = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'key' => 'primary', 'comment' => 'ID'),
-		'frame_key' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'フレームKey', 'charset' => 'utf8'),
-		'articles_per_page' => array('type' => 'integer', 'null' => false, 'default' => '10', 'unsigned' => false, 'comment' => '表示件数'),
-		'created_user' => array('type' => 'integer', 'null' => true, 'default' => null, 'unsigned' => false, 'comment' => '作成者'),
-		'created' => array('type' => 'datetime', 'null' => true, 'default' => null, 'comment' => '作成日時'),
-		'modified_user' => array('type' => 'integer', 'null' => true, 'default' => null, 'unsigned' => false, 'comment' => '更新者'),
-		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null, 'comment' => '更新日時'),
-		'indexes' => array(
-			'PRIMARY' => array('column' => 'id', 'unique' => 1)
-		),
-		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
-	);
-
-/**
  * Records
  *
  * @var array
@@ -67,5 +48,16 @@ class BlogFrameSettingFixture extends CakeTestFixture {
 			'modified' => '2016-03-17 07:10:45'
 		),
 	);
+
+/**
+ * Initialize the fixture.
+ *
+ * @return void
+ */
+	public function init() {
+		require_once App::pluginPath('Blogs') . 'Config' . DS . 'Schema' . DS . 'schema.php';
+		$this->fields = (new BlogsSchema())->tables[Inflector::tableize($this->name)];
+		parent::init();
+	}
 
 }

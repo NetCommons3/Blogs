@@ -53,6 +53,10 @@ class Blog extends BlogsAppModel {
 		),
 		'Categories.Category',
 		'NetCommons.OriginalKey',
+		//多言語
+		'M17n.M17n' => array(
+			'keyField' => 'block_id'
+		),
 	);
 
 /**
@@ -195,20 +199,6 @@ class Blog extends BlogsAppModel {
 
 		$blog = $this->find('all', array(
 			'recursive' => 0,
-			//'fields' => array(
-			//	$this->alias . '.*',
-			//	$this->Block->alias . '.*',
-			//),
-			//'joins' => array(
-			//	array(
-			//		'table' => $this->Block->table,
-			//		'alias' => $this->Block->alias,
-			//		'type' => 'INNER',
-			//		'conditions' => array(
-			//			$this->alias . '.block_id' . ' = ' . $this->Block->alias . ' .id',
-			//		),
-			//	),
-			//),
 			'conditions' => $this->getBlockConditionById(),
 		));
 		if (! $blog) {
