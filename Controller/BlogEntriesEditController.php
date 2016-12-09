@@ -117,6 +117,7 @@ class BlogEntriesEditController extends BlogsAppController {
 		$key = $this->params['key'];
 
 		//  keyのis_latstを元に編集を開始
+		$this->BlogEntry->recursive = 0;
 		$blogEntry = $this->BlogEntry->getWorkflowContents('first', array(
 			'recursive' => 0,
 			'conditions' => array(
