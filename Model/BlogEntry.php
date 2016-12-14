@@ -61,7 +61,7 @@ class BlogEntry extends BlogsAppModel {
 		),
 		//多言語
 		'M17n.M17n' => array(
-			'allUpdateField' => array('category_id', 'title_icon')
+			'commonFields' => array('category_id', 'title_icon')
 		),
 	);
 
