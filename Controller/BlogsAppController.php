@@ -55,8 +55,13 @@ class BlogsAppController extends AppController {
  */
 	protected function _setupBlogTitle() {
 		$this->loadModel('Blocks.Block');
-		$block = $this->Block->findById(Current::read('Block.id'));
-		$this->_blogTitle = $block['Block']['name'];
+		$block = $this->Block->find('first', array(
+			'recursive' => 0,
+			'conditions' => array(
+				'Block.id' => Current::read('Block.id')
+			)
+		));
+		$this->_blogTitle = Hash::get($block, 'BlocksLanguage.name');
 	}
 
 /**
@@ -86,7 +91,8 @@ class BlogsAppController extends AppController {
  * @return bool True on success, False on failure
  */
 	protected function _initBlog($contains = []) {
-		if (! $blog = $this->Blog->getBlog(Current::read('Block.id'), Current::read('Room.id'))) {
+		$blog = $this->Blog->getBlog();
+		if (! $blog) {
 			return $this->throwBadRequest();
 		}
 		$this->_blogTitle = $blog['Blog']['name'];

@@ -59,6 +59,10 @@ class BlogEntry extends BlogsAppModel {
 		'Wysiwyg.Wysiwyg' => array(
 			'fields' => array('body1', 'body2'),
 		),
+		//多言語
+		'M17n.M17n' => array(
+			'commonFields' => array('category_id', 'title_icon')
+		),
 	);
 
 /**
@@ -88,10 +92,30 @@ class BlogEntry extends BlogsAppModel {
 			'fields' => '',
 			'order' => '',
 			'counterCache' => array(
-				'content_count' => array('BlogEntry.is_latest' => 1),
+				'content_count' => array(
+					'BlogEntry.is_origin' => true,
+					'BlogEntry.is_latest' => true
+				),
 			),
 		),
 	);
+
+/**
+ * Called before each find operation. Return false if you want to halt the find
+ * call, otherwise return the (modified) query data.
+ *
+ * @param array $query Data used to execute this query, i.e. conditions, order, etc.
+ * @return mixed true if the operation should continue, false if it should abort; or, modified
+ *  $query to continue with new $query
+ * @link http://book.cakephp.org/2.0/en/models/callback-methods.html#beforefind
+ */
+	public function beforeFind($query) {
+		if (Hash::get($query, 'recursive') > -1 && ! $this->id) {
+			$belongsTo = $this->Category->bindModelCategoryLang('BlogEntry.category_id');
+			$this->bindModel($belongsTo, true);
+		}
+		return true;
+	}
 
 /**
  * バリデートメッセージ多言語化対応のためのラップ
@@ -233,6 +257,9 @@ class BlogEntry extends BlogsAppModel {
  * @return array condition
  */
 	public function getConditions($blockId, $permissions) {
+		$belongsTo = $this->Category->bindModelCategoryLang('BlogEntry.category_id');
+		$this->bindModel($belongsTo, true);
+
 		// contentReadable falseなら何も見えない
 		if ($permissions['content_readable'] === false) {
 			$conditions = array('BlogEntry.id' => 0); // ありえない条件でヒット0にしてる
@@ -348,18 +375,20 @@ class BlogEntry extends BlogsAppModel {
  */
 	public function saveEntry($data) {
 		// category_id=0だったらnullにする。そうしないと空文字としてSQL発行される
-		$data[$this->alias]['category_id'] = ($data[$this->alias]['category_id'] == 0) ? null :
-			$data[$this->alias]['category_id'];
+		if ($data[$this->alias]['category_id'] == 0) {
+			$data[$this->alias]['category_id'] = null;
+		}
+
 		$this->begin();
 		try {
 			$this->create(); // 常に新規登録
 			// 先にvalidate 失敗したらfalse返す
 			$this->set($data);
 			if (!$this->validates($data)) {
-				$this->rollback();
 				return false;
 			}
-			if (($savedData = $this->save($data, false)) === false) {
+			$savedData = $this->save($data, false);
+			if (! $savedData) {
 				//このsaveで失敗するならvalidate以外なので例外なげる
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}

@@ -1,89 +1,136 @@
-msgid "Add entry"
-msgstr "記事を追加する"
+# LANGUAGE translation of CakePHP Application
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-msgid "All status"
-msgstr "全てのステータス"
-
-msgid "All categories"
-msgstr "全てのカテゴリ"
-
-msgid "%d-%d (%s)"
-msgstr "%d年%d月 (%s)"
-
-msgid "posted : %s"
-msgstr "投稿日時 : %s"
-
-msgid "Move list"
-msgstr "一覧へ"
-
-msgid "tag"
-msgstr "タグ"
-
-msgid "Write body2"
-msgstr "続きを書く"
-
-msgid "Add tag"
-msgstr "タグ追加"
-
-msgid "require title"
-msgstr "タイトルを入力してください。"
-
-msgid "Title"
-msgstr "タイトル"
-
-msgid "Category"
-msgstr "カテゴリ"
-
-msgid "BlogEntry"
-msgstr "記事"
-
-msgid "Blog name"
-msgstr "ブログ名"
-
-msgid "%d-%d Blog Entry List"
-msgstr "%d年%d月の記事一覧"
-
-msgid "Archive"
-msgstr "アーカイブ"
-
+#: Blogs/Controller/BlogEntriesController.php:117
+#: Blogs/View/BlogEntries/index.ctp:32
 msgid "All Entries"
 msgstr "全ての記事"
 
+#: Blogs/Controller/BlogEntriesController.php:129
+#: Blogs/Test/Case/Controller/BlogEntriesController/IndexTest.php:110
+#: Blogs/View/BlogEntries/index.ctp:33
+#: Blogs/View/Elements/entry_meta_info.ctp:11
+msgid "Category"
+msgstr "カテゴリ"
+
+#: Blogs/Controller/BlogEntriesController.php:152
+#: Blogs/Test/Case/Controller/BlogEntriesController/TagTest.php:125
+msgid "Tag"
+msgstr "タグ"
+
+#: Blogs/Controller/BlogEntriesController.php:178
+msgid "%d-%d Blog Entry List"
+msgstr "%d年%d月の記事一覧"
+
+#: Blogs/Controller/BlogEntriesController.php:179
 msgid "%d-%d"
 msgstr "%d年%d月"
 
-msgid "Read more"
-msgstr "続きを読む"
+#: Blogs/Controller/BlogEntriesController.php:327
+msgid "%d-%d (%s)"
+msgstr "%d年%d月 (%s)"
 
-msgid "Close"
-msgstr "閉じる"
+#: Blogs/Model/Blog.php:107
+#: Blogs/Test/Case/Controller/BlogBlocksController/EditTest.php:132;161
+#: Blogs/Test/Case/Model/Blog/ValidateTest.php:78
+#: Blogs/View/BlogBlocks/index.ctp:29
+#: Blogs/View/Elements/BlogBlocks/edit_form.ctp:26
+msgid "Blog name"
+msgstr "ブログ名"
 
+#: Blogs/Model/Blog.php:176
+msgid "New blog %s"
+msgstr "新しいブログ %s"
+
+#: Blogs/Model/BlogEntry.php:139
+#: Blogs/Test/Case/Controller/BlogEntriesEditController/AddTest.php:232
+#: Blogs/Test/Case/Controller/BlogEntriesEditController/EditTest.php:353
+#: Blogs/Test/Case/Model/BlogEntry/ValidateTest.php:77
+#: Blogs/View/BlogEntriesEdit/form.ctp:47
 msgid "Title"
 msgstr "タイトル"
 
+#: Blogs/Model/BlogEntry.php:149
+#: Blogs/Test/Case/Model/BlogEntry/ValidateTest.php:80
+#: Blogs/View/BlogEntriesEdit/form.ctp:53
 msgid "Body1"
 msgstr "本文"
 
-msgid "Body2"
-msgstr "続き"
-
+#: Blogs/Model/BlogEntry.php:160
+#: Blogs/Test/Case/Model/BlogEntry/ValidateTest.php:83
+#: Blogs/View/BlogEntriesEdit/form.ctp:75
 msgid "Published datetime"
 msgstr "公開日時"
 
-msgid "%s articles"
-msgstr "%s 件"
+#: Blogs/Test/Case/Controller/BlogEntriesController/IndexTest.php:133;167;201
+#: Blogs/View/BlogEntries/index.ctp:78
+msgid "Add entry"
+msgstr "記事を追加する"
 
-msgid "%s article"
-msgstr "%s 件"
+#: Blogs/Test/Case/View/Elements/EntryMetaInfoTest.php:68
+#: Blogs/View/Elements/entry_meta_info.ctp:4
+msgid "posted : %s"
+msgstr "投稿日時 : %s"
 
-msgid "Use comment"
-msgstr "コメントを付けられる"
-
-msgid "Use sns"
-msgstr "SNSボタンを使用する"
-
+#: Blogs/Test/Case/View/Elements/BlogBlocks/DeleteFormTest.php:64
+#: Blogs/View/Elements/BlogBlocks/delete_form.ctp:14;28
 msgid "Blog"
 msgstr "ブログ"
 
+#: Blogs/View/BlogEntries/index.ctp:49
+msgid "Archive"
+msgstr "アーカイブ"
+
+#: Blogs/View/BlogEntries/index.ctp:87
+#: Blogs/View/BlogEntriesEdit/form.ctp:113
+#: Blogs/View/Elements/BlogBlockRolePermissions/edit_form.ctp:34
+msgid "BlogEntry"
+msgstr "記事"
+
+#: Blogs/View/BlogEntries/index.ctp:116
+msgid "Read more"
+msgstr "続きを読む"
+
+#: Blogs/View/BlogEntries/index.ctp:122
+msgid "Close"
+msgstr "閉じる"
+
+#: Blogs/View/BlogEntries/view.ctp:47
+msgid "tag"
+msgstr "タグ"
+
+#: Blogs/View/BlogEntriesEdit/form.ctp:59
+msgid "Write body2"
+msgstr "続きを書く"
+
+#: Blogs/View/BlogEntriesEdit/form.ctp:65
+msgid "Body2"
+msgstr "続き"
+
+#: Blogs/View/BlogMailSettings/edit.ctp:23
 msgid "MailSetting.mail_fixed_phrase_body.popover"
 msgstr "{X-SITE_NAME} : サイト名<br />{X-PLUGIN_NAME} : プラグイン名<br />{X-ROOM} : ルーム名<br />{X-BLOCK_NAME} : キャビネット名<br />{X-SUBJECT} : ファイル名<br />{X-USER} : 投稿者<br />{X-TO_DATE} : 投稿日時<br />{X-TAGS} : タグ<br />{X-BODY} : 投稿内容<br />{X-URL} : 投稿内容のURL"
+
+#: Blogs/View/Elements/BlogBlocks/edit_form.ctp:39
+msgid "Use sns"
+msgstr "SNSボタンを使用する"
+
+#: Blogs/View/Elements/BlogFrameSettings/edit_form.ctp:22
+msgid "%s article"
+msgstr "%s 件"
+
+#: Blogs/View/Elements/BlogFrameSettings/edit_form.ctp:23
+msgid "%s articles"
+msgstr "%s 件"

@@ -118,7 +118,12 @@ class BlogEntriesEditController extends BlogsAppController {
 
 		//  keyのis_latstを元に編集を開始
 		$this->BlogEntry->recursive = 0;
-		$blogEntry = $this->BlogEntry->findByKeyAndIsLatest($key, 1);
+		$blogEntry = $this->BlogEntry->getWorkflowContents('first', array(
+			'recursive' => 0,
+			'conditions' => array(
+				'BlogEntry.key' => $key
+			)
+		));
 		if (empty($blogEntry)) {
 			return $this->throwBadRequest();
 		}
@@ -188,7 +193,12 @@ class BlogEntriesEditController extends BlogsAppController {
 		$this->request->allowMethod('post', 'delete');
 
 		$key = $this->request->data['BlogEntry']['key'];
-		$blogEntry = $this->BlogEntry->findByKeyAndIsLatest($key, 1);
+		$blogEntry = $this->BlogEntry->getWorkflowContents('first', array(
+			'recursive' => 0,
+			'conditions' => array(
+				'BlogEntry.key' => $key
+			)
+		));
 
 		// 権限チェック
 		if ($this->BlogEntry->canDeleteWorkflowContent($blogEntry) === false) {

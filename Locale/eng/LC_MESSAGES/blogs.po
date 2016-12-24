@@ -119,6 +119,10 @@ msgstr ""
 msgid "Body2"
 msgstr ""
 
+#: Blogs/View/BlogMailSettings/edit.ctp:23
+msgid "MailSetting.mail_fixed_phrase_body.popover"
+msgstr ""
+
 #: Blogs/View/Elements/BlogBlocks/edit_form.ctp:39
 msgid "Use sns"
 msgstr ""

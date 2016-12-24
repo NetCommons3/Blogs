@@ -121,13 +121,19 @@ class BlogEntriesController extends BlogsAppController {
 		$this->_filter['categoryId'] = Hash::get($this->request->params['named'], 'category_id', 0);
 		if ($this->_filter['categoryId']) {
 			$conditions['BlogEntry.category_id'] = $this->_filter['categoryId'];
-			$category = $this->Category->findById($this->_filter['categoryId']);
+
+			$category = $this->Category->find('first', array(
+				'recursive' => 0,
+				'conditions' => array('Category.id' => $this->_filter['categoryId']),
+			));
 			// カテゴリがみつからないならBadRequest
 			if (!$category) {
 				return $this->throwBadRequest();
 			}
-			$this->set('listTitle', __d('blogs', 'Category') . ':' . $category['Category']['name']);
-			$this->set('filterDropDownLabel', $category['Category']['name']);
+			$this->set(
+				'listTitle', __d('blogs', 'Category') . ':' . $category['CategoriesLanguage']['name']
+			);
+			$this->set('filterDropDownLabel', $category['CategoriesLanguage']['name']);
 		}
 
 		$this->_list($conditions);
