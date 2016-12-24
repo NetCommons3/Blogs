@@ -61,7 +61,7 @@ class BlogsAppController extends AppController {
 				'Block.id' => Current::read('Block.id')
 			)
 		));
-		$this->_blogTitle = $block['BlocksLanguage']['name'];
+		$this->_blogTitle = Hash::get($block, 'BlocksLanguage.name');
 	}
 
 /**
