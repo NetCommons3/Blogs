@@ -375,7 +375,7 @@ class BlogEntry extends BlogsAppModel {
  */
 	public function saveEntry($data) {
 		// category_id=0だったらnullにする。そうしないと空文字としてSQL発行される
-		if ($data[$this->alias]['category_id'] == 0) {
+		if (empty($data[$this->alias]['category_id'])) {
 			$data[$this->alias]['category_id'] = null;
 		}
 
