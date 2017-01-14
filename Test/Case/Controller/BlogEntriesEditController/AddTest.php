@@ -274,7 +274,7 @@ class BlogEntriesEditControllerAddTest extends WorkflowControllerAddTest {
 		//チェック
 		$this->__assertAddGet($data);
 		$this->assertInput('button', 'save_' . WorkflowComponent::STATUS_IN_DRAFT, null, $this->view);
-		$this->assertInput('button', 'save_' . WorkflowComponent::STATUS_APPROVED, null, $this->view);
+		$this->assertInput('button', 'save_' . WorkflowComponent::STATUS_APPROVAL_WAITING, null, $this->view);
 
 		//debug($this->view);
 
