@@ -61,7 +61,18 @@ class BlogEntry extends BlogsAppModel {
 		),
 		//多言語
 		'M17n.M17n' => array(
-			'commonFields' => array('category_id', 'title_icon')
+			'commonFields' => array(
+				'category_id', 'title_icon',
+			),
+			'associations' => array(
+				'TagsContent' => array(
+					'class' => 'Tags.TagsContent',
+					'foreignKey' => 'content_id',
+					'fieldForIdentifyPlugin' => array('field' => 'model', 'value' => 'BlogEntry'),
+					'isM17n' => true
+				),
+			),
+			'afterCallback' => false,
 		),
 	);
 
@@ -392,6 +403,10 @@ class BlogEntry extends BlogsAppModel {
 				//このsaveで失敗するならvalidate以外なので例外なげる
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
+
+			//多言語化の処理
+			$this->set($savedData);
+			$this->saveM17nData();
 
 			$this->commit();
 
