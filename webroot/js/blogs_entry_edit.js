@@ -9,7 +9,7 @@ NetCommonsApp.controller('Blogs',
          *
          * @type {object}
          */
-        $scope.tinymce = NetCommonsWysiwyg.new();
+        $scope.tinymce = NetCommonsWysiwyg.new({height: 280});
 
         $scope.writeBody2 = false;
 
