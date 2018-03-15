@@ -78,8 +78,8 @@ class BlogsViewElementsEntryFooterTest extends NetCommonsControllerTestCase {
 		$this->assertRegExp($pattern, $this->view);
 
 		// use sns
-		$this->assertContains('fb-like', $this->view);
-		$this->assertContains('twitter.com', $this->view);
+		$this->assertNotContains('fb-like', $this->view);
+		$this->assertNotContains('twitter.com', $this->view);
 		// use like
 		$this->assertContains('glyphicon-thumbs-up', $this->view);
 		// indexでもLikeボタンを表示
