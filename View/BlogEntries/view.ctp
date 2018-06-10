@@ -54,6 +54,14 @@ if (preg_match_all( $pattern, $content, $images )) {
 				['property' => 'og:image', 'content' => $ogImageUrl],
 				null,
 				['inline' => false]);
+			echo $this->NetCommonsHtml->meta(
+				['property' => 'og:image:width', 'content' => $width],
+				null,
+				['inline' => false]);
+			echo $this->NetCommonsHtml->meta(
+				['property' => 'og:image:height', 'content' => $height],
+				null,
+				['inline' => false]);
 			break;
 		}
 	}
