@@ -6,7 +6,7 @@ echo $this->NetCommonsHtml->css([
 echo $this->NetCommonsHtml->script([
 	'/likes/js/likes.js',
 ]);
-// ポートフォワードしていて内部サーバから同じURLにアクセスできないときに置換するマッピング表
+// ポートフォワードしていて内部サーバから同じURLにアクセスできないときに置換するマッピング表 これは開発環境用
 $urlMapping4localServer = [
 		'http://127.0.0.1:9090' => 'http://127.0.0.1',
 		'http://app.local:9090' => 'http://app.local',
@@ -30,7 +30,17 @@ $content = $blogEntry['BlogEntry']['body1'];
 
 if (preg_match_all( $pattern, $content, $images )) {
 	foreach($images[1] as $imageUrl) {
+		if (substr($imageUrl, 0, 4) === 'http') {
+			// 絶対URLなのでそのまま
+		} elseif (substr($imageUrl, 0, 1) === '/') {
+			// "/" はじまりならルートパスなのでhttpホスト名を追加する
+			$host = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS']) ? 'https://' : 'http://';
+			$host .= $_SERVER['HTTP_HOST'];
+			$imageUrl = $host . $imageUrl;
+		}
 		$localUrl = str_replace($remoteUrls, $localUrls, $imageUrl);
+		// TODO 相対パスの変換
+		// TODO ルートパスの変換
 		// NC3テスト環境用
 		// 規定サイズ以上か…
 		$size = getimagesize($localUrl);
