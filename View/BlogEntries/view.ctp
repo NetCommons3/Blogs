@@ -6,6 +6,69 @@ echo $this->NetCommonsHtml->css([
 echo $this->NetCommonsHtml->script([
 	'/likes/js/likes.js',
 ]);
+// ポートフォワードしていて内部サーバから同じURLにアクセスできないときに置換するマッピング表
+$urlMapping4localServer = [
+		'http://127.0.0.1:9090' => 'http://127.0.0.1',
+		'http://app.local:9090' => 'http://app.local',
+];
+$remoteUrls = array_keys($urlMapping4localServer);
+$localUrls = $urlMapping4localServer;
+
+$ogTitle = $blogEntry['BlogEntry']['title'];
+$contentUrl = FULL_BASE_URL . $this->NetCommonsHtml->url(array(
+					'action' => 'view',
+					'frame_id' => Current::read('Frame.id'),
+					'key' => $blogEntry['BlogEntry']['key'],
+				));
+$ogUrl = $contentUrl;
+// 90文字程度
+$ogDescription = $this->Text->truncate(strip_tags($blogEntry['BlogEntry']['body1']), '90');
+// body1からイメージリストを取り出す
+// 最初に規定サイズ以上だった画像をogImageに採用する
+$pattern = '/<img.*?src\s*=\s*[\"|\'](.*?)[\"|\'].*?>/i';
+$content = $blogEntry['BlogEntry']['body1'];
+
+if (preg_match_all( $pattern, $content, $images )) {
+	foreach($images[1] as $imageUrl) {
+		$localUrl = str_replace($remoteUrls, $localUrls, $imageUrl);
+		// NC3テスト環境用
+		// 規定サイズ以上か…
+		$size = getimagesize($localUrl);
+		$width = $size[0];
+		$height = $size[1];
+
+		if ($width >= 200 && $height >= 200) {
+			$ogImageUrl = $imageUrl;
+
+			echo $this->NetCommonsHtml->meta(
+				['property' => 'og:image', 'content' => $ogImageUrl],
+				null,
+				['inline' => false]);
+			break;
+		}
+	}
+
+}
+
+$twitterCardType = 'summary_large_image';
+// TwitterCard
+echo $this->NetCommonsHtml->meta(
+		['name' => 'twitter:card', 'content' => $twitterCardType],
+		null,
+		['inline' => false]);
+// OGP
+echo $this->NetCommonsHtml->meta(
+	['property' => 'og:url', 'content' => $ogUrl],
+	null,
+	['inline' => false]);
+echo $this->NetCommonsHtml->meta(
+	['property' => 'og:title', 'content' => $ogTitle],
+	null,
+	['inline' => false]);
+echo $this->NetCommonsHtml->meta(
+	['property' => 'og:description', 'content' => $ogDescription],
+	null,
+	['inline' => false]);
 ?>
 
 <header class="clearfix">
