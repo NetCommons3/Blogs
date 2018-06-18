@@ -16,6 +16,11 @@
  */
 class BlogOgpHelper extends AppHelper {
 
+/**
+ * use helpers
+ *
+ * @var array helpers
+ */
 	public $helpers = [
 		'NetCommons.NetCommonsHtml',
 		'Text',

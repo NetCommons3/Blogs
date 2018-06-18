@@ -54,6 +54,11 @@ class BlogOgpOgpMetaByBlogEntryTest extends NetCommonsHelperTestCase {
 		$this->loadHelper('Blogs.BlogOgp', $viewVars, $requestData, $params);
 	}
 
+/**
+ * test no image BlogEntry
+ *
+ * @throws ReflectionException
+ */
 	public function testNoImageEntry() {
 		$blogEntry = [
 			'BlogEntry' => [

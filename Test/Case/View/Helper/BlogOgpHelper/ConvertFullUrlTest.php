@@ -70,6 +70,8 @@ class BlogOgpConvertFullUrlTest extends NetCommonsHelperTestCase {
 /**
  * Tset BlogOgp::__convertFullUrl()
  *
+ * @param string $imageUrl image url
+ * @param string $fullUrl フルURLの期待値
  * @throws ReflectionException
  * @return void
  * @dataProvider data4ConvertFullUrl
