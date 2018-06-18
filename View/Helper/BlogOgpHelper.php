@@ -21,10 +21,39 @@ class BlogOgpHelper extends AppHelper {
 		'Text',
 	];
 
+/**
+ * ローカルサーバから画像にアクセスするときにURL変換が必用な場合にURL変換マップを定義する
+ *
+ * @var array
+ */
 	private $__urlMap = [
 		'search' => [],
 		'replace' => []
 	];
+
+/**
+ * og:imageに使う画像の最低サイズを指定。
+ *
+ * @var array
+ */
+	private $__minSize = [
+		'width' => 200,
+		'height' => 200
+	];
+
+/**
+ * og:description の長さを指定。
+ *
+ * @var int
+ */
+	private $__descriptionLength = 90;
+
+/**
+ * Twitter Card type
+ *
+ * @var string
+ */
+	private $__twitterCardType = 'summary_large_image';
 
 /**
  * Default Constructor
@@ -56,85 +85,37 @@ class BlogOgpHelper extends AppHelper {
  * @return string output html
  */
 	public function ogpMetaByBlogEntry($blogEntry) {
+		$ogpParams = $this->__getOgpParams($blogEntry);
 
-		$ogTitle = $blogEntry['BlogEntry']['title'];
-		$contentUrl = FULL_BASE_URL . $this->NetCommonsHtml->url(
-				array(
-					'action' => 'view',
-					'frame_id' => Current::read('Frame.id'),
-					'key' => $blogEntry['BlogEntry']['key'],
-				)
-			);
-		$ogUrl = $contentUrl;
-// 90文字程度
-		$ogDescription = $this->Text->truncate(strip_tags($blogEntry['BlogEntry']['body1']), '90');
-// body1からイメージリストを取り出す
-// 最初に規定サイズ以上だった画像をogImageに採用する
-		$pattern = '/<img.*?src\s*=\s*[\"|\'](.*?)[\"|\'].*?>/i';
+		// body1からイメージリストを取り出す
+		// 最初に規定サイズ以上だった画像をogImageに採用する
 		$content = $blogEntry['BlogEntry']['body1'];
+		$ogpParams = array_merge($ogpParams, $this->__getOgImageParams($content));
 
-		$output = '';
-		if (preg_match_all($pattern, $content, $images)) {
-			foreach ($images[1] as $imageUrl) {
-				$imageUrl = $this->__convertFullUrl($imageUrl);
-
-				$localUrl = $this->__getLocalAccessUrl($imageUrl);
-
-				// 規定サイズ以上か…
-				$size = getimagesize($localUrl);
-				$width = $size[0];
-				$height = $size[1];
-
-				if ($width >= 200 && $height >= 200) {
-					$ogImageUrl = $imageUrl;
-
-					$output .= $this->NetCommonsHtml->meta(
-						['property' => 'og:image', 'content' => $ogImageUrl],
-						null,
-						['inline' => false]
-					);
-					$output .= $this->NetCommonsHtml->meta(
-						['property' => 'og:image:width', 'content' => $width],
-						null,
-						['inline' => false]
-					);
-					$output .= $this->NetCommonsHtml->meta(
-						['property' => 'og:image:height', 'content' => $height],
-						null,
-						['inline' => false]
-					);
-					break;
-				}
-			}
-
-		}
-
-		$twitterCardType = 'summary_large_image';
 		// TwitterCard
-		$output .= $this->NetCommonsHtml->meta(
-			['name' => 'twitter:card', 'content' => $twitterCardType],
-			null,
-			['inline' => false]
-		);
-		// OGP
-		$output .= $this->NetCommonsHtml->meta(
-			['property' => 'og:url', 'content' => $ogUrl],
-			null,
-			['inline' => false]
-		);
-		$output .= $this->NetCommonsHtml->meta(
-			['property' => 'og:title', 'content' => $ogTitle],
-			null,
-			['inline' => false]
-		);
-		$output .= $this->NetCommonsHtml->meta(
-			['property' => 'og:description', 'content' => $ogDescription],
-			null,
-			['inline' => false]
-		);
+		$ogpParams['twitter:card'] = $this->__twitterCardType;
+
+		$output = $this->__makeMeta($ogpParams);
 		return $output;
 	}
 
+/**
+ * Metaタグ生成
+ *
+ * @param array $ogpParams property => contentの連想配列
+ * @return string
+ */
+	private function __makeMeta($ogpParams) {
+		$output = '';
+		foreach ($ogpParams as $key => $value) {
+			$output .= $this->NetCommonsHtml->meta(
+				['property' => $key, 'content' => $value],
+				null,
+				['inline' => false]
+			);
+		}
+		return $output;
+	}
 
 /**
  * サーバからアクセス可能なローカルURLへ変換したURLを返す
@@ -174,5 +155,73 @@ class BlogOgpHelper extends AppHelper {
 		$currentUrlDir = implode('/', $currentPathDirs) . '/';
 		$imageUrl = $this->NetCommonsHtml->url($currentUrlDir . $imageUrl, true);
 		return $imageUrl;
+	}
+
+/**
+ * og:image関連パラメータを取得
+ *
+ * @param string $content imgタグを含むHTML
+ * @return array og:imageパラメータの連想配列
+ *  セットする画像が見つかれば og:image, og:image:width,og:image:heightをキーとした連想配列
+ *  セットする画像が見つからないときは空配列を返す
+ */
+	private function __getOgImageParams($content) {
+		$pattern = '/<img.*?src\s*=\s*[\"|\'](.*?)[\"|\'].*?>/i';
+
+		$ogpParams = [];
+		if (preg_match_all($pattern, $content, $images)) {
+			foreach ($images[1] as $imageUrl) {
+				$imageUrl = $this->__convertFullUrl($imageUrl);
+
+				$localUrl = $this->__getLocalAccessUrl($imageUrl);
+
+				// 規定サイズ以上か…
+				// @codingStandardsIgnoreStart
+				// phpcs:disable
+				// 画像がよみとれないこともあるので@でwarningを抑止している
+				$size = @getimagesize($localUrl);
+				// phpcs:enable
+				// @codingStandardsIgnoreEnd
+				if ($size) {
+					$width = $size[0];
+					$height = $size[1];
+
+					if ($width >= $this->__minSize['width'] && $height >= $this->__minSize['height']) {
+						$ogImageUrl = $imageUrl;
+
+						$ogpParams['og:image'] = $ogImageUrl;
+						$ogpParams['og:image:width'] = $width;
+						$ogpParams['og:image:height'] = $height;
+						return $ogpParams;
+					}
+				}
+			}
+		}
+		return $ogpParams;
+	}
+
+/**
+ * BlogEntryデータからOGPパラメータを返す
+ *
+ * @param array $blogEntry BlogEntry data
+ * @return array
+ */
+	private function __getOgpParams($blogEntry) {
+		$ogpParams = [];
+		$ogpParams['og:title'] = $blogEntry['BlogEntry']['title'];
+		$contentUrl = FULL_BASE_URL . $this->NetCommonsHtml->url(
+				array(
+					'action' => 'view',
+					'frame_id' => Current::read('Frame.id'),
+					'key' => $blogEntry['BlogEntry']['key'],
+				)
+			);
+		$ogpParams['og:url'] = $contentUrl;
+		// og:descriptionは90文字程度
+		$ogpParams['og:description'] = $this->Text->truncate(
+			strip_tags($blogEntry['BlogEntry']['body1']),
+			$this->__descriptionLength
+		);
+		return $ogpParams;
 	}
 }
