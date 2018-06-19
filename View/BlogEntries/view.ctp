@@ -6,6 +6,8 @@ echo $this->NetCommonsHtml->css([
 echo $this->NetCommonsHtml->script([
 	'/likes/js/likes.js',
 ]);
+//debug($this->NetCommonsHtml->url());
+echo $this->BlogOgp->ogpMetaByBlogEntry($blogEntry);
 ?>
 
 <header class="clearfix">
@@ -15,7 +17,6 @@ echo $this->NetCommonsHtml->script([
 	<div class="pull-right">
 		<?php echo $this->element('BlogEntries/edit_link', array('status' => $blogEntry['BlogEntry']['status'])); ?>
 	</div>
-
 </header>
 
 <article>
