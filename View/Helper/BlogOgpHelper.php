@@ -194,6 +194,10 @@ class BlogOgpHelper extends AppHelper {
 					if ($width >= $this->__minSize['width'] && $height >= $this->__minSize['height']) {
 						$ogImageUrl = $imageUrl;
 
+						if ($width < 600) {
+							$this->__twitterCardType = 'summary';
+						}
+
 						$ogpParams['og:image'] = $ogImageUrl;
 						$ogpParams['og:image:width'] = $width;
 						$ogpParams['og:image:height'] = $height;
