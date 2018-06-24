@@ -61,6 +61,16 @@ class BlogOgpHelper extends AppHelper {
 	private $__twitterCardType = 'summary_large_image';
 
 /**
+ * @var array twitter card の設定
+ */
+	private $__twitterCardSetting = [
+		// デフォルトタイプ
+		'default' => 'summary_large_image',
+		// 横幅がこのサイズ未満だったらタイプをsummaryにする
+		'large_image_min_width' => 600
+	];
+
+/**
  * Default Constructor
  *
  * @param View $View The View this helper is being attached to.
@@ -80,6 +90,7 @@ class BlogOgpHelper extends AppHelper {
 				'replace' => $localUrlMap
 			];
 		}
+		$this->__twitterCardType = $this->__twitterCardSetting['default'];
 		parent::__construct($View, $settings);
 	}
 
@@ -194,6 +205,16 @@ class BlogOgpHelper extends AppHelper {
 					if ($width >= $this->__minSize['width'] && $height >= $this->__minSize['height']) {
 						$ogImageUrl = $imageUrl;
 
+						// twitter card のsummary_large_image画像は幅600px以上となっているので、それ以下ならsummaryにする
+						if ($width < $this->__twitterCardSetting['large_image_min_width']) {
+							$this->__twitterCardType = 'summary';
+							// twitter cardタイプをsummaryにしたら、wysiwyg画像なら smallをtwitter:imageに指定する
+							if ($this->__isWysiwygImage($imageUrl)) {
+								$smallImageUrl = $this->__getWysiwygSmallImageUrl($imageUrl);
+								$ogpParams['twitter:image'] = $smallImageUrl;
+							}
+						}
+
 						$ogpParams['og:image'] = $ogImageUrl;
 						$ogpParams['og:image:width'] = $width;
 						$ogpParams['og:image:height'] = $height;
@@ -203,6 +224,38 @@ class BlogOgpHelper extends AppHelper {
 			}
 		}
 		return $ogpParams;
+	}
+
+/**
+ * Wysiwyg画像URLからsmall画像のURLを返す
+ *
+ * @param string $imageUrl wysiwyg画像のフルURL
+ * @return string small 画像のフルurl
+ */
+	private function __getWysiwygSmallImageUrl($imageUrl) {
+		// 末尾が文字列だったらサイズ指定されてる
+		$lastSlashPos = strrpos($imageUrl, '/');
+		$lastPath = substr($imageUrl, $lastSlashPos + 1);
+		// 末尾が数値だったら画像IDなのでサイズ指定を後ろにつける
+		if (preg_match('/^[0-9]+$/', $lastPath)) {
+			return $imageUrl . '/small';
+		}
+		$withOutSizeUrl = substr($imageUrl, 0, $lastSlashPos);
+		$url = $withOutSizeUrl . '/small';
+		return $url;
+	}
+
+/**
+ * Wysiwygの画像URLか
+ *
+ * @param string $imageUrl 画像のフルURL
+ * @return bool
+ */
+	private function __isWysiwygImage($imageUrl) {
+		if (strstr($imageUrl, FULL_BASE_URL . '/wysiwyg/image/download') !== false) {
+			return true;
+		}
+		return false;
 	}
 
 /**
