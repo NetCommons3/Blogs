@@ -156,6 +156,16 @@ class BlogOgpHelper extends AppHelper {
 			return $imageUrl;
 		}
 
+		if (substr($imageUrl, 0, 2) === '//') {
+			// "//"はじまりならプロトコルが省略されてるだけなのでhttpかhttpsを追加する
+			$protocol = 'http';
+			if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS']) {
+				$protocol = 'https';
+			}
+			$imageUrl = $protocol . $imageUrl;
+			return $imageUrl;
+		}
+
 		// ルートパス
 		if (substr($imageUrl, 0, 1) === '/') {
 			// "/" はじまりならルートパスなのでhttpホスト名を追加する
