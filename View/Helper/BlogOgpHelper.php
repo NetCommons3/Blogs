@@ -158,9 +158,9 @@ class BlogOgpHelper extends AppHelper {
 
 		if (substr($imageUrl, 0, 2) === '//') {
 			// "//"はじまりならプロトコルが省略されてるだけなのでhttpかhttpsを追加する
-			$protocol = 'http';
+			$protocol = 'http:';
 			if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS']) {
-				$protocol = 'https';
+				$protocol = 'https:';
 			}
 			$imageUrl = $protocol . $imageUrl;
 			return $imageUrl;
