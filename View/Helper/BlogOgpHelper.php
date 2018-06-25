@@ -42,8 +42,8 @@ class BlogOgpHelper extends AppHelper {
  * @var array
  */
 	private $__minSize = [
-		'width' => 200,
-		'height' => 200
+		'width' => 100,
+		'height' => 100
 	];
 
 /**
