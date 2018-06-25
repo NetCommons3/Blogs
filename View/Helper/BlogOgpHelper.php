@@ -198,6 +198,7 @@ class BlogOgpHelper extends AppHelper {
 		if (preg_match_all($pattern, $content, $images)) {
 			foreach ($images[1] as $imageUrl) {
 				$imageUrl = $this->__convertFullUrl($imageUrl);
+				$imageUrl = str_replace('&amp;', '&', $imageUrl);
 
 				$localUrl = $this->__getLocalAccessUrl($imageUrl);
 
