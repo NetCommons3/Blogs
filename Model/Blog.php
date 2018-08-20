@@ -197,14 +197,15 @@ class Blog extends BlogsAppModel {
 	public function getBlog() {
 		$this->loadModels(['BlogSetting' => 'Blogs.BlogSetting']);
 
-		$blog = $this->find('all', array(
+		$blog = $this->find('first', array(
 			'recursive' => 0,
+			'fields' => ['Blog.*'],
 			'conditions' => $this->getBlockConditionById(),
 		));
 		if (! $blog) {
 			return $blog;
 		}
-		return Hash::merge($blog[0], $this->BlogSetting->getBlogSetting());
+		return Hash::merge($blog, $this->BlogSetting->getBlogSetting());
 	}
 
 /**

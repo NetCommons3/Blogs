@@ -157,6 +157,7 @@ class BlogBlocksController extends BlogsAppController {
 			$frameSetting = $this->BlogFrameSetting->getBlogFrameSetting();
 			$this->request->data = Hash::merge($this->request->data, $frameSetting);
 			$this->request->data['Frame'] = Current::read('Frame');
+			$this->request->data['Block'] = Current::read('Block');
 		}
 	}
 
