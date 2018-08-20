@@ -15,6 +15,7 @@ App::uses('BlogsAppController', 'Blogs.Controller');
  * @property PaginatorComponent $Paginator
  * @property BlogEntry $BlogEntry
  * @property BlogCategory $BlogCategory
+ * @property Category $Category
  */
 class BlogEntriesController extends BlogsAppController {
 
@@ -123,10 +124,11 @@ class BlogEntriesController extends BlogsAppController {
 		if ($this->_filter['categoryId']) {
 			$conditions['BlogEntry.category_id'] = $this->_filter['categoryId'];
 
-			$category = $this->Category->find('first', array(
+			$category = $this->Category->find('first', [
 				'recursive' => 0,
-				'conditions' => array('Category.id' => $this->_filter['categoryId']),
-			));
+				'fields' => ['CategoriesLanguage.name'],
+				'conditions' => ['Category.id' => $this->_filter['categoryId']],
+			]);
 			// カテゴリがみつからないならBadRequest
 			if (!$category) {
 				return $this->throwBadRequest();
