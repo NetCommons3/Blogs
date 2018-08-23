@@ -103,7 +103,6 @@ class BlogBlockRolePermissionsController extends BlogsAppController {
 			$this->request->data['BlogSetting'] = $blog['BlogSetting'];
 			$this->request->data['BlockRolePermission'] = $permissions['BlockRolePermissions'];
 			$this->request->data['Frame'] = Current::read('Frame');
-			$this->request->data['Block'] = Current::read('Block');
 		}
 	}
 }
