@@ -75,7 +75,8 @@ class BlogBlockRolePermissionsController extends BlogsAppController {
  * @return void
  */
 	public function edit() {
-		if (! $blog = $this->Blog->getBlog()) {
+		$blog = $this->Blog->getBlog();
+		if (! $blog) {
 			return $this->throwBadRequest();
 		}
 
@@ -101,6 +102,7 @@ class BlogBlockRolePermissionsController extends BlogsAppController {
 
 		} else {
 			$this->request->data['BlogSetting'] = $blog['BlogSetting'];
+			$this->request->data['Block'] = $blog['Block'];
 			$this->request->data['BlockRolePermission'] = $permissions['BlockRolePermissions'];
 			$this->request->data['Frame'] = Current::read('Frame');
 		}

@@ -121,8 +121,11 @@ class BlogEntry extends BlogsAppModel {
  * @link http://book.cakephp.org/2.0/en/models/callback-methods.html#beforefind
  */
 	public function beforeFind($query) {
-		$recursive = isset($query['recursive']) ? $query['recursive'] : null;
-		if ($recursive > -1 && ! $this->id) {
+		$recursive = isset($query['recursive'])
+			? $query['recursive']
+			: null;
+		if ($recursive > -1 &&
+			! $this->id) {
 			$belongsTo = $this->Category->bindModelCategoryLang('BlogEntry.category_id');
 			$this->bindModel($belongsTo, true);
 		}

@@ -152,7 +152,9 @@ class BlogEntriesController extends BlogsAppController {
 	public function tag() {
 		$this->_prepare();
 		// indexとのちがいはtagIdでの絞り込みだけ
-		$tagId = isset($this->params['named']['id']) ? $this->params['named']['id'] : 0;
+		$tagId = isset($this->params['named']['id'])
+			? $this->params['named']['id']
+			: 0;
 
 		// カテゴリ名をタイトルに
 		$tag = $this->BlogEntry->getTagByTagId($tagId);
