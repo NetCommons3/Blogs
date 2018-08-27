@@ -121,7 +121,11 @@ class BlogEntry extends BlogsAppModel {
  * @link http://book.cakephp.org/2.0/en/models/callback-methods.html#beforefind
  */
 	public function beforeFind($query) {
-		if (Hash::get($query, 'recursive') > -1 && ! $this->id) {
+		$recursive = isset($query['recursive'])
+			? $query['recursive']
+			: null;
+		if ($recursive > -1 &&
+			! $this->id) {
 			$belongsTo = $this->Category->bindModelCategoryLang('BlogEntry.category_id');
 			$this->bindModel($belongsTo, true);
 		}
@@ -135,7 +139,7 @@ class BlogEntry extends BlogsAppModel {
  * @return bool
  */
 	public function beforeValidate($options = array()) {
-		$this->validate = Hash::merge(
+		$this->validate = array_merge(
 			$this->validate,
 			$this->_getValidateSpecification()
 		);
@@ -344,12 +348,8 @@ class BlogEntry extends BlogsAppModel {
 		}
 
 		// 未来に公開予定の記事があったら、その記事の公開年月まで0うめした配列を用意する
-		$latestConditions = Hash::merge(
-			$conditions,
-			[
-				'BlogEntry.publish_start >=' => $currentDateTime
-			]
-		);
+		$latestConditions = $conditions;
+		$latestConditions['BlogEntry.publish_start >='] = $currentDateTime;
 
 		$latestBlogEntry = $this->find(
 			'first',
