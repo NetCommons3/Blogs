@@ -75,7 +75,8 @@ class BlogBlockRolePermissionsController extends BlogsAppController {
  * @return void
  */
 	public function edit() {
-		if (! $blog = $this->Blog->getBlog()) {
+		$blog = $this->Blog->getBlog();
+		if (! $blog) {
 			return $this->throwBadRequest();
 		}
 

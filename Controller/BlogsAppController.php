@@ -7,8 +7,10 @@ App::uses('AppController', 'Controller');
 /**
  * Class BlogsAppController
  *
+ * @property Blog $Blog
  * @property BlogFrameSetting $BlogFrameSetting
  * @property BlogSetting $BlogSetting
+ * @property Block $Block
  */
 class BlogsAppController extends AppController {
 
@@ -57,11 +59,14 @@ class BlogsAppController extends AppController {
 		$this->loadModel('Blocks.Block');
 		$block = $this->Block->find('first', array(
 			'recursive' => 0,
+			'fields' => ['BlocksLanguage.name'],
 			'conditions' => array(
 				'Block.id' => Current::read('Block.id')
 			)
 		));
-		$this->_blogTitle = Hash::get($block, 'BlocksLanguage.name');
+		$this->_blogTitle = isset($block['BlocksLanguage']['name'])
+			? $block['BlocksLanguage']['name']
+			: '';
 	}
 
 /**

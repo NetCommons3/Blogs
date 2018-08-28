@@ -129,8 +129,7 @@ class BlogBlocksController extends BlogsAppController {
 		} else {
 			//表示処理(初期データセット)
 			$this->request->data = $this->Blog->createBlog();
-			$frameSetting = $this->BlogFrameSetting->getBlogFrameSetting();
-			$this->request->data = Hash::merge($this->request->data, $frameSetting);
+			$this->request->data += $this->BlogFrameSetting->getBlogFrameSetting();
 			$this->request->data['Frame'] = Current::read('Frame');
 		}
 	}
@@ -153,9 +152,8 @@ class BlogBlocksController extends BlogsAppController {
 			if (! $blog = $this->Blog->getBlog()) {
 				return $this->throwBadRequest();
 			}
-			$this->request->data = Hash::merge($this->request->data, $blog);
-			$frameSetting = $this->BlogFrameSetting->getBlogFrameSetting();
-			$this->request->data = Hash::merge($this->request->data, $frameSetting);
+			$this->request->data += $blog;
+			$this->request->data += $this->BlogFrameSetting->getBlogFrameSetting();
 			$this->request->data['Frame'] = Current::read('Frame');
 		}
 	}

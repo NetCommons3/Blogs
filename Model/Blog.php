@@ -84,7 +84,7 @@ class Blog extends BlogsAppModel {
  * @see Model::save()
  */
 	public function beforeValidate($options = array()) {
-		$this->validate = Hash::merge($this->validate, array(
+		$this->validate = array_merge($this->validate, array(
 			//'block_id' => array(
 			//	'numeric' => array(
 			//		'rule' => array('numeric'),
@@ -121,7 +121,7 @@ class Blog extends BlogsAppModel {
 		if (isset($this->data['BlogSetting'])) {
 			$this->BlogSetting->set($this->data['BlogSetting']);
 			if (! $this->BlogSetting->validates()) {
-				$this->validationErrors = Hash::merge($this->validationErrors,
+				$this->validationErrors = array_merge($this->validationErrors,
 					$this->BlogSetting->validationErrors);
 				return false;
 			}
@@ -130,7 +130,7 @@ class Blog extends BlogsAppModel {
 		if (isset($this->data['BlogFrameSetting']) && ! $this->data['BlogFrameSetting']['id']) {
 			$this->BlogFrameSetting->set($this->data['BlogFrameSetting']);
 			if (! $this->BlogFrameSetting->validates()) {
-				$this->validationErrors = Hash::merge($this->validationErrors,
+				$this->validationErrors = array_merge($this->validationErrors,
 					$this->BlogFrameSetting->validationErrors);
 				return false;
 			}
@@ -184,9 +184,8 @@ class Blog extends BlogsAppModel {
 				'language_id' => Current::read('Language.id'),
 			),
 		));
-		$blog = Hash::merge($blog, $this->BlogSetting->createBlockSetting());
 
-		return $blog;
+		return ($blog + $this->BlogSetting->createBlockSetting());
 	}
 
 /**
@@ -197,14 +196,18 @@ class Blog extends BlogsAppModel {
 	public function getBlog() {
 		$this->loadModels(['BlogSetting' => 'Blogs.BlogSetting']);
 
-		$blog = $this->find('all', array(
+		$blog = $this->find('first', array(
 			'recursive' => 0,
 			'conditions' => $this->getBlockConditionById(),
 		));
 		if (! $blog) {
 			return $blog;
 		}
-		return Hash::merge($blog[0], $this->BlogSetting->getBlogSetting());
+		$blogSetting = $this->BlogSetting->getBlogSetting();
+		if ($blogSetting) {
+			$blog = $blog + $blogSetting;
+		}
+		return $blog;
 	}
 
 /**
