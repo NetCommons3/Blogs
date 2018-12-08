@@ -108,17 +108,17 @@ echo $this->NetCommonsHtml->script([
 					</h2>
 					<?php echo $this->element('entry_meta_info', array('blogEntry' => $blogEntry)); ?>
 
-					<div class="blogs_entry_body1">
+					<div class="clearfix blogs_entry_body1">
 						<?php echo $blogEntry['BlogEntry']['body1']; ?>
 					</div>
 					<?php if ($blogEntry['BlogEntry']['body2']) : ?>
-						<div ng-hide="isShowBody2">
+						<div class="clearfix" ng-hide="isShowBody2">
 							<a ng-click="showBody2()"><?php echo __d('blogs', 'Read more'); ?></a>
 						</div>
-						<div ng-show="isShowBody2">
+						<div class="clearfix" ng-show="isShowBody2">
 							<?php echo $blogEntry['BlogEntry']['body2'] ?>
 						</div>
-						<div ng-show="isShowBody2">
+						<div class="clearfix" ng-show="isShowBody2">
 							<a ng-click="hideBody2()"><?php echo __d('blogs', 'Close'); ?></a>
 						</div>
 					<?php endif ?>
