@@ -81,7 +81,7 @@ class BlogSaveTest extends NetCommonsSaveTest {
 /**
  * テストDataの取得
  *
- * @param string $blogKey bbsKey
+ * @param string $blogKey blogのKey
  * @return array
  */
 	private function __getData($blogKey = 'blog_1') {
@@ -123,7 +123,8 @@ class BlogSaveTest extends NetCommonsSaveTest {
 			'BlogFrameSetting' => array(
 				'id' => $blogId,
 				'frame_key' => $frameKey,
-				'articles_per_page' => 10,
+				//'articles_per_page' => 10,
+				'articles_per_page' => '10',
 				//'comments_per_page' => 10,
 			),
 		);
@@ -138,6 +139,8 @@ class BlogSaveTest extends NetCommonsSaveTest {
  *  - data 登録データ
  *
  * @return array
+ * @see NetCommonsSaveTest::testSave()
+ * @see Blog::saveBlog()
  */
 	public function dataProviderSave() {
 		return array(
@@ -155,6 +158,8 @@ class BlogSaveTest extends NetCommonsSaveTest {
  *  - mockMethod Mockのメソッド
  *
  * @return array
+ * @see NetCommonsSaveTest::testSaveOnExceptionError()
+ * @see Blog::saveBlog()
  */
 	public function dataProviderSaveOnExceptionError() {
 		return array(
@@ -162,6 +167,19 @@ class BlogSaveTest extends NetCommonsSaveTest {
 			array($this->__getData(null), 'Blocks.BlockSetting', 'saveMany'),
 			array($this->__getData(null), 'Blogs.BlogFrameSetting', 'save'),
 		);
+	}
+
+/**
+ * SaveのExceptionErrorテスト
+ *
+ * @param array $data 登録データ
+ * @param string $mockModel Mockのモデル
+ * @param string $mockMethod Mockのメソッド
+ * @dataProvider dataProviderSaveOnExceptionError
+ * @return void
+ */
+	public function testSaveOnExceptionError($data, $mockModel, $mockMethod) {
+		parent::testSaveOnExceptionError($data, $mockModel, $mockMethod);
 	}
 
 /**
