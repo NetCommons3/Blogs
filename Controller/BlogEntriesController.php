@@ -262,7 +262,7 @@ class BlogEntriesController extends BlogsAppController {
 		);
 		$this->BlogEntry->recursive = 0;
 		$this->BlogEntry->Behaviors->load('ContentComments.ContentComment');
-		$this->set('blogEntries', $this->Paginator->paginate());
+		$this->set('blogEntries', $this->Paginator->paginate('BlogEntry'));
 		$this->BlogEntry->Behaviors->unload('ContentComments.ContentComment');
 		$this->BlogEntry->recursive = -1;
 
