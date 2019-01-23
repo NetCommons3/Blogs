@@ -112,7 +112,6 @@ $dataJson = json_encode(
 
 					<?php echo $this->Button->delete('', __d('net_commons', 'Deleting the %s. Are you sure to proceed?', __d('blogs', 'BlogEntry')));?>
 
-					</span>
 					<?php echo $this->NetCommonsForm->end() ?>
 				</div>
 			<?php endif ?>
