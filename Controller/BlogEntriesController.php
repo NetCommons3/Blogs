@@ -266,7 +266,7 @@ class BlogEntriesController extends BlogsAppController {
 		$this->BlogEntry->Behaviors->unload('ContentComments.ContentComment');
 		$this->BlogEntry->recursive = -1;
 
-		$this->render('index');
+		$this->view = 'index';
 	}
 
 /**

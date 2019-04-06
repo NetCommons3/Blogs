@@ -103,7 +103,7 @@ class BlogEntriesEditController extends BlogsAppController {
 			$this->request->data['Tag'] = array();
 		}
 
-		$this->render('form');
+		$this->view = 'form';
 	}
 
 /**
@@ -180,7 +180,7 @@ class BlogEntriesEditController extends BlogsAppController {
 		$comments = $this->BlogEntry->getCommentsByContentKey($blogEntry['BlogEntry']['key']);
 		$this->set('comments', $comments);
 
-		$this->render('form');
+		$this->view = 'form';
 	}
 
 /**

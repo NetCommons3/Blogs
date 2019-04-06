@@ -15,7 +15,7 @@ echo $this->BlogOgp->ogpMetaByBlogEntry($blogEntry);
 		<?php echo $this->LinkButton->toList(); ?>
 	</div>
 	<div class="pull-right">
-		<?php echo $this->element('BlogEntries/edit_link', array('status' => $blogEntry['BlogEntry']['status'])); ?>
+		<?php echo $this->element('Blogs.BlogEntries/edit_link', array('status' => $blogEntry['BlogEntry']['status'])); ?>
 	</div>
 </header>
 
@@ -29,7 +29,7 @@ echo $this->BlogOgp->ogpMetaByBlogEntry($blogEntry);
 			); ?>
 	</div>
 
-	<?php echo $this->element('entry_meta_info'); ?>
+	<?php echo $this->element('Blogs.entry_meta_info'); ?>
 
 
 
@@ -40,7 +40,7 @@ echo $this->BlogOgp->ogpMetaByBlogEntry($blogEntry);
 		<?php echo $blogEntry['BlogEntry']['body2']; ?>
 	</div>
 
-	<?php echo $this->element('entry_footer'); ?>
+	<?php echo $this->element('Blogs.entry_footer'); ?>
 
 	<!-- Tags -->
 	<?php if (isset($blogEntry['Tag'])) : ?>

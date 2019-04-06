@@ -106,7 +106,7 @@ echo $this->NetCommonsHtml->script([
 						?>
 						<?php echo $this->Workflow->label($blogEntry['BlogEntry']['status']); ?>
 					</h2>
-					<?php echo $this->element('entry_meta_info', array('blogEntry' => $blogEntry)); ?>
+					<?php echo $this->element('Blogs.entry_meta_info', array('blogEntry' => $blogEntry)); ?>
 
 					<div class="clearfix blogs_entry_body1">
 						<?php echo $blogEntry['BlogEntry']['body1']; ?>
@@ -122,7 +122,7 @@ echo $this->NetCommonsHtml->script([
 							<a ng-click="hideBody2()"><?php echo __d('blogs', 'Close'); ?></a>
 						</div>
 					<?php endif ?>
-					<?php echo $this->element('entry_footer', array('blogEntry' => $blogEntry, 'index' => true)); ?>
+					<?php echo $this->element('Blogs.entry_footer', array('blogEntry' => $blogEntry, 'index' => true)); ?>
 				</article>
 
 			<?php endforeach; ?>
