@@ -76,9 +76,9 @@ class BlogBlockRolePermissionsControllerEditTest extends BlockRolePermissionsCon
 			'BlogSetting' => array(
 				'id' => 2,
 				'blog_key' => 'blog_key_2',
-				'use_workflow' => true,
-				'use_comment_approval' => true,
-				'approval_type' => true,
+				'use_workflow' => '1',
+				'use_comment_approval' => '1',
+				'approval_type' => '1',
 			)
 		);
 

@@ -71,7 +71,7 @@ class BlogBlocksControllerEditTest extends BlocksControllerEditTest {
 		$frameId = '6';
 		//$frameKey = 'frame_3';
 		if ($isEdit) {
-			$blockId = '4';
+			$blockId = '2';
 			$blockKey = 'block_2';
 			$blogId = '3';
 			$blogKey = 'blog_key_2';
