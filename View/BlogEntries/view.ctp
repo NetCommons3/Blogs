@@ -40,6 +40,19 @@ echo $this->BlogOgp->ogpMetaByBlogEntry($blogEntry);
 		<?php echo $blogEntry['BlogEntry']['body2']; ?>
 	</div>
 
+	<?php if ($blogEntry['BlogEntry']['calendar_event_key']):?>
+	<div class="text-center">
+		<?php echo $this->NetCommonsHtml->link('この記事のイベント', [
+			'plugin' => 'calendars',
+			'controller' => 'calendar_plans',
+			'action' => 'view',
+			'key' => $blogEntry['BlogEntry']['calendar_event_key']
+		],[
+				'class' => ['btn', 'btn-default']
+		]);?>
+	</div>
+	<?php endif;?>
+
 	<?php echo $this->element('Blogs.entry_footer'); ?>
 
 	<!-- Tags -->
