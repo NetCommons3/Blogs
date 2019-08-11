@@ -457,4 +457,11 @@ class BlogEntry extends BlogsAppModel {
 		return ($count == 0);
 	}
 
+	public function getByCalendarEventKey(string $calendarEventKey) {
+		$conditions = [
+			'BlogEntry.calendar_event_key' => $calendarEventKey
+		];
+		$conditions = $this->getWorkflowConditions($conditions);
+		return $this->find('first', ['conditions' => $conditions]);
+	}
 }
