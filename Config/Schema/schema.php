@@ -52,6 +52,7 @@ class BlogsSchema extends CakeSchema {
 		'title_icon' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'body1' => array('type' => 'text', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => '本文1', 'charset' => 'utf8'),
 		'body2' => array('type' => 'text', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => '本文2', 'charset' => 'utf8'),
+		'calendar_event_key' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'public_type' => array('type' => 'integer', 'null' => false, 'default' => '2', 'length' => 4, 'unsigned' => false),
 		'publish_start' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'publish_end' => array('type' => 'datetime', 'null' => true, 'default' => null),
