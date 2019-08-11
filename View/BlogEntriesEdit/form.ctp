@@ -34,6 +34,7 @@ $dataJson = json_encode(
 			<?php echo $this->NetCommonsForm->hidden('Block.id', array(
 				'value' => Current::read('Block.id'),
 			)); ?>
+			<?php echo $this->NetCommonsForm->hidden('BlogEntry.calendar_event_key');?>
 
 			<div class="panel-body">
 

@@ -99,8 +99,10 @@ class BlogEntriesEditController extends BlogsAppController {
 			$this->NetCommons->handleValidationError($this->BlogEntry->validationErrors);
 
 		} else {
+			$blogEntry['BlogEntry']['calendar_event_key'] = $this->request->query['event_key'] ?? null;
 			$this->request->data = $blogEntry;
 			$this->request->data['Tag'] = array();
+
 		}
 
 		$this->view = 'form';
