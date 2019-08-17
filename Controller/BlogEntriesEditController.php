@@ -100,12 +100,38 @@ class BlogEntriesEditController extends BlogsAppController {
 
 		} else {
 			$blogEntry['BlogEntry']['calendar_event_key'] = $this->request->query['event_key'] ?? null;
+			if ($blogEntry['BlogEntry']['calendar_event_key'] !== null) {
+				$title = $this->__getTitleByCalendaerEvent($blogEntry['BlogEntry']['calendar_event_key']);
+				$blogEntry['BlogEntry']['title'] = $title;
+			}
 			$this->request->data = $blogEntry;
 			$this->request->data['Tag'] = array();
 
 		}
 
 		$this->view = 'form';
+	}
+
+/**
+ * 指定されたカレンダイベントの開始日とイベント名を組み合わせたタイトルを返す
+ *
+ * @param string $calendarEventKey CalendarEvent.key
+ * @return string n月j日イベント名
+ */
+	private function __getTitleByCalendaerEvent(string $calendarEventKey) : string {
+		/** @var CalendarEvent $calendarEventModel */
+		$calendarEventModel = ClassRegistry::init('Calendars.CalendarEvent');
+		$roomPermRoles = $calendarEventModel->prepareCalRoleAndPerm();
+		CalendarPermissiveRooms::setRoomPermRoles($roomPermRoles);
+
+		$event = $calendarEventModel->getEventByKey($calendarEventKey);
+
+		$time = strtotime($event['CalendarEvent']['dtstart']) + $event['CalendarEvent']['timezone_offset'] * HOUR;
+		$title = date('n月j日', $time);
+
+		$title .= $event['CalendarEvent']['title'];
+
+		return $title;
 	}
 
 /**
