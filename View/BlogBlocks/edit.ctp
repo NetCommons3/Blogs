@@ -22,7 +22,12 @@
 			'cancelUrl' => NetCommonsUrl::backToIndexUrl('default_setting_action'),
 		)); ?>
 
-		<?php if ($this->request->params['action'] === 'edit') : ?>
+		<?php if ($this->request->params['action'] === 'edit' &&
+			!in_array(
+				$this->request->data['Blog']['key'],
+				Configure::read('Blogs.doNotDeleteBlogs'),
+				true
+			)) : ?>
 			<?php echo $this->element('Blocks.delete_form', array(
 				'model' => 'BlogBlock',
 				'action' => NetCommonsUrl::actionUrl(array(

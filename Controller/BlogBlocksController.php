@@ -90,6 +90,8 @@ class BlogBlocksController extends BlogsAppController {
 		if ($this->params['action'] === 'index') {
 			$this->Components->unload('Categories.CategoryEdit');
 		}
+
+		Configure::load('Blogs.do_not_delete_blogs');
 	}
 
 /**
