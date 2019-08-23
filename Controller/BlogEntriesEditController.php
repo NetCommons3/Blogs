@@ -125,7 +125,10 @@ class BlogEntriesEditController extends BlogsAppController {
 		CalendarPermissiveRooms::setRoomPermRoles($roomPermRoles);
 
 		$event = $calendarEventModel->getEventByKey($calendarEventKey);
-
+		if (!$event) {
+			$this->throwBadRequest('CalendarEvent Not Found');
+			return '';
+		}
 		$time = strtotime($event['CalendarEvent']['dtstart']) + $event['CalendarEvent']['timezone_offset'] * HOUR;
 		$title = date('n月j日', $time);
 
