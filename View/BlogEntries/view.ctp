@@ -33,10 +33,10 @@ echo $this->BlogOgp->ogpMetaByBlogEntry($blogEntry);
 
 
 
-	<div>
+	<div class="clearfix">
 		<?php echo $blogEntry['BlogEntry']['body1']; ?>
 	</div>
-	<div>
+	<div class="clearfix">
 		<?php echo $blogEntry['BlogEntry']['body2']; ?>
 	</div>
 
