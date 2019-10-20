@@ -457,7 +457,13 @@ class BlogEntry extends BlogsAppModel {
 		return ($count == 0);
 	}
 
-	public function getByCalendarEventKey(string $calendarEventKey) {
+/**
+ * getByCalendarEventKey
+ *
+ * @param string $calendarEventKey
+ * @return array|int|null
+ */
+	public function getByCalendarEventKey($calendarEventKey) {
 		$conditions = [
 			'BlogEntry.calendar_event_key' => $calendarEventKey
 		];
