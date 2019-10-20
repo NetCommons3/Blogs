@@ -130,7 +130,7 @@ class BlogEntriesEditController extends BlogsAppController {
 			return '';
 		}
 		$time = strtotime($event['CalendarEvent']['dtstart']) + $event['CalendarEvent']['timezone_offset'] * HOUR;
-		$title = date('n月j日', $time);
+		$title = date(__d('blogs', 'EventDateFormat'), $time);
 
 		$title .= $event['CalendarEvent']['title'];
 
