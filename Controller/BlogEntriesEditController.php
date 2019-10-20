@@ -99,7 +99,7 @@ class BlogEntriesEditController extends BlogsAppController {
 			$this->NetCommons->handleValidationError($this->BlogEntry->validationErrors);
 
 		} else {
-			$blogEntry['BlogEntry']['calendar_event_key'] = $this->request->query['event_key'] ?? null;
+			$blogEntry['BlogEntry']['calendar_event_key'] = $this->request->query('event_key');
 			if ($blogEntry['BlogEntry']['calendar_event_key'] !== null) {
 				$title = $this->__getTitleByCalendaerEvent($blogEntry['BlogEntry']['calendar_event_key']);
 				$blogEntry['BlogEntry']['title'] = $title;
@@ -118,7 +118,7 @@ class BlogEntriesEditController extends BlogsAppController {
  * @param string $calendarEventKey CalendarEvent.key
  * @return string n月j日イベント名
  */
-	private function __getTitleByCalendaerEvent(string $calendarEventKey) : string {
+	private function __getTitleByCalendaerEvent($calendarEventKey) {
 		/** @var CalendarEvent $calendarEventModel */
 		$calendarEventModel = ClassRegistry::init('Calendars.CalendarEvent');
 		$roomPermRoles = $calendarEventModel->prepareCalRoleAndPerm();
