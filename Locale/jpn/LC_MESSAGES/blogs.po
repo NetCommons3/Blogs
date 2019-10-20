@@ -134,3 +134,6 @@ msgstr "%s 件"
 #: Blogs/View/Elements/BlogFrameSettings/edit_form.ctp:23
 msgid "%s articles"
 msgstr "%s 件"
+
+msgid "This blog cannot be deleted."
+msgstr "削除不可のブログです。"

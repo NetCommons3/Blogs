@@ -168,7 +168,7 @@ class BlogBlocksController extends BlogsAppController {
 	public function delete() {
 		if ($this->request->is('delete')) {
 			if (in_array($this->data['Blog']['key'], Configure::read('Blogs.doNotDeleteBlogs'), true)) {
-				return $this->throwBadRequest('削除不可のブログです');
+				return $this->throwBadRequest(__d('blogs', 'This blog cannot be deleted.'));
 			}
 			if ($this->Blog->deleteBlog($this->data)) {
 				return $this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
