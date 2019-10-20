@@ -36,41 +36,9 @@ echo $this->BlogOgp->ogpMetaByBlogEntry($blogEntry);
 	<div class="clearfix">
 		<?php echo $blogEntry['BlogEntry']['body1']; ?>
 	</div>
-
 	<div class="clearfix">
 		<?php echo $blogEntry['BlogEntry']['body2']; ?>
 	</div>
-
-	<?php
-	//$event = null;
-	//if ($blogEntry['BlogEntry']['calendar_event_key']) {
-	//	/** @var CalendarEvent $calendarEventModel */
-	//	$calendarEventModel = ClassRegistry::init('Calendars.CalendarEvent');
-	//	$roomPermRoles = $calendarEventModel->prepareCalRoleAndPerm();
-	//	CalendarPermissiveRooms::setRoomPermRoles($roomPermRoles);
-	//
-	//	$event = $calendarEventModel->getEventByKey($blogEntry['BlogEntry']['calendar_event_key']);
-	//	Configure::load('Blogs.related_calendar');
-	//	$calendarFrameId = Configure::read('Blogs.relatedCalendar.frame_id');
-	//}
-	//?>
-
-	<?php //if ($event !== null):?>
-	<!--	<div class="text-center">-->
-	<!--		--><?php ////$icon = '<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> '; ?>
-	<!--		--><?php //echo $this->NetCommonsHtml->link(h($event['CalendarEvent']['title']), [
-	//			'plugin' => 'calendars',
-	//			'controller' => 'calendar_plans',
-	//			'action' => 'view',
-	//			'key' => $blogEntry['BlogEntry']['calendar_event_key'],
-	//			'frame_id' => $calendarFrameId,
-	//			'block_id' => false,
-	//		],[
-	//				'class' => ['btn', 'btn-default', 'btn-lg'],
-	//			'escape' => false,
-	//		]);?>
-	<!--	</div>-->
-	<?php //endif;?>
 
 	<?php echo $this->element('Blogs.entry_footer'); ?>
 
