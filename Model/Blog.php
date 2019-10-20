@@ -292,4 +292,25 @@ class Blog extends BlogsAppModel {
 		return true;
 	}
 
+/**
+ * findBlockIdByKey
+ *
+ * @param string $blogKey Blog.key
+ * @return int|null
+ */
+	public function findBlockIdByKey($blogKey) {
+		$options = [
+			'conditions' => [
+				'Blog.key' => $blogKey
+			],
+			'fields' => ['Blog.block_id'],
+			'recursive' => -1
+		];
+		$result = $this->find('first', $options);
+		if ($result) {
+			return $result['Blog']['block_id'];
+		}
+		return null;
+	}
+
 }
