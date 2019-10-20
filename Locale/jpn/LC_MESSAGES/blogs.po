@@ -137,3 +137,6 @@ msgstr "%s 件"
 
 msgid "This blog cannot be deleted."
 msgstr "削除不可のブログです。"
+
+msgid "EventDateFormat"
+msgstr "n月j日"

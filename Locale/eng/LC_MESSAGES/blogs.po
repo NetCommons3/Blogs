@@ -135,3 +135,5 @@ msgstr ""
 msgid "%s articles"
 msgstr ""
 
+msgid "EventDateFormat"
+msgstr "M/j"
