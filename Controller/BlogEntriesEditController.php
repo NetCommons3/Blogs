@@ -101,7 +101,7 @@ class BlogEntriesEditController extends BlogsAppController {
 		} else {
 			$blogEntry['BlogEntry']['calendar_event_key'] = $this->request->query('event_key');
 			if ($blogEntry['BlogEntry']['calendar_event_key'] !== null) {
-				$title = $this->__getTitleByCalendaerEvent($blogEntry['BlogEntry']['calendar_event_key']);
+				$title = $this->__getTitleByCalendarEvent($blogEntry['BlogEntry']['calendar_event_key']);
 				$blogEntry['BlogEntry']['title'] = $title;
 			}
 			$this->request->data = $blogEntry;
@@ -118,7 +118,7 @@ class BlogEntriesEditController extends BlogsAppController {
  * @param string $calendarEventKey CalendarEvent.key
  * @return string n月j日イベント名
  */
-	private function __getTitleByCalendaerEvent($calendarEventKey) {
+	private function __getTitleByCalendarEvent($calendarEventKey) {
 		/** @var CalendarEvent $calendarEventModel */
 		$calendarEventModel = ClassRegistry::init('Calendars.CalendarEvent');
 		$roomPermRoles = $calendarEventModel->prepareCalRoleAndPerm();
@@ -129,7 +129,8 @@ class BlogEntriesEditController extends BlogsAppController {
 			$this->throwBadRequest('CalendarEvent Not Found');
 			return '';
 		}
-		$time = strtotime($event['CalendarEvent']['dtstart']) + $event['CalendarEvent']['timezone_offset'] * HOUR;
+		$time = strtotime($event['CalendarEvent']['dtstart']) +
+			$event['CalendarEvent']['timezone_offset'] * HOUR;
 		$title = date(__d('blogs', 'EventDateFormat'), $time);
 
 		$title .= $event['CalendarEvent']['title'];
