@@ -460,7 +460,7 @@ class BlogEntry extends BlogsAppModel {
 /**
  * getByCalendarEventKey
  *
- * @param string $calendarEventKey
+ * @param string $calendarEventKey calendar event.key
  * @return array|int|null
  */
 	public function getByCalendarEventKey($calendarEventKey) {

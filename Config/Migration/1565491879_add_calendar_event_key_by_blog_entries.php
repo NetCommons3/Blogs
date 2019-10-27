@@ -1,4 +1,11 @@
 <?php
+/**
+ * calendar_event_key 追加マイグレーション
+ */
+
+/**
+ * Class AddCalendarEventKeyByBlogEntries
+ */
 class AddCalendarEventKeyByBlogEntries extends CakeMigration {
 
 /**
