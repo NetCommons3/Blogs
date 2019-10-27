@@ -44,6 +44,7 @@ class BlogEntryFixture extends CakeTestFixture {
 			'modified_user' => '1',
 			'modified' => '2016-03-17 07:10:12',
 			'title_icon' => '',
+			'calendar_event_key' => null,
 		),
 		array(
 			'id' => '2',
@@ -67,6 +68,7 @@ class BlogEntryFixture extends CakeTestFixture {
 			'modified_user' => '2',
 			'modified' => '2016-03-17 07:10:12',
 			'title_icon' => '',
+			'calendar_event_key' => null,
 		),
 		// * 一般が書いたコンテンツ＆一度も公開していない（承認待ち）
 		array(
@@ -91,6 +93,7 @@ class BlogEntryFixture extends CakeTestFixture {
 			'modified_user' => '3',
 			'modified' => '2016-03-17 07:10:12',
 			'title_icon' => '',
+			'calendar_event_key' => null,
 		),
 		// * 一般が書いたコンテンツ＆公開して、一時保存
 		//   (id=4とid=5で区別できるものをセットする)
@@ -116,6 +119,7 @@ class BlogEntryFixture extends CakeTestFixture {
 			'modified_user' => '4',
 			'modified' => '2016-03-17 07:10:12',
 			'title_icon' => '',
+			'calendar_event_key' => null,
 		),
 		array(
 			'id' => '5',
@@ -139,6 +143,7 @@ class BlogEntryFixture extends CakeTestFixture {
 			'modified_user' => '5',
 			'modified' => '2016-03-17 07:10:12',
 			'title_icon' => '',
+			'calendar_event_key' => null,
 		),
 		// * 編集者が書いたコンテンツ＆一度公開して、差し戻し
 		//   (id=6とid=7で区別できるものをセットする)
@@ -164,6 +169,7 @@ class BlogEntryFixture extends CakeTestFixture {
 			'modified_user' => '6',
 			'modified' => '2016-03-17 07:10:12',
 			'title_icon' => '',
+			'calendar_event_key' => null,
 		),
 		array(
 			'id' => '7',
@@ -187,6 +193,7 @@ class BlogEntryFixture extends CakeTestFixture {
 			'modified_user' => '7',
 			'modified' => '2016-03-17 07:10:12',
 			'title_icon' => '',
+			'calendar_event_key' => null,
 		),
 		array(
 			'id' => '8',
@@ -210,6 +217,7 @@ class BlogEntryFixture extends CakeTestFixture {
 			'modified_user' => '8',
 			'modified' => '2016-03-17 07:10:12',
 			'title_icon' => '',
+			'calendar_event_key' => null,
 		),
 	);
 
