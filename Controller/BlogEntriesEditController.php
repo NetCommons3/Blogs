@@ -99,10 +99,20 @@ class BlogEntriesEditController extends BlogsAppController {
 			$this->NetCommons->handleValidationError($this->BlogEntry->validationErrors);
 
 		} else {
+			$this->set('cancelUrl', null);
 			$blogEntry['BlogEntry']['calendar_event_key'] = $this->request->query('event_key');
 			if ($blogEntry['BlogEntry']['calendar_event_key'] !== null) {
+				// カレンダからの実績登録時
 				$title = $this->__getTitleByCalendarEvent($blogEntry['BlogEntry']['calendar_event_key']);
 				$blogEntry['BlogEntry']['title'] = $title;
+				$cancelUrl = NetCommonsUrl::actionUrl([
+					'plugin' => 'calendars',
+					'controller' => 'calendar_plans',
+					'action' => 'view',
+					'key' => $blogEntry['BlogEntry']['calendar_event_key'],
+					'page_id' => $this->request->query('page_id')
+				]);
+				$this->set('cancelUrl', $cancelUrl);
 			}
 			$this->request->data = $blogEntry;
 			$this->request->data['Tag'] = array();
