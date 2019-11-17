@@ -96,7 +96,10 @@ $dataJson = json_encode(
 
 			</div>
 
-			<?php echo $this->Workflow->buttons('BlogEntry.status', $cancelUrl); ?>
+			<?php
+			$cancelUrl = isset($cancelUrl) ? $cancelUrl : null;
+			echo $this->Workflow->buttons('BlogEntry.status', $cancelUrl);
+			?>
 
 			<?php echo $this->NetCommonsForm->end() ?>
 

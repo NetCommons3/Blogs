@@ -99,7 +99,7 @@ class BlogEntriesEditController extends BlogsAppController {
 			$this->NetCommons->handleValidationError($this->BlogEntry->validationErrors);
 
 		} else {
-			$this->set('cancelUrl', null);
+			//$this->set('cancelUrl', null);
 			$blogEntry['BlogEntry']['calendar_event_key'] = $this->request->query('event_key');
 			if ($blogEntry['BlogEntry']['calendar_event_key'] !== null) {
 				// カレンダからの実績登録時
