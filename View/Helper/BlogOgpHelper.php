@@ -169,7 +169,7 @@ class BlogOgpHelper extends AppHelper {
 		// ルートパス
 		if (substr($imageUrl, 0, 1) === '/') {
 			// "/" はじまりならルートパスなのでhttpホスト名を追加する
-			$imageUrl = FULL_BASE_URL . $imageUrl;
+			$imageUrl = "https://" . Configure::read('App.cacheDomain') . $imageUrl;
 			return $imageUrl;
 		}
 
@@ -278,7 +278,7 @@ class BlogOgpHelper extends AppHelper {
 	private function __getOgpParams($blogEntry) {
 		$ogpParams = [];
 		$ogpParams['og:title'] = $blogEntry['BlogEntry']['title'];
-		$contentUrl = FULL_BASE_URL . $this->NetCommonsHtml->url(
+		$contentUrl = "https://" . Configure::read('App.cacheDomain') . $this->NetCommonsHtml->url(
 				array(
 					'action' => 'view',
 					'frame_id' => Current::read('Frame.id'),

@@ -2,7 +2,7 @@
 	<div class="pull-left">
 		<?php if ($blogSetting['use_sns']) : ?>
 
-			<?php $contentUrl = FULL_BASE_URL . $this->NetCommonsHtml->url(array(
+			<?php $contentUrl = "https://" . Configure::read('App.cacheDomain') . $this->NetCommonsHtml->url(array(
 					'action' => 'view',
 					'frame_id' => Current::read('Frame.id'),
 					'key' => $blogEntry['BlogEntry']['key'],
