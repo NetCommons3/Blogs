@@ -169,7 +169,8 @@ class BlogOgpHelper extends AppHelper {
 		// ルートパス
 		if (substr($imageUrl, 0, 1) === '/') {
 			// "/" はじまりならルートパスなのでhttpホスト名を追加する
-			$imageUrl = "https://" . Configure::read('App.cacheDomain') . $imageUrl;
+			$urlPrefix = parse_url(Configure::read('App.fullBaseUrl'), PHP_URL_SCHEME) . '://';
+			$imageUrl = $urlPrefix . Configure::read('App.cacheDomain') . $imageUrl;
 			return $imageUrl;
 		}
 
@@ -263,10 +264,7 @@ class BlogOgpHelper extends AppHelper {
  * @return bool
  */
 	private function __isWysiwygImage($imageUrl) {
-		if (strstr($imageUrl, FULL_BASE_URL . '/wysiwyg/image/download') !== false) {
-			return true;
-		}
-		return false;
+		return strstr($imageUrl, Configure::read('App.fullBaseUrl') . '/wysiwyg/image/download') !== false;
 	}
 
 /**
@@ -278,7 +276,8 @@ class BlogOgpHelper extends AppHelper {
 	private function __getOgpParams($blogEntry) {
 		$ogpParams = [];
 		$ogpParams['og:title'] = $blogEntry['BlogEntry']['title'];
-		$contentUrl = "https://" . Configure::read('App.cacheDomain') . $this->NetCommonsHtml->url(
+		$urlPrefix = parse_url(Configure::read('App.fullBaseUrl'), PHP_URL_SCHEME) . '://';
+		$contentUrl = $urlPrefix . Configure::read('App.cacheDomain') . $this->NetCommonsHtml->url(
 				array(
 					'action' => 'view',
 					'frame_id' => Current::read('Frame.id'),

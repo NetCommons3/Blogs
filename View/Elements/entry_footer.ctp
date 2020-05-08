@@ -1,8 +1,9 @@
 <div class="clearfix blogs_entry_reaction">
 	<div class="pull-left">
 		<?php if ($blogSetting['use_sns']) : ?>
-
-			<?php $contentUrl = "https://" . Configure::read('App.cacheDomain') . $this->NetCommonsHtml->url(array(
+			<?php
+				$urlPrefix = parse_url(Configure::read('App.fullBaseUrl'), PHP_URL_SCHEME) . '://';
+				$contentUrl = $urlPrefix . Configure::read('App.cacheDomain') . $this->NetCommonsHtml->url(array(
 					'action' => 'view',
 					'frame_id' => Current::read('Frame.id'),
 					'key' => $blogEntry['BlogEntry']['key'],
