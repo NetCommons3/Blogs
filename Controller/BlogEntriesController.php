@@ -183,7 +183,8 @@ class BlogEntriesController extends BlogsAppController {
 			? $this->params['named']['year_month']
 			: 0;
 
-		if (!preg_match('/^[0-9]{4}-[0-1][0-9]$/', $this->_filter['yearMonth'])) {
+		if (! is_string($this->_filter['yearMonth']) ||
+				!preg_match('/^[0-9]{4}-[0-1][0-9]$/', $this->_filter['yearMonth'])) {
 			// 年月としてありえない値だったらBadRequest
 			return $this->throwBadRequest();
 		}
