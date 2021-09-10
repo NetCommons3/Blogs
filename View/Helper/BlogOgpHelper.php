@@ -264,7 +264,8 @@ class BlogOgpHelper extends AppHelper {
  * @return bool
  */
 	private function __isWysiwygImage($imageUrl) {
-		return strstr($imageUrl, Configure::read('App.fullBaseUrl') . '/wysiwyg/image/download') !== false;
+		$fullBaseUrl = Configure::read('App.fullBaseUrl');
+		return strstr($imageUrl, $fullBaseUrl . '/wysiwyg/image/download') !== false;
 	}
 
 /**
