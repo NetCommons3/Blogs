@@ -7,6 +7,14 @@ echo $this->NetCommonsHtml->script([
 	'/blogs/js/blogs.js',
 	'/likes/js/likes.js',
 ]);
+foreach ([1, 5, 10, 20] as $value) {
+	if ($value === 1) {
+		$unitLabel = __d('blogs', '%s article');
+	} else {
+		$unitLabel = __d('blogs', '%s articles');
+	}
+	$options[$value] = sprintf($unitLabel, $value);
+}
 ?>
 
 <article class="blogEntries index " ng-controller="Blogs.Entries" ng-init="init(<?php echo Current::read('Frame.id') ?>)">
@@ -62,7 +70,7 @@ echo $this->NetCommonsHtml->script([
 					<?php endforeach ?>
 				</ul>
 			</span>
-			<?php echo $this->DisplayNumber->dropDownToggle(); ?>
+			<?php echo $this->DisplayNumber->dropDownToggle(['options' => $options]); ?>
 			<?php /* 表示件数 */ ?>
 
 

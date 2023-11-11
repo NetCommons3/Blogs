@@ -8,6 +8,14 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
  */
+foreach ([1, 5, 10, 20] as $value) {
+	if ($value === 1) {
+		$unitLabel = __d('blogs', '%s article');
+	} else {
+		$unitLabel = __d('blogs', '%s articles');
+	}
+	$options[$value] = sprintf($unitLabel, $value);
+}
 ?>
 
 <?php echo $this->NetCommonsForm->hidden('Frame.id'); ?>
@@ -18,10 +26,7 @@
 
 <?php echo $this->DisplayNumber->select('BlogFrameSetting.articles_per_page', array(
 	'label' => __d('net_commons', 'Display the number of each page'),
-	'unit' => array(
-		'single' => __d('blogs', '%s article'),
-		'multiple' => __d('blogs', '%s articles')
-	),
+	'options' => $options,
 )); ?>
 <?php //echo $this->DisplayNumber->select('BlogFrameSetting.comments_per_page', array(
 //	'label' => __d('blogs', 'Show comments per page'),

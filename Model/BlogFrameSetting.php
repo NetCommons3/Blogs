@@ -104,7 +104,13 @@ class BlogFrameSetting extends BlogsAppModel {
 		if (! $blogFrameSetting) {
 			$blogFrameSetting = $this->create(array(
 				'frame_key' => Current::read('Frame.key'),
+				'articles_per_page' => 5,
 			));
+		}
+
+		if ($blogFrameSetting[$this->alias]['articles_per_page'] > 20) {
+			$blogFrameSetting[$this->alias]['articles_per_page'] = 20;
+			$this->saveBlogFrameSetting($blogFrameSetting);
 		}
 
 		return $blogFrameSetting;
