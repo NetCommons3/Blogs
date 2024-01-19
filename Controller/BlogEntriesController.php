@@ -193,7 +193,7 @@ class BlogEntriesController extends BlogsAppController {
 			$this->set('filterDropDownLabel', __d('blogs', '%d-%d', $year, $month));
 
 			$first = $this->_filter['yearMonth'] . '-1';
-			$last = date('Y-m-t', strtotime($first));
+			$last = date('Y-m-t', strtotime($first)) . ' 23:59:59';
 
 			// 期間をサーバタイムゾーンに変換する
 			$netCommonsTime = new NetCommonsTime();
