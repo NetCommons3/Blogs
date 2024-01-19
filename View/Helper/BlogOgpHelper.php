@@ -198,6 +198,11 @@ class BlogOgpHelper extends AppHelper {
 		$ogpParams = [];
 		if (preg_match_all($pattern, $content, $images)) {
 			foreach ($images[1] as $imageUrl) {
+				//インライン画像の場合、処理しない
+				if (substr($imageUrl, 0, 4) === 'data') {
+					continue;
+				}
+
 				$imageUrl = $this->__convertFullUrl($imageUrl);
 				$imageUrl = str_replace('&amp;', '&', $imageUrl);
 
